@@ -5,8 +5,11 @@
 #include "../Gates/GateNot.h"
 #include "../Gates/GateBuffer.h"
  
-/* Sumador completo de 1 bit*/
-/* http://www.unicrom.com/dig_suma_binaria_completo.asp */
+/**
+ * Sumador completo de 1 bit
+ * http://www.unicrom.com/dig_suma_binaria_completo.asp 
+ *
+ */
 class Sumador:public Circuito{
 public:
      Sumador():Circuito(3,2){
@@ -30,6 +33,29 @@ public:
 	  agregarConexion(4,2,-1,4);
      }
      
+};
+
+/** 
+ * Sumador de N bits.
+ * 
+ */
+class SumadorN:public Circuito{
+public:
+     SumadorN(unsigned bits):Circuito(bits*2,bits+1){
+	  unsigned entradas = bits*2;
+	  for(unsigned i=0;i<bits;i++){
+	       agregarComponente(new Sumador);
+	       agregarConexion(-1,i,i,0); //a1
+	       agregarConexion(-1,i+bits,i,1); //bi
+	       agregarConexion(i,3,-1,i+(entradas)); //ai+bi
+	  }
+	  for(unsigned i=0;i<bits-1;i++)
+	       agregarConexion(i,4,i+1,2); //carry de ai+bi
+
+	  unsigned i=bits-1;
+	  agregarConexion(i,4,-1,entradas+bits); //carry de ai+bi (carry final)
+     }
+
 };
 
 int main(){
@@ -63,6 +89,11 @@ int main(){
      Sumador2.agregarConexion(1,4,-1,6); // acarreo final
 
      Sumador2.simularTodo(500);
+
+     std::cout << std::endl << "Sumador de 4 bits:" << std::endl;
      
+     SumadorN Sn(4);
+     Sn.simularTodo(500);
+
      return 0;
 }

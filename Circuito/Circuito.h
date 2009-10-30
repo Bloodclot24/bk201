@@ -258,7 +258,7 @@ public:
      }
 
      /** 
-      * Pone un nuevo valor alflag 'extendido',que indica si se debe o
+      * Pone un nuevo valor al flag 'extendido',que indica si se debe o
       * no realizar una simulacion extendida.
       * 
       * @param valor Nuevo valor.
