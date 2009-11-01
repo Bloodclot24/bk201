@@ -15,6 +15,7 @@ class VentanaTrabajo {
 	private:
 		Glib::RefPtr<Gtk::Builder> refXml;
 		Controlador *controlador;
+		unsigned int id;
 		
 		/*MENUBAR*/
     Glib::RefPtr<Gtk::UIManager> m_refUIManager;
@@ -24,18 +25,23 @@ class VentanaTrabajo {
 		/*TOOLBAR*/
 		void loadToolBar();
 		
+		Gtk::Window *main_window;
+		
+		void lala();
+		void lala2();		
+		
 	public:
 	/**
     * Crea una ventana de trabajo nueva.
     *
     * @param controlador Controlador del modelo.
 		*/
-		VentanaTrabajo(Controlador *controlador);
+		VentanaTrabajo(Controlador *controlador, unsigned int id);
                
 	/**	
 		* Comienza a correr la interfaz grafica.
     */
-		void correr();
+		void correr(bool primeraVez= false);
 };
 
 #endif /*VENTANATRABAJO_H_*/

@@ -1,6 +1,6 @@
 #include "ventanaTrabajo.h"
 
-VentanaTrabajo::VentanaTrabajo(Controlador *controlador) {
+VentanaTrabajo::VentanaTrabajo(Controlador *controlador, unsigned int id) {
 
 	try {
 		this->refXml= Gtk::Builder::create_from_file(PATH_VISTA);
@@ -13,11 +13,11 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador) {
   }
 
 	this->controlador= controlador;
+	this->id= id;
 }
 
-void VentanaTrabajo::correr() {
+void VentanaTrabajo::correr(bool primeraVez) {
 	
-	Gtk::Window *main_window;
 	refXml->get_widget("window", main_window);
   main_window->maximize();
 
@@ -26,8 +26,11 @@ void VentanaTrabajo::correr() {
 
  	/*TOOLBAR*/
 //	loadToolBar();
+
+	main_window->show();
 	
-	Gtk::Main::run(*main_window);
+	if(primeraVez)
+		Gtk::Main::run();
 }
 
 /**MENUBAR**/
@@ -39,13 +42,12 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *main_window) {
 	//File menu:
   m_refActionGroup->add(Gtk::Action::create("FileMenu", "File"));
 
-  m_refActionGroup->add(Gtk::Action::create("FileQuit", Gtk::Stock::QUIT),
-                        sigc::ptr_fun(Gtk::Main::quit));
+  m_refActionGroup->add(Gtk::Action::create("New", Gtk::Stock::NEW),
+                        sigc::mem_fun(*this, &VentanaTrabajo::lala));
 
   //Help menu:
   m_refActionGroup->add(Gtk::Action::create("HelpMenu", "Help"));
-  m_refActionGroup->add(Gtk::Action::create("HelpAbout", Gtk::Stock::ABOUT),
-  	                    /*sigc::mem_fun(*this, &VentanaTrabajo::on_itemAbout_activate)*/sigc::ptr_fun(Gtk::Main::quit));
+	m_refActionGroup->add(Gtk::Action::create("HelpAbout", Gtk::Stock::ABOUT), sigc::mem_fun(*this, &VentanaTrabajo::lala));
 
 	m_refUIManager = Gtk::UIManager::create();
   m_refUIManager->insert_action_group(m_refActionGroup);
@@ -57,7 +59,7 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *main_window) {
         "<ui>"
         "  <menubar name='MenuBar'>"
         "    <menu action='FileMenu'>"
-        "      <menuitem action='FileQuit'/>"
+        "      <menuitem action='New'/>"
         "    </menu>"
         "    <menu action='HelpMenu'>"
         "      <menuitem action='HelpAbout'/>"
@@ -77,4 +79,16 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *main_window) {
 /**TOOLBAR**/
 void VentanaTrabajo::loadToolBar() {
 
+}
+
+void VentanaTrabajo::lala() {
+	
+	controlador->crearNuevaVentana();
+}
+
+
+void VentanaTrabajo::lala2() {
+	
+	controlador->cerrarVentana(id);
+	main_window->hide();
 }
