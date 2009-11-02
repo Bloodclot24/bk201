@@ -1,7 +1,14 @@
 #ifndef VENTANATRABAJO_H_
 #define VENTANATRABAJO_H_
 
-#include <gtkmm.h>
+#include <gtkmm/window.h>
+#include <gtkmm/dialog.h>
+#include <gtkmm/box.h>
+#include <gtkmm/builder.h>
+#include <gtkmm/main.h>
+#include <gtkmm/uimanager.h>
+#include <gtkmm/stock.h>
+#include <gtkmm/aboutdialog.h>
 #include <iostream>
 #include "../Controlador/controlador.h"
 
@@ -10,38 +17,42 @@
 /**
  * Ventana de principal de trabajo para el usuario.
  */
-class VentanaTrabajo {
+class VentanaTrabajo: public Gtk::Window {
        
-	private:
-		Glib::RefPtr<Gtk::Builder> refXml;
-		Controlador *controlador;
-		unsigned int id;
+private:
+  Glib::RefPtr<Gtk::Builder> refXml;
+  Controlador *controlador;
+  unsigned int id;
 		
-		/*MENUBAR*/
-    Glib::RefPtr<Gtk::UIManager> m_refUIManager;
-    Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
-		void loadMenuBar(Gtk::Window *main_window);
+  /*MENUBAR*/
+  Glib::RefPtr<Gtk::UIManager> m_refUIManager;
+  Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
+  void loadMenuBar(Gtk::Window *main_window);
+  void nuevo();
+  void abrir();
+  void cerrar();
+  void about();
 		
-		/*TOOLBAR*/
-		void loadToolBar();
+  /*TOOLBAR*/
+  void loadToolBar();
 		
-		Gtk::Window *main_window;
-		
-		void lala();
-		void lala2();		
-		
-	public:
-	/**
+  Gtk::Window *window;
+
+protected:
+  bool on_delete_event(GdkEventAny *event);
+
+public:
+  /**
     * Crea una ventana de trabajo nueva.
     *
     * @param controlador Controlador del modelo.
-		*/
-		VentanaTrabajo(Controlador *controlador, unsigned int id);
-               
-	/**	
-		* Comienza a correr la interfaz grafica.
     */
-		void correr(bool primeraVez= false);
+    VentanaTrabajo(Controlador *controlador, unsigned int id);
+               
+  /**
+    * Comienza a correr la interfaz grafica.
+    */
+    void correr(bool primeraVez= false);
 };
 
 #endif /*VENTANATRABAJO_H_*/

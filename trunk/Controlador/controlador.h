@@ -9,34 +9,34 @@
  */
 class Controlador {
 
-	private:
-    std::map<unsigned int, VentanaTrabajo*> ventanasTrabajo;
+private:
+  std::map<unsigned int, VentanaTrabajo*> ventanasTrabajo;
                 
-	public:
-	/**
+public:
+  /**
     * Crea un controlador. 
- 		*/
-		Controlador(); 
+    */
+    Controlador();
             
-	/**
+  /**
     * Destruye el controlador. 
-		*/
-		~Controlador();
+    */
+    ~Controlador();
 
-	/**
+  /**
     * Comienza a correr la aplicacion, tanto la vista como el modelo. 
-		*/
-		void correr();
+    */
+    void correr();
 
-	/**
+  /**
     * Crea una nueva ventana de trabajo. 
-		*/
-		void crearNuevaVentana();
+    */
+    void crearNuevaVentana();
 
-	/**
-    * Cierra una ventana de trabajo. 
-		*/
-		void cerrarVentana(unsigned int id);
+ /**
+   * Cierra una ventana de trabajo.
+   */
+    void cerrarVentana(unsigned int id);
 };
 
 #endif /*CONTROLADOR_H_*/
