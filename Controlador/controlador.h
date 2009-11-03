@@ -3,6 +3,7 @@
 
 #include <map>
 #include "../Vista/ventanaTrabajo.h"
+#include "../Util/Util.h"
 
 /**
  * El controlador de la aplicacion.
@@ -11,7 +12,8 @@ class Controlador {
 
 private:
   std::map<unsigned int, VentanaTrabajo*> ventanasTrabajo;
-                
+  unsigned int cantVentanas;
+
 public:
   /**
     * Crea un controlador. 

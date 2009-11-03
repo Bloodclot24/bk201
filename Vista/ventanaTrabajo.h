@@ -14,6 +14,8 @@
 #include "../Controlador/controlador.h"
 
 #define PATH_VISTA "Vista/interfaz.glade"
+#define CIRCUITO "Circuito "
+#define NOMBRE_PROGRAMA " - Bk201"
 
 /**
  * Ventana de principal de trabajo para el usuario.
@@ -46,8 +48,11 @@ private:
   Gtk::Window *window;
   bool on_delete_event(GdkEventAny *event);
 
-  Gtk::FileChooserDialog *filechooserdialog;
-  void on_response(int response_id);
+  Gtk::FileChooserDialog *filechooserdialog_open;
+  void on_response_open(int response_id);
+
+  Gtk::FileChooserDialog *filechooserdialog_saveas;
+  void on_response_saveas(int response_id);
 
 public:
   /**

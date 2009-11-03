@@ -1,7 +1,8 @@
 #include "controlador.h"
 
 Controlador::Controlador() {
-        
+
+  this->cantVentanas= 0;
 }
 
 Controlador::~Controlador() {
@@ -10,16 +11,16 @@ Controlador::~Controlador() {
 
 void Controlador::correr() {
 
-  VentanaTrabajo *ventana= new VentanaTrabajo(this, 0);
-  ventanasTrabajo.insert( std::pair<unsigned int, VentanaTrabajo*>(0,ventana));
+  VentanaTrabajo *ventana= new VentanaTrabajo(this, cantVentanas);
+  ventanasTrabajo.insert( std::pair<unsigned int, VentanaTrabajo*>(cantVentanas,ventana));
   ventana->correr(true);
 }
 
 void Controlador::crearNuevaVentana() {
 
-  unsigned int id= ventanasTrabajo.size();
-  VentanaTrabajo *ventana= new VentanaTrabajo(this, id);
-  ventanasTrabajo.insert( std::pair<unsigned int, VentanaTrabajo*>(id,ventana) );
+  cantVentanas++;
+  VentanaTrabajo *ventana= new VentanaTrabajo(this, cantVentanas);
+  ventanasTrabajo.insert( std::pair<unsigned int, VentanaTrabajo*>(cantVentanas,ventana) );
   ventana->correr();
 }
 
