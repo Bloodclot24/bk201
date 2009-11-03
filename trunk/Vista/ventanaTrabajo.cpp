@@ -29,11 +29,17 @@ void VentanaTrabajo::correr(bool primeraVez) {
   window->maximize();
   window->signal_delete_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_delete_event));
 
-  /*MENUBAR*/
+
+
+  //Menu Bar
   loadMenuBar(window);
 
   /*TOOLBAR*/
 //	loadToolBar();
+
+  //FilechooserDialog
+  refXml->get_widget("filechooserdialog", filechooserdialog);
+  filechooserdialog->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response));
 
   window->show();
 	
@@ -47,16 +53,34 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
   //crea las acciones del menu bar
   m_refActionGroup = Gtk::ActionGroup::create();
 
-  //archivo menu
+  //menu archivo
   m_refActionGroup->add(Gtk::Action::create("ArchivoMenu", "Archivo"));
   m_refActionGroup->add(Gtk::Action::create("Nuevo", Gtk::Stock::NEW),
                         sigc::mem_fun(*this, &VentanaTrabajo::nuevo));
   m_refActionGroup->add(Gtk::Action::create("Abrir", Gtk::Stock::OPEN),
                         sigc::mem_fun(*this, &VentanaTrabajo::abrir));
+  m_refActionGroup->add(Gtk::Action::create("Guardar", Gtk::Stock::SAVE),
+                        sigc::mem_fun(*this, &VentanaTrabajo::guardar));
+  m_refActionGroup->add(Gtk::Action::create("Guardar como...", Gtk::Stock::SAVE_AS),
+                        sigc::mem_fun(*this, &VentanaTrabajo::guardarComo));
   m_refActionGroup->add(Gtk::Action::create("Salir", Gtk::Stock::QUIT),
                         sigc::mem_fun(*this, &VentanaTrabajo::cerrar));
 
-  //help menu
+  //menu editar
+  m_refActionGroup->add(Gtk::Action::create("EditarMenu", "Editar"));
+  m_refActionGroup->add(Gtk::Action::create("Rotar 90", "Rotar 90"),
+                        sigc::mem_fun(*this, &VentanaTrabajo::rotar90));
+  m_refActionGroup->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
+                        sigc::mem_fun(*this, &VentanaTrabajo::borrar));
+
+  //menu simular
+  m_refActionGroup->add(Gtk::Action::create("SimularMenu", "Simular"));
+  m_refActionGroup->add(Gtk::Action::create("Simular", Gtk::Stock::MEDIA_PLAY, "Simular"),
+                        sigc::mem_fun(*this, &VentanaTrabajo::simular));
+  m_refActionGroup->add(Gtk::Action::create("Tablas", "Ver tablas"),
+                        sigc::mem_fun(*this, &VentanaTrabajo::verTablas));
+
+  //menu ayuda
   m_refActionGroup->add(Gtk::Action::create("AyudaMenu", "Ayuda"));
   m_refActionGroup->add(Gtk::Action::create("About", Gtk::Stock::ABOUT), sigc::mem_fun(*this, &VentanaTrabajo::about));
 
@@ -73,8 +97,19 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
         "      <menuitem action='Nuevo'/>"
 	"      <menuitem action='Abrir'/>"
         "      <separator/>"
+        "      <menuitem action='Guardar'/>"
+        "      <menuitem action='Guardar como...'/>"
+        "      <separator/>"
         "      <menuitem action='Salir'/>"
 	"    </menu>"
+        "    <menu action='EditarMenu'>"
+        "      <menuitem action='Rotar 90'/>"
+        "      <menuitem action='Borrar'/>"
+        "    </menu>"
+        "    <menu action='SimularMenu'>"
+        "      <menuitem action='Simular'/>"
+        "      <menuitem action='Tablas'/>"
+        "    </menu>"
         "    <menu action='AyudaMenu'>"
         "      <menuitem action='About'/>"
         "    </menu>"
@@ -97,13 +132,45 @@ void VentanaTrabajo::nuevo() {
 
 void VentanaTrabajo::abrir() {
 
-  std::cout << "Se apreto boton abrir" << std::endl;
+  filechooserdialog->run();
+  filechooserdialog->hide();
 }
+
+void VentanaTrabajo::guardar() {
+
+  std::cout << "Se apreto boton guardar" << std::endl;
+}
+
+void VentanaTrabajo::guardarComo() {
+
+  std::cout << "Se apreto boton guardar como..." << std::endl;
+}
+
 
 void VentanaTrabajo::cerrar() {
 
   controlador->cerrarVentana(id);
   window->hide();
+}
+
+void VentanaTrabajo::rotar90() {
+
+  std::cout << "Se apreto boton rotar 90" << std::endl;
+}
+
+void VentanaTrabajo::borrar() {
+
+  std::cout << "Se apreto boton borrar" << std::endl;
+}
+
+void VentanaTrabajo::simular() {
+
+  std::cout << "Se apreto boton simular" << std::endl;
+}
+
+void VentanaTrabajo::verTablas() {
+
+  std::cout << "Se apreto boton ver tablas" << std::endl;
 }
 
 void VentanaTrabajo::about() {
@@ -117,4 +184,18 @@ void VentanaTrabajo::about() {
 /**TOOLBAR**/
 void VentanaTrabajo::loadToolBar() {
 
+}
+
+/**FILECHOOSERDIALOG**/
+void VentanaTrabajo::on_response(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      std::cout << "checkear seleccion" << std::endl;
+    }
+      break;
+    default:
+        //no se hace nada
+      break;
+  }
 }

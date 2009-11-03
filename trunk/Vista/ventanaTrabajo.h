@@ -9,6 +9,7 @@
 #include <gtkmm/uimanager.h>
 #include <gtkmm/stock.h>
 #include <gtkmm/aboutdialog.h>
+#include <gtkmm/filechooserdialog.h>
 #include <iostream>
 #include "../Controlador/controlador.h"
 
@@ -17,7 +18,7 @@
 /**
  * Ventana de principal de trabajo para el usuario.
  */
-class VentanaTrabajo: public Gtk::Window {
+class VentanaTrabajo {
        
 private:
   Glib::RefPtr<Gtk::Builder> refXml;
@@ -30,16 +31,23 @@ private:
   void loadMenuBar(Gtk::Window *main_window);
   void nuevo();
   void abrir();
+  void guardar();
+  void guardarComo();
   void cerrar();
+  void rotar90();
+  void borrar();
+  void simular();
+  void verTablas();
   void about();
 		
   /*TOOLBAR*/
   void loadToolBar();
 		
   Gtk::Window *window;
-
-protected:
   bool on_delete_event(GdkEventAny *event);
+
+  Gtk::FileChooserDialog *filechooserdialog;
+  void on_response(int response_id);
 
 public:
   /**
