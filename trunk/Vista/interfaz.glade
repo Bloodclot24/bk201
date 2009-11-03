@@ -27,13 +27,14 @@
         <child>
           <object class="GtkToolbar" id="toolbar">
             <property name="visible">True</property>
+            <property name="toolbar_style">icons</property>
             <child>
               <object class="GtkToolButton" id="and">
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">AND</property>
                 <property name="label" translatable="yes">AND</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-no</property>
+                <property name="icon_widget">add</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -46,6 +47,7 @@
                 <property name="tooltip_text" translatable="yes">OR</property>
                 <property name="label" translatable="yes">OR</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image2</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -58,6 +60,7 @@
                 <property name="tooltip_text" translatable="yes">NOT</property>
                 <property name="label" translatable="yes">NOT</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image1</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -70,6 +73,7 @@
                 <property name="tooltip_text" translatable="yes">XOR</property>
                 <property name="label" translatable="yes">XOR</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image3</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -82,6 +86,7 @@
                 <property name="tooltip_text" translatable="yes">BUFFER</property>
                 <property name="label" translatable="yes">BUFFER</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image4</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -103,6 +108,7 @@
                 <property name="tooltip_text" translatable="yes">PISTA</property>
                 <property name="label" translatable="yes">PISTA</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image5</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -115,6 +121,7 @@
                 <property name="tooltip_text" translatable="yes">I/O</property>
                 <property name="label" translatable="yes">I/O</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image6</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -127,6 +134,7 @@
                 <property name="tooltip_text" translatable="yes">CIRCUITO</property>
                 <property name="label" translatable="yes">CIRCUITO</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image7</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -160,6 +168,7 @@
                 <property name="tooltip_text" translatable="yes">TABLAS</property>
                 <property name="label" translatable="yes">TABLAS</property>
                 <property name="use_underline">True</property>
+                <property name="icon_widget">image8</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -386,5 +395,41 @@ Ygounet Guido</property>
       <action-widget response="-6">cancel</action-widget>
       <action-widget response="-3">guardar</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkImage" id="add">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/and.png</property>
+  </object>
+  <object class="GtkImage" id="image1">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/not.png</property>
+  </object>
+  <object class="GtkImage" id="image2">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/or.png</property>
+  </object>
+  <object class="GtkImage" id="image3">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/xor.png</property>
+  </object>
+  <object class="GtkImage" id="image4">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/buf.png</property>
+  </object>
+  <object class="GtkImage" id="image5">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/pista.png</property>
+  </object>
+  <object class="GtkImage" id="image6">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/io.png</property>
+  </object>
+  <object class="GtkImage" id="image7">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/circuito.png</property>
+  </object>
+  <object class="GtkImage" id="image8">
+    <property name="visible">True</property>
+    <property name="pixbuf">Imagenes/tabla.png</property>
   </object>
 </interface>
