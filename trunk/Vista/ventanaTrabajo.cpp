@@ -37,10 +37,20 @@ void VentanaTrabajo::correr(bool primeraVez) {
   /*TOOLBAR*/
 //	loadToolBar();
 
-  //FilechooserDialog
-  refXml->get_widget("filechooserdialog", filechooserdialog);
-  filechooserdialog->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response));
+  //FilechooserDialog Open
+  refXml->get_widget("filechooserdialog_open", filechooserdialog_open);
+  filechooserdialog_open->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_open));
 
+  //FilechooserDialog Save as
+  refXml->get_widget("filechooserdialog_saveas", filechooserdialog_saveas);
+  filechooserdialog_saveas->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_saveas));
+
+  //nombre ventana
+  std::string name;
+  name+= CIRCUITO;
+  name+= Util::intToString(id);
+  name+= NOMBRE_PROGRAMA;
+  window-> set_title(name);
   window->show();
 	
   if(primeraVez)
@@ -61,7 +71,7 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
                         sigc::mem_fun(*this, &VentanaTrabajo::abrir));
   m_refActionGroup->add(Gtk::Action::create("Guardar", Gtk::Stock::SAVE),
                         sigc::mem_fun(*this, &VentanaTrabajo::guardar));
-  m_refActionGroup->add(Gtk::Action::create("Guardar como...", Gtk::Stock::SAVE_AS),
+  m_refActionGroup->add(Gtk::Action::create("Guardar como...", Gtk::Stock::SAVE_AS, "Guardar como..."),
                         sigc::mem_fun(*this, &VentanaTrabajo::guardarComo));
   m_refActionGroup->add(Gtk::Action::create("Salir", Gtk::Stock::QUIT),
                         sigc::mem_fun(*this, &VentanaTrabajo::cerrar));
@@ -132,8 +142,7 @@ void VentanaTrabajo::nuevo() {
 
 void VentanaTrabajo::abrir() {
 
-  filechooserdialog->run();
-  filechooserdialog->hide();
+  filechooserdialog_open->run();
 }
 
 void VentanaTrabajo::guardar() {
@@ -143,7 +152,7 @@ void VentanaTrabajo::guardar() {
 
 void VentanaTrabajo::guardarComo() {
 
-  std::cout << "Se apreto boton guardar como..." << std::endl;
+  filechooserdialog_saveas->run();
 }
 
 
@@ -187,15 +196,28 @@ void VentanaTrabajo::loadToolBar() {
 }
 
 /**FILECHOOSERDIALOG**/
-void VentanaTrabajo::on_response(int response_id) {
+void VentanaTrabajo::on_response_open(int response_id) {
 
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
-      std::cout << "checkear seleccion" << std::endl;
+      std::cout << "checkear open" << std::endl;
     }
       break;
     default:
-        //no se hace nada
+        filechooserdialog_open->hide();
+      break;
+  }
+}
+
+void VentanaTrabajo::on_response_saveas(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      std::cout << "checkear save as" << std::endl;
+    }
+      break;
+    default:
+        filechooserdialog_saveas->hide();
       break;
   }
 }
