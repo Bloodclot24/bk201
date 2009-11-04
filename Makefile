@@ -1,13 +1,23 @@
-SOURCES=
+SOURCES=Controlador/controlador.cpp \
+	Vista/ventanaTrabajo.cpp \
+	Red/Socket.cpp \
+	HTTP/HttpRequest.cpp \
+	HTTP/HttpResponse.cpp \
+	XML/Xml.cpp \
+	XML/Soap.cpp \
+	Util/Util.cpp
 
 TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
-	Circuito/testCircuitoCompuesto.cpp
+	Circuito/testCircuitoCompuesto.cpp \
+	HTTP/HttpTest.cpp \
+	XML/testSoap.cpp \
+	main.cpp
 
 MAIN=AlgunNombre.cpp
 
-CFLAGS=-g -Wall
-LDFLAGS=
+CFLAGS=-g -Wall `pkg-config --cflags gtkmm-2.4 gthread-2.0 libxml-2.0`
+LDFLAGS=`pkg-config --libs gtkmm-2.4 gthread-2.0 libxml-2.0`
 CC=g++
 EXECUTABLE=AlgunNombre
 

@@ -12,23 +12,24 @@
 
 ** TODO Red 
    - [X] Implementar y probar sockets y threads.
-   - [ ] Implementar protocolo HTTP.
+   - [X] Implementar protocolo HTTP.
+   - [ ] Integrar sockets con protocolo HTTP.
    - [ ] Implementar protocolo SOAP.
    - [ ] Definir la estructura de los mensajes a enviar/recibir.
 
 
 ** TODO Entorno grafico
-   - [ ] Drag&Drop.
+   - [X] Drag&Drop.
    - [ ] Ventana de edicion simple.
-   - [ ] Mas de una ventana de edicion.
-   - [ ] Barras de herramientas.
+   - [X] Mas de una ventana de edicion.
+   - [X] Barras de herramientas.
    - [ ] Menues contextuales.
    - [ ] Ventanas para modificar parametros de los componentes.
    - [ ] Ventana de impresion.
    - [ ] Ventana para inspeccionar servidores remotos.
 
 * Plan de trabajo
-** Semana 1
+** DONE Semana 1
    DEADLINE: <2009-11-03 Tue>
 
    - [X] Implementacion de compuertas.
@@ -37,19 +38,21 @@
 
    - [X] Implementacion y prueba de sockets+threads.
 
-   - [ ] Drag&Drop.
+   - [X] Drag&Drop.
 
    
-** Semana 2
+** TODO Semana 2
    DEADLINE: <2009-11-10 Tue>
    
    - [X] Simulaciones complejas y compuestas.
 
-   - [ ] Implementacion del protocolo HTTP.
+   - [X] Implementacion del protocolo HTTP.
 
    - [ ] Ventana de edicion simple.
 
-** Semana 3
+   - [ ] Integracion Drag&Drop.
+
+** TODO Semana 3
    DEADLINE: <2009-11-17 Tue>
 
    - [ ] Clases encargadas del XML.
@@ -58,9 +61,9 @@
 
    - [ ] Integracion de la simulacion con la parte grafica.
 
-   - [ ] Mas de una ventana de edicion.
+   - [X] Mas de una ventana de edicion.
 
-** Semana 4
+** TODO Semana 4
    DEADLINE: <2009-11-24 Tue>
    
    - [ ] Definir estructura de los mensajes SOAP.
@@ -71,7 +74,7 @@
 
    - [ ] Menues contextuales.
 
-** Semana 5
+** TODO Semana 5
    DEADLINE: <2009-12-01 Tue>
    
    - [ ] Testing de la simulacion sobre la red.
@@ -80,9 +83,16 @@
 
    - [ ] Ventanas de modificacion de parametros de componentes.
 
-** Semana 6
+** TODO Semana 6
    DEADLINE: <2009-12-08 Tue>
    
    - [ ] Ventana de impresion.
 
    - [ ] Testing y documentacion en general.
+
+
+* TODO Dudas
+  - [ ] Posibilidad de utilizar threads emisor/receptor solo en el
+    servidor para atender multiples clientes. Cada cliente es 1
+    solo thread. Las transmisiones/recepciones de datos son
+    sincronicas.
