@@ -10,7 +10,9 @@
 #include <gtkmm/stock.h>
 #include <gtkmm/aboutdialog.h>
 #include <gtkmm/filechooserdialog.h>
+#include <gtkmm/table.h>
 #include <iostream>
+#include "areaDibujo.h"
 #include "../Controlador/controlador.h"
 
 #define PATH_VISTA "Vista/interfaz.glade"
@@ -20,7 +22,7 @@
 /**
  * Ventana de principal de trabajo para el usuario.
  */
-class VentanaTrabajo {
+class VentanaTrabajo: public Gtk::Window {
        
 private:
   Glib::RefPtr<Gtk::Builder> refXml;
@@ -36,7 +38,8 @@ private:
   void guardar();
   void guardarComo();
   void cerrar();
-  void rotar90();
+  void rotar90D();
+  void rotar90I();
   void borrar();
   void simular();
   void verTablas();
@@ -53,6 +56,11 @@ private:
 
   Gtk::FileChooserDialog *filechooserdialog_saveas;
   void on_response_saveas(int response_id);
+
+  /*AREADIBUJO*/
+  AreaDibujo areaDibujo;
+
+  virtual ~VentanaTrabajo() {};
 
 public:
   /**

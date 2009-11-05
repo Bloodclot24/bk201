@@ -29,7 +29,17 @@ void VentanaTrabajo::correr(bool primeraVez) {
   window->maximize();
   window->signal_delete_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_delete_event));
 
+  //nombre ventana
+  std::string name;
+  name+= CIRCUITO;
+  name+= Util::intToString(id);
+  name+= NOMBRE_PROGRAMA;
+  window-> set_title(name);
 
+  //Area de Dibujo
+  Gtk::Table *table;
+  refXml->get_widget("table", table);
+  table->attach(areaDibujo, 0, 10, 0, 10);
 
   //Menu Bar
   loadMenuBar(window);
@@ -45,13 +55,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("filechooserdialog_saveas", filechooserdialog_saveas);
   filechooserdialog_saveas->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_saveas));
 
-  //nombre ventana
-  std::string name;
-  name+= CIRCUITO;
-  name+= Util::intToString(id);
-  name+= NOMBRE_PROGRAMA;
-  window-> set_title(name);
-  window->show();
+  window->show_all();
 	
   if(primeraVez)
     Gtk::Main::run();
@@ -78,8 +82,10 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
 
   //menu editar
   m_refActionGroup->add(Gtk::Action::create("EditarMenu", "Editar"));
-  m_refActionGroup->add(Gtk::Action::create("Rotar 90", "Rotar 90"),
-                        sigc::mem_fun(*this, &VentanaTrabajo::rotar90));
+  m_refActionGroup->add(Gtk::Action::create("RotarD 90", Gtk::Stock::REDO,"Rotar 90"),
+                        sigc::mem_fun(*this, &VentanaTrabajo::rotar90D));
+  m_refActionGroup->add(Gtk::Action::create("RotarI 90", Gtk::Stock::UNDO,"Rotar 90"),
+                        sigc::mem_fun(*this, &VentanaTrabajo::rotar90I));
   m_refActionGroup->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
                         sigc::mem_fun(*this, &VentanaTrabajo::borrar));
 
@@ -113,7 +119,8 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
         "      <menuitem action='Salir'/>"
 	"    </menu>"
         "    <menu action='EditarMenu'>"
-        "      <menuitem action='Rotar 90'/>"
+        "      <menuitem action='RotarD 90'/>"
+        "      <menuitem action='RotarI 90'/>"
         "      <menuitem action='Borrar'/>"
         "    </menu>"
         "    <menu action='SimularMenu'>"
@@ -162,9 +169,14 @@ void VentanaTrabajo::cerrar() {
   window->hide();
 }
 
-void VentanaTrabajo::rotar90() {
+void VentanaTrabajo::rotar90D() {
 
-  std::cout << "Se apreto boton rotar 90" << std::endl;
+  std::cout << "Se apreto boton rotar 90 derecha" << std::endl;
+}
+
+void VentanaTrabajo::rotar90I() {
+
+  std::cout << "Se apreto boton rotar 90 izquierda" << std::endl;
 }
 
 void VentanaTrabajo::borrar() {
