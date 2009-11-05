@@ -2,6 +2,7 @@
 
 
 int main(){
-     Soap(s);
+     Soap s("lalala");
+
      return 1;
 }
