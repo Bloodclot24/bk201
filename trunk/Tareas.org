@@ -1,28 +1,39 @@
 
 * Cosas por hacer
   
-** DONE Simulacion
+** TODO Simulacion
    - [X] Simulacion basica de compuertas.
    - [X] Simulacion de circuitos basados en compuertas.
    - [X] Simulacion de circuitos basados en compuertas y en otros
      circuitos.
+   - [ ] Revisar el sistema de conexiones.
+   - [ ] Simulacion remota
+     - [ ] Definir el circuito remoto.
+     - [ ] Integrar con sockets.
+     - [ ] Integrar con Soap.
+   - [ ] Server
+     - [ ] Implementacion simple para 1 cliente.
+     - [ ] Integracion socket+Soap.
+     - [ ] Multiples clientes.
 
-** TODO Otros
-   - [ ] Clases encargadas del parseo/creacion de XML.
+** DONE Otros
+   - [X] Clases encargadas del parseo/creacion de XML.
 
 ** TODO Red 
    - [X] Implementar y probar sockets y threads.
    - [X] Implementar protocolo HTTP.
    - [ ] Integrar sockets con protocolo HTTP.
-   - [ ] Implementar protocolo SOAP.
-   - [ ] Definir la estructura de los mensajes a enviar/recibir.
-
+   - [X] Implementar protocolo SOAP.
+   - [X] Definir la estructura de los mensajes a enviar/recibir.
 
 ** TODO Entorno grafico
    - [X] Drag&Drop.
-   - [ ] Ventana de edicion simple.
+   - [-] Ventana de edicion simple.
+     - [X] Barras de herramientas.
+     - [ ] Grilla punteada.
+     - [ ] Representacion grafica de los componentes.
+     - [ ] Traduccion del modelo grafico al modelo a simular.
    - [X] Mas de una ventana de edicion.
-   - [X] Barras de herramientas.
    - [ ] Menues contextuales.
    - [ ] Ventanas para modificar parametros de los componentes.
    - [ ] Ventana de impresion.
@@ -55,22 +66,26 @@
 ** TODO Semana 3
    DEADLINE: <2009-11-17 Tue>
 
-   - [ ] Clases encargadas del XML.
+   - [X] Clases encargadas del XML.
 
-   - [ ] Implementacion de SOAP.
+   - [X] Implementacion de SOAP.
+
+   - [ ] Server simple.
 
    - [ ] Integracion de la simulacion con la parte grafica.
+
+     - [ ] Traducir el modelo grafico al modelo a simular.
 
    - [X] Mas de una ventana de edicion.
 
 ** TODO Semana 4
    DEADLINE: <2009-11-24 Tue>
    
-   - [ ] Definir estructura de los mensajes SOAP.
+   - [X] Definir estructura de los mensajes SOAP.
 
    - [ ] Integracion de la simulacion con la capa de red.
 
-   - [ ] Barras de herramientas.
+   - [ ] Server multi-cliente.
 
    - [ ] Menues contextuales.
 
@@ -92,7 +107,8 @@
 
 
 * TODO Dudas
-  - [ ] Posibilidad de utilizar threads emisor/receptor solo en el
+  - [X] Posibilidad de utilizar threads emisor/receptor solo en el
     servidor para atender multiples clientes. Cada cliente es 1
     solo thread. Las transmisiones/recepciones de datos son
     sincronicas.
+  - [ ] Timeouts utilizando setitimer/getitimer o alarm.

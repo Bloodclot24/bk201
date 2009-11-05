@@ -45,3 +45,47 @@ void XmlNodo::agregarHijo(XmlNodo& hijo){
 void XmlNodo::setNameSpace(XmlNS& ns){
      xmlSetNs(nodo, ns.ns);
 }
+
+XmlNodo XmlNodo::obtenerHijo(){
+     return xmlFirstElementChild(nodo);
+}
+
+XmlNodo XmlNodo::obtenerHermano(){
+     return xmlNextElementSibling(nodo);
+}
+
+XmlNS XmlNodo::getNameSpace(){
+     return (xmlNsPtr)nodo->ns;
+}
+
+XmlNS XmlNodo::getNameSpaceDef(){
+     return (xmlNsPtr)nodo->nsDef;
+}
+
+std::string XmlNodo::getPropiedad(const char* nombre){
+     std::string s;
+     if(nombre){
+	  char* ptr = (char*)xmlGetProp(nodo, (xmlChar*)nombre);
+	  if(ptr){
+	       s.assign(ptr);
+	       xmlFree(ptr);
+	  }
+     }
+     return s;
+}
+
+std::string XmlNodo::getPropiedad(const char* nombre, const char* nsUri){
+     std::string s;
+     if(nombre && nsUri){
+	  char* ptr = (char*)xmlGetNsProp(nodo, (xmlChar*)nombre, (xmlChar*)nsUri);
+	  if(ptr){
+	       s.assign(ptr);
+	       xmlFree(ptr);
+	  }
+     }
+     return s;
+}
+
+std::string XmlNodo::getNombre(){
+     return (const char*)((xmlNode)*nodo).name;
+}

@@ -11,6 +11,7 @@ TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
 	Circuito/testCircuitoCompuesto.cpp \
 	HTTP/HttpTest.cpp \
+	HTTP/HttpSoapTest.cpp \
 	XML/testSoap.cpp \
 	main.cpp
 
