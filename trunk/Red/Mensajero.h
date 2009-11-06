@@ -12,6 +12,7 @@ private:
      Mensajero(const Mensajero&);
      Mensajero& operator=(const Mensajero&);
 public:     
+     Mensajero(Socket* s){ this->s=s;}
      Mensajero(){ s = NULL;}
      void setSocket(Socket *s);
 

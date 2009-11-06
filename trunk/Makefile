@@ -17,7 +17,9 @@ TESTSOURCES=Gates/testGates.cpp \
 	XML/testSoap.cpp \
 	main.cpp \
 	Server/Server.cpp\
-	Server/testCliente.cpp
+	Server/testCliente.cpp\
+	Circuito/testCircuitoRemotoCl.cpp\
+	Circuito/testCircuitoRemotoSr.cpp
 
 MAIN=AlgunNombre.cpp
 

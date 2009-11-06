@@ -24,7 +24,15 @@ Socket::Socket(std::string direccion, int puerto){
 		    puertoFinal = atoi(direccion.c_str()+fin+1);
 	       }
 	  }
-	  else hostName = direccion;
+	  else{ 
+	       fin = direccion.find_first_of(":");
+	       hostName = direccion.substr(0,fin);
+	       std::cout << hostName << std::endl;
+	       if(direccion[fin] == ':'){
+		    puertoFinal = atoi(direccion.c_str()+fin+1);
+	       }
+	       else hostName = direccion;
+	  }
 
 	  host=gethostbyname(hostName.c_str());
 	       
