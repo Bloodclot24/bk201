@@ -32,6 +32,8 @@ Soap::Soap(const char* buffer, int size):documento(buffer, size){
      XmlNodo *raiz = documento.getRaiz();
      body = raiz->obtenerHijo();
      mensaje  = body.obtenerHijo();
+     this->nombreMensaje = mensaje.getNombre();
+     
 }
 
 void Soap::setParametro(const char* nombre, const char* valor){

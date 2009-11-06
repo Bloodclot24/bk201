@@ -33,7 +33,7 @@ Soap* Mensajero::recibirMensaje(){
      
      Soap *soap = new Soap(datos, req.getContentLength());
      
-     delete datos;
+     delete[] datos;
      
      return soap;
 }
@@ -67,7 +67,7 @@ Soap* Mensajero::recibirRespuesta(){
      
      Soap *soap = new Soap(datos, res.getContentLength());
      
-     delete datos;
+     delete[] datos;
      
      return soap;
 }

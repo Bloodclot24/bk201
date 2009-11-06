@@ -1,6 +1,7 @@
 #ifndef __CIRCUITOREMOTO_H_INCLUDED__
 #define __CIRCUITOREMOTO_H_INCLUDED__
 
+#include "../Componente/Componente.h"
 #include "../Red/Socket.h"
 #include "../Red/Mensajero.h"
 #include "../XML/Soap.h"
@@ -11,26 +12,29 @@ class CircuitoRemoto: Componente{
 
 public:
      CircuitoRemoto(const std::string& host, const std::string& nombre){
-	  s = new Socket(host);
-	  s.conectar();
+	  s = new Socket(host,0);
+	  s->conectar();
 	  mensajero.setSocket(s);
+	  Soap mensaje("SeleccionarCircuito");
+	  mensaje.setParametro("Nombre", nombre.c_str());
+	  mensajero.enviarMensaje(&mensaje);
      }
 
      void setEntrada(unsigned numero, bool estado){
 	  Soap mensaje("SetEntrada");
 	  mensaje.setParametro("Numero", numero);
 	  mensaje.setParametro("Valor", estado);
-	  mensajero.enviarMensaje(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
      }
 
      bool getEntrada(unsigned numero){
 	  Soap mensaje("GetEntrada");
 	  mensaje.setParametro("Numero", numero);
-	  mensajeroMEnsaje.enviar(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
 	  bool valor=false;
-	  if(respuesta!= NULL && respuesta->size() > 0 &&		\
-	     !respuesta->getNombreMensaje().compare("GetEntradaResponse")){
+	  if(respuesta!= NULL &&					\
+	     !respuesta->getNombre().compare("GetEntradaResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
 	  return valor;
@@ -39,11 +43,11 @@ public:
      bool getSalida(unsigned numero){
 	  Soap mensaje("GetSalida");
 	  mensaje.setParametro("Numero", numero);
-	  mensajero.enviarMensaje(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
 	  bool valor=false;
-	  if(respuesta != NULL && respuesta.size() > 0 &&		\
-	     !respuesta->getNombreMensaje().compare("GetSalidaResponse")){
+	  if(respuesta != NULL &&					\
+	     !respuesta->getNombre().compare("GetSalidaResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
 	  return valor;
@@ -52,12 +56,13 @@ public:
      bool getPin(unsigned numero){
 	  Soap mensaje("GetPin");
 	  mensaje.setParametro("Numero", numero);
-	  mensajero.enviarMensaje(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
 	  bool valor=false;
-	  if(respuesta != NULL && respuesta->size() > 0 &&		\
-	     !respuesta->getNombreMensaje().compare("GetPinResponse")){
+	  if(respuesta != NULL &&				\
+	     !respuesta->getNombre().compare("GetPinResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
+	       delete respuesta;
 	  }
 	  return valor;
      }
@@ -65,22 +70,22 @@ public:
      void setPin(unsigned numero, bool estado){
 	  Soap mensaje("SetPin");
 	  mensaje.setParametro("Numero", numero);
-	  mensaje.setParametroNumerico("Valor", estado);
-	  mensajero.enviarMensaje(mensaje);
+	  mensaje.setParametro("Valor", estado);
+	  mensajero.enviarMensaje(&mensaje);
      }
 
      void reset(){
 	  Soap mensaje("Reset");
-	  mensajero.enviarMensaje(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
      }
 
      unsigned getCantidadEntradas(){
 	  Soap mensaje("GetCantidadEntradas");
-	  mensajero.enviarMensaje(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
 	  unsigned valor=0;
-	  if(respuesta != NULL && respuesta->size() > 0 &&		\
-	     !respuesta->getNombreMensaje().compare("GetCantidadEntradasResponse")){
+	  if(respuesta != NULL  &&					\
+	     !respuesta->getNombre().compare("GetCantidadEntradasResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
 	  return valor;
@@ -88,11 +93,11 @@ public:
      
      unsigned getCantidadSalidas(){
 	  Soap mensaje("GetCantidadSalidas");
-	  mensajero.enviarMensaje(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
 	  unsigned valor=0;
-	  if(respuesta != NULL && respuesta->size() > 0 &&		\
-	     !respuesta->getNombreMensaje().compare("GetCantidadSalidassResponse")){
+	  if(respuesta != NULL &&					\
+	     !respuesta->getNombre().compare("GetCantidadSalidassResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
 	  return valor;
@@ -100,14 +105,24 @@ public:
      
      uint64_t getTProximoEvento(){
 	  Soap mensaje("GetTProximoEvento");
-	  mensajero.enviarMensaje(mensaje);
+	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
 	  uint64_t valor=(uint64_t)-1;
-	  if(respuesta != NULL && respuesta->size() > 0 &&		\
-	     !respuesta->getNombreMensaje().compare("GetTProximoEventoResponse")){
+	  if(respuesta != NULL  &&					\
+	     !respuesta->getNombre().compare("GetTProximoEventoResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
 	  return valor;
+     }
+
+     void simular(uint64_t tiempo){
+	  Soap mensaje("Simular");
+	  mensaje.setParametro("Tiempo", tiempo);
+	  mensajero.enviarMensaje(&mensaje);
+     }
+
+     ~CircuitoRemoto(){
+	  delete s;
      }
 
 };
