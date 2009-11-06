@@ -41,7 +41,7 @@ public:
       * 
       * @return El estado de la entrada.
       */
-     bool getEntrada(unsigned numero){
+     virtual bool getEntrada(unsigned numero){
 	  if(numero < getCantidadEntradas())
 	       return entradas[numero];
 	  return false;
@@ -72,7 +72,7 @@ public:
       * 
       * @return Estado del pin.
       */
-     bool getPin(unsigned numero){
+     virtual bool getPin(unsigned numero){
 	  if(numero < getCantidadSalidas()+getCantidadEntradas())
 	       if(numero < getCantidadEntradas())
 		    return entradas[numero];
@@ -108,14 +108,14 @@ public:
       * 
       * @return El numero de entradas.
       */
-     unsigned getCantidadEntradas(){return entradas.size();}
+     virtual unsigned getCantidadEntradas(){return entradas.size();}
      
      /** 
       * Devuelve el numero de salidas del componente.
       * 
       * @return Numero de salidas.
       */
-     unsigned getCantidadSalidas(){return salidas.size();}
+     virtual unsigned getCantidadSalidas(){return salidas.size();}
      
      /** 
       * Devuelve la cantidad de tiempo que debe transcurrir hasta que

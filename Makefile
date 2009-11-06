@@ -5,7 +5,9 @@ SOURCES=Controlador/controlador.cpp \
 	HTTP/HttpResponse.cpp \
 	XML/Xml.cpp \
 	XML/Soap.cpp \
-	Util/Util.cpp
+	Util/Util.cpp \
+	Vista/areaDibujo.cpp \
+	Red/Mensajero.cpp
 
 TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
@@ -13,7 +15,9 @@ TESTSOURCES=Gates/testGates.cpp \
 	HTTP/HttpTest.cpp \
 	HTTP/HttpSoapTest.cpp \
 	XML/testSoap.cpp \
-	main.cpp
+	main.cpp \
+	Server/Server.cpp\
+	Server/testCliente.cpp
 
 MAIN=AlgunNombre.cpp
 

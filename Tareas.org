@@ -11,18 +11,18 @@
      - [ ] Definir el circuito remoto.
      - [ ] Integrar con sockets.
      - [ ] Integrar con Soap.
-   - [ ] Server
-     - [ ] Implementacion simple para 1 cliente.
-     - [ ] Integracion socket+Soap.
+   - [-] Server
+     - [X] Implementacion simple para 1 cliente.
+     - [X] Integracion socket+Soap.
      - [ ] Multiples clientes.
 
 ** DONE Otros
    - [X] Clases encargadas del parseo/creacion de XML.
 
-** TODO Red 
+** DONE Red 
    - [X] Implementar y probar sockets y threads.
    - [X] Implementar protocolo HTTP.
-   - [ ] Integrar sockets con protocolo HTTP.
+   - [X] Integrar sockets con protocolo HTTP.
    - [X] Implementar protocolo SOAP.
    - [X] Definir la estructura de los mensajes a enviar/recibir.
 
@@ -70,7 +70,7 @@
 
    - [X] Implementacion de SOAP.
 
-   - [ ] Server simple.
+   - [X] Server simple.
 
    - [ ] Integracion de la simulacion con la parte grafica.
 

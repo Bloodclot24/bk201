@@ -51,6 +51,7 @@ HttpResponse::HttpResponse(){
 bool HttpResponse::esValido(){ return valido; }
 
 HttpResponse::HttpResponse(const std::string& datos){
+     valido = false;
      size_t limite;
 
      if(datos.compare(0,4,"HTTP") != 0)
