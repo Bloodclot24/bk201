@@ -35,6 +35,8 @@ public:
 
      void setContentLength(unsigned length);
      
+     unsigned getContentLength(){ return contentLength; }
+     
      /**
       * Devuelve un nuevo string con el request completo. El string
       * debe ser liberado externamente luego de ser utilizado.

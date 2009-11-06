@@ -6,6 +6,8 @@
 
 Soap::Soap(const char* nombreMensaje):documento("Envelope"){
 
+     this->nombreMensaje = nombreMensaje;
+
      documento.getRaiz()->setPropiedad("encodingStyle", "http://www.w3.org/2001/12/soap-encoding");
 
      XmlNS ns(documento.getRaiz(), "soap", "http://www.w3.org/2001/12/soap-envelope");
@@ -50,6 +52,9 @@ uint64_t Soap::getParametroNumerico(const char* nombre){
      return strtoll(mensaje.getPropiedad(nombre).c_str(),NULL,10);
 }
 
+const std::string& Soap::getNombre(){
+     return nombreMensaje;
+}
 
 // Soap mensaje("Simular");
 // mensaje.setParametro("Tiempo", "10");
