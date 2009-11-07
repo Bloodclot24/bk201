@@ -6,7 +6,7 @@
 #include "../Red/Mensajero.h"
 #include "../XML/Soap.h"
 
-class CircuitoRemoto: Componente{
+class CircuitoRemoto: public Componente{
      Socket *s;
      Mensajero mensajero;
 
@@ -18,6 +18,19 @@ public:
 	  Soap mensaje("SeleccionarCircuito");
 	  mensaje.setParametro("Nombre", nombre.c_str());
 	  mensajero.enviarMensaje(&mensaje);
+     }
+
+     bool esEstable(){
+	  Soap mensaje("EsEstable");
+	  mensajero.enviarMensaje(&mensaje);
+	  Soap *respuesta = mensajero.recibirRespuesta();
+	  bool valor=false;
+	  if(respuesta != NULL &&					\
+	     !respuesta->getNombre().compare("EsEstableResponse")){
+	       valor = respuesta->getParametroNumerico("Estado");
+	  }
+	  return valor;
+
      }
 
      void setEntrada(unsigned numero, bool estado){
@@ -97,7 +110,7 @@ public:
 	  Soap *respuesta = mensajero.recibirRespuesta();
 	  unsigned valor=0;
 	  if(respuesta != NULL &&					\
-	     !respuesta->getNombre().compare("GetCantidadSalidassResponse")){
+	     !respuesta->getNombre().compare("GetCantidadSalidasResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
 	  return valor;

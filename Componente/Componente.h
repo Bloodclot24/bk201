@@ -17,7 +17,6 @@ protected:
      uint64_t tReset;		/**< Tiempo minimo que debe
 				 * transcurrir desde un reset para
 				 * poder utilizar la compuerta. */
-     
      Componente(){tReset=0;}
      /** 
       * Cambia el valor de una de las entradas del componente.

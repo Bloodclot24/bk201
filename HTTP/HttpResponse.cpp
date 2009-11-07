@@ -66,18 +66,18 @@ HttpResponse::HttpResponse(const std::string& datos){
      size_t pos = datos.find("\r\nContent-Type:");
      if(pos < limite){
 	  contentType=datos.substr(datos.find(':',pos)+1,datos.find(";",pos)-datos.find(':',pos)-1);
-	  std::cout << "content type:" << contentType << std::endl;
+//	  std::cout << "content type:" << contentType << std::endl;
 	  size_t pos = datos.find("\r\nContent-Length:");
 	  if(pos < limite){
 	       size_t pos2 = pos+strlen("\r\nContent-Lrngth:");
 	       contentLength = atoi(datos.c_str()+pos2);
-	       std::cout << "tamaño de datos: " << contentLength << std::endl;
+//	       std::cout << "tamaño de datos: " << contentLength << std::endl;
 	  }
      }
 
      comienzoDatos = limite+strlen("\r\n\r\n");
 
-     std::cout << "Comienzo de los datos: " << comienzoDatos << std::endl;
+//     std::cout << "Comienzo de los datos: " << comienzoDatos << std::endl;
      valido=true;
 }
 
