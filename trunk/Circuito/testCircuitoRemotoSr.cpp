@@ -26,7 +26,7 @@ int main(int argc, char** argv){
 
      s = m.recibirMensaje();
      if(s != NULL){
-	  std::cout << s->getNombre() <<std::endl;
+	  std::cout << s->getNombre() << std::endl;
 	  if(s->getNombre().compare("SeleccionarCircuito")==0){
 	       std::cout << "Seleccionando circuito " << s->getParametro("Nombre") << std::endl;
 	       bool salir=false;
@@ -36,6 +36,8 @@ int main(int argc, char** argv){
 		    if(s== NULL)
 			 break;
 		    std::string comando = s->getNombre();
+
+		    std::cout << "Mensaje: " << comando << std::endl;
 
 		    if(comando.compare("SetPin")==0){
 			 std::cout << "Setear pin " << s->getParametroNumerico("Numero") << \
@@ -47,13 +49,20 @@ int main(int argc, char** argv){
 			      " en " << s->getParametroNumerico("Valor") << std::endl; 
 		    }
 
+		    if(comando.compare("EsEstable")==0){
+			 std::cout << "Es estable " << std::endl;
+			 Soap res("EsEstableResponse");
+			 res.setParametro("Estado", 1);
+			 m.enviarRespuesta(&res);
+		    }
+
+
 		    if(comando.compare("GetEntrada")==0){
 			 std::cout << "Get entrada " << s->getParametroNumerico("Numero") << std::endl;
 			 Soap res("GetEntradaResponse");
 			 res.setParametro("Numero", s->getParametroNumerico("Numero"));
 			 res.setParametro("Valor", 1);
 			 m.enviarRespuesta(&res);
-			 salir = true;
 		    }
 
 		    if(comando.compare("GetSalida")==0){
@@ -106,7 +115,7 @@ int main(int argc, char** argv){
 		    if(comando.compare("Simular")==0){
 			 std::cout << "Simular " << s->getParametroNumerico("Tiempo") <<std::endl;
 		    }
-
+		    salir = false;
 
 		    delete s;
 	       }

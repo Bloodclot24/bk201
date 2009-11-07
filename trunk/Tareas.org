@@ -7,10 +7,10 @@
    - [X] Simulacion de circuitos basados en compuertas y en otros
      circuitos.
    - [ ] Revisar el sistema de conexiones.
-   - [ ] Simulacion remota
-     - [ ] Definir el circuito remoto.
-     - [ ] Integrar con sockets.
-     - [ ] Integrar con Soap.
+   - [X] Simulacion remota
+     - [X] Definir el circuito remoto.
+     - [X] Integrar con sockets.
+     - [X] Integrar con Soap.
    - [-] Server
      - [X] Implementacion simple para 1 cliente.
      - [X] Integracion socket+Soap.

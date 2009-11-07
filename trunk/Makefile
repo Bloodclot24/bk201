@@ -23,7 +23,7 @@ TESTSOURCES=Gates/testGates.cpp \
 
 MAIN=AlgunNombre.cpp
 
-CFLAGS=-g -Wall `pkg-config --cflags gtkmm-2.4 gthread-2.0 libxml-2.0`
+CFLAGS+=-g -Wall `pkg-config --cflags gtkmm-2.4 gthread-2.0 libxml-2.0`
 LDFLAGS=`pkg-config --libs gtkmm-2.4 gthread-2.0 libxml-2.0`
 CC=g++
 EXECUTABLE=AlgunNombre
