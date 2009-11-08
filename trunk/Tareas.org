@@ -83,7 +83,7 @@
    
    - [X] Definir estructura de los mensajes SOAP.
 
-   - [ ] Integracion de la simulacion con la capa de red.
+   - [X] Integracion de la simulacion con la capa de red.
 
    - [ ] Server multi-cliente.
 

@@ -6,13 +6,16 @@
 #include "../Red/Mensajero.h"
 #include "../XML/Soap.h"
 
+/** 
+ * Tipo de componente que representa un circuito en otro servidor.
+ */
 class CircuitoRemoto: public Componente{
-     Socket *s;
+     Socket *s;			/**< Socket por el cual me conecto  */
      Mensajero mensajero;
 
 public:
-     CircuitoRemoto(const std::string& host, const std::string& nombre){
-	  s = new Socket(host,0);
+     CircuitoRemoto(const std::string& host, int puerto, const std::string& nombre){
+	  s = new Socket(host,puerto);
 	  s->conectar();
 	  mensajero.setSocket(s);
 	  Soap mensaje("SeleccionarCircuito");
@@ -21,6 +24,8 @@ public:
      }
 
      bool esEstable(){
+	  if(!s->esValido())
+	       return false;
 	  Soap mensaje("EsEstable");
 	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
@@ -34,6 +39,8 @@ public:
      }
 
      void setEntrada(unsigned numero, bool estado){
+	  if(!s->esValido())
+	       return;
 	  Soap mensaje("SetEntrada");
 	  mensaje.setParametro("Numero", numero);
 	  mensaje.setParametro("Valor", estado);
@@ -41,6 +48,8 @@ public:
      }
 
      bool getEntrada(unsigned numero){
+	  if(!s->esValido())
+	       return false;
 	  Soap mensaje("GetEntrada");
 	  mensaje.setParametro("Numero", numero);
 	  mensajero.enviarMensaje(&mensaje);
@@ -54,6 +63,8 @@ public:
      }
 
      bool getSalida(unsigned numero){
+	  if(!s->esValido())
+	       return false;
 	  Soap mensaje("GetSalida");
 	  mensaje.setParametro("Numero", numero);
 	  mensajero.enviarMensaje(&mensaje);
@@ -67,6 +78,9 @@ public:
      }
 
      bool getPin(unsigned numero){
+	  if(!s->esValido())
+	       return false;
+
 	  Soap mensaje("GetPin");
 	  mensaje.setParametro("Numero", numero);
 	  mensajero.enviarMensaje(&mensaje);
@@ -81,6 +95,8 @@ public:
      }
 
      void setPin(unsigned numero, bool estado){
+	  if(!s->esValido())
+	       return;
 	  Soap mensaje("SetPin");
 	  mensaje.setParametro("Numero", numero);
 	  mensaje.setParametro("Valor", estado);
@@ -88,11 +104,15 @@ public:
      }
 
      void reset(){
+	  if(!s->esValido())
+	       return;
 	  Soap mensaje("Reset");
 	  mensajero.enviarMensaje(&mensaje);
      }
 
      unsigned getCantidadEntradas(){
+	  if(!s->esValido())
+	       return 0;
 	  Soap mensaje("GetCantidadEntradas");
 	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
@@ -105,6 +125,8 @@ public:
      }
      
      unsigned getCantidadSalidas(){
+	  if(!s->esValido())
+	       return 0;
 	  Soap mensaje("GetCantidadSalidas");
 	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
@@ -117,6 +139,8 @@ public:
      }
      
      uint64_t getTProximoEvento(){
+	  if(!s->esValido())
+	       return (uint64_t)-1;
 	  Soap mensaje("GetTProximoEvento");
 	  mensajero.enviarMensaje(&mensaje);
 	  Soap *respuesta = mensajero.recibirRespuesta();
@@ -129,6 +153,8 @@ public:
      }
 
      void simular(uint64_t tiempo){
+	  if(!s->esValido())
+	       return;
 	  Soap mensaje("Simular");
 	  mensaje.setParametro("Tiempo", tiempo);
 	  mensajero.enviarMensaje(&mensaje);

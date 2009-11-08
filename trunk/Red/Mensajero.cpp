@@ -5,7 +5,7 @@ void Mensajero::setSocket(Socket *s){
 }
 
 Soap* Mensajero::recibirMensaje(){
-     if(!s)
+     if(!s || !s->esValido())
 	  return NULL;
      char c=0;
      bool salida=false;
@@ -16,7 +16,7 @@ Soap* Mensajero::recibirMensaje(){
 	  s->recibir(&c ,1);
 	  mensaje +=c;
 	  
-	  if(mensaje.size()>=4){
+	  if(c=='\n' && mensaje.size()>=4){
 	       if(mensaje.compare(mensaje.size()-4, 4, "\r\n\r\n")==0)
 		    salida=true;
 	  }
@@ -39,7 +39,7 @@ Soap* Mensajero::recibirMensaje(){
 }
 
 Soap* Mensajero::recibirRespuesta(){
-     if(!s)
+     if(!s || !s->esValido())
 	  return NULL;
      char c=0;
      bool salida=false;
@@ -50,7 +50,7 @@ Soap* Mensajero::recibirRespuesta(){
 	  s->recibir(&c ,1);
 	  mensaje +=c;
 	  
-	  if(mensaje.size()>=4){
+	  if(c=='\n' && mensaje.size()>=4){
 	       if(mensaje.compare(mensaje.size()-4, 4, "\r\n\r\n")==0)
 		    salida=true;
 	  }
@@ -74,7 +74,7 @@ Soap* Mensajero::recibirRespuesta(){
 
 
 int Mensajero::enviarMensaje(Soap* soap){
-     if(soap == NULL)
+     if(soap == NULL || !s || !s->esValido())
 	  return -1;
 
      std::string *soapString = soap->toString();
@@ -92,10 +92,12 @@ int Mensajero::enviarMensaje(Soap* soap){
      delete soapString;
 
      return 0;
-
 }
 
 int Mensajero::enviarRespuesta(Soap* soap){
+
+     if(!s || !s->esValido())
+	  return -1;
 
      unsigned codigo = 400;
      unsigned longitud = 0;
@@ -124,6 +126,4 @@ int Mensajero::enviarRespuesta(Soap* soap){
 
      return 0;
 }
-
-
 

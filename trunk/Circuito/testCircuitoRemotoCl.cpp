@@ -16,7 +16,7 @@ int main(int argc, char** argv){
      std::stringstream s;
      s << "localhost:";
      s << puerto;
-     CircuitoRemoto *cr = new CircuitoRemoto(s.str(), "CircuitoDePrueba");
+     CircuitoRemoto *cr = new CircuitoRemoto(s.str(),puerto, "CircuitoDePrueba");
 
      Circuito c(3,2);
      c.agregarComponente(cr);
