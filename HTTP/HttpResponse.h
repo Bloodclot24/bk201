@@ -7,12 +7,11 @@
 #include <iostream>
 #include <sstream>
 
-/****************************************************************************/
-/* 
- * Clase para parsear la respuesta HTTP 
+/** 
+ * Clase que crea cabeceras de respuesta HTTP
+ * 
  */
 class HttpResponse{
-
 private:
      std::string response;
      unsigned offsetVersion, offsetCode;
@@ -25,18 +24,31 @@ private:
      bool valido;
 
      HttpResponse();
+     HttpResponse& operator=(const HttpResponse& );
+     HttpResponse(const HttpResponse&);
 
 public:
-     /**
-      * Dado un string con la respuesta, lo parsea obteniendo los
-      * datos que nos interesan.
+     /** 
+      * Crea una respuesta HTTP con el codigo solicitado.
       * 
-      * @param respuesta Respuesta a parsear.
+      * @param codigo Codigo de la respuesta (200, 400, etc)
       */
      HttpResponse(unsigned codigo);
 
+     /** 
+      * Devuelve un string con la respuesta HTTP. Cada llamada
+      * destruye la respuesta anterior. Si se quiereconservar se debe
+      * copiar elstring antes de la siguiente llamada.
+      * 
+      * @return La respuesta HTTP.
+      */
      std::string& getResponse();
      
+     /** 
+      * Indica el tamaño de los datos de la respuesta HTTP.
+      * 
+      * @param length La longitud de los datos.
+      */
      void setContentLength(unsigned length);
 
      /**
@@ -46,8 +58,19 @@ public:
       */
      int getContentLength();
 
+     /** 
+      * Decodifica una respuesta HTTP de un buffer de datos.
+      * 
+      * @param datos El string que contiene la cabecera a decodificar.
+      */
      HttpResponse(const std::string& datos);
 
+     /** 
+      * Indica si los datos contenidos en la respuesta son validos o
+      * no.
+      * 
+      * @return TRUE si es valido.
+      */
      bool esValido();
 };
 

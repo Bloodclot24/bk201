@@ -8,7 +8,7 @@ int main(int argc, char** argv){
 
    req.setContentLength(100);
    /* Obtengo el request completo y lo muestro */
-   std::string &request = req.getRequest();
+   const std::string &request = req.getRequest();
    std::cout << request;
 
    HttpRequest decode(request,1);

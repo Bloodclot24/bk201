@@ -7,7 +7,9 @@ SOURCES=Controlador/controlador.cpp \
 	XML/Soap.cpp \
 	Util/Util.cpp \
 	Vista/areaDibujo.cpp \
-	Red/Mensajero.cpp
+	Red/Mensajero.cpp \
+	Threads/ThreadAceptor.cpp \
+	Server/Server.cpp
 
 TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
@@ -16,7 +18,7 @@ TESTSOURCES=Gates/testGates.cpp \
 	HTTP/HttpSoapTest.cpp \
 	XML/testSoap.cpp \
 	main.cpp \
-	Server/Server.cpp\
+	Server/testServer.cpp\
 	Server/testCliente.cpp\
 	Circuito/testCircuitoRemotoCl.cpp\
 	Circuito/testCircuitoRemotoSr.cpp

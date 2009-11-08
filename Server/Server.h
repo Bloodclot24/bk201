@@ -1,0 +1,46 @@
+#ifndef __SERVER_H_INCLUDED__
+#define __SERVER_H_INCLUDED__
+
+class Server;
+
+#include "../Red/Socket.h"
+#include <string>
+#include <iostream>
+#include "../HTTP/HttpRequest.h"
+#include "../Threads/ThreadAceptor.h"
+
+#define SERVER_PUERTO_DEFECTO  1234
+
+class Server{
+     ThreadAceptor *aceptor;	/**< Thread para escuchar las
+				 * conexiones entrantes */
+     Socket s;			/**< Socket donde espero conexiones */
+
+public:
+
+     /** 
+      * Crea un nuevo server que recibe clientes en el puerto
+      * indicado.
+      * 
+      * @param puerto Puerto por donde espero conexiones.
+      */
+     Server(int puerto);
+     
+     /** 
+      * Intenta escuchar conexiones entrantes. 
+      * 
+      * @return TRUE si se pueden recibir conexiones. FALSE en caso de
+      * error.
+      */
+     bool escuchar();
+
+     /** 
+      * Agrega un nuevo cliente al servidor.
+      * 
+      * @param s El socket para comunicarme al cliente.
+      */
+     void nuevoCliente(Socket *s);
+
+};
+
+#endif //__SERVER_H_INCLUDED__

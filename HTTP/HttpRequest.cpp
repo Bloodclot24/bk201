@@ -13,10 +13,12 @@ void HttpRequest::setContentLength(unsigned length){
 
 /*--------------------------------------------------------------------------*/
 std::string& HttpRequest::getRequest(void){
+     /* borro la cabecera anterior */
      paquete.clear();
 
      std::string host, dir;
 
+     /* intento decodificar el host */
      int auxiliar = strlen("http://");
      if(url.compare(0,auxiliar,"http://") != 0){
 	  auxiliar = 0;
@@ -26,6 +28,7 @@ std::string& HttpRequest::getRequest(void){
      if(url.find('/',auxiliar) != std::string::npos)
 	  dir  = url.substr(url.find('/',auxiliar));
 
+     /* simplemente armo la cabecera */
      paquete += "POST ";
      paquete += dir;
      paquete += " HTTP/1.1\r\n";
@@ -55,33 +58,33 @@ bool HttpRequest::esValido(){ return valido;}
 HttpRequest::HttpRequest(const std::string& datos, bool otro){
      valido = false;
      size_t limite;
+
+     /* busco el final de la cabecera */
      limite=datos.find("\r\n\r\n");
+     
+     /* si no lo encuentro, seguro que no es valido, salgo */
      if(limite == std::string::npos)
 	  return;
 
+     /* Busco el tipo de request */
      if(datos.compare(0,4,"POST")==0)
 	  tipo="POST";
      else if(datos.compare(0,3,"GET")==0)
 	  tipo="GET";
      else return ;
 
-//     std::cout << "Tipo: " << tipo << std::endl;
-
+     /* busco la longitud y comienzo del area de datos */
      size_t pos = datos.find("\r\nContent-Type:");
      if(pos < limite){
 	  contentType=datos.substr(datos.find(':',pos)+1,datos.find(";",pos)-datos.find(':',pos)-1);
-//	  std::cout << "content type:" << contentType << std::endl;
 	  size_t pos = datos.find("\r\nContent-Length:");
 	  if(pos < limite){
 	       size_t pos2 = pos+strlen("\r\nContent-Lrngth:");
 	       contentLength = atoi(datos.c_str()+pos2);
-//	       std::cout << "tamaño de datos: " << contentLength << std::endl;
 	  }
      }
 
      comienzoDatos = limite+strlen("\r\n\r\n");
-
-//     std::cout << "Comienzo de los datos: " << comienzoDatos << std::endl;
 
      valido = true;
 }
