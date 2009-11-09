@@ -44,8 +44,8 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //Menu Bar
   loadMenuBar(window);
 
-  /*TOOLBAR*/
-//	loadToolBar();
+  //Tool Bar
+  loadToolBar();
 
   //FilechooserDialog Open
   refXml->get_widget("filechooserdialog_open", filechooserdialog_open);
@@ -56,7 +56,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   filechooserdialog_saveas->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_saveas));
 
   window->show_all();
-	
+
   if(primeraVez)
     Gtk::Main::run();
 }
@@ -205,7 +205,73 @@ void VentanaTrabajo::about() {
 /**TOOLBAR**/
 void VentanaTrabajo::loadToolBar() {
 
+  std::cout << "CARGANDO TOOL MENU" << std::endl;
+
+  //Glib::RefPtr<Gdk::DragContext> context; //= Gdk::DragContext::create();
+
+  listTargets.push_back(Gtk::TargetEntry("STRING"));
+  listTargets.push_back(Gtk::TargetEntry("text/plain"));
+
+
+      //Zona drag
+  //a cada boton lo conecto con la señal de drag
+  refXml->get_widget("and", bAnd);
+
+//  context= drag_begin(listTargets, Gdk::ACTION_DEFAULT, bAnd, GdkEvent* event);
+
+  if(bAnd) {
+    bAnd->drag_source_set(listTargets);
+    bAnd->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get));
+   // bAnd->signal_drag_begin().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_begin));
+  }
+  //  //creo icono para el drag
+//  Glib::RefPtr< Gdk::Pixbuf > pixbuf= Gdk::Pixbuf::create_from_file("Vista/Imagenes/and.png");
+//  bAnd->drag_source_set_icon(pixbuf);
+
+
+
+  //Drop site:
+  refXml->get_widget("or", bOr);
+
+  if(bOr) {
+    bOr->drag_dest_set(listTargets, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_MOVE);
+    bOr->signal_drag_data_received().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_label_drop_drag_data_received));
+  }
 }
+
+void VentanaTrabajo::on_drag_data_get(
+        const Glib::RefPtr<Gdk::DragContext>&,
+        Gtk::SelectionData& selection_data, guint, guint) {
+
+  std::cout << "DRAG!" << std::endl;
+
+  selection_data.set(selection_data.get_target(), 8 /* 8 bits format */,
+                     (const guchar*)"I'm Data!",
+                     9 /* the length of I'm Data! in bytes */);
+}
+
+void VentanaTrabajo::on_label_drop_drag_data_received(
+        const Glib::RefPtr<Gdk::DragContext>& context, int, int,
+        const Gtk::SelectionData& selection_data, guint, guint time) {
+
+  std::cout << "DROP!" << std::endl;
+
+  const int length = selection_data.get_length();
+  if((length >= 0) && (selection_data.get_format() == 8))
+  {
+    std::cout << "Received \"" << selection_data.get_data_as_string()
+        << "\" in label " << std::endl;
+  }
+
+  context->drag_finish(false, false, time);
+}
+
+void VentanaTrabajo::on_drag_begin(const Glib::RefPtr<Gdk::DragContext>& context) {
+
+  std::cout << "EMPIEZO" << std::endl;
+
+}
+
 
 /**FILECHOOSERDIALOG**/
 void VentanaTrabajo::on_response_open(int response_id) {

@@ -11,6 +11,11 @@
 #include <gtkmm/aboutdialog.h>
 #include <gtkmm/filechooserdialog.h>
 #include <gtkmm/table.h>
+#include <gtkmm/toolbutton.h>
+#include <gtkmm/button.h>
+#include <gdkmm/pixbuf.h>
+#include <gdkmm/dragcontext.h>
+
 #include <iostream>
 #include "areaDibujo.h"
 #include "../Controlador/controlador.h"
@@ -46,7 +51,12 @@ private:
   void about();
 		
   /*TOOLBAR*/
+  Gtk::ToolButton* bAnd;
+  Gtk::ToolButton* bOr;
   void loadToolBar();
+
+  /*TARGETS*/
+  std::list<Gtk::TargetEntry> listTargets;
 		
   Gtk::Window *window;
   bool on_delete_event(GdkEventAny *event);
@@ -61,6 +71,16 @@ private:
   AreaDibujo areaDibujo;
 
   virtual ~VentanaTrabajo() {};
+
+protected:
+  //Signal handlers
+  void on_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
+  void on_label_drop_drag_data_received(
+          const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
+          const Gtk::SelectionData& selection_data, guint info, guint time);
+  void on_drag_begin(const Glib::RefPtr<Gdk::DragContext>& context);
 
 public:
   /**

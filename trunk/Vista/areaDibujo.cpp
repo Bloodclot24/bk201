@@ -27,8 +27,18 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
 
     //dibujo el fondo blanco
     cr->set_source_rgb(1.0, 1.0, 1.0);
-    cr->rectangle(0, 0, width, height);
-    cr->fill();
+    cr->paint();
+
+    //relleno con puntitos
+    cr->set_source_rgb(0.0, 0.0, 0.0);
+    cr->set_line_width(2.0);
+    for(int w= 10; w<width; w+=20) {
+      for(int h= 15; h<height; h+=20) {
+        cr->move_to(w, h);
+        cr->line_to(w, h + 1);
+      }
+    }
+    cr->stroke();
   }
 
   return true;
