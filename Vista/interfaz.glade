@@ -31,10 +31,11 @@
             <child>
               <object class="GtkToolButton" id="and">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">AND</property>
-                <property name="label" translatable="yes">AND</property>
+                <property name="extension_events">cursor</property>
+                <property name="tooltip_text" translatable="yes">and</property>
+                <property name="label" translatable="yes">and</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">add</property>
+                <property name="icon_widget">and_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -44,10 +45,10 @@
             <child>
               <object class="GtkToolButton" id="or">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">OR</property>
+                <property name="tooltip_text" translatable="yes">or</property>
                 <property name="label" translatable="yes">OR</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image2</property>
+                <property name="icon_widget">or_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -57,10 +58,10 @@
             <child>
               <object class="GtkToolButton" id="not">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">NOT</property>
+                <property name="tooltip_text" translatable="yes">not</property>
                 <property name="label" translatable="yes">NOT</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image1</property>
+                <property name="icon_widget">not_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -70,10 +71,10 @@
             <child>
               <object class="GtkToolButton" id="xor">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">XOR</property>
+                <property name="tooltip_text" translatable="yes">xor</property>
                 <property name="label" translatable="yes">XOR</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image3</property>
+                <property name="icon_widget">xor_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -83,10 +84,10 @@
             <child>
               <object class="GtkToolButton" id="buffer">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">BUFFER</property>
+                <property name="tooltip_text" translatable="yes">buffer</property>
                 <property name="label" translatable="yes">BUFFER</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image4</property>
+                <property name="icon_widget">buf_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -105,10 +106,10 @@
             <child>
               <object class="GtkToolButton" id="pista">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">PISTA</property>
+                <property name="tooltip_text" translatable="yes">Pista</property>
                 <property name="label" translatable="yes">PISTA</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image5</property>
+                <property name="icon_widget">pista_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -121,7 +122,7 @@
                 <property name="tooltip_text" translatable="yes">I/O</property>
                 <property name="label" translatable="yes">I/O</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image6</property>
+                <property name="icon_widget">io_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -131,10 +132,10 @@
             <child>
               <object class="GtkToolButton" id="circuito">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">CIRCUITO</property>
+                <property name="tooltip_text" translatable="yes">Circuito</property>
                 <property name="label" translatable="yes">CIRCUITO</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image7</property>
+                <property name="icon_widget">circuito_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -153,6 +154,7 @@
             <child>
               <object class="GtkToolButton" id="simular">
                 <property name="visible">True</property>
+                <property name="tooltip_text" translatable="yes">Simular</property>
                 <property name="label" translatable="yes">SIMULAR</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-media-play</property>
@@ -165,10 +167,10 @@
             <child>
               <object class="GtkToolButton" id="tablas">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">TABLAS</property>
+                <property name="tooltip_text" translatable="yes">Tablas</property>
                 <property name="label" translatable="yes">TABLAS</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">image8</property>
+                <property name="icon_widget">tabla_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -187,7 +189,7 @@
             <child>
               <object class="GtkToolButton" id="impresora">
                 <property name="visible">True</property>
-                <property name="tooltip_text" translatable="yes">IMPRIMIR</property>
+                <property name="tooltip_text" translatable="yes">Imprimir</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-print</property>
               </object>
@@ -540,7 +542,7 @@
 Pandolfo Lucas
 Ygounet Guido</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox">
+      <object class="GtkVBox" id="dialog-vbox_about">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
@@ -548,7 +550,7 @@ Ygounet Guido</property>
           <placeholder/>
         </child>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area_about">
             <property name="visible">True</property>
             <property name="layout_style">end</property>
           </object>
@@ -570,7 +572,7 @@ Ygounet Guido</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox">
+      <object class="GtkVBox" id="dialog-vbox_open">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
@@ -578,12 +580,12 @@ Ygounet Guido</property>
           <placeholder/>
         </child>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area">
+          <object class="GtkHButtonBox" id="dialog-action_open">
             <property name="visible">True</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="cancelar">
-                <property name="label" translatable="yes">gtk-cancel</property>
+              <object class="GtkButton" id="cancelar_open">
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -596,8 +598,8 @@ Ygounet Guido</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="abrir">
-                <property name="label" translatable="yes">gtk-open</property>
+              <object class="GtkButton" id="abrir_open">
+                <property name="label">gtk-open</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
@@ -621,8 +623,8 @@ Ygounet Guido</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-6">cancelar</action-widget>
-      <action-widget response="-3">abrir</action-widget>
+      <action-widget response="-6">cancelar_open</action-widget>
+      <action-widget response="-3">abrir_open</action-widget>
     </action-widgets>
   </object>
   <object class="GtkFileChooserDialog" id="filechooserdialog_saveas">
@@ -634,7 +636,7 @@ Ygounet Guido</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox">
+      <object class="GtkVBox" id="dialog-vbox_saveas">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
@@ -642,12 +644,12 @@ Ygounet Guido</property>
           <placeholder/>
         </child>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area_saveas">
             <property name="visible">True</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="cancel">
-                <property name="label" translatable="yes">gtk-cancel</property>
+              <object class="GtkButton" id="cancel_saveas">
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -660,8 +662,8 @@ Ygounet Guido</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="guardar">
-                <property name="label" translatable="yes">gtk-save</property>
+              <object class="GtkButton" id="guardar_saveas">
+                <property name="label">gtk-save</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
@@ -685,43 +687,43 @@ Ygounet Guido</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="-6">cancel</action-widget>
-      <action-widget response="-3">guardar</action-widget>
+      <action-widget response="-6">cancel_saveas</action-widget>
+      <action-widget response="-3">guardar_saveas</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkImage" id="add">
+  <object class="GtkImage" id="and_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/and.png</property>
   </object>
-  <object class="GtkImage" id="image1">
+  <object class="GtkImage" id="not_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/not.png</property>
   </object>
-  <object class="GtkImage" id="image2">
+  <object class="GtkImage" id="or_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/or.png</property>
   </object>
-  <object class="GtkImage" id="image3">
+  <object class="GtkImage" id="xor_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/xor.png</property>
   </object>
-  <object class="GtkImage" id="image4">
+  <object class="GtkImage" id="buf_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/buf.png</property>
   </object>
-  <object class="GtkImage" id="image5">
+  <object class="GtkImage" id="pista_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/pista.png</property>
   </object>
-  <object class="GtkImage" id="image6">
+  <object class="GtkImage" id="io_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/io.png</property>
   </object>
-  <object class="GtkImage" id="image7">
+  <object class="GtkImage" id="circuito_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/circuito.png</property>
   </object>
-  <object class="GtkImage" id="image8">
+  <object class="GtkImage" id="tabla_image">
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/tabla.png</property>
   </object>
