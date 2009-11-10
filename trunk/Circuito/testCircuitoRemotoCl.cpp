@@ -27,7 +27,7 @@ int main(int argc, char** argv){
      c.agregarConexion(0,3,-1,3);
      c.agregarConexion(0,4,-1,4);
 
-     c.simularTodo(30);
+     c.simularTodo(100);
 
      return 1;
 

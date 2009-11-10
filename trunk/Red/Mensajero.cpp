@@ -5,8 +5,10 @@ void Mensajero::setSocket(Socket *s){
 }
 
 Soap* Mensajero::recibirMensaje(){
-     if(!s || !s->esValido())
+     if(!s || !s->esValido()){
+	  std::cout << "Socket invalido"<< s->obtenerError() << " \n";
 	  return NULL;
+     }
      char c=0;
      bool salida=false;
 

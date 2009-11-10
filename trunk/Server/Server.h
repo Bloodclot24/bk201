@@ -8,6 +8,7 @@ class Server;
 #include <iostream>
 #include "../HTTP/HttpRequest.h"
 #include "../Threads/ThreadAceptor.h"
+#include "../Circuito/CircuitoRemotoServidor.h"
 
 #define SERVER_PUERTO_DEFECTO  1234
 
@@ -40,6 +41,8 @@ public:
       * @param s El socket para comunicarme al cliente.
       */
      void nuevoCliente(Socket *s);
+
+     void finalizarCliente(CircuitoRemotoServidor *sr);
 
 };
 

@@ -23,6 +23,7 @@ int main(int argc, char**  argv){
 	  return -1;
      }
 
+     sleep(5);
      Soap mensaje("MensajeDePrueba");
      mensaje.setParametro("nombre", "ns/nc");
 

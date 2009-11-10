@@ -107,24 +107,6 @@ private:
      }
 
      /** 
-      * Indica si las salidas del circuito son o no estables.
-      * 
-      * @return TRUE si las salidas son estables.
-      */
-     bool esEstable(){
-	  bool returnValue=true;
-	  if(deboActualizar){
-	       actualizarConexiones();
-	  }
-	  /* Busco hasta encontrar algun componente inestable o hasta recorrerlos todos. */
-	  for(unsigned i=0;i< componentes.size() && returnValue == true;i++){
-	       if(!componentes[i]->esEstable())
-		    returnValue = false;
-	  }
-	  return returnValue;
-     }
-
-     /** 
       * Simula hasta el proximo evento.
       * 
       */
@@ -146,15 +128,6 @@ private:
 	  actualizarConexiones();
 	  tiempo+=menorT;
 	  
-     }
-
-     uint64_t getTProximoEvento(){
-	  uint64_t proximo=-1;
-	  for(unsigned i=0;i<componentes.size();i++){
-	       if(componentes[i]->getTProximoEvento()<proximo)
-		    proximo = componentes[i]->getTProximoEvento();
-	  }
-	  return proximo;
      }
 
      Circuito(const Circuito& ){};
@@ -412,6 +385,34 @@ public:
 	       simularProximoEvento();
 	  }
      }
+
+     /** 
+      * Indica si las salidas del circuito son o no estables.
+      * 
+      * @return TRUE si las salidas son estables.
+      */
+     bool esEstable(){
+	  bool returnValue=true;
+	  if(deboActualizar){
+	       actualizarConexiones();
+	  }
+	  /* Busco hasta encontrar algun componente inestable o hasta recorrerlos todos. */
+	  for(unsigned i=0;i< componentes.size() && returnValue == true;i++){
+	       if(!componentes[i]->esEstable())
+		    returnValue = false;
+	  }
+	  return returnValue;
+     }
+
+     uint64_t getTProximoEvento(){
+	  uint64_t proximo=-1;
+	  for(unsigned i=0;i<componentes.size();i++){
+	       if(componentes[i]->getTProximoEvento()<proximo)
+		    proximo = componentes[i]->getTProximoEvento();
+	  }
+	  return proximo;
+     }
+
 
      /** 
       * Destruye el circuito y todos los componentes.
