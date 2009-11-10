@@ -12,7 +12,7 @@
 class CircuitoRemoto: public Componente{
      Socket *s;			/**< Socket por el cual me conecto  */
      Mensajero mensajero;
-
+     unsigned entradas,salidas;
 public:
      CircuitoRemoto(const std::string& host, int puerto, const std::string& nombre){
 	  s = new Socket(host,puerto);
@@ -21,6 +21,7 @@ public:
 	  Soap mensaje("SeleccionarCircuito");
 	  mensaje.setParametro("Nombre", nombre.c_str());
 	  mensajero.enviarMensaje(&mensaje);
+	  entradas= salidas= (unsigned) -1;
      }
 
      bool esEstable(){
@@ -111,6 +112,8 @@ public:
      }
 
      unsigned getCantidadEntradas(){
+	  if(entradas != (unsigned)-1)
+	       return entradas;
 	  if(!s->esValido())
 	       return 0;
 	  Soap mensaje("GetCantidadEntradas");
@@ -121,10 +124,13 @@ public:
 	     !respuesta->getNombre().compare("GetCantidadEntradasResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
+	  entradas=valor;
 	  return valor;
      }
      
      unsigned getCantidadSalidas(){
+	  if(salidas != (unsigned)-1)
+	       return salidas;
 	  if(!s->esValido())
 	       return 0;
 	  Soap mensaje("GetCantidadSalidas");
@@ -135,6 +141,7 @@ public:
 	     !respuesta->getNombre().compare("GetCantidadSalidasResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
 	  }
+	  salidas=valor;
 	  return valor;
      }
      
@@ -160,7 +167,12 @@ public:
 	  mensajero.enviarMensaje(&mensaje);
      }
 
-     ~CircuitoRemoto(){
+     virtual ~CircuitoRemoto(){
+	  if(s->esValido()){
+	       Soap mensaje("Desconectar");
+	       mensajero.enviarMensaje(&mensaje);
+	  }
+
 	  delete s;
      }
 
