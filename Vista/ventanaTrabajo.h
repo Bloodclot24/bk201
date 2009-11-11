@@ -15,6 +15,7 @@
 #include <gtkmm/button.h>
 #include <gdkmm/pixbuf.h>
 #include <gdkmm/dragcontext.h>
+#include <gtkmm/toolbar.h>
 
 #include <iostream>
 #include "areaDibujo.h"
@@ -23,6 +24,13 @@
 #define PATH_VISTA "Vista/interfaz.glade"
 #define CIRCUITO "Circuito "
 #define NOMBRE_PROGRAMA " - Bk201"
+
+#define PATH_AND "Vista/Imagenes/and.png"
+#define PATH_OR "Vista/Imagenes/or.png"
+#define PATH_NOT "Vista/Imagenes/not.png"
+#define PATH_XOR "Vista/Imagenes/xor.png"
+#define PATH_BUFFER "Vista/Imagenes/buf.png"
+
 
 /**
  * Ventana de principal de trabajo para el usuario.
@@ -53,6 +61,9 @@ private:
   /*TOOLBAR*/
   Gtk::ToolButton* bAnd;
   Gtk::ToolButton* bOr;
+  Gtk::ToolButton* bNot;
+  Gtk::ToolButton* bXor;
+  Gtk::ToolButton* bBuffer;
   void loadToolBar();
 
   /*TARGETS*/
@@ -77,10 +88,6 @@ protected:
   void on_drag_data_get(
           const Glib::RefPtr<Gdk::DragContext>& context,
           Gtk::SelectionData& selection_data, guint info, guint time);
-  void on_label_drop_drag_data_received(
-          const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
-          const Gtk::SelectionData& selection_data, guint info, guint time);
-  void on_drag_begin(const Glib::RefPtr<Gdk::DragContext>& context);
 
 public:
   /**

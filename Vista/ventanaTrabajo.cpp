@@ -19,7 +19,6 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, unsigned int id) {
 bool VentanaTrabajo::on_delete_event(GdkEventAny *event) {
 
   cerrar();
-
   return(false);
 }
 
@@ -205,37 +204,61 @@ void VentanaTrabajo::about() {
 /**TOOLBAR**/
 void VentanaTrabajo::loadToolBar() {
 
-  std::cout << "CARGANDO TOOL MENU" << std::endl;
-
-  //Glib::RefPtr<Gdk::DragContext> context; //= Gdk::DragContext::create();
-
   listTargets.push_back(Gtk::TargetEntry("STRING"));
   listTargets.push_back(Gtk::TargetEntry("text/plain"));
 
-
-      //Zona drag
-  //a cada boton lo conecto con la señal de drag
+  //la barra de herramientas es una zona drag
   refXml->get_widget("and", bAnd);
-
-//  context= drag_begin(listTargets, Gdk::ACTION_DEFAULT, bAnd, GdkEvent* event);
-
   if(bAnd) {
+    //le seteo un drag window
+    bAnd->set_use_drag_window(true);
     bAnd->drag_source_set(listTargets);
+    //le conecto la señal de drag
     bAnd->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get));
-   // bAnd->signal_drag_begin().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_begin));
+    //creo icono para el drag
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_AND);
+    if(pixbuf)
+      bAnd->drag_source_set_icon(pixbuf);
   }
-  //  //creo icono para el drag
-//  Glib::RefPtr< Gdk::Pixbuf > pixbuf= Gdk::Pixbuf::create_from_file("Vista/Imagenes/and.png");
-//  bAnd->drag_source_set_icon(pixbuf);
 
-
-
-  //Drop site:
   refXml->get_widget("or", bOr);
-
   if(bOr) {
-    bOr->drag_dest_set(listTargets, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_MOVE);
-    bOr->signal_drag_data_received().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_label_drop_drag_data_received));
+    bOr->set_use_drag_window(true);
+    bOr->drag_source_set(listTargets);
+    bOr->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get));
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_OR);
+    if(pixbuf)
+      bOr->drag_source_set_icon(pixbuf);
+  }
+
+  refXml->get_widget("not", bNot);
+  if(bNot) {
+    bNot->set_use_drag_window(true);
+    bNot->drag_source_set(listTargets);
+    bNot->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get));
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_NOT);
+    if(pixbuf)
+      bNot->drag_source_set_icon(pixbuf);
+  }
+
+  refXml->get_widget("xor", bXor);
+  if(bXor) {
+    bXor->set_use_drag_window(true);
+    bXor->drag_source_set(listTargets);
+    bXor->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get));
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_XOR);
+    if(pixbuf)
+      bXor->drag_source_set_icon(pixbuf);
+  }
+
+  refXml->get_widget("buffer", bBuffer);
+  if(bBuffer) {
+    bBuffer->set_use_drag_window(true);
+    bBuffer->drag_source_set(listTargets);
+    bBuffer->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get));
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_BUFFER);
+    if(pixbuf)
+      bBuffer->drag_source_set_icon(pixbuf);
   }
 }
 
@@ -249,29 +272,6 @@ void VentanaTrabajo::on_drag_data_get(
                      (const guchar*)"I'm Data!",
                      9 /* the length of I'm Data! in bytes */);
 }
-
-void VentanaTrabajo::on_label_drop_drag_data_received(
-        const Glib::RefPtr<Gdk::DragContext>& context, int, int,
-        const Gtk::SelectionData& selection_data, guint, guint time) {
-
-  std::cout << "DROP!" << std::endl;
-
-  const int length = selection_data.get_length();
-  if((length >= 0) && (selection_data.get_format() == 8))
-  {
-    std::cout << "Received \"" << selection_data.get_data_as_string()
-        << "\" in label " << std::endl;
-  }
-
-  context->drag_finish(false, false, time);
-}
-
-void VentanaTrabajo::on_drag_begin(const Glib::RefPtr<Gdk::DragContext>& context) {
-
-  std::cout << "EMPIEZO" << std::endl;
-
-}
-
 
 /**FILECHOOSERDIALOG**/
 void VentanaTrabajo::on_response_open(int response_id) {
