@@ -2,6 +2,7 @@
 #define VENTANATRABAJO_H_
 
 #include <gtkmm/window.h>
+#include <gtkmm/widget.h>
 #include <gtkmm/dialog.h>
 #include <gtkmm/box.h>
 #include <gtkmm/builder.h>
