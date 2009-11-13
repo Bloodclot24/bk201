@@ -7,6 +7,9 @@ Controlador::Controlador() {
 
 Controlador::~Controlador() {
 
+  std::map<unsigned int, VentanaTrabajo*>::iterator it;
+  for(it= ventanasTrabajo.begin(); it != ventanasTrabajo.end(); it++)
+    delete it->second;
 }
 
 void Controlador::correr() {
