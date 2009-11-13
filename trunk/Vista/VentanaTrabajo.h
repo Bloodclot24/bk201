@@ -19,7 +19,9 @@
 #include <gtkmm/toolbar.h>
 
 #include <iostream>
-#include "areaDibujo.h"
+#include "AreaDibujo.h"
+#include "Dibujos/Dibujo.h"
+#include "Dibujos/Constantes.h"
 #include "../Controlador/controlador.h"
 
 #define PATH_VISTA "Vista/interfaz.glade"
@@ -82,14 +84,23 @@ private:
   /*AREADIBUJO*/
   AreaDibujo areaDibujo;
 
-  virtual ~VentanaTrabajo() {};
-
 protected:
   //Signal handlers
-  void on_drag_data_get(
+  void on_And_drag_data_get(
           const Glib::RefPtr<Gdk::DragContext>& context,
           Gtk::SelectionData& selection_data, guint info, guint time);
-
+  void on_Or_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
+  void on_Not_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
+  void on_Xor_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
+  void on_Buffer_drag_data_get(
+          const Glib::RefPtr<Gdk::DragContext>& context,
+          Gtk::SelectionData& selection_data, guint info, guint time);
 public:
   /**
     * Crea una ventana de trabajo nueva.
@@ -97,7 +108,8 @@ public:
     * @param controlador Controlador del modelo.
     */
     VentanaTrabajo(Controlador *controlador, unsigned int id);
-               
+
+    virtual ~VentanaTrabajo() {};
   /**
     * Comienza a correr la interfaz grafica.
     */

@@ -2,7 +2,7 @@
 #define CONTROLADOR_H_
 
 #include <map>
-#include "../Vista/ventanaTrabajo.h"
+#include "../Vista/VentanaTrabajo.h"
 #include "../Util/Util.h"
 
 /**

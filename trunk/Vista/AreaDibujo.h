@@ -3,26 +3,33 @@
 
 #include <gtkmm/drawingarea.h>
 #include <cairomm/context.h>
+#include <list>
+#include "Dibujos/Dibujo.h"
+#include "Dibujos/Constantes.h"
+#include "Dibujos/CompuertaAnd.h"
+#include "Dibujos/CompuertaOr.h"
+#include "Dibujos/CompuertaNot.h"
+#include "Dibujos/CompuertaXor.h"
+#include "Dibujos/CompuertaBuffer.h"
 
 #include <iostream>
-#include <math.h>
+
+#define PASO 10
 
 class AreaDibujo: public Gtk::DrawingArea {
 
 private:
   Cairo::RefPtr<Cairo::Context> context;
   Glib::RefPtr<Gdk::Window>     window;
-  Gdk::Region                   region;
-
-  unsigned int                  xUp;
-  unsigned int                  yUp;
-  bool                          mostrarAnd;
+  std::list<Dibujo*>            dibujos;
+  int                           width;
+  int                           height;
 
   /*TARGETS*/
   std::list<Gtk::TargetEntry> listTargets;
 
-  void And();
-
+  void buscarPosicion(int &x, int &y);
+  void redibujar();
 
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
@@ -35,7 +42,6 @@ protected:
 public:
   AreaDibujo();
   virtual ~AreaDibujo();
-
   void dibujarAnd(unsigned int xUp, unsigned int yUp);
   void dibujarOr(unsigned int xUp, unsigned int yUp);
   void dibujarNot(unsigned int xUp, unsigned int yUp);
