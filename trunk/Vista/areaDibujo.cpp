@@ -5,9 +5,16 @@ AreaDibujo::AreaDibujo() {
   listTargets.push_back(Gtk::TargetEntry("STRING"));
   listTargets.push_back(Gtk::TargetEntry("text/plain"));
 
-  //Zona drop
+  //Zona drop, conecto señal
   drag_dest_set(listTargets);
   signal_drag_data_received().connect(sigc::mem_fun(*this, &AreaDibujo::on_drop_drag_data_received));
+
+  //agrego evento button press mask del mouse y conecto señal
+  add_events(Gdk::BUTTON_PRESS_MASK);
+  signal_button_press_event().connect(sigc::mem_fun(*this, &AreaDibujo::on_button_press_event));
+
+  mostrarAnd= false;
+
 }
 
 AreaDibujo::~AreaDibujo()
@@ -17,8 +24,9 @@ AreaDibujo::~AreaDibujo()
 bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
 
   //ventana de dibujo
-  Glib::RefPtr<Gdk::Window> window= get_window();
+  window= get_window();
   if(window) {
+    region= window->get_update_area();
     Gtk::Allocation allocation= get_allocation();
     const int width= allocation.get_width();
     const int height= allocation.get_height();
@@ -50,7 +58,11 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
 
 
     //+++++++++++++++compuertasb
-    dibujarAnd(50, 30);
+//    dibujarAnd(50, 30);
+    if(mostrarAnd) {
+      And();
+    }
+
     dibujarOr(150, 30);
     dibujarBuffer(250, 30);
     dibujarNot(350, 30);
@@ -69,6 +81,21 @@ bool AreaDibujo::on_my_button_press_event(GdkEventButton* event) {
 
 void AreaDibujo::dibujarAnd(unsigned int xUp, unsigned int yUp) {
 
+  this->xUp= xUp;
+  this->yUp= yUp;
+  mostrarAnd= true;
+
+  // force our program to redraw the entire clock.
+  Glib::RefPtr<Gdk::Window> win = get_window();
+  if(window) {
+      Gdk::Rectangle r(0, 0, get_allocation().get_width(),
+              get_allocation().get_height());
+      win->invalidate_rect(r, false);
+  }
+}
+
+void AreaDibujo::And() {
+
   //puerta
   context->set_source_rgb(0.0, 0.0, 1.0);
   context->move_to(xUp, yUp);
@@ -85,8 +112,9 @@ void AreaDibujo::dibujarAnd(unsigned int xUp, unsigned int yUp) {
   //salida
   context->move_to(xUp+30, yUp+20);
   context->line_to(xUp+40, yUp+20);
-
   context->stroke();
+
+  mostrarAnd= false;
 }
 
 void AreaDibujo::dibujarOr(unsigned int xUp, unsigned int yUp) {
@@ -184,6 +212,16 @@ void AreaDibujo::dibujarBuffer(unsigned int xUp, unsigned int yUp) {
   context->stroke();
 }
 
+//void buscarPosicion(int &x, int &y) {
+//
+//  int mod= x mod 10;
+//  if(mod != 0)
+//    x= x-mod;
+//  mod= y MOD 10;
+//  if(mod != 0)
+//    y= y-mod;
+//}
+
 void AreaDibujo::on_drop_drag_data_received(
         const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
         const Gtk::SelectionData& selection_data, guint info, guint time) {
@@ -193,7 +231,20 @@ void AreaDibujo::on_drop_drag_data_received(
   const int length = selection_data.get_length();
   if((length >= 0) && (selection_data.get_format() == 8)) {
     std::cout << "Received \"" << selection_data.get_data_as_string() << "\" in label " << std::endl;
+
+    dibujarAnd(x, y);
+    std::cout << "x: " << x << " - y: " << y << std::endl;
   }
 
   context->drag_finish(false, false, time);
+}
+
+bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
+
+  std::cout << "tocaron boton del mouse" << std::endl;
+
+  if(event->type == GDK_BUTTON_PRESS && event->button == 1)
+    std::cout << "tocaron boton izquierdo del mouse" << std::endl;
+
+  return true;
 }
