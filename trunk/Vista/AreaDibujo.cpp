@@ -2,10 +2,9 @@
 
 AreaDibujo::AreaDibujo() {
 
+  //Zona drop, conecto señal - Toolbar
   listTargets.push_back(Gtk::TargetEntry("STRING"));
   listTargets.push_back(Gtk::TargetEntry("text/plain"));
-
-  //Zona drop, conecto señal
   drag_dest_set(listTargets);
   signal_drag_data_received().connect(sigc::mem_fun(*this, &AreaDibujo::on_drop_drag_data_received));
 
@@ -58,18 +57,19 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
 
     //Dibujo los elementos
     std::list<Dibujo*>::iterator it;
-    for(it= dibujos.begin(); it != dibujos.end(); it++)
+    for(it= dibujos.begin(); it != dibujos.end(); it++) {
+      //seteo matriz identidad
+      context->set_identity_matrix();
+      //roto respecto el centro de la imagen
+      Vertice vCentro= (*it)->getVerticeCentro();
+      context->translate(vCentro.x, vCentro.y);
+      context->rotate_degrees((*it)->getAngulo());
+      context->translate(-vCentro.x, -vCentro.y);
       (*it)->dibujar(context);
+    }
   }
 
   return false;
-}
-
-bool AreaDibujo::on_my_button_press_event(GdkEventButton* event) {
-
-  std::cout << "clicked" << std::endl;
-
-  return true;
 }
 
 void AreaDibujo::redibujar() {
@@ -120,9 +120,6 @@ void AreaDibujo::dibujarBuffer(unsigned int xUp, unsigned int yUp) {
 //TODO: Por ahora trata que no se dibuje fuera del area de dibujo
 void AreaDibujo::buscarPosicion(int &x, int &y) {
 
-  std::cout << "width: " << width << std::endl;
-  std::cout << "height: " << height << std::endl;
-
   //Modifico el punto para caiga justo en un punto de la grilla
   int mod= x % 10;
   if(mod != 0)
@@ -149,10 +146,7 @@ void AreaDibujo::on_drop_drag_data_received(
   if((length >= 0) && (selection_data.get_format() == 8)) {
 
     std::string componente= selection_data.get_data_as_string();
-    std::cout << "Componente: " << componente << std::endl;
-    std::cout << "x: " << x << " - y: " << y << std::endl;
     buscarPosicion(x,y);
-    std::cout << "Luegox: " << x << " - Luegoy: " << y << std::endl;
 
     if((componente.compare(AND)) == 0)
       dibujarAnd(x,y);
@@ -172,9 +166,12 @@ void AreaDibujo::on_drop_drag_data_received(
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   std::cout << "tocaron boton del mouse" << std::endl;
+  std::cout << "x: " << event->x << std::endl;
+  std::cout << "y: " << event->y << std::endl;
 
   if(event->type == GDK_BUTTON_PRESS && event->button == 1)
     std::cout << "tocaron boton izquierdo del mouse" << std::endl;
-
+  else if(event->type == GDK_BUTTON_PRESS && event->button == 3)
+    std::cout << "tocaron boton derecho del mouse" << std::endl;
   return true;
 }

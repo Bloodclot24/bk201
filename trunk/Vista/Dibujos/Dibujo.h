@@ -2,6 +2,7 @@
 #define DIBUJO_H_
 
 #include <cairomm/context.h>
+#include "Vertice.h"
 
 /**
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
@@ -10,8 +11,9 @@
 class Dibujo {
 
 protected:
-  int xUp;
-  int yUp;
+  Vertice       vCentro;
+  Vertice       vSupIzq;
+  int angulo;
 
 public:
   /**
@@ -30,18 +32,40 @@ public:
   virtual void dibujar(Cairo::RefPtr<Cairo::Context> context) { };
 
   /**
-    * Se modifica la componente x del vertice superior izquierdo del dibujo.
+    * Se devuelve el vertice del centro del dibujo.
     *
-    * @param xUp La nueva componente x.
+    * @return vCentro El vertice del centro del dibujo.
     */
-  void setXSupIzq(int xUp);
+  Vertice getVerticeCentro();
 
   /**
-    * Se modifica la componente y del vertice superior izquierdo del dibujo.
+    * Se devuelve el vertice superior izquierdo del dibujo.
     *
-    * @param yUp La nueva componente y.
+    * @return vSupIzq El vertice superior.
     */
-  void setYSupIzq(int yUp);
+  Vertice getVerticeSupIzq();
+
+  /**
+    * Se modifica el vertice superior izquierdo del dibujo.
+    *
+    * @param vSupIzq El vertice superior.
+    */
+  void setVerticeSupIzq(Vertice vSupIzq);
+
+  /**
+    * Se devuelve el angulo de rotacion del dibujo.
+    *
+    * @return angulo El del dibujo.
+    */
+  int getAngulo();
+
+  /**
+    * Se modifica el componente angulo de rotacion del dibujo.
+    *
+    * @param angulo La cantidad en grados a modificar el angulo.
+    */
+  void setAngulo(int angulo);
+
 };
 
 #endif /* DIBUJO_H_ */

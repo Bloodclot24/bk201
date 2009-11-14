@@ -33,7 +33,6 @@ private:
 
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
-  virtual bool on_my_button_press_event(GdkEventButton* event);
   virtual void on_drop_drag_data_received(
           const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
           const Gtk::SelectionData& selection_data, guint info, guint time);
