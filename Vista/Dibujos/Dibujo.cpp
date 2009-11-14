@@ -1,17 +1,33 @@
 #include "Dibujo.h"
 
-Dibujo::Dibujo(int xUp, int yUp) {
+Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
 
-  this->xUp= xUp;
-  this->yUp= yUp;
+  vSupIzq.x= xUp;
+  vSupIzq.y= yUp;
+  angulo= 0;
 }
 
-void Dibujo::setXSupIzq(int xUp) {
+Vertice Dibujo::getVerticeCentro() {
 
-  this->xUp= xUp;
+  return vCentro;
 }
 
-void Dibujo::setYSupIzq(int yUp) {
+Vertice Dibujo::getVerticeSupIzq() {
 
-  this->yUp= yUp;
+  return vSupIzq;
+}
+
+void Dibujo::setVerticeSupIzq(Vertice vSupIzq) {
+
+  this->vSupIzq= vSupIzq;
+}
+
+int Dibujo::getAngulo() {
+
+  return angulo;
+}
+
+void Dibujo::setAngulo(int angulo) {
+
+  this->angulo+= angulo;
 }
