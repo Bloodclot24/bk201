@@ -2,6 +2,7 @@
 #define __SOAP_H_INCLUDED__
 
 #include "Xml.h"
+#include <stdint.h>
 
 class Soap{
 private:
