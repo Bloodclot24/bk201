@@ -34,6 +34,7 @@ public:
 	  if(respuesta != NULL &&					\
 	     !respuesta->getNombre().compare("EsEstableResponse")){
 	       valor = respuesta->getParametroNumerico("Estado");
+	       delete respuesta;
 	  }
 	  return valor;
 
@@ -59,6 +60,7 @@ public:
 	  if(respuesta!= NULL &&					\
 	     !respuesta->getNombre().compare("GetEntradaResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
+	       delete respuesta;
 	  }
 	  return valor;
      }
@@ -74,6 +76,7 @@ public:
 	  if(respuesta != NULL &&					\
 	     !respuesta->getNombre().compare("GetSalidaResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
+	       delete respuesta;
 	  }
 	  return valor;
      }
@@ -123,6 +126,7 @@ public:
 	  if(respuesta != NULL  &&					\
 	     !respuesta->getNombre().compare("GetCantidadEntradasResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
+	       delete respuesta;
 	  }
 	  entradas=valor;
 	  return valor;
@@ -140,6 +144,7 @@ public:
 	  if(respuesta != NULL &&					\
 	     !respuesta->getNombre().compare("GetCantidadSalidasResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
+	       delete respuesta;
 	  }
 	  salidas=valor;
 	  return valor;
@@ -155,6 +160,7 @@ public:
 	  if(respuesta != NULL  &&					\
 	     !respuesta->getNombre().compare("GetTProximoEventoResponse")){
 	       valor = respuesta->getParametroNumerico("Valor");
+	       delete respuesta;
 	  }
 	  return valor;
      }
