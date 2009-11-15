@@ -342,7 +342,7 @@ public:
 	       if(this->tiempo < tiempo){
 		    for(unsigned l=0;l<salidas;l++)
 			 std::cout << "| " << getSalida(l) << " ";
-		    if(extendido)
+		    if(extendido) {
 			 if(!inestableAnterior)
 			      for(unsigned l=0;l<salidas;l++)
 				   std::cout << "| " << salidasAnteriores[l] << " ";
@@ -352,11 +352,12 @@ public:
 
 		    std::cout << " Tiempo: " << this->tiempo << " ns";
 		    std::cout << std::endl;
+		    }
 	       }
 	       else{ // Paso mas del tiempo maximo permitido
 		    for(unsigned l=0;l<salidas;l++)
 			 std::cout << "| " << "?" << " ";
-		    if(extendido)
+		    if(extendido) {
 			 if(!inestableAnterior)
 			      for(unsigned l=0;l<salidas;l++)
 				   std::cout << "| " << salidasAnteriores[l] << " ";
@@ -366,6 +367,7 @@ public:
 		    
 		    std::cout << " Tiempo: ??? (inestable)";
 		    std::cout << std::endl;
+		    }
 	       }
 	  }
      }
