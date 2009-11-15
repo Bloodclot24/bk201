@@ -7,17 +7,19 @@
    - [X] Simulacion de circuitos basados en compuertas y en otros
      circuitos.
    - [ ] Revisar el sistema de conexiones.
-   - [X] Simulacion remota
+   - [-] Simulacion remota
      - [X] Definir el circuito remoto.
      - [X] Integrar con sockets.
      - [X] Integrar con Soap.
-   - [-] Server
+     - [ ] Cachear consultas.
+   - [X] Server
      - [X] Implementacion simple para 1 cliente.
      - [X] Integracion socket+Soap.
-     - [ ] Multiples clientes.
+     - [X] Multiples clientes.
 
-** DONE Otros
+** TODO Otros
    - [X] Clases encargadas del parseo/creacion de XML.
+   - [ ] Clases para la persistencia.
 
 ** DONE Red 
    - [X] Implementar y probar sockets y threads.
@@ -30,13 +32,13 @@
    - [X] Drag&Drop.
    - [-] Ventana de edicion simple.
      - [X] Barras de herramientas.
-     - [ ] Grilla punteada.
+     - [X] Grilla punteada.
      - [ ] Representacion grafica de los componentes.
      - [ ] Traduccion del modelo grafico al modelo a simular.
    - [X] Mas de una ventana de edicion.
    - [ ] Menues contextuales.
    - [ ] Ventanas para modificar parametros de los componentes.
-   - [ ] Ventana de impresion.
+   - [X] Ventana de impresion.
    - [ ] Ventana para inspeccionar servidores remotos.
 
 * Plan de trabajo
@@ -72,6 +74,8 @@
 
    - [X] Server simple.
 
+   - [ ] Persistencia.
+
    - [ ] Integracion de la simulacion con la parte grafica.
 
      - [ ] Traducir el modelo grafico al modelo a simular.
@@ -85,14 +89,14 @@
 
    - [X] Integracion de la simulacion con la capa de red.
 
-   - [ ] Server multi-cliente.
+   - [X] Server multi-cliente.
 
    - [ ] Menues contextuales.
 
 ** TODO Semana 5
    DEADLINE: <2009-12-01 Tue>
    
-   - [ ] Testing de la simulacion sobre la red.
+   - [X] Testing de la simulacion sobre la red.
 
    - [ ] Ventana de inspeccion de servidores remotos.
 

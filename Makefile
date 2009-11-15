@@ -1,15 +1,21 @@
 SOURCES=Controlador/controlador.cpp \
-	Vista/ventanaTrabajo.cpp \
+	Vista/VentanaTrabajo.cpp \
 	Red/Socket.cpp \
 	HTTP/HttpRequest.cpp \
 	HTTP/HttpResponse.cpp \
 	XML/Xml.cpp \
 	XML/Soap.cpp \
 	Util/Util.cpp \
-	Vista/areaDibujo.cpp \
+	Vista/AreaDibujo.cpp \
 	Red/Mensajero.cpp \
 	Threads/ThreadAceptor.cpp \
-	Server/Server.cpp
+	Server/Server.cpp \
+	Vista/Dibujos/CompuertaBuffer.cpp \
+	Vista/Dibujos/CompuertaXor.cpp \
+	Vista/Dibujos/CompuertaAnd.cpp \
+	Vista/Dibujos/CompuertaNot.cpp \
+	Vista/Dibujos/CompuertaOr.cpp \
+	Vista/Dibujos/Dibujo.cpp
 
 TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
