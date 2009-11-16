@@ -1,19 +1,21 @@
 #ifndef DIBUJO_H_
 #define DIBUJO_H_
 
+#include <gtkmm/widget.h>
 #include <cairomm/context.h>
+#include "Constantes.h"
 #include "Vertice.h"
 
 /**
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
  * ser dibujados en el area de dibujo.
  */
-class Dibujo {
+class Dibujo: public Gtk::Widget {
 
 protected:
   Vertice       vCentro;
   Vertice       vSupIzq;
-  int angulo;
+  int           angulo;
 
 public:
   /**
@@ -65,7 +67,6 @@ public:
     * @param angulo La cantidad en grados a modificar el angulo.
     */
   void setAngulo(int angulo);
-
 };
 
 #endif /* DIBUJO_H_ */
