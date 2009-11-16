@@ -1,16 +1,49 @@
 #include "AreaDibujo.h"
 
-AreaDibujo::AreaDibujo() {
+AreaDibujo::AreaDibujo(): m_pMenuPopup() {
 
-  //Zona drop, conecto señal - Toolbar
   listTargets.push_back(Gtk::TargetEntry("STRING"));
   listTargets.push_back(Gtk::TargetEntry("text/plain"));
+
+  //Zona drop, conecto señal - Toolbar & Drawing area
   drag_dest_set(listTargets);
   signal_drag_data_received().connect(sigc::mem_fun(*this, &AreaDibujo::on_drop_drag_data_received));
 
   //agrego evento button press mask del mouse y conecto señal
-  add_events(Gdk::BUTTON_PRESS_MASK);
+  add_events(Gdk::ALL_EVENTS_MASK);
   signal_button_press_event().connect(sigc::mem_fun(*this, &AreaDibujo::on_button_press_event));
+
+  seleccion= false;
+
+  /*Menu popup*/
+  //crea las acciones del menu popup
+  m_refActionGroup = Gtk::ActionGroup::create();
+
+  //menu editar
+  m_refActionGroup->add(Gtk::Action::create("MenuEditar", "Menu Editar"));
+  m_refActionGroup->add(Gtk::Action::create("Rotar90D", Gtk::Stock::REDO,"Rotar 90"),
+                          sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Derecha));
+  m_refActionGroup->add(Gtk::Action::create("Rotar90I", Gtk::Stock::UNDO,"Rotar 90"),
+                          sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Izquierda));
+  m_refActionGroup->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
+                          sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
+
+  m_refUIManager = Gtk::UIManager::create();
+  m_refUIManager->insert_action_group(m_refActionGroup);
+
+  //Etiquetas
+  Glib::ustring ui_info =
+    "<ui>"
+    "  <popup name='PopupMenu'>"
+    "    <menuitem action='Rotar90D'/>"
+    "    <menuitem action='Rotar90I'/>"
+    "    <menuitem action='Borrar'/>"
+    "  </popup>"
+    "</ui>";
+  m_refUIManager->add_ui_from_string(ui_info);
+
+  //Obtenemos el menu
+  m_pMenuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
 }
 
 AreaDibujo::~AreaDibujo() {
@@ -67,6 +100,10 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
       context->translate(-vCentro.x, -vCentro.y);
       (*it)->dibujar(context);
     }
+
+    //Si hay algun elemento seleccionado
+    if(seleccion)
+      dibujarSeleccion(context);
   }
 
   return false;
@@ -86,6 +123,8 @@ void AreaDibujo::dibujarAnd(unsigned int xUp, unsigned int yUp) {
 
   CompuertaAnd *compuertaAnd= new CompuertaAnd(xUp, yUp);
   dibujos.push_back(compuertaAnd);
+  seleccionado= compuertaAnd;
+  seleccion= true;
   redibujar();
 }
 
@@ -93,6 +132,8 @@ void AreaDibujo::dibujarOr(unsigned int xUp, unsigned int yUp) {
 
   CompuertaOr *compuertaOr= new CompuertaOr(xUp, yUp);
   dibujos.push_back(compuertaOr);
+  seleccionado= compuertaOr;
+  seleccion= true;
   redibujar();
 }
 
@@ -100,6 +141,8 @@ void AreaDibujo::dibujarNot(unsigned int xUp, unsigned int yUp) {
 
   CompuertaNot *compuertaNot= new CompuertaNot(xUp, yUp);
   dibujos.push_back(compuertaNot);
+  seleccionado= compuertaNot;
+  seleccion= true;
   redibujar();
 }
 
@@ -107,6 +150,8 @@ void AreaDibujo::dibujarXor(unsigned int xUp, unsigned int yUp) {
 
   CompuertaXor *compuertaXor= new CompuertaXor(xUp, yUp);
   dibujos.push_back(compuertaXor);
+  seleccionado= compuertaXor;
+  seleccion= true;
   redibujar();
 }
 
@@ -114,6 +159,8 @@ void AreaDibujo::dibujarBuffer(unsigned int xUp, unsigned int yUp) {
 
   CompuertaBuffer *compuertaBuffer= new CompuertaBuffer(xUp, yUp);
   dibujos.push_back(compuertaBuffer);
+  seleccionado= compuertaBuffer;
+  seleccion= true;
   redibujar();
 }
 
@@ -163,15 +210,81 @@ void AreaDibujo::on_drop_drag_data_received(
   context->drag_finish(false, false, time);
 }
 
+Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
+
+  std::list<Dibujo*>::iterator it;
+  bool encontrado= false;
+  for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
+    Vertice vSupIzq= (*it)->getVerticeSupIzq();
+    if((x >= vSupIzq.x) && ((x <= vSupIzq.x+40)) && (y >= vSupIzq.y) && (y <= (vSupIzq.y+40))) {
+      encontrado= true;
+      break;
+    }
+  }
+
+  if(!encontrado)
+    return NULL;
+
+  return *it;
+}
+
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
-  std::cout << "tocaron boton del mouse" << std::endl;
-  std::cout << "x: " << event->x << std::endl;
-  std::cout << "y: " << event->y << std::endl;
-
-  if(event->type == GDK_BUTTON_PRESS && event->button == 1)
+  if(event->type == GDK_BUTTON_PRESS && event->button == 1) {
     std::cout << "tocaron boton izquierdo del mouse" << std::endl;
-  else if(event->type == GDK_BUTTON_PRESS && event->button == 3)
+
+    seleccionado= buscarDibujo(event->x, event->y);
+    if(!seleccionado)
+      seleccion= false;
+    else
+      seleccion= true;
+
+    redibujar();
+    return true;
+
+  } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
     std::cout << "tocaron boton derecho del mouse" << std::endl;
-  return true;
+    if(m_pMenuPopup && seleccion)
+      m_pMenuPopup->popup(event->button, event->time);
+    return true;
+  }
+
+  return false;
+}
+
+void AreaDibujo::dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context) {
+
+  if(seleccionado) {
+    Vertice vSupIzq= seleccionado->getVerticeSupIzq();
+    context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
+    context->rectangle(vSupIzq.x-2, vSupIzq.y-2, 44, 44);
+    context->fill();
+    context->stroke();
+  }
+}
+
+void AreaDibujo::borrarSeleccion() {
+
+  if(seleccion) {
+    dibujos.remove(seleccionado);
+    delete seleccionado;
+    seleccion= false;
+    redibujar();
+  }
+}
+
+void AreaDibujo::rotarSeleccion90Derecha() {
+
+  if(seleccion) {
+    seleccionado->setAngulo(90);
+    redibujar();
+  }
+}
+
+void AreaDibujo::rotarSeleccion90Izquierda() {
+
+  if(seleccion) {
+    seleccionado->setAngulo(-90);
+    redibujar();
+  }
 }

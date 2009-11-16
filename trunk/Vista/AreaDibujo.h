@@ -2,6 +2,9 @@
 #define AREADIBUJO_H_
 
 #include <gtkmm/drawingarea.h>
+#include <gtkmm/menu.h>
+#include <gtkmm/uimanager.h>
+#include <gtkmm/stock.h>
 #include <cairomm/context.h>
 #include <list>
 #include "Dibujos/Dibujo.h"
@@ -25,6 +28,18 @@ private:
   int                           width;
   int                           height;
 
+  bool                          seleccion;
+  Dibujo*                       seleccionado;
+  Dibujo* buscarDibujo(int x, int y);
+
+  void dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context);
+
+  /*MenuPopup*/
+  Gtk::Menu     *m_pMenuPopup;
+  Glib::RefPtr<Gtk::UIManager> m_refUIManager;
+  Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
+
+
   /*TARGETS*/
   std::list<Gtk::TargetEntry> listTargets;
 
@@ -46,6 +61,10 @@ public:
   void dibujarNot(unsigned int xUp, unsigned int yUp);
   void dibujarXor(unsigned int xUp, unsigned int yUp);
   void dibujarBuffer(unsigned int xUp, unsigned int yUp);
+
+  void borrarSeleccion();
+  void rotarSeleccion90Derecha();
+  void rotarSeleccion90Izquierda();
 };
 
 #endif /* AREADIBUJO_H_ */

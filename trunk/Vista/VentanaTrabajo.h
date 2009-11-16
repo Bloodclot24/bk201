@@ -34,7 +34,6 @@
 #define PATH_XOR "Vista/Imagenes/xor.png"
 #define PATH_BUFFER "Vista/Imagenes/buf.png"
 
-
 /**
  * Ventana de principal de trabajo para el usuario.
  */

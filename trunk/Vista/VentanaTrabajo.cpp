@@ -106,34 +106,34 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
 
   //etiquetas menu
   Glib::ustring ui_info =
-        "<ui>"
-        "  <menubar name='MenuBar'>"
-        "    <menu action='ArchivoMenu'>"
-        "      <menuitem action='Nuevo'/>"
-	"      <menuitem action='Abrir'/>"
-        "      <separator/>"
-        "      <menuitem action='Guardar'/>"
-        "      <menuitem action='Guardar como...'/>"
-        "      <separator/>"
-        "      <menuitem action='Salir'/>"
-	"    </menu>"
-        "    <menu action='EditarMenu'>"
-        "      <menuitem action='RotarD 90'/>"
-        "      <menuitem action='RotarI 90'/>"
-        "      <menuitem action='Borrar'/>"
-        "    </menu>"
-        "    <menu action='SimularMenu'>"
-        "      <menuitem action='Simular'/>"
-        "      <menuitem action='Tablas'/>"
-        "    </menu>"
-        "    <menu action='AyudaMenu'>"
-        "      <menuitem action='About'/>"
-        "    </menu>"
-        "  </menubar>"
-        "</ui>";
-
+    "<ui>"
+    "  <menubar name='MenuBar'>"
+    "    <menu action='ArchivoMenu'>"
+    "      <menuitem action='Nuevo'/>"
+    "      <menuitem action='Abrir'/>"
+    "      <separator/>"
+    "      <menuitem action='Guardar'/>"
+    "      <menuitem action='Guardar como...'/>"
+    "      <separator/>"
+    "      <menuitem action='Salir'/>"
+    "    </menu>"
+    "    <menu action='EditarMenu'>"
+    "      <menuitem action='RotarD 90'/>"
+    "      <menuitem action='RotarI 90'/>"
+    "      <menuitem action='Borrar'/>"
+    "    </menu>"
+    "    <menu action='SimularMenu'>"
+    "      <menuitem action='Simular'/>"
+    "      <menuitem action='Tablas'/>"
+    "    </menu>"
+    "    <menu action='AyudaMenu'>"
+    "      <menuitem action='About'/>"
+    "    </menu>"
+    "  </menubar>"
+    "</ui>";
   m_refUIManager->add_ui_from_string(ui_info);
 
+  //Obtenemos el menu
   Gtk::Widget* pMenubar= m_refUIManager->get_widget("/MenuBar");
 
   Gtk::HBox* boxMenuBar;
@@ -170,17 +170,17 @@ void VentanaTrabajo::cerrar() {
 
 void VentanaTrabajo::rotar90D() {
 
-  std::cout << "Se apreto boton rotar 90 derecha" << std::endl;
+  areaDibujo.rotarSeleccion90Derecha();
 }
 
 void VentanaTrabajo::rotar90I() {
 
-  std::cout << "Se apreto boton rotar 90 izquierda" << std::endl;
+  areaDibujo.rotarSeleccion90Izquierda();
 }
 
 void VentanaTrabajo::borrar() {
 
-  std::cout << "Se apreto boton borrar" << std::endl;
+  areaDibujo.borrarSeleccion();
 }
 
 void VentanaTrabajo::simular() {
