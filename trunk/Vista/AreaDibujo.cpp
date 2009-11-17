@@ -83,7 +83,7 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
     //relleno con puntitos
     context->set_source_rgb(0.0, 0.0, 0.0);
     context->set_line_width(2.0);
-    for(int w= PASO; w<(width-PASO); w+=PASO) {
+    for(int w= PASO; w<width; w+=PASO) {
       for(int h= PASO; h<height; h+=PASO) {
         context->move_to(w, h);
         context->line_to(w, h + 1);
@@ -168,24 +168,23 @@ void AreaDibujo::dibujarBuffer(unsigned int xUp, unsigned int yUp) {
 }
 
 //TODO: Por ahora trata que no se dibuje fuera del area de dibujo
-void AreaDibujo::buscarPosicion(int &x, int &y) {
 
-  //Modifico el punto para caiga justo en un punto de la grilla
+void calcularPosicion(int &x, int max, int min) {
+
   int mod= x % 10;
   if(mod != 0)
     x= x-mod;
-  if(x < PASO)
-    x= PASO;
-  else if(x+60 > width)
-    x= width - 60;
+  if(x < min)
+    x= min;
+  else if(x+41 > max)
+    x= max - 40 - (max%10);
+}
 
-  mod= y % 10;
-  if(mod != 0)
-    y= y-mod;
-  if(y < PASO)
-    y= PASO;
-  else if(y+50 > height)
-    y= height - 50;
+void AreaDibujo::buscarPosicion(int &x, int &y) {
+
+  //Modifico el punto para caiga justo en un punto de la grilla
+  calcularPosicion(x, width, PASO);
+  calcularPosicion(y, height, PASO);
 }
 
 void AreaDibujo::on_drop_drag_data_received(

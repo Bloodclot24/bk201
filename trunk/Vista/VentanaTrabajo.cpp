@@ -36,9 +36,9 @@ void VentanaTrabajo::correr(bool primeraVez) {
   window-> set_title(name);
 
   //Area de Dibujo
-  Gtk::Table *table;
-  refXml->get_widget("table", table);
-  table->attach(areaDibujo, 0, 10, 0, 10);
+  Gtk::VBox* vbox_drawing_area;
+  refXml->get_widget("vbox_drawing_area", vbox_drawing_area);
+  vbox_drawing_area->add(areaDibujo);
 
   //Menu Bar
   loadMenuBar(window);
