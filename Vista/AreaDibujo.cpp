@@ -97,12 +97,10 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
       //seteo matriz identidad
       context->set_identity_matrix();
       //roto respecto el centro de la imagen
-      if(!motion || (motion && *it != seleccionado)) {
-        Vertice vCentro= (*it)->getVerticeCentro();
-        context->translate(vCentro.x, vCentro.y);
-        context->rotate_degrees((*it)->getAngulo());
-        context->translate(-vCentro.x, -vCentro.y);
-      }
+      Vertice vCentro= (*it)->getVerticeCentro();
+      context->translate(vCentro.x, vCentro.y);
+      context->rotate_degrees((*it)->getAngulo());
+      context->translate(-vCentro.x, -vCentro.y);
       (*it)->dibujar(context);
     }
 
@@ -260,6 +258,13 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 void AreaDibujo::dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context) {
 
   if(seleccionado) {
+    //seteo matriz identidad
+    context->set_identity_matrix();
+    //roto respecto el centro de la imagen
+    Vertice vCentro= seleccionado->getVerticeCentro();
+    context->translate(vCentro.x, vCentro.y);
+    context->rotate_degrees(seleccionado->getAngulo());
+    context->translate(-vCentro.x, -vCentro.y);
     Vertice vSupIzq= seleccionado->getVerticeSupIzq();
     context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
     context->rectangle(vSupIzq.x-2, vSupIzq.y-2, 44, 44);
@@ -313,15 +318,13 @@ bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
 bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 
   if(event->button == 1) {
-    std::cout << "deselecciono" << std::endl;
     can_motion= false;
 
     if(motion) {
-      std::cout << "termino on motion" << std::endl;
       motion= false;
       seleccion= true;
-      //redibujar();
-      }
+      redibujar();
+    }
     return true;
 
   } else

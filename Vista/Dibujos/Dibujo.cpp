@@ -19,6 +19,8 @@ Vertice Dibujo::getVerticeSupIzq() {
 
 void Dibujo::setVerticeSupIzq(Vertice vSupIzq) {
 
+  vCentro.x= vSupIzq.x+20;
+  vCentro.y= vSupIzq.y+20;
   this->vSupIzq= vSupIzq;
 }
 
