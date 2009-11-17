@@ -213,6 +213,7 @@ void VentanaTrabajo::loadToolBar() {
     //le seteo un drag window
     bAnd->set_use_drag_window(true);
     bAnd->drag_source_set(listTargets);
+    bAnd->drag_unhighlight();
     //le conecto la señal de drag
     bAnd->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_And_drag_data_get));
     //creo icono para el drag

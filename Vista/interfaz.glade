@@ -31,9 +31,8 @@
             <child>
               <object class="GtkToolButton" id="and">
                 <property name="visible">True</property>
-                <property name="extension_events">cursor</property>
                 <property name="tooltip_text" translatable="yes">and</property>
-                <property name="label" translatable="yes">and</property>
+                <property name="label" translatable="yes">AND</property>
                 <property name="use_underline">True</property>
                 <property name="icon_widget">and_image</property>
               </object>

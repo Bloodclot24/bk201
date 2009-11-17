@@ -27,7 +27,8 @@ private:
   std::list<Dibujo*>            dibujos;
   int                           width;
   int                           height;
-
+  bool                          motion;
+  bool                          can_motion;
   bool                          seleccion;
   Dibujo*                       seleccionado;
   Dibujo* buscarDibujo(int x, int y);
@@ -35,7 +36,7 @@ private:
   void dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context);
 
   /*MenuPopup*/
-  Gtk::Menu     *m_pMenuPopup;
+  Gtk::Menu     *menuPopup;
   Glib::RefPtr<Gtk::UIManager> m_refUIManager;
   Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
 
@@ -52,6 +53,8 @@ protected:
           const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
           const Gtk::SelectionData& selection_data, guint info, guint time);
   virtual bool on_button_press_event(GdkEventButton* event);
+  virtual bool on_motion_notify_event(GdkEventMotion* event);
+  virtual bool on_button_release_event(GdkEventButton* event);
 
 public:
   AreaDibujo();
