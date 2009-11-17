@@ -1,6 +1,6 @@
 #include "AreaDibujo.h"
 
-AreaDibujo::AreaDibujo(): m_pMenuPopup() {
+AreaDibujo::AreaDibujo(): menuPopup() {
 
   listTargets.push_back(Gtk::TargetEntry("STRING"));
   listTargets.push_back(Gtk::TargetEntry("text/plain"));
@@ -12,8 +12,11 @@ AreaDibujo::AreaDibujo(): m_pMenuPopup() {
   //agrego evento button press mask del mouse y conecto señal
   add_events(Gdk::ALL_EVENTS_MASK);
   signal_button_press_event().connect(sigc::mem_fun(*this, &AreaDibujo::on_button_press_event));
-
+  signal_motion_notify_event().connect(sigc::mem_fun(*this, &AreaDibujo::on_motion_notify_event));
+  signal_button_release_event().connect(sigc::mem_fun(*this, &AreaDibujo::on_button_release_event));
   seleccion= false;
+  can_motion= false;
+  motion= false;
 
   /*Menu popup*/
   //crea las acciones del menu popup
@@ -43,7 +46,7 @@ AreaDibujo::AreaDibujo(): m_pMenuPopup() {
   m_refUIManager->add_ui_from_string(ui_info);
 
   //Obtenemos el menu
-  m_pMenuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
+  menuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
 }
 
 AreaDibujo::~AreaDibujo() {
@@ -94,10 +97,12 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
       //seteo matriz identidad
       context->set_identity_matrix();
       //roto respecto el centro de la imagen
-      Vertice vCentro= (*it)->getVerticeCentro();
-      context->translate(vCentro.x, vCentro.y);
-      context->rotate_degrees((*it)->getAngulo());
-      context->translate(-vCentro.x, -vCentro.y);
+      if(!motion || (motion && *it != seleccionado)) {
+        Vertice vCentro= (*it)->getVerticeCentro();
+        context->translate(vCentro.x, vCentro.y);
+        context->rotate_degrees((*it)->getAngulo());
+        context->translate(-vCentro.x, -vCentro.y);
+      }
       (*it)->dibujar(context);
     }
 
@@ -231,21 +236,21 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   if(event->type == GDK_BUTTON_PRESS && event->button == 1) {
-    std::cout << "tocaron boton izquierdo del mouse" << std::endl;
-
     seleccionado= buscarDibujo(event->x, event->y);
-    if(!seleccionado)
+    if(!seleccionado) {
+      can_motion= false;
       seleccion= false;
-    else
+    } else {
       seleccion= true;
+      can_motion= true;
+    }
 
     redibujar();
     return true;
 
   } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
-    std::cout << "tocaron boton derecho del mouse" << std::endl;
-    if(m_pMenuPopup && seleccion)
-      m_pMenuPopup->popup(event->button, event->time);
+    if(menuPopup && seleccion)
+      menuPopup->popup(event->button, event->time);
     return true;
   }
 
@@ -265,7 +270,7 @@ void AreaDibujo::dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context) {
 
 void AreaDibujo::borrarSeleccion() {
 
-  if(seleccion) {
+  if(seleccion && !motion) {
     dibujos.remove(seleccionado);
     delete seleccionado;
     seleccion= false;
@@ -275,7 +280,7 @@ void AreaDibujo::borrarSeleccion() {
 
 void AreaDibujo::rotarSeleccion90Derecha() {
 
-  if(seleccion) {
+  if(seleccion && !motion) {
     seleccionado->setAngulo(90);
     redibujar();
   }
@@ -283,8 +288,42 @@ void AreaDibujo::rotarSeleccion90Derecha() {
 
 void AreaDibujo::rotarSeleccion90Izquierda() {
 
-  if(seleccion) {
+  if(seleccion && !motion) {
     seleccionado->setAngulo(-90);
     redibujar();
   }
+}
+
+bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
+
+  if(can_motion && event->type == GDK_MOTION_NOTIFY) {
+    motion= true;
+    seleccion= false;
+    Vertice vSupIzq;
+    vSupIzq.x= event->x;
+    vSupIzq.y= event->y;
+    buscarPosicion(vSupIzq.x, vSupIzq.y);
+    seleccionado->setVerticeSupIzq(vSupIzq);
+    redibujar();
+    return true;
+  } else
+    return false;
+}
+
+bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
+
+  if(event->button == 1) {
+    std::cout << "deselecciono" << std::endl;
+    can_motion= false;
+
+    if(motion) {
+      std::cout << "termino on motion" << std::endl;
+      motion= false;
+      seleccion= true;
+      //redibujar();
+      }
+    return true;
+
+  } else
+    return false;
 }
