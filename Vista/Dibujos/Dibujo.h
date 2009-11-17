@@ -31,7 +31,7 @@ public:
     *
     * @param context El contexto del area de dibujo.
     */
-  virtual void dibujar(Cairo::RefPtr<Cairo::Context> context) { };
+  virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
 
   /**
     * Se devuelve el vertice del centro del dibujo.

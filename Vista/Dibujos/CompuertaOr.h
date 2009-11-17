@@ -20,7 +20,7 @@ public:
     *
     * @param context El contexto del area de dibujo.
     */
-  virtual void dibujar(Cairo::RefPtr<Cairo::Context> context);
+  virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 };
 
 #endif /* COMPUERTAOR_H_ */

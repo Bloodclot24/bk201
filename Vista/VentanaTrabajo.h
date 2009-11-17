@@ -66,6 +66,7 @@ private:
   Gtk::ToolButton* bNot;
   Gtk::ToolButton* bXor;
   Gtk::ToolButton* bBuffer;
+  Gtk::ToolButton* bImprimir;
   void loadToolBar();
 
   /*TARGETS*/
@@ -82,6 +83,9 @@ private:
 
   /*AREADIBUJO*/
   AreaDibujo areaDibujo;
+
+  /*IMPRESION*/
+  Gtk::Window *window_print;
 
 protected:
   //Signal handlers
@@ -100,6 +104,8 @@ protected:
   void on_Buffer_drag_data_get(
           const Glib::RefPtr<Gdk::DragContext>& context,
           Gtk::SelectionData& selection_data, guint info, guint time);
+  virtual void imprimir();
+
 public:
   /**
     * Crea una ventana de trabajo nueva.
