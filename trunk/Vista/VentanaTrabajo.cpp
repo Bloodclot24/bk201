@@ -76,6 +76,8 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
                         sigc::mem_fun(*this, &VentanaTrabajo::guardar));
   m_refActionGroup->add(Gtk::Action::create("Guardar como...", Gtk::Stock::SAVE_AS, "Guardar como..."),
                         sigc::mem_fun(*this, &VentanaTrabajo::guardarComo));
+  m_refActionGroup->add(Gtk::Action::create("Imprimir", Gtk::Stock::PRINT),
+                        sigc::mem_fun(*this, &VentanaTrabajo::imprimir));
   m_refActionGroup->add(Gtk::Action::create("Salir", Gtk::Stock::QUIT),
                         sigc::mem_fun(*this, &VentanaTrabajo::cerrar));
 
@@ -92,8 +94,6 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
   m_refActionGroup->add(Gtk::Action::create("SimularMenu", "Simular"));
   m_refActionGroup->add(Gtk::Action::create("Simular", Gtk::Stock::MEDIA_PLAY, "Simular"),
                         sigc::mem_fun(*this, &VentanaTrabajo::simular));
-  m_refActionGroup->add(Gtk::Action::create("Tablas", "Ver tablas"),
-                        sigc::mem_fun(*this, &VentanaTrabajo::verTablas));
 
   //menu ayuda
   m_refActionGroup->add(Gtk::Action::create("AyudaMenu", "Ayuda"));
@@ -114,6 +114,7 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
     "      <separator/>"
     "      <menuitem action='Guardar'/>"
     "      <menuitem action='Guardar como...'/>"
+    "      <menuitem action='Imprimir'/>"
     "      <separator/>"
     "      <menuitem action='Salir'/>"
     "    </menu>"
@@ -124,7 +125,6 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
     "    </menu>"
     "    <menu action='SimularMenu'>"
     "      <menuitem action='Simular'/>"
-    "      <menuitem action='Tablas'/>"
     "    </menu>"
     "    <menu action='AyudaMenu'>"
     "      <menuitem action='About'/>"
@@ -186,11 +186,6 @@ void VentanaTrabajo::borrar() {
 void VentanaTrabajo::simular() {
 
   std::cout << "Se apreto boton simular" << std::endl;
-}
-
-void VentanaTrabajo::verTablas() {
-
-  std::cout << "Se apreto boton ver tablas" << std::endl;
 }
 
 void VentanaTrabajo::about() {
@@ -261,6 +256,10 @@ void VentanaTrabajo::loadToolBar() {
     if(pixbuf)
       bBuffer->drag_source_set_icon(pixbuf);
   }
+
+  refXml->get_widget("imprimir", bImprimir);
+  if(bImprimir)
+    bImprimir->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::imprimir));
 }
 
 void VentanaTrabajo::on_And_drag_data_get(
@@ -323,4 +322,13 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
         filechooserdialog_saveas->hide();
       break;
   }
+}
+
+void VentanaTrabajo::imprimir() {
+
+  //Ventana impresion
+  refXml->get_widget("window_print", window_print);
+
+  if(window_print)
+    window_print->show();
 }

@@ -6,7 +6,7 @@ CompuertaBuffer::CompuertaBuffer(int xUp, int yUp): Dibujo::Dibujo(xUp, yUp) {
   vCentro.y= yUp+20;
 }
 
-void CompuertaBuffer::dibujar(Cairo::RefPtr<Cairo::Context> context) {
+void CompuertaBuffer::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   //puerta
   context->set_source_rgb(0.0, 0.0, 1.0);
