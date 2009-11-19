@@ -226,7 +226,9 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
   bool encontrado= false;
   for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
     Vertice vSupIzq= (*it)->getVerticeSupIzq();
-    if((x >= vSupIzq.x) && ((x <= vSupIzq.x+40)) && (y >= vSupIzq.y) && (y <= (vSupIzq.y+40))) {
+    int ancho= (*it)->getAncho();
+    int alto= (*it)->getAlto();
+    if((x >= vSupIzq.x) && ((x <= vSupIzq.x+ancho)) && (y >= vSupIzq.y) && (y <= (vSupIzq.y+alto))) {
       encontrado= true;
       break;
     }
