@@ -6,15 +6,8 @@ Conexion::Conexion(int vInicialX, int vInicialY, int vFinalX, int vFinalY): Dibu
   vFinal.y= vFinalY;
   int deltaX= vFinalX-vInicialX;
   int deltaY= vFinalY-vInicialY;
-
-  int mayorY;
-  if(vInicialY >= vFinalX)
-    mayorY= vInicialY;
-  else
-    mayorY= vFinalY;
-
-  vCentro.x= vInicialX + deltaX;
-  vCentro.y= vInicialY + deltaY;
+  vCentro.x= vInicialX + deltaX/2;
+  vCentro.y= vInicialY + deltaY/2;
   ancho= deltaX;
   alto= deltaY;
 }
@@ -27,6 +20,8 @@ void Conexion::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->move_to(vCentro.x, vSupIzq.y);
   context->line_to(vCentro.x, vCentro.y);
   context->move_to(vCentro.x, vCentro.y);
+  context->line_to(vCentro.x, vFinal.y);
+  context->move_to(vCentro.x, vFinal.y);
   context->line_to(vFinal.x, vFinal.y);
   context->stroke();
 }
