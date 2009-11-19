@@ -415,6 +415,23 @@ public:
 	  return proximo;
      }
 
+	/**
+	 * Obtengo los componentes que conforman el circuito
+	 * este metodo va a utilizarse unicamente para serializar
+	 * los circuitos
+	 */
+	const std::vector<Componente*>& getComponenetes(){
+		return this->componentes;
+	}
+	
+	/**
+	 * Obtengo las conexiones que conforman el circuito
+	 * este metodo va a utilizarse unicamente para serializar
+	 * los circuitos
+	 */
+	 const std::vector<Conexion*>& getConexiones(){
+	 	return this->conexiones;
+	 }
 
      /** 
       * Destruye el circuito y todos los componentes.
