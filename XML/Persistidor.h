@@ -6,6 +6,7 @@
 #include <string>
 #include "../Componente/Componente.h"
 #include "../XML/Xml.h"
+#include "../Util/Util.h"
 
 class Persistidor
 {
@@ -37,27 +38,45 @@ class Persistidor
 					Xml xml(circuito->nombre.c_str());
 					xml.getRaiz()->setPropiedad("entradas",circuito->getCantidadEntradas());
 					xml.getRaiz()->setPropiedad("salidas",circuito->getCantidadSalidas());
+					
 					//Serializo los componentes del circuito
-					//TODO ver que pasa si el componente es un circuito y no
-					//una compuerta
 					for(int i = 0; i < circuito->getComponentes().size(); i++){
 						Componente* comp = circuito->getComponentes()[i];
+						//guardo el tipo de componente
 						XmlNodo componente(comp, "");
-						componente.setPropiedad("x",comp->getX());
-						componente.setPropiedad("y",comp->getY());
-						componente.setPropiedad("alfa", comp->getAlfa());
-						componente.setPropiedad("label",comp->getLabel());
-						componente.setPropiedad("tr",comp->getTiempoRetardo());
+						componente.setPropiedad("x",Util::intToString(comp->getX()));
+						componente.setPropiedad("y",Util::intToString(comp->getY()));
+						componente.setPropiedad("alfa", Util::intToString(comp->getAlfa()));
+						componente.setPropiedad("label",Util::intToString(comp->getLabel()));
+						//Si es un circuito remoto guardo los datos del servidor
+						//en el q se encuentra
+						if(comp->getType().compare("Circuito") == 0){
+							componente.setPropiedad("Servidor",Util::intToString(comp->getServidor());
+							componente.setPropiedad("Puerto",Util::intToString(comp->getPuerto());
+							//TODO: ver como se va a obtener el nombre del archivo 
+							//en caso de tratarse de un circuito remoto
+							componente.setPropiedad("NombreArchivo",Util::intToString( ));
+						}else componente.setPropiedad("tr",Util::intToString(comp->getTiempoRetardo()));
 						xml.getRaiz()->agregarHijo(componente);
+						//guardo las conexiones que posee dicho componente
+						for(int j = 0; j < circuito->getConexiones().size(); j++){
+							Conexion* conex = circuito->getConexiones()[j];
+							XmlNodo conexion(conex,"");
+							conexion.setPropiedad("c1",Util::intToString( ));
+							
+							
+							componente.agregarHijo(conexion);
+						}
+						
 					}
 					
-					//TODO ver tema de las lineas que conforman la conexion
-					//Serializo las conexiones
-					for(int i = 0; i < circuito->getConexiones().size(); i++){
-						Conexion* conex = circuito->getConexiones()[i];
-						XmlNodo conexion(conex,"");
-						
-					} 
+//					//TODO ver tema de las lineas que conforman la conexion
+//					//Serializo las conexiones
+//					for(int i = 0; i < circuito->getConexiones().size(); i++){
+//						Conexion* conex = circuito->getConexiones()[i];
+//						XmlNodo conexion(conex,"");
+//						
+//					} 
 						
 				}else std::cerr << "No se pudo abrir el archivo: " << nombre+extension << std::endl;
 				archivo.close();
