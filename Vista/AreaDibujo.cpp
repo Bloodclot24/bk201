@@ -47,6 +47,10 @@ AreaDibujo::AreaDibujo(): menuPopup() {
 
   //Obtenemos el menu
   menuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
+
+  //Conexion
+  conexion= false;
+  cargoVInicial= false;
 }
 
 AreaDibujo::~AreaDibujo() {
@@ -122,47 +126,55 @@ void AreaDibujo::redibujar() {
   }
 }
 
-void AreaDibujo::dibujarAnd(unsigned int xUp, unsigned int yUp) {
+void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp) {
 
-  CompuertaAnd *compuertaAnd= new CompuertaAnd(xUp, yUp);
-  dibujos.push_back(compuertaAnd);
-  seleccionado= compuertaAnd;
+  Compuerta *compuerta;
+
+  if((tipo.compare(AND)) == 0)
+    compuerta= new CompuertaAnd(xUp, yUp);
+  else if((tipo.compare(OR)) == 0)
+    compuerta= new CompuertaOr(xUp, yUp);
+  else if((tipo.compare(NOT)) == 0)
+    compuerta= new CompuertaNot(xUp, yUp);
+  else if((tipo.compare(XOR)) == 0)
+    compuerta= new CompuertaXor(xUp, yUp);
+  else if((tipo.compare(BUFFER)) == 0)
+    compuerta= new CompuertaBuffer(xUp, yUp);
+
+  dibujos.push_back(compuerta);
+  seleccionado= compuerta;
   seleccion= true;
   redibujar();
 }
 
-void AreaDibujo::dibujarOr(unsigned int xUp, unsigned int yUp) {
+void AreaDibujo::dibujarConexion() {
 
-  CompuertaOr *compuertaOr= new CompuertaOr(xUp, yUp);
-  dibujos.push_back(compuertaOr);
-  seleccionado= compuertaOr;
+  conexion= true;
+}
+void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal) {
+
+  Conexion *conexion= new Conexion(xInicial, yInicial, xFinal, yFinal);
+  dibujos.push_back(conexion);
+  seleccionado= conexion;
   seleccion= true;
   redibujar();
 }
 
-void AreaDibujo::dibujarNot(unsigned int xUp, unsigned int yUp) {
+void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
-  CompuertaNot *compuertaNot= new CompuertaNot(xUp, yUp);
-  dibujos.push_back(compuertaNot);
-  seleccionado= compuertaNot;
+  EntradaSalida *entradaSalida= new EntradaSalida(xUp, yUp);
+  dibujos.push_back(entradaSalida);
+  seleccionado= entradaSalida;
   seleccion= true;
   redibujar();
 }
 
-void AreaDibujo::dibujarXor(unsigned int xUp, unsigned int yUp) {
+void AreaDibujo::dibujarCircuito(int xInicial, int yInicial, int entradas, int salidas) {
 
-  CompuertaXor *compuertaXor= new CompuertaXor(xUp, yUp);
-  dibujos.push_back(compuertaXor);
-  seleccionado= compuertaXor;
-  seleccion= true;
-  redibujar();
-}
-
-void AreaDibujo::dibujarBuffer(unsigned int xUp, unsigned int yUp) {
-
-  CompuertaBuffer *compuertaBuffer= new CompuertaBuffer(xUp, yUp);
-  dibujos.push_back(compuertaBuffer);
-  seleccionado= compuertaBuffer;
+  //HARCODEADOOOOOOOOOOO
+  Circuito *circuito= new Circuito(xInicial, yInicial, entradas, salidas);
+  dibujos.push_back(circuito);
+  seleccionado= circuito;
   seleccion= true;
   redibujar();
 }
@@ -197,16 +209,12 @@ void AreaDibujo::on_drop_drag_data_received(
     std::string componente= selection_data.get_data_as_string();
     buscarPosicion(x,y);
 
-    if((componente.compare(AND)) == 0)
-      dibujarAnd(x,y);
-    else if((componente.compare(OR)) == 0)
-      dibujarOr(x,y);
-    else if((componente.compare(NOT)) == 0)
-      dibujarNot(x,y);
-    else if((componente.compare(XOR)) == 0)
-      dibujarXor(x,y);
-    else if((componente.compare(BUFFER)) == 0)
-      dibujarBuffer(x,y);
+    if((componente.compare(IO)) == 0)
+      dibujarIO(x,y);
+    else if((componente.compare(CIRCUITO)) == 0)
+      dibujarCircuito(x,y,2,2); //TODO: HARCO
+    else
+      dibujarCompuerta(componente,x,y);
   }
 
   context->drag_finish(false, false, time);
@@ -233,18 +241,34 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   if(event->type == GDK_BUTTON_PRESS && event->button == 1) {
-    seleccionado= buscarDibujo(event->x, event->y);
-    if(!seleccionado) {
+
+    if(conexion) {
+      seleccion= false;
+      if(!cargoVInicial) {
+        buscarDibujo(event->x, event->y);
+        vInicial.x= event->x;
+        vInicial.y= event->y;
+        cargoVInicial= true;
+        return true;
+      } else {
+        buscarDibujo(event->x, event->y);
+        dibujarConexion(vInicial.x, vInicial.y, event->x, event->y);
+        cargoVInicial= false;
+        conexion= false;
+        return true;
+      }
+    } else {
+      seleccionado= buscarDibujo(event->x, event->y);
+      if(!seleccionado) {
       can_motion= false;
       seleccion= false;
-    } else {
+      } else {
       seleccion= true;
       can_motion= true;
+      }
+      redibujar();
+      return true;
     }
-
-    redibujar();
-    return true;
-
   } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
     if(menuPopup && seleccion)
       menuPopup->popup(event->button, event->time);
@@ -266,7 +290,7 @@ void AreaDibujo::dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context) {
     context->translate(-vCentro.x, -vCentro.y);
     Vertice vSupIzq= seleccionado->getVerticeSupIzq();
     context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
-    context->rectangle(vSupIzq.x-2, vSupIzq.y-2, 44, 44);
+    context->rectangle(vSupIzq.x-2, vSupIzq.y-2, seleccionado->getAncho()+4, seleccionado->getAlto()+4);
     context->fill();
     context->stroke();
   }
@@ -276,7 +300,7 @@ void AreaDibujo::borrarSeleccion() {
 
   if(seleccion && !motion) {
     dibujos.remove(seleccionado);
-    delete seleccionado;
+    //delete seleccionado;
     seleccion= false;
     redibujar();
   }

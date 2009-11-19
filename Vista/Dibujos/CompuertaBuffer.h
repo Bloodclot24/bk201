@@ -2,9 +2,9 @@
 #define BUFFER_H_
 
 #include <iostream>
-#include "Dibujo.h"
+#include "Compuerta.h"
 
-class CompuertaBuffer: public Dibujo {
+class CompuertaBuffer: public Compuerta {
 
 public:
   /**

@@ -2,9 +2,9 @@
 #define COMPUERTANOT_H_
 
 #include <iostream>
-#include "Dibujo.h"
+#include "Compuerta.h"
 
-class CompuertaNot: public Dibujo {
+class CompuertaNot: public Compuerta {
 
 public:
   /**

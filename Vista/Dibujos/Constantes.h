@@ -9,5 +9,8 @@
 #define NOT "Not"
 #define XOR "Xor"
 #define BUFFER "Buffer"
+#define IO "IO"
+#define CONEXION "Conexion"
+#define CIRCUITO "Circuito"
 
 #endif /* CONSTANTES_H_ */

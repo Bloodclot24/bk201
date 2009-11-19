@@ -30,7 +30,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
 
   //nombre ventana
   std::string name;
-  name+= CIRCUITO;
+  name+= NOMBRE_CIRCUITO;
   name+= Util::intToString(id);
   name+= NOMBRE_PROGRAMA;
   window-> set_title(name);
@@ -53,6 +53,9 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //FilechooserDialog Save as
   refXml->get_widget("filechooserdialog_saveas", filechooserdialog_saveas);
   filechooserdialog_saveas->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_saveas));
+
+  //Ventana Impresion
+  loadVentanaImpresion();
 
   window->show_all();
 
@@ -210,7 +213,7 @@ void VentanaTrabajo::loadToolBar() {
     bAnd->drag_source_set(listTargets);
     bAnd->drag_unhighlight();
     //le conecto la señal de drag
-    bAnd->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_And_drag_data_get));
+    bAnd->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), AND));
     //creo icono para el drag
     Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_AND);
     if(pixbuf)
@@ -221,7 +224,7 @@ void VentanaTrabajo::loadToolBar() {
   if(bOr) {
     bOr->set_use_drag_window(true);
     bOr->drag_source_set(listTargets);
-    bOr->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_Or_drag_data_get));
+    bOr->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), OR));
     Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_OR);
     if(pixbuf)
       bOr->drag_source_set_icon(pixbuf);
@@ -231,7 +234,7 @@ void VentanaTrabajo::loadToolBar() {
   if(bNot) {
     bNot->set_use_drag_window(true);
     bNot->drag_source_set(listTargets);
-    bNot->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_Not_drag_data_get));
+    bNot->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), NOT));
     Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_NOT);
     if(pixbuf)
       bNot->drag_source_set_icon(pixbuf);
@@ -241,7 +244,7 @@ void VentanaTrabajo::loadToolBar() {
   if(bXor) {
     bXor->set_use_drag_window(true);
     bXor->drag_source_set(listTargets);
-    bXor->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_Xor_drag_data_get));
+    bXor->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), XOR));
     Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_XOR);
     if(pixbuf)
       bXor->drag_source_set_icon(pixbuf);
@@ -251,10 +254,35 @@ void VentanaTrabajo::loadToolBar() {
   if(bBuffer) {
     bBuffer->set_use_drag_window(true);
     bBuffer->drag_source_set(listTargets);
-    bBuffer->signal_drag_data_get().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_Buffer_drag_data_get));
+    bBuffer->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), BUFFER));
     Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_BUFFER);
     if(pixbuf)
       bBuffer->drag_source_set_icon(pixbuf);
+  }
+
+  refXml->get_widget("conexion", bConexion);
+  if(bConexion) {
+    bConexion->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_clicked_conexion));
+  }
+
+  refXml->get_widget("i/o", bIO);
+  if(bIO) {
+    bIO->set_use_drag_window(true);
+    bIO->drag_source_set(listTargets);
+    bIO->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), IO));
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_IO);
+    if(pixbuf)
+      bIO->drag_source_set_icon(pixbuf);
+  }
+
+  refXml->get_widget("circuito", bCircuito);
+  if(bCircuito) {
+    bCircuito->set_use_drag_window(true);
+    bCircuito->drag_source_set(listTargets);
+    bCircuito->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), CIRCUITO));
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_CIRCUITO);
+    if(pixbuf)
+      bCircuito->drag_source_set_icon(pixbuf);
   }
 
   refXml->get_widget("imprimir", bImprimir);
@@ -262,41 +290,14 @@ void VentanaTrabajo::loadToolBar() {
     bImprimir->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::imprimir));
 }
 
-void VentanaTrabajo::on_And_drag_data_get(
+void VentanaTrabajo::on_drag_data_get(
         const Glib::RefPtr<Gdk::DragContext>& context,
-        Gtk::SelectionData& selection_data, guint info, guint time) {
+        Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente) {
 
-  const std::string str= AND;
+  const std::string str= componente;
   selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
 }
 
-void VentanaTrabajo::on_Or_drag_data_get(const Glib::RefPtr<Gdk::DragContext>& context,
-                                      Gtk::SelectionData& selection_data, guint, guint) {
-
-  const std::string str= OR;
-  selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
-}
-
-void VentanaTrabajo::on_Not_drag_data_get(const Glib::RefPtr<Gdk::DragContext>& context,
-                                      Gtk::SelectionData& selection_data, guint, guint) {
-
-  const std::string str= NOT;
-  selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
-}
-
-void VentanaTrabajo::on_Xor_drag_data_get(const Glib::RefPtr<Gdk::DragContext>& context,
-                                      Gtk::SelectionData& selection_data, guint, guint) {
-
-  const std::string str= XOR;
-  selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
-}
-
-void VentanaTrabajo::on_Buffer_drag_data_get(const Glib::RefPtr<Gdk::DragContext>& context,
-                                      Gtk::SelectionData& selection_data, guint, guint) {
-
-  const std::string str= BUFFER;
-  selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
-}
 /**FILECHOOSERDIALOG**/
 void VentanaTrabajo::on_response_open(int response_id) {
 
@@ -324,11 +325,36 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
   }
 }
 
-void VentanaTrabajo::imprimir() {
 
-  //Ventana impresion
+/**IMPRESION**/
+void VentanaTrabajo::loadVentanaImpresion() {
+
+  //ventana impresion
+ // Glib::RefPtr<Glib::Object> obj_window_print= refXml->get_object("window_print");
+  //window_print= dynamic_cast<VentanaImpresion>(obj_window_print);
+
   refXml->get_widget("window_print", window_print);
+
+  //cargo las señales de cada boton
+  Gtk::Button *button_print_cancel;
+  refXml->get_widget("button_print_cancel", button_print_cancel);
+  button_print_cancel->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::cerrarVentanaImpresion));
+
+}
+
+void VentanaTrabajo::on_clicked_conexion() {
+
+  areaDibujo.dibujarConexion();
+}
+
+void VentanaTrabajo::imprimir() {
 
   if(window_print)
     window_print->show();
+}
+
+void VentanaTrabajo::cerrarVentanaImpresion() {
+
+  if(window_print)
+    window_print->hide();
 }

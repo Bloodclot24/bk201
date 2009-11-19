@@ -9,11 +9,15 @@
 #include <list>
 #include "Dibujos/Dibujo.h"
 #include "Dibujos/Constantes.h"
+#include "Dibujos/Compuerta.h"
 #include "Dibujos/CompuertaAnd.h"
 #include "Dibujos/CompuertaOr.h"
 #include "Dibujos/CompuertaNot.h"
 #include "Dibujos/CompuertaXor.h"
 #include "Dibujos/CompuertaBuffer.h"
+#include "Dibujos/Conexion.h"
+#include "Dibujos/EntradaSalida.h"
+#include "Dibujos/Circuito.h"
 
 #include <iostream>
 
@@ -32,8 +36,12 @@ private:
   bool                          seleccion;
   Dibujo*                       seleccionado;
   Dibujo* buscarDibujo(int x, int y);
-
   void dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context);
+
+  //Conexion
+  bool                          conexion;
+  bool                          cargoVInicial;
+  Vertice                       vInicial;
 
   /*MenuPopup*/
   Gtk::Menu     *menuPopup;
@@ -56,14 +64,16 @@ protected:
   virtual bool on_motion_notify_event(GdkEventMotion* event);
   virtual bool on_button_release_event(GdkEventButton* event);
 
+  void dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp);
+  void dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal);
+  void dibujarIO(unsigned int xUp, unsigned int yUp);
+  void dibujarCircuito(int xUp, int yUp, int entradas, int salidas);
+
 public:
   AreaDibujo();
   virtual ~AreaDibujo();
-  void dibujarAnd(unsigned int xUp, unsigned int yUp);
-  void dibujarOr(unsigned int xUp, unsigned int yUp);
-  void dibujarNot(unsigned int xUp, unsigned int yUp);
-  void dibujarXor(unsigned int xUp, unsigned int yUp);
-  void dibujarBuffer(unsigned int xUp, unsigned int yUp);
+
+  void dibujarConexion();
 
   void borrarSeleccion();
   void rotarSeleccion90Derecha();

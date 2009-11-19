@@ -1,10 +1,6 @@
 #include "CompuertaNot.h"
 
-CompuertaNot::CompuertaNot(int xUp, int yUp): Dibujo::Dibujo(xUp, yUp) {
-
-  vCentro.x= xUp+20;
-  vCentro.y= yUp+20;
-}
+CompuertaNot::CompuertaNot(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
 void CompuertaNot::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
@@ -22,10 +18,8 @@ void CompuertaNot::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->stroke();
   //entradas
   context->set_source_rgb(0.0, 0.0, 0.0);
-  context->move_to(vSupIzq.x, vSupIzq.y+10);
-  context->line_to(vSupIzq.x+7, vSupIzq.y+10);
-  context->move_to(vSupIzq.x, vSupIzq.y+30);
-  context->line_to(vSupIzq.x+7, vSupIzq.y+30);
+  context->move_to(vSupIzq.x, vSupIzq.y+20);
+  context->line_to(vSupIzq.x+7, vSupIzq.y+20);
   //salida
   context->move_to(vSupIzq.x+32, vSupIzq.y+20);
   context->line_to(vSupIzq.x+40, vSupIzq.y+20);
