@@ -107,10 +107,6 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
       context->translate(-vCentro.x, -vCentro.y);
       (*it)->dibujar(context);
     }
-
-    //Si hay algun elemento seleccionado
-    if(seleccion)
-      dibujarSeleccion(context);
   }
 
   return false;
@@ -141,6 +137,7 @@ void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned i
   else if((tipo.compare(BUFFER)) == 0)
     compuerta= new CompuertaBuffer(xUp, yUp);
 
+  compuerta->seleccionar();
   dibujos.push_back(compuerta);
   seleccionado= compuerta;
   seleccion= true;
@@ -154,6 +151,7 @@ void AreaDibujo::dibujarConexion() {
 void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal) {
 
   Conexion *conexion= new Conexion(xInicial, yInicial, xFinal, yFinal);
+  conexion->seleccionar();
   dibujos.push_back(conexion);
   seleccionado= conexion;
   seleccion= true;
@@ -163,6 +161,7 @@ void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFi
 void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
   EntradaSalida *entradaSalida= new EntradaSalida(xUp, yUp);
+  entradaSalida->seleccionar();
   dibujos.push_back(entradaSalida);
   seleccionado= entradaSalida;
   seleccion= true;
@@ -171,8 +170,8 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
 void AreaDibujo::dibujarCircuito(int xInicial, int yInicial, int entradas, int salidas) {
 
-  //HARCODEADOOOOOOOOOOO
   Circuito *circuito= new Circuito(xInicial, yInicial, entradas, salidas);
+  circuito->seleccionar();
   dibujos.push_back(circuito);
   seleccionado= circuito;
   seleccion= true;
@@ -224,16 +223,12 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
 
   std::list<Dibujo*>::iterator it;
   bool encontrado= false;
-  for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
-    Vertice vSupIzq= (*it)->getVerticeSupIzq();
-    int ancho= (*it)->getAncho();
-    int alto= (*it)->getAlto();
-    if((x >= vSupIzq.x) && ((x <= vSupIzq.x+ancho)) && (y >= vSupIzq.y) && (y <= (vSupIzq.y+alto))) {
-      encontrado= true;
-      break;
-    }
-  }
 
+  for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
+    encontrado= (*it)->setSeleccionado(x,y);
+    if(encontrado)
+      break;
+  }
   if(!encontrado)
     return NULL;
 
@@ -260,6 +255,8 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
         return true;
       }
     } else {
+      if(seleccionado)
+        seleccionado->deseleccionar();
       seleccionado= buscarDibujo(event->x, event->y);
       if(!seleccionado) {
       can_motion= false;
@@ -278,24 +275,6 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
   }
 
   return false;
-}
-
-void AreaDibujo::dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context) {
-
-  if(seleccionado) {
-    //seteo matriz identidad
-    context->set_identity_matrix();
-    //roto respecto el centro de la imagen
-    Vertice vCentro= seleccionado->getVerticeCentro();
-    context->translate(vCentro.x, vCentro.y);
-    context->rotate_degrees(seleccionado->getAngulo());
-    context->translate(-vCentro.x, -vCentro.y);
-    Vertice vSupIzq= seleccionado->getVerticeSupIzq();
-    context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
-    context->rectangle(vSupIzq.x-2, vSupIzq.y-2, seleccionado->getAncho()+4, seleccionado->getAlto()+4);
-    context->fill();
-    context->stroke();
-  }
 }
 
 void AreaDibujo::borrarSeleccion() {
@@ -329,6 +308,7 @@ bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
   if(can_motion && event->type == GDK_MOTION_NOTIFY) {
     motion= true;
     seleccion= false;
+    seleccionado->deseleccionar();
     Vertice vSupIzq;
     vSupIzq.x= event->x;
     vSupIzq.y= event->y;
@@ -348,6 +328,7 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
     if(motion) {
       motion= false;
       seleccion= true;
+      seleccionado->seleccionar();
       redibujar();
     }
     return true;

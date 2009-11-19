@@ -10,6 +10,9 @@ class Conexion: public Dibujo {
 private:
   Vertice vFinal;
 
+protected:
+  virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
+
 public:
   /**
     * Crea una conexion.
