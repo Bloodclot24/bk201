@@ -15,4 +15,7 @@ void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->arc(vSupIzq.x+10, vSupIzq.y+10, 4.0, 0.0, 2*M_PI);
   context->fill();
   context->stroke();
+
+  if(seleccionado)
+    dibujarSeleccion(context);
 }

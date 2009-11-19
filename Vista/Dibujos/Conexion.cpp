@@ -24,4 +24,17 @@ void Conexion::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->move_to(vCentro.x, vFinal.y);
   context->line_to(vFinal.x, vFinal.y);
   context->stroke();
+
+  if(seleccionado)
+    dibujarSeleccion(context);
+}
+
+void Conexion::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
+
+  context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
+  context->move_to(vSupIzq.x-3.5, vSupIzq.y-3.5);
+  context->rectangle(vSupIzq.x-3.5, vSupIzq.y-3.5, 7, 7);
+  context->move_to(vFinal.x-3.5, vFinal.y-3.5);
+  context->rectangle(vFinal.x-3.5, vFinal.y-3.5, 7, 7);
+  context->stroke();
 }

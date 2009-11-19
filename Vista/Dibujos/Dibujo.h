@@ -20,6 +20,10 @@ protected:
   int           angulo;
   int           ancho;
   int           alto;
+  bool          seleccionado;
+
+  virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
+
 
 public:
   /**
@@ -74,6 +78,11 @@ public:
 
   int getAncho();
   int getAlto();
+
+  void deseleccionar();
+  void seleccionar();
+  virtual bool setSeleccionado(int x, int y);
+
 };
 
 #endif /* DIBUJO_H_ */

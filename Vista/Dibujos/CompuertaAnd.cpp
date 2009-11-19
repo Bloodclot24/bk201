@@ -21,4 +21,7 @@ void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->move_to(vSupIzq.x+32, vSupIzq.y+20);
   context->line_to(vSupIzq.x+40, vSupIzq.y+20);
   context->stroke();
+
+  if(seleccionado)
+    dibujarSeleccion(context);
 }
