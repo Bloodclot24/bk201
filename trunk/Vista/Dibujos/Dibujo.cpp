@@ -33,3 +33,13 @@ void Dibujo::setAngulo(int angulo) {
 
   this->angulo+= angulo;
 }
+
+int Dibujo::getAlto() {
+
+  return alto;
+}
+
+int Dibujo::getAncho() {
+
+  return ancho;
+}

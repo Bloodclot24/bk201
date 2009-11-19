@@ -22,10 +22,11 @@
 #include "AreaDibujo.h"
 #include "Dibujos/Dibujo.h"
 #include "Dibujos/Constantes.h"
+#include "Impresion/VentanaImpresion.h"
 #include "../Controlador/controlador.h"
 
 #define PATH_VISTA "Vista/interfaz.glade"
-#define CIRCUITO "Circuito "
+#define NOMBRE_CIRCUITO "Circuito "
 #define NOMBRE_PROGRAMA " - Bk201"
 
 #define PATH_AND "Vista/Imagenes/and.png"
@@ -33,6 +34,9 @@
 #define PATH_NOT "Vista/Imagenes/not.png"
 #define PATH_XOR "Vista/Imagenes/xor.png"
 #define PATH_BUFFER "Vista/Imagenes/buf.png"
+#define PATH_CONEXION "Vista/Imagenes/conexion.png"
+#define PATH_IO "Vista/Imagenes/io.png"
+#define PATH_CIRCUITO "Vista/Imagenes/circuito.png"
 
 /**
  * Ventana de principal de trabajo para el usuario.
@@ -61,12 +65,16 @@ private:
   void about();
 		
   /*TOOLBAR*/
-  Gtk::ToolButton* bAnd;
-  Gtk::ToolButton* bOr;
-  Gtk::ToolButton* bNot;
-  Gtk::ToolButton* bXor;
-  Gtk::ToolButton* bBuffer;
-  Gtk::ToolButton* bImprimir;
+  Gtk::ToolButton *bAnd;
+  Gtk::ToolButton *bOr;
+  Gtk::ToolButton *bNot;
+  Gtk::ToolButton *bXor;
+  Gtk::ToolButton *bBuffer;
+  Gtk::ToolButton *bConexion;
+  Gtk::ToolButton *bIO;
+  Gtk::ToolButton *bCircuito;
+  Gtk::ToolButton *bSimular;
+  Gtk::ToolButton *bImprimir;
   void loadToolBar();
 
   /*TARGETS*/
@@ -86,24 +94,15 @@ private:
 
   /*IMPRESION*/
   Gtk::Window *window_print;
+  void loadVentanaImpresion();
+  void cerrarVentanaImpresion();
 
 protected:
   //Signal handlers
-  void on_And_drag_data_get(
+  void on_drag_data_get(
           const Glib::RefPtr<Gdk::DragContext>& context,
-          Gtk::SelectionData& selection_data, guint info, guint time);
-  void on_Or_drag_data_get(
-          const Glib::RefPtr<Gdk::DragContext>& context,
-          Gtk::SelectionData& selection_data, guint info, guint time);
-  void on_Not_drag_data_get(
-          const Glib::RefPtr<Gdk::DragContext>& context,
-          Gtk::SelectionData& selection_data, guint info, guint time);
-  void on_Xor_drag_data_get(
-          const Glib::RefPtr<Gdk::DragContext>& context,
-          Gtk::SelectionData& selection_data, guint info, guint time);
-  void on_Buffer_drag_data_get(
-          const Glib::RefPtr<Gdk::DragContext>& context,
-          Gtk::SelectionData& selection_data, guint info, guint time);
+          Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente);
+  void on_clicked_conexion();
   virtual void imprimir();
 
 public:

@@ -6,6 +6,8 @@
 #include "Constantes.h"
 #include "Vertice.h"
 
+#include <iostream>
+
 /**
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
  * ser dibujados en el area de dibujo.
@@ -16,6 +18,8 @@ protected:
   Vertice       vCentro;
   Vertice       vSupIzq;
   int           angulo;
+  int           ancho;
+  int           alto;
 
 public:
   /**
@@ -67,6 +71,9 @@ public:
     * @param angulo La cantidad en grados a modificar el angulo.
     */
   void setAngulo(int angulo);
+
+  int getAncho();
+  int getAlto();
 };
 
 #endif /* DIBUJO_H_ */

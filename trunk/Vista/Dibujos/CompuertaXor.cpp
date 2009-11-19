@@ -1,10 +1,6 @@
 #include "CompuertaXor.h"
 
-CompuertaXor::CompuertaXor(int xUp, int yUp): Dibujo::Dibujo(xUp, yUp) {
-
-  vCentro.x= xUp+20;
-  vCentro.y= yUp+20;
-}
+CompuertaXor::CompuertaXor(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
 void CompuertaXor::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 

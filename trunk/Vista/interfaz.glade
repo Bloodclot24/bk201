@@ -104,12 +104,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkToolButton" id="pista">
+              <object class="GtkToolButton" id="conexion">
                 <property name="visible">True</property>
                 <property name="tooltip_text" translatable="yes">Pista</property>
-                <property name="label" translatable="yes">PISTA</property>
+                <property name="label" translatable="yes">CONEXION</property>
                 <property name="use_underline">True</property>
-                <property name="icon_widget">pista_image</property>
+                <property name="icon_widget">conexion_image</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -435,9 +435,9 @@ Ygounet Guido</property>
     <property name="visible">True</property>
     <property name="pixbuf">Imagenes/buf.png</property>
   </object>
-  <object class="GtkImage" id="pista_image">
+  <object class="GtkImage" id="conexion_image">
     <property name="visible">True</property>
-    <property name="pixbuf">Imagenes/pista.png</property>
+    <property name="pixbuf">Imagenes/conexion.png</property>
   </object>
   <object class="GtkImage" id="io_image">
     <property name="visible">True</property>

@@ -2,9 +2,9 @@
 #define COMPUERTAXOR_H_
 
 #include <iostream>
-#include "Dibujo.h"
+#include "Compuerta.h"
 
-class CompuertaXor: public Dibujo {
+class CompuertaXor: public Compuerta {
 
 public:
   /**

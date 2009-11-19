@@ -1,10 +1,6 @@
 #include "CompuertaAnd.h"
 
-CompuertaAnd::CompuertaAnd(int xUp, int yUp): Dibujo::Dibujo(xUp, yUp) {
-
-  vCentro.x= xUp+20;
-  vCentro.y= yUp+20;
-}
+CompuertaAnd::CompuertaAnd(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
 void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
