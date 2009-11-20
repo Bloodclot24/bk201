@@ -75,7 +75,8 @@ public:
 	  if(numero < getCantidadSalidas()+getCantidadEntradas()) {
 	       if(numero < getCantidadEntradas())
 		    return entradas[numero];
-	  } else return salidas[numero-getCantidadEntradas()];
+	       else return salidas[numero-getCantidadEntradas()];
+	  }
 	  return false;
      }
      

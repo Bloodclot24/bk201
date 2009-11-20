@@ -12,8 +12,8 @@ Socket::Socket(std::string direccion, int puerto){
      if(s == -1)
 	  error=errno;
      else{
-	  std::string hostName;
-	  size_t inicio,fin,limite;
+	  std::string hostName=direccion;
+	  size_t inicio=0,fin=0,limite=0;
 	  limite = direccion.find('.');
 	  inicio = direccion.find("://");
 	  fin = direccion.find_first_of(":/", limite);
@@ -27,13 +27,12 @@ Socket::Socket(std::string direccion, int puerto){
 	  else{ 
 	       fin = direccion.find_first_of(":");
 	       hostName = direccion.substr(0,fin);
-	       std::cout << hostName << std::endl;
 	       if(direccion[fin] == ':'){
 		    puertoFinal = atoi(direccion.c_str()+fin+1);
 	       }
 	       else hostName = direccion;
 	  }
-
+	  
 	  host=gethostbyname(hostName.c_str());
 	       
 	  if(host == NULL){
