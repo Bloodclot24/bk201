@@ -65,6 +65,8 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("dialog_servidor", dialog_servidor);
   dialog_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_servidor));
   refXml->get_widget("messagedialog_servidor", dialog_message);
+  refXml->get_widget("messagedialog_error_servidor", messagedialog_error_servidor);
+  messagedialog_error_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_servidor));
 
   //Ventana Impresion
   loadVentanaImpresion();
@@ -301,12 +303,9 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
 
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
-      std::cout << "checkear save as" << std::endl;
       Glib::ustring file= filechooserdialog_saveas->get_filename();
-      std::cout << "File: " << file << std::endl;
-
       controladorVentana->guardar(file);
-
+      filechooserdialog_saveas->hide();
     }
       break;
     default:
@@ -356,6 +355,7 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       Glib::ustring puerto= entry->get_text();
       std::cout << "Puerto: " << puerto << std::endl;
       dialog_servidor->set_sensitive(false);
+
       if(dialog_message) {
         dialog_message->show();
         dialog_message->set_message("Conectandose al servidor...");
@@ -387,7 +387,16 @@ void VentanaTrabajo::recibirListaCircuitos(std::list<std::string> lista) {
     dialog_message->hide();
     dialog_servidor->hide();
   } else {
+    dialog_message->hide();
     dialog_servidor->set_sensitive(true);
-
+    if(messagedialog_error_servidor) {
+      messagedialog_error_servidor->set_message("Error al conectar el servidor");
+      messagedialog_error_servidor->show();
+    }
   }
+}
+
+void VentanaTrabajo::on_error_servidor(int response_id) {
+
+  messagedialog_error_servidor->hide();
 }

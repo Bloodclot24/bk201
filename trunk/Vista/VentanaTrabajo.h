@@ -100,6 +100,8 @@ private:
   Gtk::Dialog *dialog_servidor;
   void on_response_servidor(int response_id);
   Gtk::MessageDialog *dialog_message;
+  Gtk::MessageDialog *messagedialog_error_servidor;
+  void on_error_servidor(int response_id);
   void ventanaServidor();
 
   /*AREADIBUJO*/
