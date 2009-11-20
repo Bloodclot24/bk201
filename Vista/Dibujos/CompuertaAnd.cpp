@@ -54,7 +54,14 @@ void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //Muestro la etiqueta
   //TODO ver como se va a permitirle al usuario editar la etiqueta.
   mostrarEtiqueta(context,vSupIzq.y,alto,"");
+
+}
+
+std::string CompuertaAnd::getEtiqueta(){
+	return this->etiqueta;
+}
   
-  
+void CompuertaAnd::setEtiqueta(const std::string& etiqueta){
+	this->etiqueta = etiqueta;
 
 }

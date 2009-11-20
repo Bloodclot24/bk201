@@ -25,6 +25,7 @@ protected:
   int                   alto;
   bool                  seleccionado;
   std::list<Vertice>    pins;
+  std::string			etiqueta;
 
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
@@ -89,6 +90,10 @@ public:
   virtual bool setSeleccionado(int x, int y);
 
   virtual Vertice* obtenerPin(int x, int y) { return NULL; };
+  
+  virtual std::string getEtiqueta(){ return etiqueta;};
+  
+  virtual void setEtiqueta(const std::string& etiqueta){this->etiqueta = etiqueta;};
   
   virtual ~Dibujo(){ };
 };

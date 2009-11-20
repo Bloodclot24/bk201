@@ -98,3 +98,13 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
  //TODO ver como se va a permitirle al usuario editar la etiqueta.
   mostrarEtiqueta(context,vSupIzq.y,alto,"");
 };
+
+std::string CircuitoDibujo::getEtiqueta(){
+	return this->etiqueta;
+}
+  
+void CircuitoDibujo::setEtiqueta(const std::string& etiqueta){
+	this->etiqueta = etiqueta;
+}
+
+  

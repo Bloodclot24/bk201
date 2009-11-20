@@ -56,3 +56,11 @@ void CompuertaNot::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   mostrarEtiqueta(context,vSupIzq.y,alto,"");
 }
 
+std::string CompuertaNot::getEtiqueta(){
+	return this->etiqueta;
+}
+  
+void CompuertaNot::setEtiqueta(const std::string& etiqueta){
+	this->etiqueta = etiqueta;
+}
+
