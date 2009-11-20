@@ -18,7 +18,23 @@ AreaDibujo::AreaDibujo(): menuPopup() {
   can_motion= false;
   motion= false;
 
-  /*Menu popup*/
+  loadMenuPopup();
+
+  //Conexion
+  conexion= false;
+  cargoVInicial= false;
+}
+
+AreaDibujo::~AreaDibujo() {
+
+  //libero los componentes
+  std::list<Dibujo*>::iterator it;
+  for(it= dibujos.begin(); it != dibujos.end(); it++)
+    delete *it;
+}
+
+void AreaDibujo::loadMenuPopup() {
+
   //crea las acciones del menu popup
   m_refActionGroup = Gtk::ActionGroup::create();
 
@@ -47,19 +63,8 @@ AreaDibujo::AreaDibujo(): menuPopup() {
 
   //Obtenemos el menu
   menuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
-
-  //Conexion
-  conexion= false;
-  cargoVInicial= false;
 }
 
-AreaDibujo::~AreaDibujo() {
-
-  //libero los componentes
-  std::list<Dibujo*>::iterator it;
-  for(it= dibujos.begin(); it != dibujos.end(); it++)
-    delete *it;
-}
 
 bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
 
@@ -90,7 +95,7 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
     for(int w= PASO; w<width; w+=PASO) {
       for(int h= PASO; h<height; h+=PASO) {
         context->move_to(w, h);
-        context->line_to(w, h + 1);
+        context->line_to(w, h + 0.5);
       }
     }
     context->stroke();
@@ -122,6 +127,14 @@ void AreaDibujo::redibujar() {
   }
 }
 
+void AreaDibujo::deseleccionar() {
+
+  //libero los componentes
+  std::list<Dibujo*>::iterator it;
+  for(it= dibujos.begin(); it != dibujos.end(); it++)
+    (*it)->deseleccionar();
+}
+
 void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp) {
 
   Compuerta *compuerta;
@@ -137,6 +150,7 @@ void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned i
   else if((tipo.compare(BUFFER)) == 0)
     compuerta= new CompuertaBuffer(xUp, yUp);
 
+  deseleccionar();
   compuerta->seleccionar();
   dibujos.push_back(compuerta);
   seleccionado= compuerta;
@@ -146,13 +160,14 @@ void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned i
 
 void AreaDibujo::dibujarConexion() {
 
+  deseleccionar();
   conexion= true;
 }
 void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal) {
 
   Conexion *conexion= new Conexion(xInicial, yInicial, xFinal, yFinal);
-  conexion->seleccionar();
   dibujos.push_back(conexion);
+  conexion->seleccionar();
   seleccionado= conexion;
   seleccion= true;
   redibujar();
@@ -161,6 +176,7 @@ void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFi
 void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
   EntradaSalida *entradaSalida= new EntradaSalida(xUp, yUp);
+  deseleccionar();
   entradaSalida->seleccionar();
   dibujos.push_back(entradaSalida);
   seleccionado= entradaSalida;
@@ -171,6 +187,7 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 void AreaDibujo::dibujarCircuito(int xInicial, int yInicial, int entradas, int salidas) {
 
   Circuito *circuito= new Circuito(xInicial, yInicial, entradas, salidas);
+  deseleccionar();
   circuito->seleccionar();
   dibujos.push_back(circuito);
   seleccionado= circuito;
@@ -179,7 +196,6 @@ void AreaDibujo::dibujarCircuito(int xInicial, int yInicial, int entradas, int s
 }
 
 //TODO: Por ahora trata que no se dibuje fuera del area de dibujo
-
 void calcularPosicion(int &x, int max, int min) {
 
   int mod= x % 10;
@@ -211,7 +227,7 @@ void AreaDibujo::on_drop_drag_data_received(
     if((componente.compare(IO)) == 0)
       dibujarIO(x,y);
     else if((componente.compare(CIRCUITO)) == 0)
-      dibujarCircuito(x,y,2,2); //TODO: HARCO
+      dibujarCircuito(x,y,43,1); //TODO: HARCO
     else
       dibujarCompuerta(componente,x,y);
   }
@@ -224,8 +240,14 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
   std::list<Dibujo*>::iterator it;
   bool encontrado= false;
 
+  std::cout << "BUSCANDO SELECCIONADO" << std::endl;
+
   for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
     encontrado= (*it)->setSeleccionado(x,y);
+
+    std::cout << "encontrado: " << encontrado << std::endl;
+
+
     if(encontrado)
       break;
   }
@@ -235,6 +257,17 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
   return *it;
 }
 
+Vertice* AreaDibujo::buscarPinMasCercano(int x, int y) {
+
+  //obtengo el dibujo sobre el que se hizo click
+  Dibujo *dibujo= buscarDibujo(x, y);
+
+  //obtengo el pin mas cercano
+  if(dibujo)
+    return dibujo->obtenerPin(x,y);
+  else return NULL;
+}
+
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   if(event->type == GDK_BUTTON_PRESS && event->button == 1) {
@@ -242,22 +275,53 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
     if(conexion) {
       seleccion= false;
       if(!cargoVInicial) {
-        buscarDibujo(event->x, event->y);
-        vInicial.x= event->x;
-        vInicial.y= event->y;
+//        std::cout << "vInicial.x: " << event->x << std::endl;
+//        std::cout << "vInicial.y: " << event->y << std::endl;
+
+        vInicial= buscarPinMasCercano(event->x, event->y);
+        if(!vInicial) {
+          vInicial= new Vertice();
+          vInicial->x= event->x;
+          vInicial->y= event->y;
+          buscarPosicion(vInicial->x, vInicial->y);
+        }
+
+//        std::cout << "vInicial.x: " << vInicial->x << std::endl;
+//        std::cout << "vInicial.y: " << vInicial->y << std::endl;
+
+//        std::cout << "------------------------" << std::endl;
+
+
         cargoVInicial= true;
         return true;
       } else {
-        buscarDibujo(event->x, event->y);
-        dibujarConexion(vInicial.x, vInicial.y, event->x, event->y);
+//        std::cout << "vFinal.x: " << event->x << std::endl;
+//        std::cout << "vFinal.y: " << event->y << std::endl;
+
+        vFinal= buscarPinMasCercano(event->x, event->y);
+        if(!vFinal) {
+          vFinal= new Vertice();
+          vFinal->x= event->x;
+          vFinal->y= event->y;
+          buscarPosicion(vFinal->x, vFinal->y);
+        }
+
+//        std::cout << "vFinal.x: " << vFinal->x << std::endl;
+//        std::cout << "vFinal.y: " << vFinal->y << std::endl;
+
+        dibujarConexion(vInicial->x, vInicial->y, vFinal->x, vFinal->y);
+        //delete vInicial;
+        //delete vFinal;
         cargoVInicial= false;
         conexion= false;
-        return true;
       }
     } else {
-      if(seleccionado)
-        seleccionado->deseleccionar();
+      deseleccionar();
       seleccionado= buscarDibujo(event->x, event->y);
+
+      if(seleccionado)
+        std::cout << "Con q sale: " << seleccionado->getSeleccionar() << std::endl;
+
       if(!seleccionado) {
       can_motion= false;
       seleccion= false;

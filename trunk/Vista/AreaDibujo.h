@@ -37,22 +37,25 @@ private:
   Dibujo*                       seleccionado;
   Dibujo* buscarDibujo(int x, int y);
   void dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context);
+  void deseleccionar();
 
   //Conexion
   bool                          conexion;
   bool                          cargoVInicial;
-  Vertice                       vInicial;
+  Vertice                       *vInicial;
+  Vertice                       *vFinal;
 
   /*MenuPopup*/
   Gtk::Menu     *menuPopup;
   Glib::RefPtr<Gtk::UIManager> m_refUIManager;
   Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
-
+  void loadMenuPopup();
 
   /*TARGETS*/
   std::list<Gtk::TargetEntry> listTargets;
 
   void buscarPosicion(int &x, int &y);
+  Vertice* buscarPinMasCercano(int x, int y);
   void redibujar();
 
 protected:

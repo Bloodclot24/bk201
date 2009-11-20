@@ -2,6 +2,7 @@
 #define CONEXION_H_
 
 #include "Dibujo.h"
+#include <list>
 
 #include <iostream>
 
@@ -9,9 +10,11 @@ class Conexion: public Dibujo {
 
 private:
   Vertice vFinal;
+  std::list<Vertice> poligonos;
 
 protected:
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
+  void generarPoligonos();
 
 public:
   /**
@@ -28,6 +31,9 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
+
+  virtual bool setSeleccionado(int x, int y);
+
 };
 
 #endif /* CONEXION_H_ */

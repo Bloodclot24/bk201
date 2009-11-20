@@ -75,6 +75,7 @@ private:
   Gtk::ToolButton *bCircuito;
   Gtk::ToolButton *bSimular;
   Gtk::ToolButton *bImprimir;
+  void loadButtonDrag(Gtk::ToolButton *button, std::string tipo, std::string path);
   void loadToolBar();
 
   /*TARGETS*/

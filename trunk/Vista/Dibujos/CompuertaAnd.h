@@ -6,6 +6,9 @@
 
 class CompuertaAnd: public Compuerta {
 
+protected:
+  virtual void cargarNuevosPins(Vertice vSupIzq);
+
 public:
   /**
     * Crea una compuerta And.

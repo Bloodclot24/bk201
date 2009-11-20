@@ -16,6 +16,8 @@ public:
     */
   EntradaSalida(int supIzqX, int supIzqY);
 
+  virtual void setVerticeSupIzq(Vertice vSupIzq);
+
   /**
     * Se dibuja la entrada o la salida en el contexto dado por parametro.
     *
