@@ -33,12 +33,12 @@ TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuitoRemotoCl.cpp\
 	Circuito/testCircuitoRemotoSr.cpp
 
-MAIN=AlgunNombre.cpp
+MAIN=main.cpp
 
-CFLAGS+=-g -Wall `pkg-config --cflags gtkmm-2.4 gthread-2.0 libxml-2.0`
-LDFLAGS=`pkg-config --libs gtkmm-2.4 gthread-2.0 libxml-2.0`
+CFLAGS+=-g3 -Wall -O0 `pkg-config --cflags gdkmm-2.4 gtkmm-2.4 gthread-2.0 libxml-2.0`
+LDFLAGS=`pkg-config --libs gdkmm-2.4 gtkmm-2.4 gthread-2.0 libxml-2.0`
 CC=g++
-EXECUTABLE=AlgunNombre
+EXECUTABLE=bk201
 
 OBJECTS=$(SOURCES:.cpp=.o)
 TESTOBJECTS=$(TESTSOURCES:.cpp=.o)
@@ -62,3 +62,6 @@ $(TESTEXEC): $(TESTOBJECTS) $(OBJECTS)
 
 clean:
 	rm -f $(ALLOBJECTS) $(EXECUTABLE) $(TESTEXEC)
+
+prueba: $(MAINSOURCES) $(EXECUTABLE)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(SOURCES) $(MAIN) -o $(EXECUTABLE)
