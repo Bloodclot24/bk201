@@ -89,7 +89,7 @@ public:
       * Devuelve el vector de componentes que se conectan al componente en cuestion.
       * Se lo utilizara unicamente para la persistencia.
       */
-     const std::vector<Componentes*>& getComponentes(){
+     const std::vector<Componente*>& getComponentes(){
      	return this->componentes;
      }
      
