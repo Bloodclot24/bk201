@@ -24,6 +24,8 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
+  
+  virtual ~CompuertaXor(){ };
 };
 
 #endif /* COMPUERTAXOR_H_ */

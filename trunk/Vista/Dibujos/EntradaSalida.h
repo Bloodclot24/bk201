@@ -24,6 +24,8 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
+  
+  virtual ~EntradaSalida(){ };
 };
 
 #endif /* ENTRADASALIDA_H_ */

@@ -87,6 +87,8 @@ public:
   virtual bool setSeleccionado(int x, int y);
 
   virtual Vertice* obtenerPin(int x, int y) { return NULL; };
+  
+  virtual ~Dibujo(){ };
 };
 
 #endif /* DIBUJO_H_ */
