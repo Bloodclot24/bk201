@@ -93,4 +93,8 @@ void Circuito::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
     context->line_to(it->x, it->y+5);
   }
   context->stroke();
+  
+  //Muestro la etiqueta
+ //TODO ver como se va a permitirle al usuario editar la etiqueta.
+  mostrarEtiqueta(context,vSupIzq.y,alto,"");
 };

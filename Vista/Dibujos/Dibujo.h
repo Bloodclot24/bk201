@@ -28,6 +28,8 @@ protected:
 
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
+  void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto, std::string etiqueta);
+
 public:
   /**
     * Crea un dibujo.

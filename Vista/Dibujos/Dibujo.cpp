@@ -61,3 +61,14 @@ void Dibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
   context->rectangle(vSupIzq.x+ancho-3.5, vSupIzq.y+alto-3.5, 7, 7);
   context->stroke();
 }
+
+void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto, std::string etiqueta){
+	int yTexto = 0;
+	if((vSupIzq.y - 25) <= 0){
+  		yTexto = vSupIzq.y + alto + 25;
+  	}else yTexto = vSupIzq.y -25;
+  	context->set_identity_matrix();
+  	context->move_to(vSupIzq.x, yTexto);
+  	context->show_text("Hola Mundo \r Nadaremos!!");
+  	context->stroke();
+}
