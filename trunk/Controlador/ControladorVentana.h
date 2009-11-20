@@ -45,14 +45,9 @@ struct DatosPin{
      bool esEntrada;
 };
 
-struct Elemento{
-     Dibujo* dibujo;
-     Componente* c;
-};
-
 class ControladorVentana{
 private:
-     VentanaTrabajo& ventana;
+     VentanaTrabajo* ventana;
      ControladorVentana(const ControladorVentana& c);
      ControladorVentana& operator=(const ControladorVentana& c);
 
@@ -64,7 +59,8 @@ protected:
      std::map<Dibujo*, DatosPin*> pines;
 
 public:
-     ControladorVentana(VentanaTrabajo& v):ventana(v){};
+     ControladorVentana(){ ventana=NULL;};
+     void setVentana(VentanaTrabajo* v){ ventana = v; }
 
      void crearComponente(Dibujo* d, const std::string& tipo);
      void eliminarComponente(Dibujo* d);
