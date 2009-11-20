@@ -17,9 +17,9 @@
      - [X] Integracion socket+Soap.
      - [X] Multiples clientes.
 
-** TODO Otros
+** DONE Otros
    - [X] Clases encargadas del parseo/creacion de XML.
-   - [ ] Clases para la persistencia.
+   - [X] Clases para la persistencia.
 
 ** DONE Red 
    - [X] Implementar y probar sockets y threads.
