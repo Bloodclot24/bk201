@@ -31,7 +31,7 @@ public:
 
   virtual Vertice* obtenerPin(int x, int y);
   
-  virtual ~Compuerta();
+  virtual ~Compuerta(){ };
 };
 
 #endif /* COMPUERTA_H_ */
