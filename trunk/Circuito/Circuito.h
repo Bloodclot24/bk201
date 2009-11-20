@@ -381,10 +381,10 @@ public:
 			 else
 			      for(unsigned l=0;l<salidas;l++)
 				   std::cout << "| " << "?" << " ";
-
+		    }
 		    std::cout << " Tiempo: " << this->tiempo << " ns";
 		    std::cout << std::endl;
-		    }
+		    
 	       }
 	       else{ // Paso mas del tiempo maximo permitido
 		    for(unsigned l=0;l<salidas;l++)
@@ -396,10 +396,10 @@ public:
 			 else
 			      for(unsigned l=0;l<salidas;l++)
 				   std::cout << "| " << "?" << " ";
-		    
+		    }
 		    std::cout << " Tiempo: ??? (inestable)";
 		    std::cout << std::endl;
-		    }
+		    
 	       }
 	  }
      }

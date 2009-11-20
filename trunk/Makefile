@@ -15,6 +15,10 @@ SOURCES=Controlador/controlador.cpp \
 	Vista/Dibujos/CompuertaAnd.cpp \
 	Vista/Dibujos/CompuertaNot.cpp \
 	Vista/Dibujos/CompuertaOr.cpp \
+	Vista/Dibujos/Compuerta.cpp \
+	Vista/Dibujos/EntradaSalida.cpp \
+	Vista/Dibujos/Circuito.cpp \
+	Vista/Dibujos/Conexion.cpp \
 	Vista/Dibujos/Dibujo.cpp
 
 TESTSOURCES=Gates/testGates.cpp \

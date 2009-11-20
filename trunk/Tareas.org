@@ -33,7 +33,7 @@
    - [-] Ventana de edicion simple.
      - [X] Barras de herramientas.
      - [X] Grilla punteada.
-     - [ ] Representacion grafica de los componentes.
+     - [X] Representacion grafica de los componentes.
      - [ ] Traduccion del modelo grafico al modelo a simular.
    - [X] Mas de una ventana de edicion.
    - [ ] Menues contextuales.
@@ -54,16 +54,16 @@
    - [X] Drag&Drop.
 
    
-** TODO Semana 2
+** DONE Semana 2
    DEADLINE: <2009-11-10 Tue>
    
    - [X] Simulaciones complejas y compuestas.
 
    - [X] Implementacion del protocolo HTTP.
 
-   - [ ] Ventana de edicion simple.
+   - [X] Ventana de edicion simple.
 
-   - [ ] Integracion Drag&Drop.
+   - [X] Integracion Drag&Drop.
 
 ** TODO Semana 3
    DEADLINE: <2009-11-17 Tue>
@@ -116,3 +116,4 @@
     solo thread. Las transmisiones/recepciones de datos son
     sincronicas.
   - [ ] Timeouts utilizando setitimer/getitimer o alarm.
+  - [ ] Persistencia: como diferenciar entre distintos componentes.
