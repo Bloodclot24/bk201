@@ -33,7 +33,8 @@ public:
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
   virtual bool setSeleccionado(int x, int y);
-
+	
+  virtual ~Conexion(){ };
 };
 
 #endif /* CONEXION_H_ */
