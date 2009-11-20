@@ -59,6 +59,7 @@ protected:
      std::map<Dibujo*, DatosCircuitoRemoto*> circuitos;
      std::map<Dibujo*, DatosPista*> pistas;
      std::map<Dibujo*, DatosPin*> pines;
+     friend class Persistidor;
 
 public:
      ControladorVentana(){ ventana=NULL;};

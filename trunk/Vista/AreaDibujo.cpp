@@ -4,7 +4,7 @@ AreaDibujo::AreaDibujo(VentanaTrabajo *ventanaTrabajo): menuPopup() {
 
   listTargets.push_back(Gtk::TargetEntry("STRING"));
   listTargets.push_back(Gtk::TargetEntry("text/plain"));
-
+  this->ventanaTrabajo = ventanaTrabajo;
   //Zona drop, conecto señal - Toolbar & Drawing area
   drag_dest_set(listTargets);
   signal_drag_data_received().connect(sigc::mem_fun(*this, &AreaDibujo::on_drop_drag_data_received));

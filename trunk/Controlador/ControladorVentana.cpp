@@ -1,5 +1,4 @@
 #include "ControladorVentana.h"
-
 #include "../Gates/GateAnd.h"
 #include "../Gates/GateOr.h"
 #include "../Gates/GateXor.h"
@@ -7,16 +6,16 @@
 #include "../Gates/GateBuffer.h"
 #include "../Circuito/CircuitoRemoto.h"
 #include "../Circuito/Circuito.h"
+#include "../XML/Persistidor.h"
 
-
-#define TIPO_PISTA            "pista" 
-#define TIPO_COMPUERTA_AND    "and"
-#define TIPO_COMPUERTA_OR     "or"
-#define TIPO_COMPUERTA_XOR    "xor"
-#define TIPO_COMPUERTA_NOT    "not"
-#define TIPO_COMPUERTA_BUFFER "buffer"
-#define TIPO_PIN              "pin"
-#define TIPO_CIRCUITO         "circuito"
+#define TIPO_PISTA            "Conexion" 
+#define TIPO_COMPUERTA_AND    "And"
+#define TIPO_COMPUERTA_OR     "Or"
+#define TIPO_COMPUERTA_XOR    "Xor"
+#define TIPO_COMPUERTA_NOT    "Not"
+#define TIPO_COMPUERTA_BUFFER "Buffer"
+#define TIPO_PIN              "Pin"
+#define TIPO_CIRCUITO         "Circuito"
 
 void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
      if(tipo.compare(TIPO_PISTA)==0){
@@ -123,5 +122,6 @@ std::string ControladorVentana::getAtributo(Dibujo* d, const std::string& nombre
 }
 
 void ControladorVentana::guardar(const std::string& nombreArchivo){
-     
+     Persistidor p(nombreArchivo);
+     p.persistir(this);
 }
