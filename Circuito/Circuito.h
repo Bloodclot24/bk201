@@ -76,6 +76,38 @@ public:
 	  for(unsigned i=0;i<componentes.size();i++)
 	       c1->setPin(pinesC1[i], entradas[pinesC1[i]]);
      }
+     
+     /**
+      * Devuelve un puntero constante al componente que recibe las conexiones.
+      * Se lo utilizara unicamente para la persistencia.
+      */
+     const Componente* getComponente(){
+     	return this->c1;
+     }
+     
+     /**
+      * Devuelve el vector de componentes que se conectan al componente en cuestion.
+      * Se lo utilizara unicamente para la persistencia.
+      */
+     const std::vector<Componentes*>& getComponentes(){
+     	return this->componentes;
+     }
+     
+     /**
+      * Devuelve el vector con las salidas del componente C1.
+      * Se lo utilizara unicamente para la persistencia.
+      */
+     const std::vector<unsigned>& getPin1(){
+     	return this->pinesC1;
+     }
+    
+     /**
+      * Devuelve el vector con las entradas a cada componente C2.
+      * Se lo utilizara unicamente para la persistencia.
+      */ 
+     const std::vector<unsigned>& getPin2(){
+     	return this->pinesC2;
+     }
 };
 
 
