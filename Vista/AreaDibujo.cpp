@@ -150,6 +150,8 @@ void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned i
   else if((tipo.compare(BUFFER)) == 0)
     compuerta= new CompuertaBuffer(xUp, yUp);
 
+  ventanaTrabajo->getControladorVentana()->crearComponente(compuerta, tipo);
+
   deseleccionar();
   compuerta->seleccionar();
   dibujos.push_back(compuerta);

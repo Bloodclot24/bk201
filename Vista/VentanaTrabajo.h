@@ -1,6 +1,8 @@
 #ifndef VENTANATRABAJO_H_
 #define VENTANATRABAJO_H_
 
+class VentanaTrabajo;
+
 #include <gtkmm/window.h>
 #include <gtkmm/widget.h>
 #include <gtkmm/dialog.h>
@@ -27,6 +29,7 @@
 #include "Dibujos/Constantes.h"
 #include "Impresion/VentanaImpresion.h"
 #include "../Controlador/controlador.h"
+#include "../Controlador/ControladorVentana.h"
 
 #define PATH_VISTA "Vista/interfaz.glade"
 #define NOMBRE_CIRCUITO "Circuito "
@@ -41,7 +44,6 @@
 #define PATH_IO "Vista/Imagenes/io.png"
 #define PATH_CIRCUITO "Vista/Imagenes/circuito.png"
 
-class AreaDibujo;
 /**
  * Ventana de principal de trabajo para el usuario.
  */
@@ -49,7 +51,8 @@ class VentanaTrabajo: public Gtk::Window {
        
 private:
   Glib::RefPtr<Gtk::Builder> refXml;
-  Controlador *controlador;
+  Controlador        *controlador;
+  ControladorVentana *controladorVentana;
   unsigned int id;
 		
   /*MENUBAR*/
@@ -121,7 +124,7 @@ public:
     *
     * @param controlador Controlador del modelo.
     */
-    VentanaTrabajo(Controlador *controlador, unsigned int id);
+    VentanaTrabajo(Controlador *controlador, ControladorVentana *controladorV, unsigned int id);
 
     virtual ~VentanaTrabajo();
   /**
@@ -131,8 +134,7 @@ public:
 
     void recibirListaCircuitos(std::list<std::string> lista);
 
-
+    ControladorVentana* getControladorVentana() {return  controladorVentana;};
 };
 
 #endif /*VENTANATRABAJO_H_*/
-class VentanaTrabajo;

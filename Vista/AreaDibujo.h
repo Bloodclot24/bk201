@@ -1,6 +1,8 @@
 #ifndef AREADIBUJO_H_
 #define AREADIBUJO_H_
 
+class AreaDibujo;
+
 #include <gtkmm/drawingarea.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/uimanager.h>
