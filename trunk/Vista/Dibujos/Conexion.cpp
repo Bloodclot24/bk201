@@ -1,6 +1,6 @@
 #include "Conexion.h"
 
-Conexion::Conexion(int vInicialX, int vInicialY, int vFinalX, int vFinalY): Dibujo::Dibujo(vInicialX, vInicialY) {
+ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vFinalY): Dibujo::Dibujo(vInicialX, vInicialY) {
 
   vFinal.x= vFinalX;
   vFinal.y= vFinalY;
@@ -14,7 +14,7 @@ Conexion::Conexion(int vInicialX, int vInicialY, int vFinalX, int vFinalY): Dibu
   generarPoligonos();
 }
 
-void Conexion::generarPoligonos() {
+void ConexionDibujo::generarPoligonos() {
 
   Vertice v;
   poligonos.clear();
@@ -35,7 +35,7 @@ void Conexion::generarPoligonos() {
   poligonos.push_back(v);
 }
 
-void Conexion::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
+void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   std::cout << "adentro" << getSeleccionar() << std::endl;
 
@@ -69,7 +69,7 @@ void Conexion::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   mostrarEtiqueta(context,vSupIzq.y,alto,"");
 }
 
-void Conexion::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
+void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
 
   context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
   context->move_to(vSupIzq.x-3.5, vSupIzq.y-3.5);
@@ -79,7 +79,7 @@ void Conexion::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
   context->stroke();
 }
 
-bool Conexion::setSeleccionado(int x, int y) {
+bool ConexionDibujo::setSeleccionado(int x, int y) {
 
   std::cout << "CONEXION" << std::endl;
 

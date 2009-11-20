@@ -7,7 +7,7 @@
 
 #define SEPARACION 10
 
-class Circuito: public Dibujo {
+class CircuitoDibujo: public Dibujo {
 
 private:
    int entradas;
@@ -25,7 +25,9 @@ public:
     * @param supIzqX La componente x del vertice superior izquierdo del circuito.
     * @param supIzqY La componente y del vertice superior izquierdo del circuito.
     */
-  Circuito(int supIzqX, int supIzqY, int entradas, int salidas);
+  CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salidas);
+
+  virtual ~CircuitoDibujo() { };
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
 
@@ -35,9 +37,6 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
-	
-   virtual ~Circuito(){};
-   
 };
 
 #endif /* CIRCUITO_H_ */

@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-class Conexion: public Dibujo {
+class ConexionDibujo: public Dibujo {
 
 private:
   Vertice vFinal;
@@ -23,7 +23,9 @@ public:
     * @param supIzqX La componente x del vertice superior izquierdo.
     * @param supIzqY La componente y del vertice superior izquierdo.
     */
-  Conexion(int vInicialX, int vInicialY, int vFinalX, int vFinalY);
+  ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vFinalY);
+
+  virtual ~ConexionDibujo() { };
 
   /**
     * Se dibuja la conexion en el contexto dado por parametro.
@@ -34,7 +36,6 @@ public:
 
   virtual bool setSeleccionado(int x, int y);
 	
-  virtual ~Conexion(){ };
 };
 
 #endif /* CONEXION_H_ */

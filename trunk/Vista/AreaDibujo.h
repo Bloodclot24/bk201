@@ -7,6 +7,7 @@
 #include <gtkmm/stock.h>
 #include <cairomm/context.h>
 #include <list>
+#include "VentanaTrabajo.h"
 #include "Dibujos/Dibujo.h"
 #include "Dibujos/Constantes.h"
 #include "Dibujos/Compuerta.h"
@@ -23,9 +24,11 @@
 
 #define PASO 10
 
+class VentanaTrabajo;
 class AreaDibujo: public Gtk::DrawingArea {
 
 private:
+  VentanaTrabajo                *ventanaTrabajo;
   Cairo::RefPtr<Cairo::Context> context;
   Glib::RefPtr<Gdk::Window>     window;
   std::list<Dibujo*>            dibujos;
@@ -73,7 +76,7 @@ protected:
   void dibujarCircuito(int xUp, int yUp, int entradas, int salidas);
 
 public:
-  AreaDibujo();
+  AreaDibujo(VentanaTrabajo *ventanaTrabajo);
   virtual ~AreaDibujo();
 
   void dibujarConexion();
