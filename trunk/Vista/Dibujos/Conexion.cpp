@@ -124,3 +124,12 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
 
   return seleccionado;
 }
+
+std::string ConexionDibujo::getEtiqueta(){
+	return this->etiqueta;
+}
+  
+void ConexionDibujo::setEtiqueta(const std::string& etiqueta){
+	this->etiqueta = etiqueta;
+}
+

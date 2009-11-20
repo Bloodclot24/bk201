@@ -35,3 +35,12 @@ Vertice* Compuerta::obtenerPin(int x, int y) {
 
   return v;
 }
+
+std::string Compuerta::getEtiqueta(){
+	return this->etiqueta;
+}
+  
+void Compuerta::setEtiqueta(const std::string& etiqueta){
+	this->etiqueta = etiqueta;
+}
+

@@ -43,3 +43,12 @@ void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   mostrarEtiqueta(context,vSupIzq.y,alto,"");
 
 }
+
+std::string EntradaSalida::getEtiqueta(){
+	return this->etiqueta;
+}
+  
+void EntradaSalida::setEtiqueta(const std::string& etiqueta){
+	this->etiqueta = etiqueta;
+}
+

@@ -62,3 +62,12 @@ void CompuertaXor::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   mostrarEtiqueta(context,vSupIzq.y,alto,"");
 
 }
+
+std::string CompuertaXor::getEtiqueta(){
+	return this->etiqueta;
+}
+  
+void CompuertaXor::setEtiqueta(const std::string& etiqueta){
+	this->etiqueta = etiqueta;
+}
+
