@@ -12,43 +12,43 @@
 #include "../Gates/Gate.h"
 #include "../Circuito/CircuitoRemoto.h"
 
-struct{
+struct DatosCircuito{
      Circuito* c;
      int cantidadEntradas, cantidadSalidas;
      std::string label;
      std::string nombre;
-}DatosCircuito;
+};
 
-struct{
+struct DatosCircuitoRemoto{
      CircuitoRemoto *cr;
-     CircuitoDibujo *c;
+     Dibujo *c;
      std::string nombre;
      std::string servidor;
      int puerto;
      std::string label;
      int cantidadEntradas, cantidadSalidas;
-}DatosCircuitoRemoto;
+};
 
-struct{
+struct DatosCompuerta{
      Gate* g;
-     Compuerta *c;
+     Dibujo *c;
      uint64_t tr;
      std::string label;
      std::string tipo;
-}DatosCompuerta;
+};
 
-struct{
+struct DatosPista{
      
-}DatosPista;
+};
 
-struct{
+struct DatosPin{
      bool esEntrada;
-}DatosPin;
+};
 
 struct Elemento{
      Dibujo* dibujo;
      Componente* c;
-}
+};
 
 class ControladorVentana{
 private:
@@ -74,7 +74,6 @@ public:
      void setAtributo(Dibujo* d, const std::string& nombre, const std::string& valor);
      std::string getAtributo(Dibujo* d, const std::string& nombre);
      void guardar(const std::string& nombreArchivo);
-     void pasarCircuito(Circuito* c);
 };
 
 #endif //__CONTROLADORVENTANA_H_INCLUDED__

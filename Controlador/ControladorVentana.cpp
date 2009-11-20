@@ -1,5 +1,14 @@
 #include "ControladorVentana.h"
 
+#include "../Gates/GateAnd.h"
+#include "../Gates/GateOr.h"
+#include "../Gates/GateXor.h"
+#include "../Gates/GateNot.h"
+#include "../Gates/GateBuffer.h"
+#include "../Circuito/CircuitoRemoto.h"
+#include "../Circuito/Circuito.h"
+
+
 #define TIPO_PISTA            "pista" 
 #define TIPO_COMPUERTA_AND    "and"
 #define TIPO_COMPUERTA_OR     "or"
@@ -17,42 +26,42 @@ void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
 	  DatosCompuerta *D = new DatosCompuerta;
 	  D->tipo = tipo;
 	  D->g = new GateAnd();
-	  D->Compuerta = d;
+	  D->c = d;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_OR)==0){
 	  DatosCompuerta *D = new DatosCompuerta;
 	  D->tipo = tipo;
 	  D->g = new GateOr();
-	  D->Compuerta = d;
+	  D->c = d;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_XOR)==0){
 	  DatosCompuerta *D = new DatosCompuerta;
 	  D->tipo = tipo;
 	  D->g = new GateXor();
-	  D->Compuerta = d;
+	  D->c = d;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_NOT)==0){
 	  DatosCompuerta *D = new DatosCompuerta;
 	  D->tipo = tipo;
 	  D->g = new GateNot();
-	  D->Compuerta = d;
+	  D->c = d;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_BUFFER)==0){
 	  DatosCompuerta *D = new DatosCompuerta;
 	  D->tipo = tipo;
 	  D->g = new GateBuffer();
-	  D->Compuerta = d;
+	  D->c = d;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_PIN)==0){
 
      }
      else if(tipo.compare(TIPO_CIRCUITO)==0){
-	  DatosCirtuitoRemoto *D = new DatosCircuitoRemoto;
+	  DatosCircuitoRemoto *D = new DatosCircuitoRemoto;
 	  D->cantidadEntradas = D->cantidadSalidas = 1;
 	  D->cr = new CircuitoRemoto(D->servidor, D->puerto, D->nombre);
 	  D->c = d;
@@ -82,6 +91,18 @@ void ControladorVentana::eliminarComponente(Dibujo* d){
 }
 
 void ControladorVentana::simular(){
+     if(circuito.c != NULL)
+	  delete circuito.c;
+     circuito.c = new Circuito(circuito.cantidadEntradas, circuito.cantidadSalidas);
+     
+     std::map<Dibujo*, DatosCompuerta*>::iterator it=compuertas.begin();
+     for(;it != compuertas.end(); it++){
+	  circuito.c->agregarComponente((*it).second->g);
+     }
+     std::map<Dibujo*, DatosCircuitoRemoto*>::iterator it2=circuitos.begin();
+     for(;it2 != circuitos.end(); it2++){
+	  circuito.c->agregarComponente((*it2).second->cr);
+     }
 
 }
 
@@ -103,8 +124,4 @@ std::string ControladorVentana::getAtributo(Dibujo* d, const std::string& nombre
 
 void ControladorVentana::guardar(const std::string& nombreArchivo){
      
-}
-
-void ControladorVentana::pasarCircuito(Circuito* c){
-
 }
