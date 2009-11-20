@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <map>
 #include "../Componente/Componente.h"
 #include "../XML/Xml.h"
 #include "../Util/Util.h"
@@ -15,6 +16,9 @@ class Persistidor
 		//std::string ruta;
 		std::string extension;
 		std::fstream archivo;
+		std::map<Componente*,int> mapaComponentes;
+		std::map<int,Componente*> componentesCargados;
+		
 	public:
 		Persistidor(std::string nombre){
 			this->nombre = nombre;
@@ -57,27 +61,29 @@ class Persistidor
 							//en caso de tratarse de un circuito remoto
 							componente.setPropiedad("NombreArchivo",Util::intToString( ));
 						}else componente.setPropiedad("tr",Util::intToString(comp->getTiempoRetardo()));
+						//inserto en el mapa de componentes para mantener el orden en
+						//el q son guardados.
+						mapaComponentes[comp] = i;
 						xml.getRaiz()->agregarHijo(componente);
-						//guardo las conexiones que posee dicho componente
-						for(int j = 0; j < circuito->getConexiones().size(); j++){
-							Conexion* conex = circuito->getConexiones()[j];
-							XmlNodo conexion(conex,"");
-							conexion.setPropiedad("c1",Util::intToString( ));
-							
-							
-							componente.agregarHijo(conexion);
-						}
 						
 					}
 					
-//					//TODO ver tema de las lineas que conforman la conexion
-//					//Serializo las conexiones
-//					for(int i = 0; i < circuito->getConexiones().size(); i++){
-//						Conexion* conex = circuito->getConexiones()[i];
-//						XmlNodo conexion(conex,"");
-//						
-//					} 
-						
+					//guardo las conexiones que posee dicho componente
+					for(int j = 0; j < circuito->getConexiones().size(); j++){
+						Conexion* conex = circuito->getConexiones()[j];
+						XmlNodo conexion(conex,"");
+						Componente* c1 = conex->getComponente();
+						for(int i = 0; i < conex->getComponentes().size(); i++){
+							conexion.setPropiedad("c1",Util::intToString(mapaComponentes[c1]));
+							conexion.setPropiedad("p1",Util::intToString(conex->getPin1()[i]));
+							Componente* c2 = conex->getComponentes()[i];
+							conexion.setPropiedad("c2",Util::intToString(mapaComponentes[c2]));
+							conexion.setPropiedad("p2",Util::intToString(conex->getPin2()[i]));
+						}
+							
+						xml.getRaiz()->agregarHijo(conexion);
+					}
+					
 				}else std::cerr << "No se pudo abrir el archivo: " << nombre+extension << std::endl;
 				archivo.close();
 			}
@@ -93,6 +99,8 @@ class Persistidor
 			}else std::cerr << "No se pudo abrir el archivo: " << nombreArchivo+extension << std::endl;
 			archivo.close();
 			#warning "Devuelvo NULL para que compile" ;
+			//TODO Armo el circuito y se lo paso al controlador usando la funcion:
+			// void pasarCircuito(Circuito* c)
 			return NULL;
 		};
 	
