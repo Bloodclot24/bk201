@@ -1,7 +1,10 @@
 #ifndef CONTROLADOR_H_
 #define CONTROLADOR_H_
 
+class Controlador;
+
 #include <map>
+#include "ControladorVentana.h"
 #include "../Vista/VentanaTrabajo.h"
 #include "../Util/Util.h"
 
@@ -42,4 +45,3 @@ public:
 };
 
 #endif /*CONTROLADOR_H_*/
-class Controlador;

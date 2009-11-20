@@ -1,6 +1,6 @@
 #include "VentanaTrabajo.h"
 
-VentanaTrabajo::VentanaTrabajo(Controlador *controlador, unsigned int id) {
+VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *controladorV, unsigned int id) {
 
   try {
     this->refXml= Gtk::Builder::create_from_file(PATH_VISTA);
@@ -14,6 +14,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, unsigned int id) {
 
   areaDibujo= new AreaDibujo(this);
   this->controlador= controlador;
+  this->controladorVentana= controladorV;
   this->id= id;
 }
 
@@ -303,6 +304,8 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
       std::cout << "checkear save as" << std::endl;
       Glib::ustring file= filechooserdialog_saveas->get_filename();
       std::cout << "File: " << file << std::endl;
+
+      controladorVentana->guardar(file);
 
     }
       break;

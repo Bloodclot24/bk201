@@ -1,6 +1,8 @@
 #ifndef __CONTROLADORVENTANA_H_INCLUDED__
 #define __CONTROLADORVENTANA_H_INCLUDED__
 
+class ControladorVentana;
+
 #include <map>
 
 #include "../Circuito/Circuito.h"
