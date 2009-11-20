@@ -46,8 +46,9 @@ class Persistidor
 					//Serializo los componentes del circuito
 					for(int i = 0; i < circuito->getComponentes().size(); i++){
 						Componente* comp = circuito->getComponentes()[i];
-						//guardo el tipo de componente
 						XmlNodo componente(comp, "");
+						//guardo el tipo de componente
+						componente.setPropiedad("type", Util::intToString(comp->getType()));
 						componente.setPropiedad("x",Util::intToString(comp->getX()));
 						componente.setPropiedad("y",Util::intToString(comp->getY()));
 						componente.setPropiedad("alfa", Util::intToString(comp->getAlfa()));
@@ -95,6 +96,59 @@ class Persistidor
 				//TODO
 				//Leer del archivo y crear el componente con todos
 				//sus atributos, volver a crear el circuito guardado
+				Xml xml(nombreArchivo);
+				unsigned entradas = atoi(xml.getRaiz()->getPropiedad("entradas"));
+				unsigned salidas = atoi(xml.getRaiz()->getPropiedad("salidas"));
+				Circuito* circuito = new Circuito(entradas,salidas);
+				XmlNodo componente = xml.getRaiz()->obtenerHijo();
+				std::string tipo;
+				int indice = 0;
+				while(componente.getNombre().compare("Componente") == 0){
+						tipo = componente.getPropiedad("type");
+						switch(tipo){
+							case "and":
+										Componente* comp = new GateAnd();
+							case "or":
+										Componente* comp = new GateOr();
+							case "buffer":
+										Componente* comp = new GateBuffer();
+							case "xor":
+										Componente* comp = new GateXor();
+							case "not":
+										Componente* comp = new GateNot();
+							default:
+								break; 
+							
+						}
+						//Cargo el map para que al levantar las conexiones
+						// sepa a cual de los componentes pertenecen.
+						componentesCargados[indice] = comp;
+						
+						 = componente.getPropiedad("x")
+						 = componente.getPropiedad("y");
+						 = componente.getPropiedad("alfa");
+						 = componente.getPropiedad("label");
+						if(tipo.compare("Circuito") == 0){
+							std::string servidor = componente.getPropiedad("Servidor");
+							std::string puerto = componente.getPropiedad("Puerto");
+							Componente* comp = new CircuitoRemoto(servidor,puerto);
+							= componente.getPropiedad("NombreArchivo");
+						}else = componente.getPropiedad("tr");
+						componente = componente.obtenerHermano();
+						indice++;
+				}
+				int c = 0;
+				int p = 0;
+				while(componente.getNombre().compare("Conexion") == 0){
+					c = atoi(componente.getPropiedad("c1"));
+					Componente* comp1 = componentesCargados[c];
+					p = atoi(componente.getPropiedad("p1");
+					c = atoi(componente.getPropiedad("c2"));
+					Componente* comp2 = componentesCargados[c];
+					p = atoi(componente.getPropiedad("p2");
+					componente = componente.obtenerHermano();
+				}
+						
 				
 			}else std::cerr << "No se pudo abrir el archivo: " << nombreArchivo+extension << std::endl;
 			archivo.close();
