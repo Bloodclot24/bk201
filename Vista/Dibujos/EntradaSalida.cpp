@@ -2,9 +2,20 @@
 
 EntradaSalida::EntradaSalida(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
-  vCentro.x= supIzqX +(DIMENSION_IO/2);
-  vCentro.y= supIzqY +(DIMENSION_IO/2);
   ancho= alto= DIMENSION_IO;
+  vCentro.x= supIzqX +(ancho/2);
+  vCentro.y= supIzqY +(alto/2);
+  pins.clear();
+  pins.push_back(vCentro);
+}
+
+void EntradaSalida::setVerticeSupIzq(Vertice vSupIzq) {
+
+  this->vSupIzq= vSupIzq;
+  vCentro.x= vSupIzq.x + (ancho/2);
+  vCentro.y= vSupIzq.y + (alto/2);
+  pins.clear();
+  pins.push_back(vCentro);
 }
 
 void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
@@ -18,4 +29,13 @@ void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   if(seleccionado)
     dibujarSeleccion(context);
+
+  context->set_source_rgb(1.0, 0.0, 0.0);
+  std::list<Vertice>::iterator it;
+  for(it= pins.begin(); it != pins.end(); it++) {
+    context->move_to(it->x, it->y);
+    context->line_to(it->x, it->y+5);
+  }
+  context->stroke();
+
 }

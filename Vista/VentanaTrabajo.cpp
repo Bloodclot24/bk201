@@ -200,6 +200,22 @@ void VentanaTrabajo::about() {
 }
 
 /**TOOLBAR**/
+void VentanaTrabajo::loadButtonDrag(Gtk::ToolButton *button, std::string tipo, std::string path) {
+
+  if(button) {
+    //le seteo un drag window
+    button->set_use_drag_window(true);
+    button->drag_source_set(listTargets);
+    button->drag_unhighlight();
+    //le conecto la señal de drag
+    button->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), tipo));
+    //creo icono para el drag
+    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(path);
+    if(pixbuf)
+      button->drag_source_set_icon(pixbuf);
+  }
+}
+
 void VentanaTrabajo::loadToolBar() {
 
   listTargets.push_back(Gtk::TargetEntry("STRING"));
@@ -207,58 +223,19 @@ void VentanaTrabajo::loadToolBar() {
 
   //la barra de herramientas es una zona drag
   refXml->get_widget("and", bAnd);
-  if(bAnd) {
-    //le seteo un drag window
-    bAnd->set_use_drag_window(true);
-    bAnd->drag_source_set(listTargets);
-    bAnd->drag_unhighlight();
-    //le conecto la señal de drag
-    bAnd->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), AND));
-    //creo icono para el drag
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_AND);
-    if(pixbuf)
-      bAnd->drag_source_set_icon(pixbuf);
-  }
+  loadButtonDrag(bAnd, AND, PATH_AND);
 
   refXml->get_widget("or", bOr);
-  if(bOr) {
-    bOr->set_use_drag_window(true);
-    bOr->drag_source_set(listTargets);
-    bOr->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), OR));
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_OR);
-    if(pixbuf)
-      bOr->drag_source_set_icon(pixbuf);
-  }
+  loadButtonDrag(bOr, OR, PATH_OR);
 
   refXml->get_widget("not", bNot);
-  if(bNot) {
-    bNot->set_use_drag_window(true);
-    bNot->drag_source_set(listTargets);
-    bNot->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), NOT));
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_NOT);
-    if(pixbuf)
-      bNot->drag_source_set_icon(pixbuf);
-  }
+  loadButtonDrag(bNot, NOT, PATH_NOT);
 
   refXml->get_widget("xor", bXor);
-  if(bXor) {
-    bXor->set_use_drag_window(true);
-    bXor->drag_source_set(listTargets);
-    bXor->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), XOR));
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_XOR);
-    if(pixbuf)
-      bXor->drag_source_set_icon(pixbuf);
-  }
+  loadButtonDrag(bXor, XOR, PATH_XOR);
 
   refXml->get_widget("buffer", bBuffer);
-  if(bBuffer) {
-    bBuffer->set_use_drag_window(true);
-    bBuffer->drag_source_set(listTargets);
-    bBuffer->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), BUFFER));
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_BUFFER);
-    if(pixbuf)
-      bBuffer->drag_source_set_icon(pixbuf);
-  }
+  loadButtonDrag(bBuffer, BUFFER, PATH_BUFFER);
 
   refXml->get_widget("conexion", bConexion);
   if(bConexion) {
@@ -266,24 +243,10 @@ void VentanaTrabajo::loadToolBar() {
   }
 
   refXml->get_widget("i/o", bIO);
-  if(bIO) {
-    bIO->set_use_drag_window(true);
-    bIO->drag_source_set(listTargets);
-    bIO->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), IO));
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_IO);
-    if(pixbuf)
-      bIO->drag_source_set_icon(pixbuf);
-  }
+  loadButtonDrag(bIO, IO, PATH_IO);
 
   refXml->get_widget("circuito", bCircuito);
-  if(bCircuito) {
-    bCircuito->set_use_drag_window(true);
-    bCircuito->drag_source_set(listTargets);
-    bCircuito->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), CIRCUITO));
-    Glib::RefPtr<Gdk::Pixbuf> pixbuf= Gdk::Pixbuf::create_from_file(PATH_CIRCUITO);
-    if(pixbuf)
-      bCircuito->drag_source_set_icon(pixbuf);
-  }
+  loadButtonDrag(bCircuito, CIRCUITO, PATH_CIRCUITO);
 
   refXml->get_widget("imprimir", bImprimir);
   if(bImprimir)

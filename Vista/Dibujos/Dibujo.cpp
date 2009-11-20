@@ -1,10 +1,11 @@
 #include "Dibujo.h"
 
-Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
+Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq(), pins() {
 
   vSupIzq.x= xUp;
   vSupIzq.y= yUp;
   angulo= 0;
+  seleccionado= false;
 }
 
 Vertice Dibujo::getVerticeCentro() {
@@ -17,13 +18,6 @@ Vertice Dibujo::getVerticeSupIzq() {
   return vSupIzq;
 }
 
-void Dibujo::setVerticeSupIzq(Vertice vSupIzq) {
-
-  vCentro.x= vSupIzq.x+20;
-  vCentro.y= vSupIzq.y+20;
-  this->vSupIzq= vSupIzq;
-}
-
 int Dibujo::getAngulo() {
 
   return angulo;
@@ -32,16 +26,6 @@ int Dibujo::getAngulo() {
 void Dibujo::setAngulo(int angulo) {
 
   this->angulo+= angulo;
-}
-
-int Dibujo::getAlto() {
-
-  return alto;
-}
-
-int Dibujo::getAncho() {
-
-  return ancho;
 }
 
 void Dibujo::seleccionar() {

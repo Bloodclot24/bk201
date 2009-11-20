@@ -6,6 +6,9 @@
 
 class CompuertaBuffer: public Compuerta {
 
+protected:
+  virtual void cargarNuevosPins(Vertice vSupIzq);
+
 public:
   /**
     * Crea una compuerta Buffer.

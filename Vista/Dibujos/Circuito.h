@@ -11,8 +11,13 @@ class Circuito: public Dibujo {
 
 private:
    int entradas;
+   int pasoEntrada;
    int salidas;
+   int pasoSalida;
 
+protected:
+   void cargarNuevosPins(Vertice vSupIzq);
+   int pasoPinesMenor(int mayor, int menor);
 public:
   /**
     * Crea un circuito.
@@ -21,6 +26,8 @@ public:
     * @param supIzqY La componente y del vertice superior izquierdo del circuito.
     */
   Circuito(int supIzqX, int supIzqY, int entradas, int salidas);
+
+  virtual void setVerticeSupIzq(Vertice vSupIzq);
 
   /**
     * Se dibuja el circuito en el contexto dado por parametro.

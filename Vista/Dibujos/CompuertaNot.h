@@ -6,6 +6,9 @@
 
 class CompuertaNot: public Compuerta {
 
+protected:
+  virtual void cargarNuevosPins(Vertice vSupIzq);
+
 public:
   /**
     * Crea una compuerta Not.

@@ -4,9 +4,12 @@
 #include <gtkmm/widget.h>
 #include <cairomm/context.h>
 #include "Constantes.h"
+#include <list>
 #include "Vertice.h"
 
 #include <iostream>
+
+#define TOLERANCIA 5
 
 /**
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
@@ -15,15 +18,15 @@
 class Dibujo: public Gtk::Widget {
 
 protected:
-  Vertice       vCentro;
-  Vertice       vSupIzq;
-  int           angulo;
-  int           ancho;
-  int           alto;
-  bool          seleccionado;
+  Vertice               vCentro;
+  Vertice               vSupIzq;
+  int                   angulo;
+  int                   ancho;
+  int                   alto;
+  bool                  seleccionado;
+  std::list<Vertice>    pins;
 
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
-
 
 public:
   /**
@@ -60,7 +63,7 @@ public:
     *
     * @param vSupIzq El vertice superior.
     */
-  void setVerticeSupIzq(Vertice vSupIzq);
+  virtual void setVerticeSupIzq(Vertice vSupIzq) { };
 
   /**
     * Se devuelve el angulo de rotacion del dibujo.
@@ -76,13 +79,14 @@ public:
     */
   void setAngulo(int angulo);
 
-  int getAncho();
-  int getAlto();
+
+  bool getSeleccionar() {return seleccionado;};
 
   void deseleccionar();
   void seleccionar();
   virtual bool setSeleccionado(int x, int y);
 
+  virtual Vertice* obtenerPin(int x, int y) { return NULL; };
 };
 
 #endif /* DIBUJO_H_ */
