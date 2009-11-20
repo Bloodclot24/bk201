@@ -1,6 +1,6 @@
 #include "AreaDibujo.h"
 
-AreaDibujo::AreaDibujo(): menuPopup() {
+AreaDibujo::AreaDibujo(VentanaTrabajo *ventanaTrabajo): menuPopup() {
 
   listTargets.push_back(Gtk::TargetEntry("STRING"));
   listTargets.push_back(Gtk::TargetEntry("text/plain"));
@@ -165,7 +165,7 @@ void AreaDibujo::dibujarConexion() {
 }
 void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal) {
 
-  Conexion *conexion= new Conexion(xInicial, yInicial, xFinal, yFinal);
+  ConexionDibujo *conexion= new ConexionDibujo(xInicial, yInicial, xFinal, yFinal);
   dibujos.push_back(conexion);
   conexion->seleccionar();
   seleccionado= conexion;
@@ -186,7 +186,7 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
 void AreaDibujo::dibujarCircuito(int xInicial, int yInicial, int entradas, int salidas) {
 
-  Circuito *circuito= new Circuito(xInicial, yInicial, entradas, salidas);
+  CircuitoDibujo *circuito= new CircuitoDibujo(xInicial, yInicial, entradas, salidas);
   deseleccionar();
   circuito->seleccionar();
   dibujos.push_back(circuito);

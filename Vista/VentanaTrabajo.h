@@ -17,6 +17,9 @@
 #include <gdkmm/pixbuf.h>
 #include <gdkmm/dragcontext.h>
 #include <gtkmm/toolbar.h>
+#include <gtkmm/entry.h>
+#include <gtkmm/messagedialog.h>
+
 
 #include <iostream>
 #include "AreaDibujo.h"
@@ -38,6 +41,7 @@
 #define PATH_IO "Vista/Imagenes/io.png"
 #define PATH_CIRCUITO "Vista/Imagenes/circuito.png"
 
+class AreaDibujo;
 /**
  * Ventana de principal de trabajo para el usuario.
  */
@@ -90,8 +94,13 @@ private:
   Gtk::FileChooserDialog *filechooserdialog_saveas;
   void on_response_saveas(int response_id);
 
+  Gtk::Dialog *dialog_servidor;
+  void on_response_servidor(int response_id);
+  Gtk::MessageDialog *dialog_message;
+  void ventanaServidor();
+
   /*AREADIBUJO*/
-  AreaDibujo areaDibujo;
+  AreaDibujo *areaDibujo;
 
   /*IMPRESION*/
   Gtk::Window *window_print;
@@ -114,11 +123,15 @@ public:
     */
     VentanaTrabajo(Controlador *controlador, unsigned int id);
 
-    virtual ~VentanaTrabajo() {};
+    virtual ~VentanaTrabajo();
   /**
     * Comienza a correr la interfaz grafica.
     */
     void correr(bool primeraVez= false);
+
+    void recibirListaCircuitos(std::list<std::string> lista);
+
+
 };
 
 #endif /*VENTANATRABAJO_H_*/

@@ -12,9 +12,15 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, unsigned int id) {
     std::cerr << "Glib::MarkupError code:" << me.code() << std::endl;
   }
 
+  areaDibujo= new AreaDibujo(this);
   this->controlador= controlador;
   this->id= id;
 }
+
+VentanaTrabajo::~VentanaTrabajo() {
+
+  delete areaDibujo;
+};
 
 bool VentanaTrabajo::on_delete_event(GdkEventAny *event) {
 
@@ -38,7 +44,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //Area de Dibujo
   Gtk::VBox* vbox_drawing_area;
   refXml->get_widget("vbox_drawing_area", vbox_drawing_area);
-  vbox_drawing_area->add(areaDibujo);
+  vbox_drawing_area->add(*areaDibujo);
 
   //Menu Bar
   loadMenuBar(window);
@@ -53,6 +59,11 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //FilechooserDialog Save as
   refXml->get_widget("filechooserdialog_saveas", filechooserdialog_saveas);
   filechooserdialog_saveas->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_saveas));
+
+  //Dialog Servidor;
+  refXml->get_widget("dialog_servidor", dialog_servidor);
+  dialog_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_servidor));
+  refXml->get_widget("messagedialog_servidor", dialog_message);
 
   //Ventana Impresion
   loadVentanaImpresion();
@@ -173,17 +184,17 @@ void VentanaTrabajo::cerrar() {
 
 void VentanaTrabajo::rotar90D() {
 
-  areaDibujo.rotarSeleccion90Derecha();
+  areaDibujo->rotarSeleccion90Derecha();
 }
 
 void VentanaTrabajo::rotar90I() {
 
-  areaDibujo.rotarSeleccion90Izquierda();
+  areaDibujo->rotarSeleccion90Izquierda();
 }
 
 void VentanaTrabajo::borrar() {
 
-  areaDibujo.borrarSeleccion();
+  areaDibujo->borrarSeleccion();
 }
 
 void VentanaTrabajo::simular() {
@@ -195,8 +206,10 @@ void VentanaTrabajo::about() {
 
   Gtk::AboutDialog* about;
   refXml->get_widget("aboutdialog", about);
-  about->run();
-  about->hide();
+  if(about) {
+    about->run();
+    about->hide();
+  }
 }
 
 /**TOOLBAR**/
@@ -258,7 +271,13 @@ void VentanaTrabajo::on_drag_data_get(
         Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente) {
 
   const std::string str= componente;
-  selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
+
+  if(componente.compare(CIRCUITO) != 0)
+    selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
+  else {
+    ventanaServidor();
+    selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
+  }
 }
 
 /**FILECHOOSERDIALOG**/
@@ -267,6 +286,8 @@ void VentanaTrabajo::on_response_open(int response_id) {
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       std::cout << "checkear open" << std::endl;
+      Glib::ustring file= filechooserdialog_open->get_filename();
+      std::cout << "File: " << file << std::endl;
     }
       break;
     default:
@@ -280,6 +301,9 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       std::cout << "checkear save as" << std::endl;
+      Glib::ustring file= filechooserdialog_saveas->get_filename();
+      std::cout << "File: " << file << std::endl;
+
     }
       break;
     default:
@@ -307,7 +331,39 @@ void VentanaTrabajo::loadVentanaImpresion() {
 
 void VentanaTrabajo::on_clicked_conexion() {
 
-  areaDibujo.dibujarConexion();
+  areaDibujo->dibujarConexion();
+}
+
+void VentanaTrabajo::ventanaServidor() {
+
+  if(dialog_servidor)
+    dialog_servidor->run();
+}
+
+
+void VentanaTrabajo::on_response_servidor(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      Gtk::Entry *entry;
+      refXml->get_widget("entry_servidor", entry);
+      Glib::ustring servidor= entry->get_text();
+      std::cout << "Servidor: " << servidor << std::endl;
+      refXml->get_widget("entry_puerto", entry);
+      Glib::ustring puerto= entry->get_text();
+      std::cout << "Puerto: " << puerto << std::endl;
+      dialog_servidor->set_sensitive(false);
+      if(dialog_message) {
+        dialog_message->show();
+        dialog_message->set_message("Conectandose al servidor...");
+      }
+
+    }
+      break;
+    default:
+      dialog_servidor->hide();
+      break;
+  }
 }
 
 void VentanaTrabajo::imprimir() {
@@ -320,4 +376,15 @@ void VentanaTrabajo::cerrarVentanaImpresion() {
 
   if(window_print)
     window_print->hide();
+}
+
+void VentanaTrabajo::recibirListaCircuitos(std::list<std::string> lista) {
+
+  if(!lista.empty()) {
+    dialog_message->hide();
+    dialog_servidor->hide();
+  } else {
+    dialog_servidor->set_sensitive(true);
+
+  }
 }

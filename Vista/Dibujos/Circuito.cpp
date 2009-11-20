@@ -1,6 +1,6 @@
 #include "Circuito.h"
 
-Circuito::Circuito(int supIzqX, int supIzqY, int entradas, int salidas): Dibujo::Dibujo(supIzqX, supIzqY) {
+CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salidas): Dibujo::Dibujo(supIzqX, supIzqY) {
 
   this->entradas= entradas;
   this->salidas= salidas;
@@ -24,7 +24,7 @@ Circuito::Circuito(int supIzqX, int supIzqY, int entradas, int salidas): Dibujo:
   cargarNuevosPins(vSupIzq);
 }
 
-int Circuito::pasoPinesMenor(int mayor, int menor) {
+int CircuitoDibujo::pasoPinesMenor(int mayor, int menor) {
 
   int paso= (mayor*SEPARACION+10)/menor;
   int mod= paso % 10;
@@ -36,7 +36,7 @@ int Circuito::pasoPinesMenor(int mayor, int menor) {
   return paso;
 }
 
-void Circuito::cargarNuevosPins(Vertice vSupIzq) {
+void CircuitoDibujo::cargarNuevosPins(Vertice vSupIzq) {
 
   pins.clear();
   Vertice v;
@@ -54,7 +54,7 @@ void Circuito::cargarNuevosPins(Vertice vSupIzq) {
   }
 }
 
-void Circuito::setVerticeSupIzq(Vertice vSupIzq) {
+void CircuitoDibujo::setVerticeSupIzq(Vertice vSupIzq) {
 
   vCentro.x= vSupIzq.x + (ancho/2);
   vCentro.y= vSupIzq.y + (alto/2);
@@ -62,7 +62,7 @@ void Circuito::setVerticeSupIzq(Vertice vSupIzq) {
   cargarNuevosPins(vSupIzq);
 }
 
-void Circuito::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
+void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   //puerta
   context->set_source_rgb(0.0, 0.0, 1.0);
