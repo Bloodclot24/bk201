@@ -12,6 +12,7 @@
       <object class="GtkVBox" id="vbox">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
+        <property name="homogeneous">True</property>
         <child>
           <object class="GtkHBox" id="hbox_menubar">
             <property name="visible">True</property>
@@ -693,6 +694,16 @@ Ygounet Guido</property>
       <action-widget response="-3">button_aceptar_servidor</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkListStore" id="liststore_circuitos">
+    <columns>
+      <!-- column-name Circuito -->
+      <column type="gchararray"/>
+      <!-- column-name Entradas -->
+      <column type="gint"/>
+      <!-- column-name Salidas -->
+      <column type="gint"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="dialog_lista_circuitos">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Lista Circuitos</property>
@@ -747,7 +758,7 @@ Ygounet Guido</property>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn_salidas">
                     <property name="title">Salidas</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext_circuito2">
+                      <object class="GtkCellRendererText" id="cellrenderertext_salidas">
                         <property name="width">5</property>
                       </object>
                       <attributes>
@@ -886,14 +897,121 @@ Ygounet Guido</property>
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="liststore_circuitos">
-    <columns>
-      <!-- column-name Circuito -->
-      <column type="gchararray"/>
-      <!-- column-name Entradas -->
-      <column type="gint"/>
-      <!-- column-name Salidas -->
-      <column type="gint"/>
-    </columns>
+  <object class="GtkDialog" id="dialog_propiedades">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Propiedades</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">normal</property>
+    <property name="has_separator">False</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox13">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkTable" id="table_prop">
+            <property name="visible">True</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">2</property>
+            <child>
+              <object class="GtkLabel" id="label_nombre_prop">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Nombre:</property>
+              </object>
+              <packing>
+                <property name="x_options"></property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_tiempo_prop">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Tiempo de transici&#xF3;n:</property>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options"></property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry_nombre_prop">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="x_options"></property>
+                <property name="y_options">GTK_EXPAND</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry_tiempo_prop">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options"></property>
+                <property name="y_options">GTK_EXPAND</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area13">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="button_cancelar_prop">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_aceptar_prop">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">button_cancelar_prop</action-widget>
+      <action-widget response="0">button_aceptar_prop</action-widget>
+    </action-widgets>
   </object>
 </interface>
