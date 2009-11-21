@@ -63,6 +63,10 @@ private:
   Vertice* buscarPinMasCercano(int x, int y);
   void redibujar();
 
+  //Circuito
+  int xCircuito;
+  int yCircuito;
+
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
   virtual void on_drop_drag_data_received(
@@ -75,13 +79,13 @@ protected:
   void dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp);
   void dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal);
   void dibujarIO(unsigned int xUp, unsigned int yUp);
-  void dibujarCircuito(int xUp, int yUp, int entradas, int salidas);
 
 public:
   AreaDibujo(VentanaTrabajo *ventanaTrabajo);
   virtual ~AreaDibujo();
 
   void dibujarConexion();
+  void dibujarCircuito(int entradas, int salidas);
 
   void borrarSeleccion();
   void rotarSeleccion90Derecha();

@@ -67,6 +67,16 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("messagedialog_servidor", dialog_message);
   refXml->get_widget("messagedialog_error_servidor", messagedialog_error_servidor);
   messagedialog_error_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_servidor));
+  refXml->get_widget("dialog_lista_circuitos", dialog_lista_circuitos);
+  dialog_lista_circuitos->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_lista_circuitos));
+
+  //Treeview Circuitos
+  Glib::RefPtr<Glib::Object> obj_treeView_circuitos= refXml->get_object("treeview_circuitos");
+  treeView_circuitos= Glib::RefPtr<Gtk::TreeView>::cast_static(obj_treeView_circuitos);
+  Glib::RefPtr<Glib::Object> obj_treeModel_circuitos= refXml->get_object("liststore_circuitos");
+  treeModel_circuitos= Glib::RefPtr<Gtk::ListStore>::cast_static(obj_treeModel_circuitos);
+  refTreeSelection= treeView_circuitos->get_selection();
+
 
   //Ventana Impresion
   loadVentanaImpresion();
@@ -275,12 +285,9 @@ void VentanaTrabajo::on_drag_data_get(
 
   const std::string str= componente;
 
-  if(componente.compare(CIRCUITO) != 0)
-    selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
-  else {
+  if(componente.compare(CIRCUITO) == 0)
     ventanaServidor();
-   // selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
-  }
+  selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
 }
 
 /**FILECHOOSERDIALOG**/
@@ -338,8 +345,10 @@ void VentanaTrabajo::on_clicked_conexion() {
 
 void VentanaTrabajo::ventanaServidor() {
 
-  if(dialog_servidor)
+  if(dialog_servidor) {
+    dialog_servidor->set_sensitive(true);
     dialog_servidor->run();
+  }
 }
 
 
@@ -356,11 +365,12 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       std::cout << "Puerto: " << puerto << std::endl;
       dialog_servidor->set_sensitive(false);
 
-//      if(dialog_message) {
-//        dialog_message->show();
-//        dialog_message->set_message("Conectandose al servidor...");
-//      }
+      dialog_message->show();
+      dialog_message->set_message("Conectandose al servidor...");
 
+      std::list<std::string> lista;
+      lista.push_back("Hola");
+      recibirListaCircuitos(lista);
     }
       break;
     default:
@@ -384,8 +394,14 @@ void VentanaTrabajo::cerrarVentanaImpresion() {
 void VentanaTrabajo::recibirListaCircuitos(std::list<std::string> lista) {
 
   if(!lista.empty()) {
+    treeModel_circuitos->clear();
+    agregarCircuito("Master", 4, 5);
+    agregarCircuito("Slave", 10, 7);
     dialog_message->hide();
     dialog_servidor->hide();
+    dialog_lista_circuitos->show();
+
+
   } else {
     dialog_message->hide();
     dialog_servidor->set_sensitive(true);
@@ -400,3 +416,34 @@ void VentanaTrabajo::on_error_servidor(int response_id) {
 
   messagedialog_error_servidor->hide();
 }
+
+void VentanaTrabajo::on_lista_circuitos(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      Gtk::TreeModel::iterator iter= refTreeSelection->get_selected();
+      if(iter) {
+        Gtk::TreeModel::Row row= *iter;
+        Glib::ustring circuito= row[columns_circuito.col_circuito];
+        int entradas= row[columns_circuito.col_entradas];
+        int salidas= row[columns_circuito.col_salidas];
+        dialog_lista_circuitos->hide();
+        areaDibujo->dibujarCircuito(entradas, salidas);
+      }
+    }
+      break;
+    default:
+      dialog_lista_circuitos->hide();
+      break;
+  }
+}
+
+
+void VentanaTrabajo::agregarCircuito(std::string circuito, int i, int o) {
+
+  Gtk::TreeModel::Row row= *(treeModel_circuitos->append());
+  row[columns_circuito.col_circuito]= circuito;
+  row[columns_circuito.col_entradas]= i;
+  row[columns_circuito.col_salidas]= o;
+}
+

@@ -186,9 +186,9 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
   redibujar();
 }
 
-void AreaDibujo::dibujarCircuito(int xInicial, int yInicial, int entradas, int salidas) {
+void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
 
-  CircuitoDibujo *circuito= new CircuitoDibujo(xInicial, yInicial, entradas, salidas);
+  CircuitoDibujo *circuito= new CircuitoDibujo(xCircuito, yCircuito, entradas, salidas);
   deseleccionar();
   circuito->seleccionar();
   dibujos.push_back(circuito);
@@ -228,9 +228,10 @@ void AreaDibujo::on_drop_drag_data_received(
 
     if((componente.compare(IO)) == 0)
       dibujarIO(x,y);
-    else if((componente.compare(CIRCUITO)) == 0)
-      dibujarCircuito(x,y,43,1); //TODO: HARCO
-    else
+    else if((componente.compare(CIRCUITO)) == 0) {
+      xCircuito= x;
+      yCircuito= y;
+    } else
       dibujarCompuerta(componente,x,y);
   }
 

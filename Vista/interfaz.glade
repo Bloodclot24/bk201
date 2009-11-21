@@ -578,7 +578,7 @@ Ygounet Guido</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Especifique el servidor</property>
     <property name="window_position">center-always</property>
-    <property name="default_width">320</property>
+    <property name="default_width">300</property>
     <property name="default_height">100</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
@@ -693,41 +693,12 @@ Ygounet Guido</property>
       <action-widget response="-3">button_aceptar_servidor</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkMessageDialog" id="messagedialog_servidor">
-    <property name="border_width">5</property>
-    <property name="type">popup</property>
-    <property name="resizable">False</property>
-    <property name="modal">True</property>
-    <property name="window_position">center-always</property>
-    <property name="type_hint">dialog</property>
-    <property name="deletable">False</property>
-    <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox7">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area7">
-            <property name="visible">True</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkDialog" id="dialog_lista_circuitos">
     <property name="border_width">5</property>
+    <property name="title" translatable="yes">Lista Circuitos</property>
+    <property name="window_position">center-always</property>
+    <property name="default_width">400</property>
+    <property name="default_height">400</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -736,7 +707,61 @@ Ygounet Guido</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
-          <placeholder/>
+          <object class="GtkScrolledWindow" id="scrolledwindow_lista_circuitos">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="hscrollbar_policy">automatic</property>
+            <property name="vscrollbar_policy">automatic</property>
+            <child>
+              <object class="GtkTreeView" id="treeview_circuitos">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="model">liststore_circuitos</property>
+                <property name="search_column">0</property>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_circuito">
+                    <property name="resizable">True</property>
+                    <property name="title">Circuito</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext_circuito"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_entradas">
+                    <property name="title">Entradas</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext_entradas">
+                        <property name="width">5</property>
+                      </object>
+                      <attributes>
+                        <attribute name="text">1</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="treeviewcolumn_salidas">
+                    <property name="title">Salidas</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="cellrenderertext_circuito2">
+                        <property name="width">5</property>
+                      </object>
+                      <attributes>
+                        <attribute name="text">2</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
         </child>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area9">
@@ -758,10 +783,11 @@ Ygounet Guido</property>
             </child>
             <child>
               <object class="GtkButton" id="button_aceptar_lista">
-                <property name="label" translatable="yes">button</property>
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -779,8 +805,8 @@ Ygounet Guido</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">button_cancelar_lista</action-widget>
-      <action-widget response="0">button_aceptar_lista</action-widget>
+      <action-widget response="-6">button_cancelar_lista</action-widget>
+      <action-widget response="-3">button_aceptar_lista</action-widget>
     </action-widgets>
   </object>
   <object class="GtkMessageDialog" id="messagedialog_error_servidor">
@@ -827,5 +853,47 @@ Ygounet Guido</property>
     <action-widgets>
       <action-widget response="0">button_aceptar_error_servidor</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkMessageDialog" id="messagedialog_servidor">
+    <property name="border_width">5</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">normal</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="deletable">False</property>
+    <property name="secondary_use_markup">True</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox7">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area7">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="liststore_circuitos">
+    <columns>
+      <!-- column-name Circuito -->
+      <column type="gchararray"/>
+      <!-- column-name Entradas -->
+      <column type="gint"/>
+      <!-- column-name Salidas -->
+      <column type="gint"/>
+    </columns>
   </object>
 </interface>
