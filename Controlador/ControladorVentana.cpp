@@ -17,61 +17,81 @@
 #define TIPO_PIN              "IO"
 #define TIPO_CIRCUITO         "Circuito"
 
-void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
-     if(tipo.compare(TIPO_PISTA)==0){
-	  
-     }
-     else if(tipo.compare(TIPO_COMPUERTA_AND)==0){
-	  DatosCompuerta *D = new DatosCompuerta;
-	  D->tipo = tipo;
+void ControladorVentana::crearComponente(Compuerta* d, const std::string& tipo){
+
+     DatosCompuerta *D = new DatosCompuerta;
+     D->tipo = tipo;
+     D->c = d;
+     D->tr=10;
+
+     if(tipo.compare(TIPO_COMPUERTA_AND)==0){
 	  D->g = new GateAnd();
-	  D->c = d;
-	  D->tr=10;
-	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_OR)==0){
-	  DatosCompuerta *D = new DatosCompuerta;
-	  D->tipo = tipo;
 	  D->g = new GateOr();
-	  D->c = d;
-	  D->tr=10;
-	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_XOR)==0){
-	  DatosCompuerta *D = new DatosCompuerta;
-	  D->tipo = tipo;
 	  D->g = new GateXor();
-	  D->c = d;
-	  D->tr=10;
-	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_NOT)==0){
-	  DatosCompuerta *D = new DatosCompuerta;
-	  D->tipo = tipo;
 	  D->g = new GateNot();
-	  D->c = d;
-	  D->tr=10;
-	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_BUFFER)==0){
-	  DatosCompuerta *D = new DatosCompuerta;
-	  D->tipo = tipo;
 	  D->g = new GateBuffer();
-	  D->c = d;
-	  D->tr=10;
+     }
+     else{
+	  delete D;
+	  D=NULL;
+     }
+     if(D != NULL)
 	  compuertas[d] = D;
+}
+
+void ControladorVentana::crearComponente(CircuitoDibujo* d){
+     DatosCircuitoRemoto *D = new DatosCircuitoRemoto;
+     D->cantidadEntradas = D->cantidadSalidas = 1;
+     //D->cr = new CircuitoRemoto(D->servidor, D->puerto, D->nombre);
+     D->c = d;
+     D->puerto = 0;
+     circuitos[d] = D;
+}
+
+DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
+     DatosCircuitoRemoto* dcr = new DatosCircuitoRemoto;
+     dcr->c = new CircuitoDibujo(0,0,1,1);
+     circuitos[dcr->c]=dcr;
+     return dcr;
+}
+
+DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
+     DatosCompuerta* dc = new DatosCompuerta;
+     dc->c = new Compuerta(0,0);
+     dc->tipo = tipo;
+     if(tipo.compare(TIPO_COMPUERTA_AND)==0){
+	  dc->g = new GateAnd();
      }
-     else if(tipo.compare(TIPO_PIN)==0){
-	  std::cout << "IOIOIOIOIOIOIOIOIOIO" << std::endl;
+     else if(tipo.compare(TIPO_COMPUERTA_OR)==0){
+	  dc->g = new GateOr();	  
      }
-     else if(tipo.compare(TIPO_CIRCUITO)==0){
-	  DatosCircuitoRemoto *D = new DatosCircuitoRemoto;
-	  D->cantidadEntradas = D->cantidadSalidas = 1;
-	  //D->cr = new CircuitoRemoto(D->servidor, D->puerto, D->nombre);
-	  D->c = d;
-	  D->puerto = 0;
-	  circuitos[d] = D;
+     else if(tipo.compare(TIPO_COMPUERTA_XOR)==0){
+	  dc->g = new GateXor();
      }
+     else if(tipo.compare(TIPO_COMPUERTA_NOT)==0){
+	  dc->g = new GateNot();
+     }
+     else if(tipo.compare(TIPO_COMPUERTA_BUFFER)==0){
+	  dc->g = new GateBuffer();
+     }
+     else{
+	  delete dc->c;
+	  delete dc;
+	  dc = NULL;
+     }
+     
+     if(dc != NULL)
+	  compuertas[dc->c] = dc;
+
+     return dc;
 }
 
 void ControladorVentana::eliminarComponente(Dibujo* d){
@@ -124,4 +144,9 @@ std::list<uint64_t> ControladorVentana::obtenerTabla(){
 void ControladorVentana::guardar(const std::string& nombreArchivo){
      Persistidor p(nombreArchivo);
      p.persistir(this);
+}
+
+void ControladorVentana::cargar(const std::string& nombreArchivo){
+     Persistidor p(nombreArchivo);
+     p.recuperar(nombreArchivo, this);
 }

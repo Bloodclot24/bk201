@@ -57,7 +57,7 @@ public:
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
-
+		    
 		    std::map<Dibujo*, DatosCircuitoRemoto*>::iterator it2 = c->circuitos.begin();
 		    for(;it2 != c->circuitos.end(); it2++){
 			 DatosCircuitoRemoto * dcr = (*it2).second;
@@ -84,16 +84,40 @@ public:
 		
      void recuperar(const std::string& nombreArchivo, ControladorVentana *c){
 	  std::ifstream archivo;
-	  archivo.open((nombreArchivo+extension).c_str(), std::fstream::in);
+	  archivo.open(nombreArchivo.c_str(), std::fstream::in);
 	  if(archivo.good()){
-	       std::string buffer;
-	       while(archivo.good())
-		    std::getline(archivo,buffer);
+	       std::string buffer, bufferlinea;
+	       while(archivo.good()){
+		    std::getline(archivo,bufferlinea);
+		    buffer+=bufferlinea;
+	       }
 	       Xml xml(buffer.c_str(), buffer.size());
-	       // unsigned entradas = atoi(xml.getRaiz()->getPropiedad("entradas").c_str());
-	       // unsigned salidas = atoi(xml.getRaiz()->getPropiedad("salidas").c_str());
+	       c->circuito.cantidadEntradas = atoi(xml.getRaiz()->getPropiedad("entradas").c_str());
+	       c->circuito.cantidadEntradas = atoi(xml.getRaiz()->getPropiedad("salidas").c_str());
+	       XmlNodo componente = xml.getRaiz()->obtenerHijo();
+	       while(componente.getNombre().size()>0){
+		    
+		    if(componente.getNombre().compare("Compuerta")==0){
+			 DatosCompuerta* dc = c->cargarCompuerta(componente.getPropiedad("type"));
+			 Vertice v;
+ 			 v.x = atoi(componente.getPropiedad("x").c_str());
+			 v.y = atoi(componente.getPropiedad("y").c_str());
+			 dc->c->setVerticeSupIzq(v);
+			 dc->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
+			 dc->c->setEtiqueta(componente.getPropiedad("label"));
+		    }
+		    if(componente.getNombre().compare("CircuitoRemoto")==0){
+			 DatosCircuitoRemoto* dcr = c->cargarCircuito();
+			 Vertice v;
+			 v.x = atoi(componente.getPropiedad("x").c_str());
+			 v.y = atoi(componente.getPropiedad("y").c_str());
+			 dcr->c->setVerticeSupIzq(v);
+			 dcr->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
+			 dcr->c->setEtiqueta(componente.getPropiedad("label"));
+		    }
+		    componente = componente.obtenerHermano();
+	       }
 	       
-	       // XmlNodo componente = xml.getRaiz()->obtenerHijo();
 	  }else std::cerr << "No se pudo abrir el archivo: " << nombreArchivo+extension << std::endl;
 	  archivo.close();
      };
@@ -101,4 +125,3 @@ public:
 };
 
 #endif /*PERSISTIDOR_H_*/
-
