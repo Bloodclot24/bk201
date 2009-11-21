@@ -182,7 +182,6 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
   entradaSalida->seleccionar();
   dibujos.push_back(entradaSalida);
   seleccionado= entradaSalida;
-  ventanaTrabajo->controladorVentana->crearComponente(entradaSalida, IO);
   seleccion= true;
   redibujar();
 }
@@ -194,7 +193,7 @@ void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
   circuito->seleccionar();
   dibujos.push_back(circuito);
   seleccionado= circuito;
-  ventanaTrabajo->controladorVentana->crearComponente(circuito, CIRCUITO);
+  ventanaTrabajo->controladorVentana->crearComponente(circuito);
   seleccion= true;
   redibujar();
 }

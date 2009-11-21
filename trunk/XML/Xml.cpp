@@ -87,5 +87,8 @@ std::string XmlNodo::getPropiedad(const char* nombre, const char* nsUri){
 }
 
 std::string XmlNodo::getNombre(){
-     return (const char*)((xmlNode)*nodo).name;
+     if(nodo != NULL)
+	  return (const char*)((xmlNode)*nodo).name;
+     std::string s;
+     return s;
 }
