@@ -25,11 +25,13 @@ protected:
   int                   alto;
   bool                  seleccionado;
   std::list<Vertice>    pins;
-  std::string			etiqueta;
+  std::string           nombre;
+  std::string           tiempoT;
+  std::string		etiqueta;
 
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
-  void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto, std::string etiqueta);
+  void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
 
 public:
   /**
@@ -39,6 +41,8 @@ public:
     * @param yUp La componente y del vertice superior izquierdo del dibujo.
     */
   Dibujo(int xUp, int yUp);
+
+  virtual ~Dibujo() { };
 
   /**
     * Se dibuja el dibujo en el contexto dado por parametro.
@@ -91,11 +95,14 @@ public:
 
   virtual Vertice* obtenerPin(int x, int y) { return NULL; };
   
-  virtual std::string getEtiqueta(){ return etiqueta;};
+  virtual std::string getEtiqueta();
   
-  virtual void setEtiqueta(const std::string& etiqueta){this->etiqueta = etiqueta;};
-  
-  virtual ~Dibujo(){ };
+  virtual void setEtiqueta(const std::string& etiqueta);
+
+  std::string getNombre();
+  void setNombre(const std::string& nombre);
+  std::string getTiempoT();
+  void setTiempoT(const std::string& tiempoT);
 };
 
 #endif /* DIBUJO_H_ */

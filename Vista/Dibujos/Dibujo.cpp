@@ -6,35 +6,31 @@ Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq(), pins() {
   vSupIzq.y= yUp;
   angulo= 0;
   seleccionado= false;
+  etiqueta= "No hay info";
+  tiempoT= "0";
 }
 
 Vertice Dibujo::getVerticeCentro() {
-
   return vCentro;
 }
 
 Vertice Dibujo::getVerticeSupIzq() {
-
   return vSupIzq;
 }
 
 int Dibujo::getAngulo() {
-
   return angulo;
 }
 
 void Dibujo::setAngulo(int angulo) {
-
   this->angulo+= angulo;
 }
 
 void Dibujo::seleccionar() {
-
   seleccionado= true;
 }
 
 void Dibujo::deseleccionar() {
-
   seleccionado= false;
 }
 
@@ -62,13 +58,43 @@ void Dibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
   context->stroke();
 }
 
-void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto, std::string etiqueta){
-	int yTexto = 0;
-	if((vSupIzq.y - 25) <= 0){
-  		yTexto = vSupIzq.y + alto + 25;
-  	}else yTexto = vSupIzq.y -25;
-  	context->set_identity_matrix();
-  	context->move_to(vSupIzq.x, yTexto);
-  	context->show_text("Hola Mundo \r Nadaremos!!");
-  	context->stroke();
+void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto) {
+  int yTexto = 0;
+
+  if((vSupIzq.y - 25) <= 0)
+    yTexto = vSupIzq.y + alto + 25;
+  else
+    yTexto = vSupIzq.y -25;
+
+  context->set_identity_matrix();
+  context->move_to(vSupIzq.x, yTexto);
+
+  context->show_text(nombre);
+  context->show_text(tiempoT);
+  context->stroke();
 }
+
+std::string Dibujo::getEtiqueta() {
+  return etiqueta;
+};
+
+void Dibujo::setEtiqueta(const std::string& etiqueta) {
+  this->etiqueta = etiqueta;
+};
+
+std::string Dibujo::getNombre() {
+  return nombre;
+}
+
+void Dibujo::setNombre(const std::string& nombre) {
+  this->nombre= nombre;
+}
+
+std::string Dibujo::getTiempoT() {
+  return tiempoT;
+}
+
+void Dibujo::setTiempoT(const std::string& tiempoT) {
+  this->tiempoT= tiempoT;
+}
+

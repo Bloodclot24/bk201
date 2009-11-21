@@ -49,7 +49,7 @@ class VentanaTrabajo;
  * Ventana de principal de trabajo para el usuario.
  */
 class VentanaTrabajo: public Gtk::Window {
-       
+
 private:
   Glib::RefPtr<Gtk::Builder> refXml;
   Controlador        *controlador;
@@ -134,10 +134,16 @@ private:
   Glib::RefPtr<Gtk::TreeSelection> refTreeSelection;
   void agregarCircuito(std::string circuito, int i, int o);
 
+  /*PROPIEDADES*/
+  Gtk::Dialog *dialog_propiedades;
+  void on_propiedades(int response_id);
+
   /*IMPRESION*/
   Gtk::Window *window_print;
   void loadVentanaImpresion();
   void cerrarVentanaImpresion();
+
+  friend class AreaDibujo;
 
 protected:
   //Signal handlers
@@ -162,8 +168,6 @@ public:
     void correr(bool primeraVez= false);
 
     void recibirListaCircuitos(std::list<std::string> lista);
-
-    ControladorVentana* getControladorVentana() {return  controladorVentana;};
 };
 
 #endif /*VENTANATRABAJO_H_*/

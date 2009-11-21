@@ -19,6 +19,8 @@ public:
     */
   Compuerta(int supIzqX, int supIzqY);
 
+  virtual ~Compuerta() { };
+
   virtual void setVerticeSupIzq(Vertice vSupIzq);
 
   /**
@@ -28,14 +30,11 @@ public:
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
 
-
   virtual Vertice* obtenerPin(int x, int y);
   
   virtual std::string getEtiqueta();
   
   virtual void setEtiqueta(const std::string& etiqueta);
-  
-  virtual ~Compuerta(){ };
 };
 
 #endif /* COMPUERTA_H_ */
