@@ -61,7 +61,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("filechooserdialog_saveas", filechooserdialog_saveas);
   filechooserdialog_saveas->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_saveas));
 
-  //Dialog Servidor;
+  //Dialog Servidor
   refXml->get_widget("dialog_servidor", dialog_servidor);
   dialog_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_servidor));
   refXml->get_widget("messagedialog_servidor", dialog_message);
@@ -279,7 +279,7 @@ void VentanaTrabajo::on_drag_data_get(
     selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
   else {
     ventanaServidor();
-    selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
+   // selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
   }
 }
 
@@ -356,10 +356,10 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       std::cout << "Puerto: " << puerto << std::endl;
       dialog_servidor->set_sensitive(false);
 
-      if(dialog_message) {
-        dialog_message->show();
-        dialog_message->set_message("Conectandose al servidor...");
-      }
+//      if(dialog_message) {
+//        dialog_message->show();
+//        dialog_message->set_message("Conectandose al servidor...");
+//      }
 
     }
       break;
