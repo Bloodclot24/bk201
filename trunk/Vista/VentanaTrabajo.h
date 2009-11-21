@@ -21,7 +21,8 @@ class VentanaTrabajo;
 #include <gtkmm/toolbar.h>
 #include <gtkmm/entry.h>
 #include <gtkmm/messagedialog.h>
-
+#include <gtkmm/treeview.h>
+#include <gtkmm/liststore.h>
 
 #include <iostream>
 #include "AreaDibujo.h"
@@ -97,15 +98,41 @@ private:
   Gtk::FileChooserDialog *filechooserdialog_saveas;
   void on_response_saveas(int response_id);
 
+
+  /*AREADIBUJO*/
+  AreaDibujo *areaDibujo;
+
+  /*SERVIDOR*/
   Gtk::Dialog *dialog_servidor;
   void on_response_servidor(int response_id);
   Gtk::MessageDialog *dialog_message;
   Gtk::MessageDialog *messagedialog_error_servidor;
   void on_error_servidor(int response_id);
   void ventanaServidor();
+  Gtk::Dialog *dialog_lista_circuitos;
+  void on_lista_circuitos(int response_id);
 
-  /*AREADIBUJO*/
-  AreaDibujo *areaDibujo;
+  /*TREEVIEW CIRCUITO*/
+  Glib::RefPtr<Gtk::TreeView> treeView_circuitos;
+
+  class ModelColumns_circuitos: public Gtk::TreeModel::ColumnRecord {
+
+  public:
+    ModelColumns_circuitos() {
+      add(col_circuito);
+      add(col_entradas);
+      add(col_salidas);
+    }
+
+    Gtk::TreeModelColumn<Glib::ustring> col_circuito;
+    Gtk::TreeModelColumn<int> col_entradas;
+    Gtk::TreeModelColumn<int> col_salidas;
+  };
+
+  Glib::RefPtr<Gtk::ListStore> treeModel_circuitos;
+  ModelColumns_circuitos columns_circuito;
+  Glib::RefPtr<Gtk::TreeSelection> refTreeSelection;
+  void agregarCircuito(std::string circuito, int i, int o);
 
   /*IMPRESION*/
   Gtk::Window *window_print;
