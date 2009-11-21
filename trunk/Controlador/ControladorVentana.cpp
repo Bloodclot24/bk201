@@ -14,7 +14,7 @@
 #define TIPO_COMPUERTA_XOR    "Xor"
 #define TIPO_COMPUERTA_NOT    "Not"
 #define TIPO_COMPUERTA_BUFFER "Buffer"
-#define TIPO_PIN              "Pin"
+#define TIPO_PIN              "IO"
 #define TIPO_CIRCUITO         "Circuito"
 
 void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
@@ -26,6 +26,7 @@ void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
 	  D->tipo = tipo;
 	  D->g = new GateAnd();
 	  D->c = d;
+	  D->tr=10;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_OR)==0){
@@ -33,6 +34,7 @@ void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
 	  D->tipo = tipo;
 	  D->g = new GateOr();
 	  D->c = d;
+	  D->tr=10;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_XOR)==0){
@@ -40,6 +42,7 @@ void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
 	  D->tipo = tipo;
 	  D->g = new GateXor();
 	  D->c = d;
+	  D->tr=10;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_NOT)==0){
@@ -47,6 +50,7 @@ void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
 	  D->tipo = tipo;
 	  D->g = new GateNot();
 	  D->c = d;
+	  D->tr=10;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_COMPUERTA_BUFFER)==0){
@@ -54,16 +58,18 @@ void ControladorVentana::crearComponente(Dibujo* d, const std::string& tipo){
 	  D->tipo = tipo;
 	  D->g = new GateBuffer();
 	  D->c = d;
+	  D->tr=10;
 	  compuertas[d] = D;
      }
      else if(tipo.compare(TIPO_PIN)==0){
-
+	  std::cout << "IOIOIOIOIOIOIOIOIOIO" << std::endl;
      }
      else if(tipo.compare(TIPO_CIRCUITO)==0){
 	  DatosCircuitoRemoto *D = new DatosCircuitoRemoto;
 	  D->cantidadEntradas = D->cantidadSalidas = 1;
-	  D->cr = new CircuitoRemoto(D->servidor, D->puerto, D->nombre);
+	  //D->cr = new CircuitoRemoto(D->servidor, D->puerto, D->nombre);
 	  D->c = d;
+	  D->puerto = 0;
 	  circuitos[d] = D;
      }
 }
@@ -72,7 +78,7 @@ void ControladorVentana::eliminarComponente(Dibujo* d){
      if(compuertas[d] != NULL){
 	  delete compuertas[d]->g;
 	  delete compuertas[d];
-	  compuertas[d]=NULL;
+	  compuertas[d] = NULL;
      }
      else if(circuitos[d] != NULL){
 	  delete circuitos[d]->cr;
@@ -106,19 +112,13 @@ void ControladorVentana::simular(){
 }
 
 std::list<std::string> ControladorVentana::obtenerListaServidor(const std::string& servidor, int puerto){
-     
+     std::list<std::string> s;
+     return s;
 }
 
 std::list<uint64_t> ControladorVentana::obtenerTabla(){
-
-}
-
-void ControladorVentana::setAtributo(Dibujo* d, const std::string& nombre, const std::string& valor){
-
-}
-
-std::string ControladorVentana::getAtributo(Dibujo* d, const std::string& nombre){
-
+     std::list<uint64_t> l;
+     return l;
 }
 
 void ControladorVentana::guardar(const std::string& nombreArchivo){

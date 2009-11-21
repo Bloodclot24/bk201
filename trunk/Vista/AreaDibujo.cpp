@@ -182,6 +182,7 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
   entradaSalida->seleccionar();
   dibujos.push_back(entradaSalida);
   seleccionado= entradaSalida;
+  ventanaTrabajo->getControladorVentana()->crearComponente(entradaSalida, IO);
   seleccion= true;
   redibujar();
 }
@@ -193,6 +194,7 @@ void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
   circuito->seleccionar();
   dibujos.push_back(circuito);
   seleccionado= circuito;
+  ventanaTrabajo->getControladorVentana()->crearComponente(circuito, CIRCUITO);
   seleccion= true;
   redibujar();
 }
@@ -347,6 +349,7 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 void AreaDibujo::borrarSeleccion() {
 
   if(seleccion && !motion) {
+    ventanaTrabajo->getControladorVentana()->eliminarComponente(seleccionado);
     dibujos.remove(seleccionado);
     //delete seleccionado;
     seleccion= false;

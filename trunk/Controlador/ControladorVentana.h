@@ -62,7 +62,7 @@ protected:
      friend class Persistidor;
 
 public:
-     ControladorVentana(){ ventana=NULL;};
+     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0;};
      void setVentana(VentanaTrabajo* v){ ventana = v; }
 
      void crearComponente(Dibujo* d, const std::string& tipo);
@@ -70,8 +70,6 @@ public:
      void simular();
      std::list<std::string> obtenerListaServidor(const std::string& servidor, int puerto);
      std::list<uint64_t> obtenerTabla();
-     void setAtributo(Dibujo* d, const std::string& nombre, const std::string& valor);
-     std::string getAtributo(Dibujo* d, const std::string& nombre);
      void guardar(const std::string& nombreArchivo);
 };
 
