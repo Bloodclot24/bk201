@@ -58,15 +58,19 @@ void ControladorVentana::crearComponente(CircuitoDibujo* d){
 
 DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
      DatosCircuitoRemoto* dcr = new DatosCircuitoRemoto;
-     dcr->c = new CircuitoDibujo(0,0,1,1);
+     dcr->c = new CircuitoDibujo(10,10,1,1);
      circuitos[dcr->c]=dcr;
+     ventana->agregarDibujo(dcr->c);
      return dcr;
 }
 
 DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
      DatosCompuerta* dc = new DatosCompuerta;
-     dc->c = new Compuerta(0,0);
+     dc->c = new Compuerta(10,10);
      dc->tipo = tipo;
+     dc->tr = 10;
+     dc->c->setTiempoT("10");
+     std::cout << "cargo compuerta " << tipo << std::endl;
      if(tipo.compare(TIPO_COMPUERTA_AND)==0){
 	  dc->g = new GateAnd();
      }
@@ -88,8 +92,11 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
 	  dc = NULL;
      }
      
-     if(dc != NULL)
+     if(dc != NULL){
 	  compuertas[dc->c] = dc;
+	  ventana->agregarDibujo(dc->c);
+	  std::cout << "Cargado OK\n";
+     }
 
      return dc;
 }

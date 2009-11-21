@@ -94,6 +94,11 @@ public:
   void borrarSeleccion();
   void rotarSeleccion90Derecha();
   void rotarSeleccion90Izquierda();
+     
+     void agregarDibujo(Dibujo *d){
+	  dibujos.push_back(d);
+	  redibujar();
+     }
 };
 
 #endif /* AREADIBUJO_H_ */
