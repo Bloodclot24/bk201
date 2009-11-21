@@ -2,6 +2,7 @@
 
 Compuerta::Compuerta(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
+  nombre= "Compuerta";
   ancho= alto= DIMENSION_COMPUERTA;
   vCentro.x= supIzqX + (ancho/2);
   vCentro.y= supIzqY + (alto/2);
@@ -36,11 +37,11 @@ Vertice* Compuerta::obtenerPin(int x, int y) {
   return v;
 }
 
-std::string Compuerta::getEtiqueta(){
-	return this->etiqueta;
+std::string Compuerta::getEtiqueta() {
+  return etiqueta;
 }
   
-void Compuerta::setEtiqueta(const std::string& etiqueta){
-	this->etiqueta = etiqueta;
+void Compuerta::setEtiqueta(const std::string& etiqueta) {
+  this->etiqueta= etiqueta;
 }
 

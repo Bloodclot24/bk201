@@ -52,15 +52,5 @@ void CompuertaNot::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->stroke();
   
   //Muestro la etiqueta
-  //TODO ver como se va a permitirle al usuario editar la etiqueta.
-  mostrarEtiqueta(context,vSupIzq.y,alto,"");
+  mostrarEtiqueta(context,vSupIzq.y,alto);
 }
-
-std::string CompuertaNot::getEtiqueta(){
-	return this->etiqueta;
-}
-  
-void CompuertaNot::setEtiqueta(const std::string& etiqueta){
-	this->etiqueta = etiqueta;
-}
-

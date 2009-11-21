@@ -18,18 +18,14 @@ public:
     */
   CompuertaOr(int xUp, int yUp);
 
+  virtual ~CompuertaOr() { };
+
   /**
     * Se dibuja la compuerta Or en el contexto dado por parametro.
     *
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
-
-  virtual std::string getEtiqueta();
-  
-  virtual void setEtiqueta(const std::string& etiqueta);  
-  
-  virtual ~CompuertaOr(){ };
 };
 
 #endif /* COMPUERTAOR_H_ */

@@ -2,6 +2,7 @@
 
 EntradaSalida::EntradaSalida(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
+  nombre= "I/O";
   ancho= alto= DIMENSION_IO;
   vCentro.x= supIzqX +(ancho/2);
   vCentro.y= supIzqY +(alto/2);
@@ -39,16 +40,14 @@ void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->stroke();
   
   //Muestro la etiqueta
-  //TODO ver como se va a permitirle al usuario editar la etiqueta.
-  mostrarEtiqueta(context,vSupIzq.y,alto,"");
-
+  mostrarEtiqueta(context,vSupIzq.y,alto);
 }
 
-std::string EntradaSalida::getEtiqueta(){
-	return this->etiqueta;
+std::string EntradaSalida::getEtiqueta() {
+  return etiqueta;
 }
   
-void EntradaSalida::setEtiqueta(const std::string& etiqueta){
-	this->etiqueta = etiqueta;
+void EntradaSalida::setEtiqueta(const std::string& etiqueta) {
+  this->etiqueta= etiqueta;
 }
 

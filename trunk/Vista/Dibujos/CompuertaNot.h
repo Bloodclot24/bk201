@@ -18,19 +18,14 @@ public:
     */
   CompuertaNot(int xUp, int yUp);
 
+  virtual ~CompuertaNot() { };
+
   /**
     * Se dibuja la compuerta Not en el contexto dado por parametro.
     *
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
-  
-  virtual std::string getEtiqueta();
-  
-  virtual void setEtiqueta(const std::string& etiqueta);
-  
-  virtual ~CompuertaNot(){ };
-  
 };
 
 #endif /* COMPUERTANOT_H_ */

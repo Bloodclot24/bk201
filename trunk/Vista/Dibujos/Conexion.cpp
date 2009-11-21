@@ -2,6 +2,7 @@
 
 ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vFinalY): Dibujo::Dibujo(vInicialX, vInicialY) {
 
+  nombre= "Conexion";
   vFinal.x= vFinalX;
   vFinal.y= vFinalY;
   int deltaX= vFinalX-vInicialX;
@@ -65,8 +66,7 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->stroke();
   
   //Muestro la etiqueta
-  //TODO ver como se va a permitirle al usuario editar la etiqueta.
-  mostrarEtiqueta(context,vSupIzq.y,alto,"");
+  mostrarEtiqueta(context,vSupIzq.y,alto);
 }
 
 void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
@@ -125,11 +125,11 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   return seleccionado;
 }
 
-std::string ConexionDibujo::getEtiqueta(){
-	return this->etiqueta;
+std::string ConexionDibujo::getEtiqueta() {
+  return etiqueta;
 }
   
-void ConexionDibujo::setEtiqueta(const std::string& etiqueta){
-	this->etiqueta = etiqueta;
+void ConexionDibujo::setEtiqueta(const std::string& etiqueta) {
+  this->etiqueta= etiqueta;
 }
 

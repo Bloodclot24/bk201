@@ -16,6 +16,8 @@ public:
     */
   EntradaSalida(int supIzqX, int supIzqY);
 
+  virtual ~EntradaSalida() { };
+
   virtual void setVerticeSupIzq(Vertice vSupIzq);
 
   /**
@@ -28,8 +30,6 @@ public:
   virtual std::string getEtiqueta();
   
   virtual void setEtiqueta(const std::string& etiqueta);
-  
-  virtual ~EntradaSalida(){ };
 };
 
 #endif /* ENTRADASALIDA_H_ */

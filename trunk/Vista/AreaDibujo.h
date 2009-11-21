@@ -28,6 +28,7 @@ class AreaDibujo;
 
 class VentanaTrabajo;
 class AreaDibujo: public Gtk::DrawingArea {
+  friend class VentanaTrabajo;
 
 private:
   VentanaTrabajo                *ventanaTrabajo;
@@ -66,6 +67,9 @@ private:
   //Circuito
   int xCircuito;
   int yCircuito;
+
+  //Clicks
+  void eventoDobleClick(int x, int y);
 
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);

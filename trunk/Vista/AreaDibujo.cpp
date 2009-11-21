@@ -150,7 +150,7 @@ void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned i
   else if((tipo.compare(BUFFER)) == 0)
     compuerta= new CompuertaBuffer(xUp, yUp);
 
-  ventanaTrabajo->getControladorVentana()->crearComponente(compuerta, tipo);
+  ventanaTrabajo->controladorVentana->crearComponente(compuerta, tipo);
 
   deseleccionar();
   compuerta->seleccionar();
@@ -182,7 +182,7 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
   entradaSalida->seleccionar();
   dibujos.push_back(entradaSalida);
   seleccionado= entradaSalida;
-  ventanaTrabajo->getControladorVentana()->crearComponente(entradaSalida, IO);
+  ventanaTrabajo->controladorVentana->crearComponente(entradaSalida, IO);
   seleccion= true;
   redibujar();
 }
@@ -194,7 +194,7 @@ void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
   circuito->seleccionar();
   dibujos.push_back(circuito);
   seleccionado= circuito;
-  ventanaTrabajo->getControladorVentana()->crearComponente(circuito, CIRCUITO);
+  ventanaTrabajo->controladorVentana->crearComponente(circuito, CIRCUITO);
   seleccion= true;
   redibujar();
 }
@@ -337,7 +337,13 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
       redibujar();
       return true;
     }
-  } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
+
+  //Evento doble click boton izquierdo
+  } else if(event->type == GDK_2BUTTON_PRESS && event->button == 1)
+    eventoDobleClick(event->x, event->y);
+
+  //Eventos boton derecho
+  else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
     if(menuPopup && seleccion)
       menuPopup->popup(event->button, event->time);
     return true;
@@ -349,7 +355,7 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 void AreaDibujo::borrarSeleccion() {
 
   if(seleccion && !motion) {
-    ventanaTrabajo->getControladorVentana()->eliminarComponente(seleccionado);
+    ventanaTrabajo->controladorVentana->eliminarComponente(seleccionado);
     dibujos.remove(seleccionado);
     //delete seleccionado;
     seleccion= false;
@@ -405,4 +411,24 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 
   } else
     return false;
+}
+
+//Clicks
+void AreaDibujo::eventoDobleClick(int x, int y) {
+
+  std::cout << "doble click" << std::endl;
+  //busco el elemento sobre el que se hizo doble click
+  //y muestro sus propiedades
+  seleccionado= buscarDibujo(x, y);
+  if(seleccionado) {
+    std::string nombre= seleccionado->getNombre();
+    std::string tiempo= seleccionado->getTiempoT();
+    Gtk::Entry *entry;
+    ventanaTrabajo->refXml->get_widget("entry_nombre_prop", entry);
+    entry->set_text(nombre);
+    ventanaTrabajo->refXml->get_widget("entry_tiempo_prop", entry);
+    entry->set_text(tiempo);
+    //muestro el dialogo de propiedades
+    ventanaTrabajo->dialog_propiedades->show();
+  }
 }
