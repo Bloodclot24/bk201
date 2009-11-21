@@ -168,6 +168,7 @@ public:
     void correr(bool primeraVez= false);
 
     void recibirListaCircuitos(std::list<std::string> lista);
+     void agregarDibujo(Dibujo* d);
 };
 
 #endif /*VENTANATRABAJO_H_*/

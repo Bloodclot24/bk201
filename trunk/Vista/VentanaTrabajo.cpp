@@ -473,3 +473,7 @@ void VentanaTrabajo::on_propiedades(int response_id) {
       break;
   }
 }
+
+void VentanaTrabajo::agregarDibujo(Dibujo* d){
+     areaDibujo->agregarDibujo(d);
+} 
