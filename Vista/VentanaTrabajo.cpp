@@ -300,9 +300,9 @@ void VentanaTrabajo::on_response_open(int response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       std::cout << "checkear open" << std::endl;
       Glib::ustring file= filechooserdialog_open->get_filename();
+      std::cout << "Cargando File: " << file << std::endl;
       controladorVentana->cargar(file);
       filechooserdialog_open->hide();
-      std::cout << "File: " << file << std::endl;
     }
       break;
     default:
