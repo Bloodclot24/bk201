@@ -67,10 +67,13 @@ void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int v
     yTexto = vSupIzq.y -25;
 
   context->set_identity_matrix();
+  context->select_font_face("Sans", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL);
+  context->set_font_size(12);
   context->move_to(vSupIzq.x, yTexto);
-
   context->show_text(nombre);
+  context->move_to(vSupIzq.x, yTexto+15);
   context->show_text(tiempoT);
+  context->show_text(UNIDAD_TIEMPO);
   context->stroke();
 }
 

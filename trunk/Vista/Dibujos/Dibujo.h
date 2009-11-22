@@ -10,6 +10,7 @@
 #include <iostream>
 
 #define TOLERANCIA 5
+#define UNIDAD_TIEMPO " ns"
 
 /**
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
