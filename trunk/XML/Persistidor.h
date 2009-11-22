@@ -21,17 +21,19 @@ private:
 		
 public:
      Persistidor(const std::string& nombre){
-	  this->nombre = nombre;
+	  this->nombre=nombre;
 	  this->extension = ".bk";
+	  if(nombre.substr(nombre.size()-3,3).compare(".bk")!=0)
+	       this->nombre+=extension;
 	  //Creo el archivo donde voy a guardar los datos del circuito
-	  archivo.open((nombre+extension).c_str(), std::fstream::out);
-	  if(!archivo.good()) std::cerr << "Se produjo un error al crear el archivo: " << nombre+extension << std::endl;
-	  this->archivo.close();
+	  // archivo.open(this->nombre.c_str(), std::fstream::in);
+	  // if(!archivo.good()) std::cerr << "Se produjo un error al crear el archivo: " << nombre+extension << std::endl;
+	  // this->archivo.close();
      };
 		
      void persistir(ControladorVentana *c){
 	  if(c){
-	       archivo.open((nombre+extension).c_str(),std::fstream::out | std::fstream::trunc);
+	       archivo.open(nombre.c_str(),std::fstream::out | std::fstream::trunc);
 	       if(archivo.good()){
 		    //TODO
 		    //Guardar los componenetes en el archivo
@@ -82,9 +84,10 @@ public:
 	  }
      };
 		
-     void recuperar(const std::string& nombreArchivo, ControladorVentana *c){
+     void recuperar(ControladorVentana *c){
 	  std::ifstream archivo;
-	  archivo.open(nombreArchivo.c_str(), std::fstream::in);
+	  archivo.open(nombre.c_str(), std::fstream::in);
+	  std::cout << "Abro " << nombre << std::endl;
 	  if(archivo.good()){
 	       std::string buffer, bufferlinea;
 	       while(archivo.good()){
@@ -102,6 +105,7 @@ public:
 			 Vertice v;
  			 v.x = atoi(componente.getPropiedad("x").c_str());
 			 v.y = atoi(componente.getPropiedad("y").c_str());
+			 std::cout << "x: " << v.x << " y: " << v.y<< std::endl;
 			 dc->c->setVerticeSupIzq(v);
 			 dc->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
 			 dc->c->setEtiqueta(componente.getPropiedad("label"));
@@ -118,7 +122,7 @@ public:
 		    componente = componente.obtenerHermano();
 	       }
 	       
-	  }else std::cerr << "No se pudo abrir el archivo: " << nombreArchivo+extension << std::endl;
+	  }else std::cerr << "No se pudo abrir el archivo: " << nombre << std::endl;
 	  archivo.close();
      };
      

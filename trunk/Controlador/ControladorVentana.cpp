@@ -58,7 +58,7 @@ void ControladorVentana::crearComponente(CircuitoDibujo* d){
 
 DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
      DatosCircuitoRemoto* dcr = new DatosCircuitoRemoto;
-     dcr->c = new CircuitoDibujo(10,10,1,1);
+     dcr->c = new CircuitoDibujo(10,10,10,3);
      circuitos[dcr->c]=dcr;
      ventana->agregarDibujo(dcr->c);
      return dcr;
@@ -68,37 +68,30 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
 
      DatosCompuerta* dc = new DatosCompuerta;
 
-     dc->c; //= new Compuerta(10,10);
-//TODO: acaaaa
-     if((tipo.compare(AND)) == 0)
-       dc->c= new CompuertaAnd(10, 10);
-     else if((tipo.compare(OR)) == 0)
-       dc->c= new CompuertaOr(10, 10);
-     else if((tipo.compare(NOT)) == 0)
-       dc->c= new CompuertaNot(10, 10);
-     else if((tipo.compare(XOR)) == 0)
-       dc->c= new CompuertaXor(10, 10);
-     else if((tipo.compare(BUFFER)) == 0)
-       dc->c= new CompuertaBuffer(10, 10);
+     //TODO: acaaaa
 
      dc->tipo = tipo;
      dc->tr = 10;
-     dc->c->setTiempoT("10");
      std::cout << "cargo compuerta " << tipo << std::endl;
      if(tipo.compare(TIPO_COMPUERTA_AND)==0){
 	  dc->g = new GateAnd();
+	  dc->c= new CompuertaAnd(10, 10);
      }
      else if(tipo.compare(TIPO_COMPUERTA_OR)==0){
 	  dc->g = new GateOr();	  
+	  dc->c= new CompuertaOr(10, 10);
      }
      else if(tipo.compare(TIPO_COMPUERTA_XOR)==0){
 	  dc->g = new GateXor();
+	  dc->c= new CompuertaXor(10, 10);
      }
      else if(tipo.compare(TIPO_COMPUERTA_NOT)==0){
 	  dc->g = new GateNot();
+	  dc->c= new CompuertaNot(10, 10);
      }
      else if(tipo.compare(TIPO_COMPUERTA_BUFFER)==0){
 	  dc->g = new GateBuffer();
+	  dc->c= new CompuertaBuffer(10, 10);
      }
      else{
 	  delete dc->c;
@@ -107,6 +100,7 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
      }
      
      if(dc != NULL){
+	  dc->c->setTiempoT("10");
 	  compuertas[dc->c] = dc;
 	  ventana->agregarDibujo(dc->c);
 	  std::cout << "Cargado OK\n";
@@ -169,5 +163,5 @@ void ControladorVentana::guardar(const std::string& nombreArchivo){
 
 void ControladorVentana::cargar(const std::string& nombreArchivo){
      Persistidor p(nombreArchivo);
-     p.recuperar(nombreArchivo, this);
+     p.recuperar(this);
 }
