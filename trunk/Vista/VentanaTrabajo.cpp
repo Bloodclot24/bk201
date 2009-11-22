@@ -474,6 +474,6 @@ void VentanaTrabajo::on_propiedades(int response_id) {
   }
 }
 
-void VentanaTrabajo::agregarDibujo(Dibujo* d){
-     areaDibujo->agregarDibujo(d);
+void VentanaTrabajo::agregarDibujo(Dibujo *dibujo){
+  areaDibujo->agregarDibujo(dibujo);
 } 

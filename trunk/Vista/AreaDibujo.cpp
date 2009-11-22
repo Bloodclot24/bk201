@@ -135,6 +135,16 @@ void AreaDibujo::deseleccionar() {
     (*it)->deseleccionar();
 }
 
+void AreaDibujo::agregarComponente(Dibujo* dibujo) {
+
+  deseleccionar();
+  dibujo->seleccionar();
+  dibujos.push_back(dibujo);
+  seleccionado= dibujo;
+  seleccion= true;
+  redibujar();
+}
+
 void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp) {
 
   Compuerta *compuerta;
@@ -151,13 +161,7 @@ void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned i
     compuerta= new CompuertaBuffer(xUp, yUp);
 
   ventanaTrabajo->controladorVentana->crearComponente(compuerta, tipo);
-
-  deseleccionar();
-  compuerta->seleccionar();
-  dibujos.push_back(compuerta);
-  seleccionado= compuerta;
-  seleccion= true;
-  redibujar();
+  agregarComponente(compuerta);
 }
 
 void AreaDibujo::dibujarConexion() {
@@ -178,24 +182,13 @@ void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFi
 void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
   EntradaSalida *entradaSalida= new EntradaSalida(xUp, yUp);
-  deseleccionar();
-  entradaSalida->seleccionar();
-  dibujos.push_back(entradaSalida);
-  seleccionado= entradaSalida;
-  seleccion= true;
-  redibujar();
+  agregarComponente(entradaSalida);
 }
 
 void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
 
   CircuitoDibujo *circuito= new CircuitoDibujo(xCircuito, yCircuito, entradas, salidas);
-  deseleccionar();
-  circuito->seleccionar();
-  dibujos.push_back(circuito);
-  seleccionado= circuito;
-  ventanaTrabajo->controladorVentana->crearComponente(circuito);
-  seleccion= true;
-  redibujar();
+  agregarComponente(circuito);
 }
 
 //TODO: Por ahora trata que no se dibuje fuera del area de dibujo
@@ -430,4 +423,9 @@ void AreaDibujo::eventoDobleClick(int x, int y) {
     //muestro el dialogo de propiedades
     ventanaTrabajo->dialog_propiedades->show();
   }
+}
+
+void AreaDibujo::agregarDibujo(Dibujo *dibujo) {
+
+  agregarComponente(dibujo);
 }
