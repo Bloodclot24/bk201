@@ -934,7 +934,7 @@ Ygounet Guido</property>
             <child>
               <object class="GtkLabel" id="label_tiempo_prop">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Tiempo de transici&#xF3;n:</property>
+                <property name="label" translatable="yes">Tiempo de transici&#xF3;n [ns]:</property>
               </object>
               <packing>
                 <property name="top_attach">1</property>
