@@ -80,6 +80,7 @@ protected:
   virtual bool on_motion_notify_event(GdkEventMotion* event);
   virtual bool on_button_release_event(GdkEventButton* event);
 
+  void agregarComponente(Dibujo* dibujo);
   void dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp);
   void dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal);
   void dibujarIO(unsigned int xUp, unsigned int yUp);
@@ -95,10 +96,7 @@ public:
   void rotarSeleccion90Derecha();
   void rotarSeleccion90Izquierda();
      
-     void agregarDibujo(Dibujo *d){
-	  dibujos.push_back(d);
-	  redibujar();
-     }
+  void agregarDibujo(Dibujo *dibujo);
 };
 
 #endif /* AREADIBUJO_H_ */

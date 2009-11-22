@@ -65,8 +65,22 @@ DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
 }
 
 DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
+
      DatosCompuerta* dc = new DatosCompuerta;
-     dc->c = new Compuerta(10,10);
+
+     dc->c; //= new Compuerta(10,10);
+//TODO: acaaaa
+     if((tipo.compare(AND)) == 0)
+       dc->c= new CompuertaAnd(10, 10);
+     else if((tipo.compare(OR)) == 0)
+       dc->c= new CompuertaOr(10, 10);
+     else if((tipo.compare(NOT)) == 0)
+       dc->c= new CompuertaNot(10, 10);
+     else if((tipo.compare(XOR)) == 0)
+       dc->c= new CompuertaXor(10, 10);
+     else if((tipo.compare(BUFFER)) == 0)
+       dc->c= new CompuertaBuffer(10, 10);
+
      dc->tipo = tipo;
      dc->tr = 10;
      dc->c->setTiempoT("10");
