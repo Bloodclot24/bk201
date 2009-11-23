@@ -216,9 +216,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkImage" id="image1">
+              <object class="GtkVBox" id="vbox_tabla">
                 <property name="visible">True</property>
-                <property name="stock">gtk-delete</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <placeholder/>
+                </child>
               </object>
               <packing>
                 <property name="position">1</property>

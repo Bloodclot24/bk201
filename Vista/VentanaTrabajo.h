@@ -31,6 +31,7 @@ class VentanaTrabajo;
 #include "Impresion/VentanaImpresion.h"
 #include "../Controlador/controlador.h"
 #include "../Controlador/ControladorVentana.h"
+#include "Tabla.h"
 
 #define PATH_VISTA "Vista/interfaz.glade"
 #define NOMBRE_CIRCUITO "Circuito "
@@ -49,6 +50,7 @@ class VentanaTrabajo;
  * Ventana de principal de trabajo para el usuario.
  */
 class VentanaTrabajo: public Gtk::Window {
+  friend class AreaDibujo;
 
 private:
   Glib::RefPtr<Gtk::Builder> refXml;
@@ -138,12 +140,13 @@ private:
   Gtk::Dialog *dialog_propiedades;
   void on_propiedades(int response_id);
 
+  /*TABLA*/
+  Tabla *tabla;
+
   /*IMPRESION*/
   Gtk::Window *window_print;
   void loadVentanaImpresion();
   void cerrarVentanaImpresion();
-
-  friend class AreaDibujo;
 
 protected:
   //Signal handlers

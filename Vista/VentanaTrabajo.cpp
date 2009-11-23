@@ -13,6 +13,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
   }
 
   areaDibujo= new AreaDibujo(this);
+  tabla= new Tabla(this);
   this->controlador= controlador;
   this->controladorVentana= controladorV;
   this->id= id;
@@ -46,6 +47,11 @@ void VentanaTrabajo::correr(bool primeraVez) {
   Gtk::VBox* vbox_drawing_area;
   refXml->get_widget("vbox_drawing_area", vbox_drawing_area);
   vbox_drawing_area->add(*areaDibujo);
+
+  //Area de Dibujo
+  Gtk::VBox* vbox_tabla;
+  refXml->get_widget("vbox_tabla", vbox_tabla);
+  vbox_tabla->add(*tabla);
 
   //Menu Bar
   loadMenuBar(window);

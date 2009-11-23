@@ -20,7 +20,8 @@ SOURCES=Controlador/controlador.cpp \
 	Vista/Dibujos/Circuito.cpp \
 	Vista/Dibujos/Conexion.cpp \
 	Vista/Dibujos/Dibujo.cpp \
-	Controlador/ControladorVentana.cpp
+	Controlador/ControladorVentana.cpp \
+	Vista/Tabla.cpp
 
 TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
