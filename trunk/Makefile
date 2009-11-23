@@ -22,7 +22,8 @@ SOURCES=Controlador/controlador.cpp \
 	Vista/Dibujos/Dibujo.cpp \
 	Controlador/ControladorVentana.cpp \
 	Vista/Tabla.cpp \
-	Threads/ThreadListado.cpp
+	Threads/ThreadListado.cpp \
+	Vista/CircuitoRemoto.cpp \
 
 TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
