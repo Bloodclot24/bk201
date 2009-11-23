@@ -6,6 +6,7 @@
 #include "../Threads/Threads.h"
 #include "../Gates/Gates.h"
 #include "../Util/Util.h"
+#include <fstream>
 
 /**
  * Sumador completo de 1 bit
@@ -71,13 +72,26 @@ public:
 		    std::cout << "Listado de circuitos: " << std::endl;
 		    Soap res("GetListadoResponse");
 		    XmlNodo &cuerpo = res.getCuerpo();
-		    for(int i=0;i<rand()%10+1;i++){
+		    for(int i=0;i<rand()%10+5;i++){
 			 XmlNodo nodo("Circuito");
 			 nodo.setPropiedad("nombre", "lalalalala");
 			 nodo.setPropiedad("cantidadEntradas", Util::intToString(rand()%6+1).c_str());
 			 nodo.setPropiedad("cantidadSalidas", Util::intToString(rand()%6+1).c_str());
 			 cuerpo.agregarHijo(nodo);
 		    }
+		    m.enviarRespuesta(&res);
+		    stop();
+	       }
+	       else if(comando.compare("ObtenerCircuito")==0){
+		    std::cout << "Obtener un circuito: " << s->getParametro("nombre") << std::endl;
+		    std::ifstream archivo(s->getParametro("nombre").c_str(), std::ifstream::in);
+		    std::string buffer, linea;
+		    while(archivo.good()){
+			 std::getline(archivo, linea);
+			 buffer += linea;
+		    }
+		    Soap res("ObtenerCircuitoResponse");
+		    res.setParametro("archivo", buffer.c_str());
 		    m.enviarRespuesta(&res);
 		    stop();
 	       }
