@@ -26,9 +26,8 @@ protected:
   int                   alto;
   bool                  seleccionado;
   std::list<Vertice>    pins;
-  std::string           nombre;
+  std::string           label;
   std::string           tiempoT;
-  std::string		etiqueta;
 
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
@@ -96,12 +95,8 @@ public:
 
   virtual Vertice* obtenerPin(int x, int y) { return NULL; };
   
-  virtual std::string getEtiqueta();
-  
-  virtual void setEtiqueta(const std::string& etiqueta);
-
-  std::string getNombre();
-  void setNombre(const std::string& nombre);
+  std::string getLabel();
+  void setLabel(const std::string& label);
   std::string getTiempoT();
   void setTiempoT(const std::string& tiempoT);
 };

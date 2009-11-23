@@ -131,15 +131,18 @@ void Tabla::dibujarTabla() {
     context->set_source_rgb(1.0, 0.0, 0.0);
     //titulos
     contador= 0;
-    std::string p= "a";
+    int dec= 65;
+    std::string str;
     for(int i= INICIO_TABLA+15; i<=ancho; i+=TAMANIO) {
+      str= (char)dec;
       if(contador == (entradas+salidas)) {
         i= i-5;
-        p= "T [ns]";
+        str= "T [ns]";
       }
       context->move_to(i, 2*TAMANIO-5);
-      context->show_text(p);
+      context->show_text(str);
       contador++;
+      dec++;
     }
 
     context->set_source_rgb(0.0, 0.0, 0.0);

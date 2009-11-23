@@ -416,11 +416,11 @@ void AreaDibujo::eventoDobleClick(int x, int y) {
   seleccionado= buscarDibujo(x, y);
   if(seleccionado) {
     can_motion= false;
-    std::string nombre= seleccionado->getNombre();
+    std::string label= seleccionado->getLabel();
     std::string tiempo= seleccionado->getTiempoT();
     Gtk::Entry *entry;
-    ventanaTrabajo->refXml->get_widget("entry_nombre_prop", entry);
-    entry->set_text(nombre);
+    ventanaTrabajo->refXml->get_widget("entry_label_prop", entry);
+    entry->set_text(label);
     ventanaTrabajo->refXml->get_widget("entry_tiempo_prop", entry);
     entry->set_text(tiempo);
     //muestro el dialogo de propiedades

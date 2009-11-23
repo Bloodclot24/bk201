@@ -53,9 +53,9 @@ public:
 			      componente.setPropiedad("type", dc->tipo.c_str());
 			      componente.setPropiedad("x",Util::intToString(dc->c->getVerticeSupIzq().x).c_str());
 			      componente.setPropiedad("y",Util::intToString(dc->c->getVerticeSupIzq().y).c_str());
-			      componente.setPropiedad("alfa", Util::intToString(dc->c->getAngulo()).c_str());
-			      componente.setPropiedad("label",dc->label.c_str());
-			      componente.setPropiedad("tr",Util::intToString(dc->tr).c_str());
+			      componente.setPropiedad("alfa",Util::intToString(dc->c->getAngulo()).c_str());
+			      componente.setPropiedad("label",(dc->c->getLabel()).c_str());
+			      componente.setPropiedad("tr",(dc->c->getTiempoT()).c_str());
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
@@ -108,7 +108,7 @@ public:
 			 std::cout << "x: " << v.x << " y: " << v.y<< std::endl;
 			 dc->c->setVerticeSupIzq(v);
 			 dc->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
-			 dc->c->setEtiqueta(componente.getPropiedad("label"));
+			 dc->c->setLabel(componente.getPropiedad("label"));
 		    }
 		    if(componente.getNombre().compare("CircuitoRemoto")==0){
 			 DatosCircuitoRemoto* dcr = c->cargarCircuito();
@@ -117,7 +117,7 @@ public:
 			 v.y = atoi(componente.getPropiedad("y").c_str());
 			 dcr->c->setVerticeSupIzq(v);
 			 dcr->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
-			 dcr->c->setEtiqueta(componente.getPropiedad("label"));
+			 dcr->c->setLabel(componente.getPropiedad("label"));
 		    }
 		    componente = componente.obtenerHermano();
 	       }

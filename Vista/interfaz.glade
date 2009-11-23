@@ -925,7 +925,7 @@ Ygounet Guido</property>
             <property name="n_rows">2</property>
             <property name="n_columns">2</property>
             <child>
-              <object class="GtkLabel" id="label_nombre_prop">
+              <object class="GtkLabel" id="label_label_prop">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">Nombre:</property>
               </object>
@@ -947,7 +947,7 @@ Ygounet Guido</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry_nombre_prop">
+              <object class="GtkEntry" id="entry_label_prop">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="invisible_char">&#x25CF;</property>
