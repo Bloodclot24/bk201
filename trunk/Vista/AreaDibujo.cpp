@@ -277,6 +277,8 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
     if(menuPopup && seleccion) {
       if(!seleccionado->getVer())
         verCircuitoMenu->set_sensitive(false);
+      else
+        verCircuitoMenu->set_sensitive(true);
       menuPopup->popup(event->button, event->time);
     }
     return true;
