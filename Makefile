@@ -24,7 +24,9 @@ SOURCES=Controlador/controlador.cpp \
 	Vista/Tabla.cpp \
 	Threads/ThreadListado.cpp \
 	Vista/CircuitoRemoto.cpp \
-	Threads/ThreadObtenerCircuito.cpp
+	Threads/ThreadObtenerCircuito.cpp \
+	Vista/Impresion/VentanaImpresion.cpp \
+	Vista/Impresion/Impresora.cpp
 
 TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuito.cpp \
