@@ -2,7 +2,7 @@
 
 ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vFinalY): Dibujo::Dibujo(vInicialX, vInicialY) {
 
-  nombre= "Conexion";
+  label= "Conexion";
   vFinal.x= vFinalX;
   vFinal.y= vFinalY;
   int deltaX= vFinalX-vInicialX;
@@ -123,13 +123,5 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   }
 
   return seleccionado;
-}
-
-std::string ConexionDibujo::getEtiqueta() {
-  return etiqueta;
-}
-  
-void ConexionDibujo::setEtiqueta(const std::string& etiqueta) {
-  this->etiqueta= etiqueta;
 }
 

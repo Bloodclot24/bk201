@@ -2,7 +2,7 @@
 
 EntradaSalida::EntradaSalida(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
-  nombre= "I/O";
+  label= "I/O";
   ancho= alto= DIMENSION_IO;
   vCentro.x= supIzqX +(ancho/2);
   vCentro.y= supIzqY +(alto/2);
@@ -31,23 +31,15 @@ void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   if(seleccionado)
     dibujarSeleccion(context);
 
-  context->set_source_rgb(1.0, 0.0, 0.0);
-  std::list<Vertice>::iterator it;
-  for(it= pins.begin(); it != pins.end(); it++) {
-    context->move_to(it->x, it->y);
-    context->line_to(it->x, it->y+5);
-  }
-  context->stroke();
+//  context->set_source_rgb(1.0, 0.0, 0.0);
+//  std::list<Vertice>::iterator it;
+//  for(it= pins.begin(); it != pins.end(); it++) {
+//    context->move_to(it->x, it->y);
+//    context->line_to(it->x, it->y+5);
+//  }
+//  context->stroke();
   
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);
-}
-
-std::string EntradaSalida::getEtiqueta() {
-  return etiqueta;
-}
-  
-void EntradaSalida::setEtiqueta(const std::string& etiqueta) {
-  this->etiqueta= etiqueta;
 }
 

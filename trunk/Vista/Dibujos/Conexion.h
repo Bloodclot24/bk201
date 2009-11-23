@@ -35,10 +35,6 @@ public:
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
   virtual bool setSeleccionado(int x, int y);
-
-  virtual std::string getEtiqueta();
-  
-  virtual void setEtiqueta(const std::string& etiqueta);
 };
 
 #endif /* CONEXION_H_ */

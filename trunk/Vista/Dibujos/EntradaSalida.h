@@ -26,10 +26,6 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
-  
-  virtual std::string getEtiqueta();
-  
-  virtual void setEtiqueta(const std::string& etiqueta);
 };
 
 #endif /* ENTRADASALIDA_H_ */

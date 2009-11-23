@@ -464,9 +464,9 @@ void VentanaTrabajo::on_propiedades(int response_id) {
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       Gtk::Entry *entry;
-      refXml->get_widget("entry_nombre_prop", entry);
-      Glib::ustring nombre= entry->get_text();
-      areaDibujo->seleccionado->setNombre(nombre);
+      refXml->get_widget("entry_label_prop", entry);
+      Glib::ustring label= entry->get_text();
+      areaDibujo->seleccionado->setLabel(label);
       refXml->get_widget("entry_tiempo_prop", entry);
       Glib::ustring tiempo= entry->get_text();
       areaDibujo->seleccionado->setTiempoT(tiempo);
