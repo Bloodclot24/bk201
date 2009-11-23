@@ -63,7 +63,7 @@ void VentanaImpresion::on_printoperation_done(Gtk::PrintOperationResult result, 
 
 void VentanaImpresion::print_or_preview(Gtk::PrintOperationAction print_action)
 {
-  Glib::RefPtr<Impresora> print = Impresora::create();
+  Glib::RefPtr<Impresora> print = Impresora::create(dibujos,tabla);
 
   print->set_track_print_status();
   print->set_default_page_setup(m_refPageSetup);
@@ -104,3 +104,15 @@ void VentanaImpresion::on_menu_file_quit()
   hide();
 }
 
+void VentanaImpresion::setDibujosAImprimir(std::list<Dibujo*> dibujos)
+{
+	this->dibujos = dibujos;
+}
+
+void VentanaImpresion::setTablasAImprimir(Tabla* tabla)
+{
+	this->tabla = tabla;
+	
+}
+
+  

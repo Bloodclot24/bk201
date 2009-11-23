@@ -3,11 +3,20 @@
 
 #include <gtkmm.h>
 #include <vector>
+#include <list>
+#include "../Tabla.h"
+#include "../Dibujos/Dibujo.h"
 
 class Impresora : public Gtk::PrintOperation
 {
+private:
+	std::list<Dibujo*> dibujos;
+	Tabla* tabla;
+	bool circuito;	
+	
 public:
-	static Glib::RefPtr<Impresora> create();
+	Impresora(std::list<Dibujos*> dibujos, Tabla* Tabla);
+	static Glib::RefPtr<Impresora> create(std::list<Dibujos*> dibujos, Tabla* tabla);
 
 protected:
 	virtual void on_begin_print(const Glib::RefPtr<Gtk::PrintContext>& context);

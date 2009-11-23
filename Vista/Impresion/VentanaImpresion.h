@@ -42,9 +42,13 @@ private:
   void on_menu_file_print();
   void on_menu_file_quit();
 
-
+  std::list<Dibujo*> dibujos;
+  Tabla* tabla;
+  
 public:
   VentanaImpresion();
+  void setDibujosAImprimir(std::list<Dibujo*> dibujos);
+  void setTablasAImprimir(Tabla* tabla);
   ~VentanaImpresion() { };
 };
 
