@@ -309,6 +309,9 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
         dibujarConexion(vInicial->x, vInicial->y, vFinal->x, vFinal->y);
         //delete vInicial;
         //delete vFinal;
+        can_motion= false;
+        seleccion= false;
+
         cargoVInicial= false;
         conexion= false;
       }
@@ -349,7 +352,6 @@ void AreaDibujo::borrarSeleccion() {
   if(seleccion && !motion) {
     ventanaTrabajo->controladorVentana->eliminarComponente(seleccionado);
     dibujos.remove(seleccionado);
-    //delete seleccionado;
     seleccion= false;
     redibujar();
   }
@@ -413,6 +415,7 @@ void AreaDibujo::eventoDobleClick(int x, int y) {
   //y muestro sus propiedades
   seleccionado= buscarDibujo(x, y);
   if(seleccionado) {
+    can_motion= false;
     std::string nombre= seleccionado->getNombre();
     std::string tiempo= seleccionado->getTiempoT();
     Gtk::Entry *entry;
