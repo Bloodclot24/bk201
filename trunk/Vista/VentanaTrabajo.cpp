@@ -200,8 +200,8 @@ void VentanaTrabajo::guardar() {
   Gtk::Dialog *dialog_remoto;
   refXml->get_widget("dialog_remoto", dialog_remoto);
   if(dialog_remoto) {
-    dialog_remoto->run();
-    dialog_remoto->hide();
+    dialog_remoto->show();
+    //dialog_remoto->hide();
   }
 
 }
@@ -376,7 +376,6 @@ void VentanaTrabajo::ventanaServidor() {
   }
 }
 
-
 void VentanaTrabajo::on_response_servidor(int response_id) {
 
   switch(response_id) {
@@ -393,11 +392,7 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       dialog_message->show();
       dialog_message->set_message("Conectandose al servidor...");
 
-      // std::list<std::string> lista;
-      // lista.push_back("Hola");
-      // recibirListaCircuitos(lista);
       controladorVentana->obtenerListaServidor(servidor, atoi(puerto.c_str()));
-      
     }
       break;
     default:

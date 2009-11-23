@@ -2,22 +2,22 @@
 
 CompuertaOr::CompuertaOr(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) {
 
-  cargarNuevosPins(vSupIzq);
+  cargarNuevosPines(vSupIzq);
 }
 
-void CompuertaOr::cargarNuevosPins(Vertice vSupIzq) {
+void CompuertaOr::cargarNuevosPines(Vertice vSupIzq) {
 
-  pins.clear();
+  pines.clear();
   Vertice v;
   v.x= vSupIzq.x;
   v.y= vSupIzq.y+10;
-  pins.push_back(v);
+  pines.push_back(v);
   v.x= vSupIzq.x;
   v.y= vSupIzq.y+30;
-  pins.push_back(v);
+  pines.push_back(v);
   v.x= vSupIzq.x+40;
   v.y= vSupIzq.y+20;
-  pins.push_back(v);
+  pines.push_back(v);
 }
 
 void CompuertaOr::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

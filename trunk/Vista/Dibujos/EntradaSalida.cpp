@@ -6,8 +6,8 @@ EntradaSalida::EntradaSalida(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, 
   ancho= alto= DIMENSION_IO;
   vCentro.x= supIzqX +(ancho/2);
   vCentro.y= supIzqY +(alto/2);
-  pins.clear();
-  pins.push_back(vCentro);
+  pines.clear();
+  pines.push_back(vCentro);
 }
 
 void EntradaSalida::setVerticeSupIzq(Vertice vSupIzq) {
@@ -15,8 +15,8 @@ void EntradaSalida::setVerticeSupIzq(Vertice vSupIzq) {
   this->vSupIzq= vSupIzq;
   vCentro.x= vSupIzq.x + (ancho/2);
   vCentro.y= vSupIzq.y + (alto/2);
-  pins.clear();
-  pins.push_back(vCentro);
+  pines.clear();
+  pines.push_back(vCentro);
 }
 
 void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

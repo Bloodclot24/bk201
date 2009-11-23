@@ -11,7 +11,7 @@ ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vF
   vCentro.y= vInicialY + deltaY/2;
   ancho= deltaX;
   alto= deltaY;
-
+  seleccionado= true;
   generarPoligonos();
 }
 
@@ -37,8 +37,6 @@ void ConexionDibujo::generarPoligonos() {
 }
 
 void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
-
-  std::cout << "adentro" << getSeleccionar() << std::endl;
 
   //dibujo de a poligonos
   context->set_source_rgb(0.0, 0.0, 0.0);
@@ -81,8 +79,6 @@ void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& conte
 
 bool ConexionDibujo::setSeleccionado(int x, int y) {
 
-  std::cout << "CONEXION" << std::endl;
-
   bool seleccionado= false;
   bool primero= true;
   int menorX, mayorX;
@@ -91,11 +87,6 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   std::list<Vertice>::iterator it;
   for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
     if(!primero) {
-
-//      std::cout << "it->x: " << it->x << std::endl;
-//      std::cout << "it->y: " << it->y << std::endl;
-//      std::cout << "anterior.x: " << anterior.x << std::endl;
-//      std::cout << "anterior.y: " << anterior.y << std::endl;
 
       if(anterior.x <= it->x) {
         menorX= anterior.x;

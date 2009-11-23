@@ -25,7 +25,7 @@ protected:
   int                   ancho;
   int                   alto;
   bool                  seleccionado;
-  std::list<Vertice>    pins;
+  std::list<Vertice>    pines;
   std::string           label;
   std::string           tiempoT;
 

@@ -1,6 +1,6 @@
 #include "Dibujo.h"
 
-Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq(), pins() {
+Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
 
   vSupIzq.x= xUp;
   vSupIzq.y= yUp;
@@ -92,4 +92,3 @@ std::string Dibujo::getTiempoT() {
 void Dibujo::setTiempoT(const std::string& tiempoT) {
   this->tiempoT= tiempoT;
 }
-

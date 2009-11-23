@@ -16,7 +16,7 @@ private:
    int pasoSalida;
 
 protected:
-   void cargarNuevosPins(Vertice vSupIzq);
+   void cargarNuevosPines(Vertice vSupIzq);
    int pasoPinesMenor(int mayor, int menor);
 public:
   /**

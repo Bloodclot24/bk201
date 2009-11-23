@@ -69,7 +69,8 @@ private:
   int yCircuito;
 
   //Clicks
-  void eventoDobleClick(int x, int y);
+  bool eventoClickBtnIzq(int x, int y);
+  void eventoDobleClickBtnIzq(int x, int y);
 
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);

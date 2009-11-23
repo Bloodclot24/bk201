@@ -16,6 +16,9 @@ class DibujoCircuitoRemoto: public Gtk::DrawingArea {
 		Cairo::RefPtr<Cairo::Context> context;
  		Glib::RefPtr<Gdk::Window>     window;
  		std::list<Dibujo*>            dibujos;
+ 		int                           width;
+ 		int                           height;
+
 
 	protected:
   		virtual bool on_expose_event(GdkEventExpose* event);

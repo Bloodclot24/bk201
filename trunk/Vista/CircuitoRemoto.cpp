@@ -7,6 +7,8 @@ DibujoCircuitoRemoto::DibujoCircuitoRemoto(VentanaTrabajo* ventanaTrabajo){
 
 bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
 
+  std::cout << "llamando expose event" << std::endl;
+
   //ventana de dibujo
   window= get_window();
   if(window) {
