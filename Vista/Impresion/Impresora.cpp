@@ -1,19 +1,19 @@
 #include "Impresora.h"
 #include <string>
 
-Glib::RefPtr<CustomPrintOperation> CustomPrintOperation::create()
+Glib::RefPtr<Impresora> Impresora::create()
 {
-	return Glib::RefPtr<CustomPrintOperation>(new CustomPrintOperation());
+	return Glib::RefPtr<Impresora>(new Impresora());
 }
 
-void CustomPrintOperation::on_begin_print(
+void Impresora::on_begin_print(
         const Glib::RefPtr<Gtk::PrintContext>& print_context)
 {
 	set_n_pages(1);
 }
 
 
-void CustomPrintOperation::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPaginas)
+void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPaginas)
 {
 	const double width = print_context->get_width();
 	const double height = print_context->get_height();

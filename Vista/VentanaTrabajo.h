@@ -149,8 +149,6 @@ private:
 
   /*IMPRESION*/
   Gtk::Window *window_print;
-  void loadVentanaImpresion();
-  void cerrarVentanaImpresion();
 
 protected:
   //Signal handlers

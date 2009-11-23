@@ -1,5 +1,6 @@
 #include "VentanaImpresion.h"
 
+
 VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
 									btnPageSetup("Setup"),
 									btnPrintPreview("Preview"),
@@ -30,7 +31,7 @@ void VentanaImpresion::build_main_menu()
 	hBox.pack_start(btnQuit, Gtk::PACK_EXPAND_WIDGET, 20);
 }
 
-void VentanaImpresion::on_printoperation_status_changed(const Glib::RefPtr<CustomPrintOperation>& operation)
+void VentanaImpresion::on_printoperation_status_changed(const Glib::RefPtr<Impresora>& operation)
 {
 	if (operation->is_finished())
 	{
@@ -39,7 +40,7 @@ void VentanaImpresion::on_printoperation_status_changed(const Glib::RefPtr<Custo
 	}
 }
 
-void VentanaImpresion::on_printoperation_done(Gtk::PrintOperationResult result, const Glib::RefPtr<CustomPrintOperation>& operation)
+void VentanaImpresion::on_printoperation_done(Gtk::PrintOperationResult result, const Glib::RefPtr<Impresora>& operation)
 {
   if (result == Gtk::PRINT_OPERATION_RESULT_ERROR)
   {
@@ -62,7 +63,7 @@ void VentanaImpresion::on_printoperation_done(Gtk::PrintOperationResult result, 
 
 void VentanaImpresion::print_or_preview(Gtk::PrintOperationAction print_action)
 {
-  Glib::RefPtr<CustomPrintOperation> print = CustomPrintOperation::create();
+  Glib::RefPtr<Impresora> print = Impresora::create();
 
   print->set_track_print_status();
   print->set_default_page_setup(m_refPageSetup);
@@ -103,12 +104,3 @@ void VentanaImpresion::on_menu_file_quit()
   hide();
 }
 
-void VentanaImpresion::on_menu_file_print_preview() {
-
-  print_or_preview(Gtk::PRINT_OPERATION_ACTION_PREVIEW);
-}
-
-void VentanaImpresion::on_menu_file_print() {
-
-  print_or_preview(Gtk::PRINT_OPERATION_ACTION_PRINT_DIALOG);
-}

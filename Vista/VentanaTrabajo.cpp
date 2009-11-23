@@ -19,6 +19,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
   this->controlador= controlador;
   this->controladorVentana= controladorV;
   this->id= id;
+  window_print= new VentanaImpresion();
 }
 
 VentanaTrabajo::~VentanaTrabajo() {
@@ -55,11 +56,6 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("vbox_tabla", vbox_tabla);
   vbox_tabla->add(*tabla);
 
-  //Remoto
-  Gtk::VBox* vbox_remoto;
-  refXml->get_widget("vbox_remoto", vbox_remoto);
-  vbox_remoto->add(*circuitoRemoto);
-
   //Menu Bar
   loadMenuBar(window);
 
@@ -94,10 +90,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("dialog_propiedades", dialog_propiedades);
   dialog_propiedades->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
 
-  //Ventana Impresion
-  loadVentanaImpresion();
-
-  window->show_all();
+   window->show_all();
 
   if(primeraVez)
     Gtk::Main::run(*window);
@@ -199,9 +192,14 @@ void VentanaTrabajo::guardar() {
   std::cout << "Se apreto boton guardar" << std::endl;
   Gtk::Dialog *dialog_remoto;
   refXml->get_widget("dialog_remoto", dialog_remoto);
+  //Remoto
+  Gtk::VBox* vbox_remoto;
+  refXml->get_widget("vbox_remoto", vbox_remoto);
+  vbox_remoto->add(*circuitoRemoto);
+
   if(dialog_remoto) {
-    dialog_remoto->show();
-    //dialog_remoto->hide();
+    dialog_remoto->run();
+    dialog_remoto->hide();
   }
 
 }
@@ -348,21 +346,6 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
 
 
 /**IMPRESION**/
-void VentanaTrabajo::loadVentanaImpresion() {
-
-  //ventana impresion
- // Glib::RefPtr<Glib::Object> obj_window_print= refXml->get_object("window_print");
-  //window_print= dynamic_cast<VentanaImpresion>(obj_window_print);
-
-  refXml->get_widget("window_print", window_print);
-
-  //cargo las señales de cada boton
-  Gtk::Button *button_print_cancel;
-  refXml->get_widget("button_print_cancel", button_print_cancel);
-  button_print_cancel->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::cerrarVentanaImpresion));
-
-}
-
 void VentanaTrabajo::on_clicked_conexion() {
 
   areaDibujo->dibujarConexion();
@@ -405,12 +388,6 @@ void VentanaTrabajo::imprimir() {
 
   if(window_print)
     window_print->show();
-}
-
-void VentanaTrabajo::cerrarVentanaImpresion() {
-
-  if(window_print)
-    window_print->hide();
 }
 
 void VentanaTrabajo::recibirListaCircuitos(const std::list<DescripcionCircuito> &lista) {
