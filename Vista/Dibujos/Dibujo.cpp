@@ -7,6 +7,7 @@ Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
   angulo= 0;
   seleccionado= false;
   tiempoT= "0";
+  ver= false;
 }
 
 Vertice Dibujo::getVerticeCentro() {
@@ -91,4 +92,8 @@ std::string Dibujo::getTiempoT() {
 
 void Dibujo::setTiempoT(const std::string& tiempoT) {
   this->tiempoT= tiempoT;
+}
+
+bool Dibujo::getVer() {
+  return ver;
 }

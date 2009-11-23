@@ -190,18 +190,6 @@ void VentanaTrabajo::abrir() {
 void VentanaTrabajo::guardar() {
 
   std::cout << "Se apreto boton guardar" << std::endl;
-  Gtk::Dialog *dialog_remoto;
-  refXml->get_widget("dialog_remoto", dialog_remoto);
-  //Remoto
-  Gtk::VBox* vbox_remoto;
-  refXml->get_widget("vbox_remoto", vbox_remoto);
-  vbox_remoto->add(*circuitoRemoto);
-
-  if(dialog_remoto) {
-    dialog_remoto->run();
-    dialog_remoto->hide();
-  }
-
 }
 
 void VentanaTrabajo::guardarComo() {

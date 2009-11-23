@@ -55,6 +55,7 @@ private:
   Gtk::Menu     *menuPopup;
   Glib::RefPtr<Gtk::UIManager> m_refUIManager;
   Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
+  Glib::RefPtr<Gtk::ActionGroup> verCircuitoMenu;
   void loadMenuPopup();
 
   /*TARGETS*/
@@ -96,6 +97,7 @@ public:
   void borrarSeleccion();
   void rotarSeleccion90Derecha();
   void rotarSeleccion90Izquierda();
+  void verCircuito();
      
   void agregarDibujo(Dibujo *dibujo);
 };
