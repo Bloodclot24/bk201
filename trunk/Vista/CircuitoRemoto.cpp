@@ -1,8 +1,8 @@
 #include "CircuitoRemoto.h"
 
 DibujoCircuitoRemoto::DibujoCircuitoRemoto(VentanaTrabajo* ventanaTrabajo){
-	this->ventanaTrabajo = ventanaTrabajo;
-	
+
+  this->ventanaTrabajo = ventanaTrabajo;
 }
 
 bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {

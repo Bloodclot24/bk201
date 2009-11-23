@@ -9,23 +9,24 @@ class DibujoCircuitoRemoto;
 #include "VentanaTrabajo.h"
 #include "Dibujos/Vertice.h"
 
-
 class DibujoCircuitoRemoto: public Gtk::DrawingArea {
-	private:
-		VentanaTrabajo* ventanaTrabajo;
-		Cairo::RefPtr<Cairo::Context> context;
- 		Glib::RefPtr<Gdk::Window>     window;
- 		std::list<Dibujo*>            dibujos;
- 		int                           width;
- 		int                           height;
 
+private:
+  VentanaTrabajo*               ventanaTrabajo;
+  Cairo::RefPtr<Cairo::Context> context;
+  Glib::RefPtr<Gdk::Window>     window;
+  std::list<Dibujo*>            dibujos;
+  int                           width;
+  int                           height;
+  void redibujar();
 
-	protected:
-  		virtual bool on_expose_event(GdkEventExpose* event);
-		void redibujar();
-	public:
-  		DibujoCircuitoRemoto(VentanaTrabajo *ventanaTrabajo);
-		void agregarDibujos(std::list<Dibujo*> dibujos);
+protected:
+  virtual bool on_expose_event(GdkEventExpose* event);
+
+public:
+  DibujoCircuitoRemoto(VentanaTrabajo *ventanaTrabajo);
+  virtual ~DibujoCircuitoRemoto() { };
+  void agregarDibujos(std::list<Dibujo*> dibujos);
 };
 
 #endif /* CIRCUITOREMOTO_H_ */

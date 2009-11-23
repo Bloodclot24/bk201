@@ -7,14 +7,17 @@ CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salid
   this->salidas= salidas;
 
   int mayor;
-  if(entradas >= salidas) {
+  if(entradas > salidas) {
     mayor= entradas;
     pasoEntrada= 10;
     pasoSalida= pasoPinesMenor(entradas, salidas);
-  } else {
+  } else if(entradas < salidas) {
     mayor= salidas;
     pasoSalida= 10;
     pasoEntrada= pasoPinesMenor(salidas, entradas);
+  } else if(entradas == salidas) {
+    mayor= salidas;
+    pasoEntrada= pasoSalida= 10;
   }
 
   ancho= alto= mayor*SEPARACION+10;
