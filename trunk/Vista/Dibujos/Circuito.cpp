@@ -26,6 +26,8 @@ CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salid
   vCentro.y= supIzqY + (alto/2);
 
   cargarNuevosPines(vSupIzq);
+
+  ver= true;
 }
 
 int CircuitoDibujo::pasoPinesMenor(int mayor, int menor) {
@@ -101,4 +103,3 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);
 };
-

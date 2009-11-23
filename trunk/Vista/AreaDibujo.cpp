@@ -36,7 +36,8 @@ AreaDibujo::~AreaDibujo() {
 void AreaDibujo::loadMenuPopup() {
 
   //crea las acciones del menu popup
-  m_refActionGroup = Gtk::ActionGroup::create();
+  m_refActionGroup= Gtk::ActionGroup::create();
+  verCircuitoMenu= Gtk::ActionGroup::create();
 
   //menu editar
   m_refActionGroup->add(Gtk::Action::create("MenuEditar", "Menu Editar"));
@@ -45,10 +46,13 @@ void AreaDibujo::loadMenuPopup() {
   m_refActionGroup->add(Gtk::Action::create("Rotar90I", Gtk::Stock::UNDO,"Rotar 90"),
                           sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Izquierda));
   m_refActionGroup->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
-                          sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
+                            sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
+  verCircuitoMenu->add(Gtk::Action::create("Ver Circuito", Gtk::Stock::FIND, "Ver Circuito"),
+                            sigc::mem_fun(*this, &AreaDibujo::verCircuito));
 
   m_refUIManager = Gtk::UIManager::create();
   m_refUIManager->insert_action_group(m_refActionGroup);
+  m_refUIManager->insert_action_group(verCircuitoMenu);
 
   //Etiquetas
   Glib::ustring ui_info =
@@ -56,6 +60,7 @@ void AreaDibujo::loadMenuPopup() {
     "  <popup name='PopupMenu'>"
     "    <menuitem action='Rotar90D'/>"
     "    <menuitem action='Rotar90I'/>"
+    "    <menuitem action='Ver Circuito'/>"
     "    <menuitem action='Borrar'/>"
     "  </popup>"
     "</ui>";
@@ -64,7 +69,6 @@ void AreaDibujo::loadMenuPopup() {
   //Obtenemos el menu
   menuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
 }
-
 
 bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
 
@@ -270,8 +274,11 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   //Evento boton derecho
   } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
-    if(menuPopup && seleccion)
+    if(menuPopup && seleccion) {
+      if(!seleccionado->getVer())
+        verCircuitoMenu->set_sensitive(false);
       menuPopup->popup(event->button, event->time);
+    }
     return true;
   } else
   return false;
@@ -300,6 +307,22 @@ void AreaDibujo::rotarSeleccion90Izquierda() {
   if(seleccion && !motion) {
     seleccionado->setAngulo(-90);
     redibujar();
+  }
+}
+
+void AreaDibujo::verCircuito() {
+
+  if(seleccion && !motion) {
+    Gtk::Dialog *dialog_remoto;
+    ventanaTrabajo->refXml->get_widget("dialog_remoto", dialog_remoto);
+    //Remoto
+    Gtk::VBox* vbox_remoto;
+    ventanaTrabajo->refXml->get_widget("vbox_remoto", vbox_remoto);
+    vbox_remoto->add(*(ventanaTrabajo->circuitoRemoto));
+    if(dialog_remoto) {
+      dialog_remoto->run();
+      dialog_remoto->hide();
+    }
   }
 }
 
