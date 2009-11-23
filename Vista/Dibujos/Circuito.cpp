@@ -22,7 +22,7 @@ CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salid
   vCentro.x= supIzqX + (ancho/2);
   vCentro.y= supIzqY + (alto/2);
 
-  cargarNuevosPins(vSupIzq);
+  cargarNuevosPines(vSupIzq);
 }
 
 int CircuitoDibujo::pasoPinesMenor(int mayor, int menor) {
@@ -37,21 +37,21 @@ int CircuitoDibujo::pasoPinesMenor(int mayor, int menor) {
   return paso;
 }
 
-void CircuitoDibujo::cargarNuevosPins(Vertice vSupIzq) {
+void CircuitoDibujo::cargarNuevosPines(Vertice vSupIzq) {
 
-  pins.clear();
+  pines.clear();
   Vertice v;
   //entrada
   for(int i= 0; i<entradas; i++) {
     v.x= vSupIzq.x;
     v.y= vSupIzq.y+i*pasoEntrada+10;
-    pins.push_back(v);
+    pines.push_back(v);
   }
   //salida
   for(int i= 0; i<salidas; i++) {
     v.x= vSupIzq.x+ancho-10;
     v.y= vSupIzq.y+i*pasoSalida+10;
-    pins.push_back(v);
+    pines.push_back(v);
   }
 }
 
@@ -60,7 +60,7 @@ void CircuitoDibujo::setVerticeSupIzq(Vertice vSupIzq) {
   vCentro.x= vSupIzq.x + (ancho/2);
   vCentro.y= vSupIzq.y + (alto/2);
   this->vSupIzq= vSupIzq;
-  cargarNuevosPins(vSupIzq);
+  cargarNuevosPines(vSupIzq);
 }
 
 void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
@@ -79,7 +79,7 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //entradas y salidas
   context->set_source_rgb(0.0, 0.0, 0.0);
   std::list<Vertice>::iterator it;
-  for(it= pins.begin(); it != pins.end(); it++) {
+  for(it= pines.begin(); it != pines.end(); it++) {
     context->move_to(it->x, it->y);
     context->line_to(it->x+10, it->y);
   }
@@ -98,5 +98,4 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);
 };
-
 

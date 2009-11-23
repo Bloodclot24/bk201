@@ -20,7 +20,7 @@ Vertice* Compuerta::obtenerPin(int x, int y) {
 
   std::list<Vertice>::iterator it;
   bool encontrado= false;
-  for(it= pins.begin(); it != pins.end() && !encontrado; it++) {
+  for(it= pines.begin(); it != pines.end() && !encontrado; it++) {
 
     if( ((x >= it->x-TOLERANCIA) && (x <= it->x+TOLERANCIA)) && ((y >= it->y-TOLERANCIA) && (y <= it->y+TOLERANCIA)) ) {
       encontrado= true;

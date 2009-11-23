@@ -7,7 +7,7 @@
 class CompuertaBuffer: public Compuerta {
 
 protected:
-  virtual void cargarNuevosPins(Vertice vSupIzq);
+  virtual void cargarNuevosPines(Vertice vSupIzq);
 
 public:
   /**

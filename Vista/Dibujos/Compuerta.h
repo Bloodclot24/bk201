@@ -8,7 +8,7 @@
 class Compuerta: public Dibujo {
 
 protected:
-  virtual void cargarNuevosPins(Vertice vSupIzq) {  std::cout << "Boluda x2" << std::endl; };
+  virtual void cargarNuevosPins(Vertice vSupIzq) { };
 
 public:
   /**

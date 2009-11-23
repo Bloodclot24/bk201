@@ -168,15 +168,12 @@ void AreaDibujo::dibujarConexion() {
 
   deseleccionar();
   conexion= true;
+  redibujar();
 }
 void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal) {
 
   ConexionDibujo *conexion= new ConexionDibujo(xInicial, yInicial, xFinal, yFinal);
-  dibujos.push_back(conexion);
-  conexion->seleccionar();
-  seleccionado= conexion;
-  seleccion= true;
-  redibujar();
+  agregarComponente(conexion);
 }
 
 void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
@@ -237,13 +234,8 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
   std::list<Dibujo*>::iterator it;
   bool encontrado= false;
 
-  std::cout << "BUSCANDO SELECCIONADO" << std::endl;
-
   for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
     encontrado= (*it)->setSeleccionado(x,y);
-
-    std::cout << "encontrado: " << encontrado << std::endl;
-
 
     if(encontrado)
       break;
@@ -267,83 +259,21 @@ Vertice* AreaDibujo::buscarPinMasCercano(int x, int y) {
 
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
-  if(event->type == GDK_BUTTON_PRESS && event->button == 1) {
-
-    if(conexion) {
-      seleccion= false;
-      if(!cargoVInicial) {
-//        std::cout << "vInicial.x: " << event->x << std::endl;
-//        std::cout << "vInicial.y: " << event->y << std::endl;
-
-        vInicial= buscarPinMasCercano(event->x, event->y);
-        if(!vInicial) {
-          vInicial= new Vertice();
-          vInicial->x= event->x;
-          vInicial->y= event->y;
-          buscarPosicion(vInicial->x, vInicial->y);
-        }
-
-//        std::cout << "vInicial.x: " << vInicial->x << std::endl;
-//        std::cout << "vInicial.y: " << vInicial->y << std::endl;
-
-//        std::cout << "------------------------" << std::endl;
-
-
-        cargoVInicial= true;
-        return true;
-      } else {
-//        std::cout << "vFinal.x: " << event->x << std::endl;
-//        std::cout << "vFinal.y: " << event->y << std::endl;
-
-        vFinal= buscarPinMasCercano(event->x, event->y);
-        if(!vFinal) {
-          vFinal= new Vertice();
-          vFinal->x= event->x;
-          vFinal->y= event->y;
-          buscarPosicion(vFinal->x, vFinal->y);
-        }
-
-//        std::cout << "vFinal.x: " << vFinal->x << std::endl;
-//        std::cout << "vFinal.y: " << vFinal->y << std::endl;
-
-        dibujarConexion(vInicial->x, vInicial->y, vFinal->x, vFinal->y);
-        //delete vInicial;
-        //delete vFinal;
-        can_motion= false;
-        seleccion= false;
-
-        cargoVInicial= false;
-        conexion= false;
-      }
-    } else {
-      deseleccionar();
-      seleccionado= buscarDibujo(event->x, event->y);
-
-      if(seleccionado)
-        std::cout << "Con q sale: " << seleccionado->getSeleccionar() << std::endl;
-
-      if(!seleccionado) {
-      can_motion= false;
-      seleccion= false;
-      } else {
-      seleccion= true;
-      can_motion= true;
-      }
-      redibujar();
-      return true;
-    }
+  //Evento click boton izquierdo
+  if(event->type == GDK_BUTTON_PRESS && event->button == 1)
+    return eventoClickBtnIzq(event->x, event->y);
 
   //Evento doble click boton izquierdo
-  } else if(event->type == GDK_2BUTTON_PRESS && event->button == 1)
-    eventoDobleClick(event->x, event->y);
+  else if(event->type == GDK_2BUTTON_PRESS && event->button == 1) {
+    eventoDobleClickBtnIzq(event->x, event->y);
+    return false;
 
-  //Eventos boton derecho
-  else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
+  //Evento boton derecho
+  } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
     if(menuPopup && seleccion)
       menuPopup->popup(event->button, event->time);
     return true;
-  }
-
+  } else
   return false;
 }
 
@@ -408,7 +338,54 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 }
 
 //Clicks
-void AreaDibujo::eventoDobleClick(int x, int y) {
+bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
+
+  if(conexion) {
+
+    if(!cargoVInicial) {
+      vInicial= buscarPinMasCercano(x, y);
+      if(!vInicial) {
+        vInicial= new Vertice();
+        vInicial->x= x;
+        vInicial->y= y;
+        buscarPosicion(x, y);
+      }
+
+      cargoVInicial= true;
+      return true;
+
+    } else {
+      vFinal= buscarPinMasCercano(x, y);
+      if(!vFinal) {
+        vFinal= new Vertice();
+        vFinal->x= x;
+        vFinal->y= y;
+        buscarPosicion(vFinal->x, vFinal->y);
+      }
+
+      dibujarConexion(vInicial->x, vInicial->y, vFinal->x, vFinal->y);
+      can_motion= false;
+      cargoVInicial= false;
+      conexion= false;
+    }
+  } else {
+    deseleccionar();
+    seleccionado= buscarDibujo(x, y);
+
+    if(!seleccionado) {
+      can_motion= false;
+      seleccion= false;
+    } else {
+      seleccion= true;
+      can_motion= true;
+    }
+    redibujar();
+    return true;
+  }
+  return false;
+}
+
+void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
 
   std::cout << "doble click" << std::endl;
   //busco el elemento sobre el que se hizo doble click
