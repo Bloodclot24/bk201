@@ -18,6 +18,7 @@ public:
      void setParametro(const char* nombre, uint64_t valor);
      std::string getParametro(const char* nombre);
      uint64_t getParametroNumerico(const char* nombre);
+     XmlNodo& getCuerpo(){ return body; }
      const std::string& getNombre();
      std::string* toString(){return documento.toString();}
      ~Soap(){

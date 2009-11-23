@@ -3,6 +3,7 @@
 #include "../HTTP/HttpRequest.h"
 #include "../Red/Socket.h"
 #include "Server.h"
+#include "../Util/Util.h"
 
 
 int main(int argc, char** argv){

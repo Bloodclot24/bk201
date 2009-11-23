@@ -7,6 +7,7 @@
 #include "../Circuito/CircuitoRemoto.h"
 #include "../Circuito/Circuito.h"
 #include "../XML/Persistidor.h"
+#include "../Threads/ThreadListado.h"
 
 #define TIPO_PISTA            "Conexion" 
 #define TIPO_COMPUERTA_AND    "And"
@@ -67,8 +68,6 @@ DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
 DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
 
      DatosCompuerta* dc = new DatosCompuerta;
-
-     //TODO: acaaaa
 
      dc->tipo = tipo;
      dc->tr = 10;
@@ -146,9 +145,9 @@ void ControladorVentana::simular(){
 
 }
 
-std::list<std::string> ControladorVentana::obtenerListaServidor(const std::string& servidor, int puerto){
-     std::list<std::string> s;
-     return s;
+void ControladorVentana::obtenerListaServidor(const std::string& servidor, int puerto){
+     ThreadListado *listado = new ThreadListado(*this,servidor, puerto);
+     listado->run();
 }
 
 std::list<uint64_t> ControladorVentana::obtenerTabla(){
@@ -164,4 +163,9 @@ void ControladorVentana::guardar(const std::string& nombreArchivo){
 void ControladorVentana::cargar(const std::string& nombreArchivo){
      Persistidor p(nombreArchivo);
      p.recuperar(this);
+}
+
+void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista){
+     ventana->recibirListaCircuitos(lista);
+     return;
 }

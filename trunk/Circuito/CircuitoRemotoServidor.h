@@ -5,6 +5,7 @@
 #include "../Red/Mensajero.h"
 #include "../Threads/Threads.h"
 #include "../Gates/Gates.h"
+#include "../Util/Util.h"
 
 /**
  * Sumador completo de 1 bit
@@ -66,7 +67,20 @@ public:
 		    std::cout << "Seleccionando circuito " << s->getParametro("Nombre") << std::endl;
 		    c = new Sumador();
 	       }
-	       
+	       else if(comando.compare("GetListado")==0){
+		    std::cout << "Listado de circuitos: " << std::endl;
+		    Soap res("GetListadoResponse");
+		    XmlNodo &cuerpo = res.getCuerpo();
+		    for(int i=0;i<rand()%10+1;i++){
+			 XmlNodo nodo("Circuito");
+			 nodo.setPropiedad("nombre", "lalalalala");
+			 nodo.setPropiedad("cantidadEntradas", Util::intToString(rand()%6+1).c_str());
+			 nodo.setPropiedad("cantidadSalidas", Util::intToString(rand()%6+1).c_str());
+			 cuerpo.agregarHijo(nodo);
+		    }
+		    m.enviarRespuesta(&res);
+		    stop();
+	       }
 	       else if(comando.compare("SetPin")==0){
 		    std::cout << "Setear pin " << s->getParametroNumerico("Numero") << \
 			 " en " << s->getParametroNumerico("Valor") << std::endl;

@@ -3,6 +3,8 @@
 
 class ControladorVentana;
 
+struct DescripcionCircuito;
+
 #include <map>
 
 #include "../Circuito/Circuito.h"
@@ -47,6 +49,11 @@ struct DatosPin{
      bool esEntrada;
 };
 
+struct DescripcionCircuito{
+     std::string nombre;
+     int cantidadEntradas, cantidadSalidas;
+};
+
 class ControladorVentana{
 private:
      ControladorVentana(const ControladorVentana& c);
@@ -69,12 +76,13 @@ public:
      void crearComponente(CircuitoDibujo* d);
      void eliminarComponente(Dibujo* d);
      void simular();
-     std::list<std::string> obtenerListaServidor(const std::string& servidor, int puerto);
+     void obtenerListaServidor(const std::string& servidor, int puerto);
      std::list<uint64_t> obtenerTabla();
      void guardar(const std::string& nombreArchivo);
      void cargar(const std::string& nombreArchivo);
      DatosCircuitoRemoto* cargarCircuito();
      DatosCompuerta* cargarCompuerta(const std::string& tipo);
+     void notificarLista(std::list<DescripcionCircuito> lista);
 };
 
 #endif //__CONTROLADORVENTANA_H_INCLUDED__

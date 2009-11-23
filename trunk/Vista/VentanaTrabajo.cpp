@@ -1,5 +1,6 @@
 #include "VentanaTrabajo.h"
 
+
 VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *controladorV, unsigned int id) {
 
   try {
@@ -392,9 +393,11 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       dialog_message->show();
       dialog_message->set_message("Conectandose al servidor...");
 
-      std::list<std::string> lista;
-      lista.push_back("Hola");
-      recibirListaCircuitos(lista);
+      // std::list<std::string> lista;
+      // lista.push_back("Hola");
+      // recibirListaCircuitos(lista);
+      controladorVentana->obtenerListaServidor(servidor, atoi(puerto.c_str()));
+      
     }
       break;
     default:
@@ -415,16 +418,18 @@ void VentanaTrabajo::cerrarVentanaImpresion() {
     window_print->hide();
 }
 
-void VentanaTrabajo::recibirListaCircuitos(std::list<std::string> lista) {
+void VentanaTrabajo::recibirListaCircuitos(const std::list<DescripcionCircuito> &lista) {
 
   if(!lista.empty()) {
     treeModel_circuitos->clear();
-    agregarCircuito("Master", 4, 5);
-    agregarCircuito("Slave", 10, 7);
+    std::list<DescripcionCircuito>::const_iterator it;
+    for(it=lista.begin(); it != lista.end(); it++){
+	 agregarCircuito((*it).nombre, (*it).cantidadEntradas, (*it).cantidadSalidas);
+	 std::cout << "Agrego Circuito: " << (*it).nombre << std::endl;
+    }
     dialog_message->hide();
     dialog_servidor->hide();
     dialog_lista_circuitos->show();
-
 
   } else {
     dialog_message->hide();
