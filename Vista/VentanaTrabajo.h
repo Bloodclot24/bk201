@@ -174,7 +174,7 @@ public:
     */
     void correr(bool primeraVez= false);
 
-    void recibirListaCircuitos(std::list<std::string> lista);
+    void recibirListaCircuitos(const std::list<DescripcionCircuito> &lista);
     void agregarDibujo(Dibujo *dibujo);
 };
 

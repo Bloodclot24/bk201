@@ -6,6 +6,7 @@
 
 class XmlNodo;
 class XmlNS;
+class Xml;
 
 
 class XmlNodo{
