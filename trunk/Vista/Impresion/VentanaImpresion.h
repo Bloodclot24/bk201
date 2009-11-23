@@ -9,6 +9,8 @@
 #include <gtkmm/printoperation.h>
 #include <gtkmm/button.h>
 #include <gtkmm/box.h>
+#include <gtkmm.h>
+#include <iostream>
 
 class PrintFormOperation;
 
@@ -16,7 +18,7 @@ class PrintFormOperation;
 class VentanaImpresion: public Gtk::Window {
 
 private:
-co //Printing-related objects:
+  //Printing-related objects:
   Glib::RefPtr<Gtk::PageSetup> m_refPageSetup;
   Glib::RefPtr<Gtk::PrintSettings> m_refSettings;
 
@@ -31,8 +33,8 @@ co //Printing-related objects:
 
   void build_main_menu();
   void print_or_preview(Gtk::PrintOperationAction print_action);
-  void on_printoperation_status_changed(const Glib::RefPtr<CustomPrintOperation>& operation);
-  void on_printoperation_done(Gtk::PrintOperationResult result, const Glib::RefPtr<CustomPrintOperation>& operation);
+  void on_printoperation_status_changed(const Glib::RefPtr<Impresora>& operation);
+  void on_printoperation_done(Gtk::PrintOperationResult result, const Glib::RefPtr<Impresora>& operation);
 
   //Action signal handlers:
   void on_menu_file_page_setup();
