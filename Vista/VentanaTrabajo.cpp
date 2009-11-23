@@ -19,7 +19,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
   this->controlador= controlador;
   this->controladorVentana= controladorV;
   this->id= id;
-  window_print= new VentanaImpresion();
+  //window_print= new VentanaImpresion();
 }
 
 VentanaTrabajo::~VentanaTrabajo() {
@@ -374,8 +374,8 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
 
 void VentanaTrabajo::imprimir() {
 
-  if(window_print)
-    window_print->show();
+//  if(window_print)
+//    window_print->show();
 }
 
 void VentanaTrabajo::recibirListaCircuitos(const std::list<DescripcionCircuito> &lista) {

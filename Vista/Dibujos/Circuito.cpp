@@ -27,7 +27,7 @@ CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salid
 
   cargarNuevosPines(vSupIzq);
 
-  ver= true;
+  examinar= true;
 }
 
 int CircuitoDibujo::pasoPinesMenor(int mayor, int menor) {

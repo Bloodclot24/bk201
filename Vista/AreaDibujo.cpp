@@ -47,7 +47,7 @@ void AreaDibujo::loadMenuPopup() {
                           sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Izquierda));
   m_refActionGroup->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
                             sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
-  verCircuitoMenu->add(Gtk::Action::create("Ver Circuito", Gtk::Stock::FIND, "Ver Circuito"),
+  verCircuitoMenu->add(Gtk::Action::create("Examinar", Gtk::Stock::FIND, "Examinar..."),
                             sigc::mem_fun(*this, &AreaDibujo::verCircuito));
 
   m_refUIManager = Gtk::UIManager::create();
@@ -60,7 +60,7 @@ void AreaDibujo::loadMenuPopup() {
     "  <popup name='PopupMenu'>"
     "    <menuitem action='Rotar90D'/>"
     "    <menuitem action='Rotar90I'/>"
-    "    <menuitem action='Ver Circuito'/>"
+    "    <menuitem action='Examinar'/>"
     "    <menuitem action='Borrar'/>"
     "  </popup>"
     "</ui>";
@@ -275,7 +275,7 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
   //Evento boton derecho
   } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
     if(menuPopup && seleccion) {
-      if(!seleccionado->getVer())
+      if(!seleccionado->getExaminar())
         verCircuitoMenu->set_sensitive(false);
       else
         verCircuitoMenu->set_sensitive(true);
@@ -412,7 +412,6 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 
 void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
 
-  std::cout << "doble click" << std::endl;
   //busco el elemento sobre el que se hizo doble click
   //y muestro sus propiedades
   seleccionado= buscarDibujo(x, y);

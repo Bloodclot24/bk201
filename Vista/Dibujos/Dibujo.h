@@ -28,7 +28,7 @@ protected:
   std::list<Vertice>    pines;
   std::string           label;
   std::string           tiempoT;
-  bool                  ver;
+  bool                  examinar;
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
   void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
@@ -100,7 +100,7 @@ public:
   std::string getTiempoT();
   void setTiempoT(const std::string& tiempoT);
 
-  bool getVer();
+  bool getExaminar();
 };
 
 #endif /* DIBUJO_H_ */
