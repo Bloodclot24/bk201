@@ -14,6 +14,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
 
   areaDibujo= new AreaDibujo(this);
   tabla= new Tabla(this);
+  circuitoRemoto= new DibujoCircuitoRemoto(this);
   this->controlador= controlador;
   this->controladorVentana= controladorV;
   this->id= id;
@@ -48,10 +49,15 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("vbox_drawing_area", vbox_drawing_area);
   vbox_drawing_area->add(*areaDibujo);
 
-  //Area de Dibujo
+  //Tabla
   Gtk::VBox* vbox_tabla;
   refXml->get_widget("vbox_tabla", vbox_tabla);
   vbox_tabla->add(*tabla);
+
+  //Remoto
+  Gtk::VBox* vbox_remoto;
+  refXml->get_widget("vbox_remoto", vbox_remoto);
+  vbox_remoto->add(*circuitoRemoto);
 
   //Menu Bar
   loadMenuBar(window);
@@ -190,6 +196,13 @@ void VentanaTrabajo::abrir() {
 void VentanaTrabajo::guardar() {
 
   std::cout << "Se apreto boton guardar" << std::endl;
+  Gtk::Dialog *dialog_remoto;
+  refXml->get_widget("dialog_remoto", dialog_remoto);
+  if(dialog_remoto) {
+    dialog_remoto->run();
+    dialog_remoto->hide();
+  }
+
 }
 
 void VentanaTrabajo::guardarComo() {

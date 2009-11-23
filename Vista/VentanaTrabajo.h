@@ -32,6 +32,7 @@ class VentanaTrabajo;
 #include "../Controlador/controlador.h"
 #include "../Controlador/ControladorVentana.h"
 #include "Tabla.h"
+#include "CircuitoRemoto.h"
 
 #define PATH_VISTA "Vista/interfaz.glade"
 #define NOMBRE_CIRCUITO "Circuito "
@@ -142,6 +143,9 @@ private:
 
   /*TABLA*/
   Tabla *tabla;
+
+  /*CIRCUITO REMOTO*/
+  DibujoCircuitoRemoto *circuitoRemoto;
 
   /*IMPRESION*/
   Gtk::Window *window_print;
