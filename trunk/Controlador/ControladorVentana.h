@@ -77,6 +77,7 @@ public:
      void eliminarComponente(Dibujo* d);
      void simular();
      void obtenerListaServidor(const std::string& servidor, int puerto);
+     void obtenerCircuitoServidor(const std::string& nombre, const std::string& servidor, int puerto);
      std::list<uint64_t> obtenerTabla();
      void guardar(const std::string& nombreArchivo);
      void cargar(const std::string& nombreArchivo);

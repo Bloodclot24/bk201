@@ -8,6 +8,7 @@
 #include "../Circuito/Circuito.h"
 #include "../XML/Persistidor.h"
 #include "../Threads/ThreadListado.h"
+#include "../Threads/ThreadObtenerCircuito.h"
 
 #define TIPO_PISTA            "Conexion" 
 #define TIPO_COMPUERTA_AND    "And"
@@ -148,6 +149,10 @@ void ControladorVentana::simular(){
 void ControladorVentana::obtenerListaServidor(const std::string& servidor, int puerto){
      ThreadListado *listado = new ThreadListado(*this,servidor, puerto);
      listado->run();
+}
+void ControladorVentana::obtenerCircuitoServidor(const std::string& nombre, const std::string& servidor, int puerto){
+     ThreadObtenerCircuito *obtener = new ThreadObtenerCircuito(*this,nombre, servidor, puerto);
+     obtener->run();
 }
 
 std::list<uint64_t> ControladorVentana::obtenerTabla(){
