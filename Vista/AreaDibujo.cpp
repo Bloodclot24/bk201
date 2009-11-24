@@ -175,11 +175,6 @@ void AreaDibujo::dibujarConexion() {
   conexion= true;
   redibujar();
 }
-void AreaDibujo::dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal) {
-
-  ConexionDibujo *conexion= new ConexionDibujo(xInicial, yInicial, xFinal, yFinal);
-  agregarComponente(conexion);
-}
 
 void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
@@ -247,17 +242,6 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
   if(!encontrado)
     return NULL;
   return *it;
-}
-
-Vertice* AreaDibujo::buscarPinMasCercano(int x, int y) {
-
-  //obtengo el dibujo sobre el que se hizo click
-  Dibujo *dibujo= buscarDibujo(x, y);
-
-  //obtengo el pin mas cercano
-  if(dibujo)
-    return dibujo->obtenerPin(x,y);
-  else return NULL;
 }
 
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
@@ -365,36 +349,36 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 
   if(conexion) {
+     //obtengo el dibujo sobre el que se hizo click
+    Dibujo *dibujo= buscarDibujo(x, y);
+    //obtengo el pin mas cercano
+    Vertice v;
+    int nroPin;
+    if(dibujo) {
+      nroPin= dibujo->obtenerPinMasCercano(x,y);
+      v= dibujo->obtenerPin(nroPin);
+    } else {
+      buscarPosicion(x, y);
+      v.x= x;
+      v.y= y;
+    }
 
     if(!cargoVInicial) {
-      vInicial= buscarPinMasCercano(x, y);
-      if(!vInicial) {
-        vInicial= new Vertice();
-        vInicial->x= x;
-        vInicial->y= y;
-        buscarPosicion(x, y);
-      }
-
-      cargoVInicial= true;
-      return true;
-
+       cargoVInicial= true;
+       vInicial= v;
+       dibujoPin1= dibujo;
+       nroPin1= nroPin;
     } else {
-      vFinal= buscarPinMasCercano(x, y);
-      if(!vFinal) {
-        vFinal= new Vertice();
-        vFinal->x= x;
-        vFinal->y= y;
-        buscarPosicion(vFinal->x, vFinal->y);
-      }
-
-      dibujarConexion(vInicial->x, vInicial->y, vFinal->x, vFinal->y);
+      conexion= false;
+      ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, dibujoPin1, nroPin1);
+      conexion->setVerticeFinal(v, dibujo, nroPin);
+      agregarComponente(conexion);
       can_motion= false;
       cargoVInicial= false;
-      conexion= false;
-      return true;
     }
-  } else {
+    return true;
 
+  } else {
 
     deseleccionar();
     seleccionado= buscarDibujo(x, y);

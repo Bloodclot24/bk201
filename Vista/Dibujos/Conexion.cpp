@@ -1,17 +1,10 @@
 #include "Conexion.h"
 
-ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vFinalY): Dibujo::Dibujo(vInicialX, vInicialY) {
+ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1): Dibujo::Dibujo(vInicialX, vInicialY) {
 
   label= "Conexion";
-  vFinal.x= vFinalX;
-  vFinal.y= vFinalY;
-  int deltaX= vFinalX-vInicialX;
-  int deltaY= vFinalY-vInicialY;
-  vCentro.x= vInicialX + deltaX/2;
-  vCentro.y= vInicialY + deltaY/2;
-  ancho= deltaX;
-  alto= deltaY;
-  generarPoligonos();
+  this->dibujoPin1= dibujoPin1;
+  this->nroPin1= nroPin1;
 }
 
 void ConexionDibujo::generarPoligonos() {
@@ -36,6 +29,27 @@ void ConexionDibujo::generarPoligonos() {
 }
 
 void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
+
+  //si tengo algun extremo suelto, veo si tengo un
+  //pin cercano
+  if(!dibujoPin1) {
+
+  }
+  if(!dibujoPin2) {
+
+  }
+  //busco cambios en la ubicacion de los pines a los que
+  //estoy unido
+
+  if(dibujoPin1) {
+    vSupIzq= dibujoPin1->obtenerPin(nroPin1);
+  }
+  if(dibujoPin2) {
+    vFinal= dibujoPin2->obtenerPin(nroPin2);
+  }
+  calcularAtributos();
+  //regenero las trayectorias
+  generarPoligonos();
 
   //dibujo de a poligonos
   context->set_source_rgb(0.0, 0.0, 0.0);
@@ -113,5 +127,29 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   }
 
   return seleccionado;
+}
+
+void ConexionDibujo::calcularAtributos() {
+
+  int deltaX= vFinal.x-vSupIzq.x;
+  int deltaY= vFinal.y-vSupIzq.y;
+  vCentro.x= vSupIzq.x + deltaX/2;
+  vCentro.y= vSupIzq.y + deltaY/2;
+  ancho= deltaX;
+  alto= deltaY;
+}
+
+void ConexionDibujo::setVerticeSupIzq(Vertice vSupIzq) {
+
+  vSupIzq= vSupIzq;
+  calcularAtributos();
+}
+
+void ConexionDibujo::setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nroPin2) {
+
+  vFinal= vertice;
+  this->dibujoPin2= dibujoPin2;
+  this->nroPin2= nroPin2;
+  calcularAtributos();
 }
 

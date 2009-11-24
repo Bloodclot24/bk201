@@ -29,6 +29,7 @@ class AreaDibujo;
 class VentanaTrabajo;
 class AreaDibujo: public Gtk::DrawingArea {
   friend class VentanaTrabajo;
+  friend class Conexion;
 
 private:
   VentanaTrabajo                *ventanaTrabajo;
@@ -42,14 +43,14 @@ private:
   bool                          seleccion;
   Dibujo*                       seleccionado;
   Dibujo* buscarDibujo(int x, int y);
-  void dibujarSeleccion(Cairo::RefPtr<Cairo::Context> context);
   void deseleccionar();
 
   //Conexion
   bool                          conexion;
   bool                          cargoVInicial;
-  Vertice                       *vInicial;
-  Vertice                       *vFinal;
+  Dibujo*                       dibujoPin1;
+  int                           nroPin1;
+  Vertice                       vInicial;
 
   /*MenuPopup*/
   Gtk::Menu     *menuPopup;
@@ -62,7 +63,6 @@ private:
   std::list<Gtk::TargetEntry> listTargets;
 
   void buscarPosicion(int &x, int &y);
-  Vertice* buscarPinMasCercano(int x, int y);
   void redibujar();
 
   //Circuito
@@ -84,7 +84,6 @@ protected:
 
   void agregarComponente(Dibujo* dibujo);
   void dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp);
-  void dibujarConexion(int xInicial, int yInicial, int xFinal, int yFinal);
   void dibujarIO(unsigned int xUp, unsigned int yUp);
 
 public:

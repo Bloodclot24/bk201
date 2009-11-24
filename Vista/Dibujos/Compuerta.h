@@ -8,7 +8,7 @@
 class Compuerta: public Dibujo {
 
 protected:
-  virtual void cargarNuevosPins(Vertice vSupIzq) { };
+  virtual void cargarNuevosPines(Vertice vSupIzq) { };
 
 public:
   /**
@@ -30,7 +30,7 @@ public:
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
 
-  virtual Vertice* obtenerPin(int x, int y);
+  virtual int obtenerPinMasCercano(int x, int y);
 };
 
 #endif /* COMPUERTA_H_ */

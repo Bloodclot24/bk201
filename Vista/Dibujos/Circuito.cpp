@@ -83,10 +83,10 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   context->stroke();
   //entradas y salidas
   context->set_source_rgb(0.0, 0.0, 0.0);
-  std::list<Vertice>::iterator it;
-  for(it= pines.begin(); it != pines.end(); it++) {
-    context->move_to(it->x, it->y);
-    context->line_to(it->x+10, it->y);
+  int size= pines.size();
+  for(int i= 0; i<size; i++) {
+    context->move_to(pines[i].x, pines[i].y);
+    context->line_to(pines[i].x+10, pines[i].y);
   }
   context->stroke();
 

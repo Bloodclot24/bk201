@@ -5,6 +5,7 @@
 #include <cairomm/context.h>
 #include "Constantes.h"
 #include <list>
+#include <vector>
 #include "Vertice.h"
 
 #include <iostream>
@@ -25,7 +26,7 @@ protected:
   int                   ancho;
   int                   alto;
   bool                  seleccionado;
-  std::list<Vertice>    pines;
+  std::vector<Vertice>  pines;
   std::string           label;
   std::string           tiempoT;
   bool                  examinar;
@@ -93,8 +94,9 @@ public:
   void seleccionar();
   virtual bool setSeleccionado(int x, int y);
 
-  virtual Vertice* obtenerPin(int x, int y) { return NULL; };
-  
+  virtual int obtenerPinMasCercano(int x, int y) { std::cout << "padre" << std::endl; return -1; };
+  virtual Vertice obtenerPin(int numPin) { return pines[numPin]; };
+
   std::string getLabel();
   void setLabel(const std::string& label);
   std::string getTiempoT();
