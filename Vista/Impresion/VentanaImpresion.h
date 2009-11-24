@@ -12,6 +12,7 @@
 #include <gtkmm.h>
 #include <iostream>
 
+class Impresora;
 class PrintFormOperation;
 
 

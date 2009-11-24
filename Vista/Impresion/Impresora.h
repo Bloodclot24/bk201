@@ -15,8 +15,8 @@ private:
 	bool circuito;	
 	
 public:
-	Impresora(std::list<Dibujos*> dibujos, Tabla* Tabla);
-	static Glib::RefPtr<Impresora> create(std::list<Dibujos*> dibujos, Tabla* tabla);
+	Impresora(std::list<Dibujo*> dibujos, Tabla* Tabla);
+	static Glib::RefPtr<Impresora> create(std::list<Dibujo*> dibujos, Tabla* tabla);
 
 protected:
 	virtual void on_begin_print(const Glib::RefPtr<Gtk::PrintContext>& context);
