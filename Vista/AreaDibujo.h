@@ -29,7 +29,7 @@ class AreaDibujo;
 class VentanaTrabajo;
 class AreaDibujo: public Gtk::DrawingArea {
   friend class VentanaTrabajo;
-  friend class Conexion;
+  friend class ConexionDibujo;
 
 private:
   VentanaTrabajo                *ventanaTrabajo;
@@ -42,7 +42,7 @@ private:
   bool                          can_motion;
   bool                          seleccion;
   Dibujo*                       seleccionado;
-  Dibujo* buscarDibujo(int x, int y);
+
   void deseleccionar();
 
   //Conexion
@@ -85,6 +85,8 @@ protected:
   void agregarComponente(Dibujo* dibujo);
   void dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp);
   void dibujarIO(unsigned int xUp, unsigned int yUp);
+
+  Dibujo* buscarDibujo(int x, int y);
 
 public:
   AreaDibujo(VentanaTrabajo *ventanaTrabajo);

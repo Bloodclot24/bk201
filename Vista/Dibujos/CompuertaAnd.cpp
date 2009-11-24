@@ -44,14 +44,6 @@ void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   if(seleccionado)
     dibujarSeleccion(context);
-
-  context->set_source_rgb(1.0, 0.0, 0.0);
-  int size= pines.size();
-  for(int i= 0; i<size; i++) {
-    context->move_to(pines[i].x, pines[i].y);
-    context->line_to(pines[i].x, pines[i].y+5);
-  }
-  context->stroke();
   
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);

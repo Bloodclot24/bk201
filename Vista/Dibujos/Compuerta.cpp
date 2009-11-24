@@ -15,20 +15,3 @@ void Compuerta::setVerticeSupIzq(Vertice vSupIzq) {
   this->vSupIzq= vSupIzq;
   cargarNuevosPines(vSupIzq);
 }
-
-int Compuerta::obtenerPinMasCercano(int x, int y) {
-
-  bool encontrado= false;
-  int size= pines.size();
-  int i;
-  for(i= 0; i<size && !encontrado; i++) {
-    if( ((x >= pines[i].x-TOLERANCIA) && (x <= pines[i].x+TOLERANCIA)) && ((y >= pines[i].y-TOLERANCIA) && (y <= pines[i].y+TOLERANCIA)) ) {
-      encontrado= true;
-      break;
-    }
-  }
-  if(!encontrado)
-    return -1;
-
-  return i;
-}
