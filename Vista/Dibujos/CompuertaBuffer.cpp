@@ -1,20 +1,12 @@
 #include "CompuertaBuffer.h"
 
-CompuertaBuffer::CompuertaBuffer(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) {
+CompuertaBuffer::CompuertaBuffer(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
-  cargarNuevosPines(vSupIzq);
-}
-
-void CompuertaBuffer::cargarNuevosPines(Vertice vSupIzq) {
+void CompuertaBuffer::cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) {
 
   pines.clear();
-  Vertice v;
-  v.x= vSupIzq.x;
-  v.y= vSupIzq.y+20;
-  pines.push_back(v);
-  v.x= vSupIzq.x+40;
-  v.y= vSupIzq.y+20;
-  pines.push_back(v);
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+20, context));
+  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20, context));
 }
 
 void CompuertaBuffer::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

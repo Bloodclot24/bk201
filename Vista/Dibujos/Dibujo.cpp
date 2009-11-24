@@ -78,6 +78,20 @@ void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int v
   context->stroke();
 }
 
+Vertice Dibujo::rotarPin(int x, int y, const Cairo::RefPtr<Cairo::Context>& context) {
+
+  Vertice v;
+  v.x= x;
+  v.y= y;
+  double xi=v.x;
+  double yi=v.y;
+  context->user_to_device(xi,yi);
+  v.x= xi;
+  v.y= yi;
+
+  return v;
+}
+
 std::string Dibujo::getLabel() {
   return label;
 }

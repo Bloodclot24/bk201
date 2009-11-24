@@ -34,6 +34,8 @@ protected:
 
   void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
 
+  Vertice rotarPin(int x, int y, const Cairo::RefPtr<Cairo::Context>& context);
+
 public:
   /**
     * Crea un dibujo.
@@ -85,7 +87,7 @@ public:
     *
     * @param angulo La cantidad en grados a modificar el angulo.
     */
-  void setAngulo(int angulo);
+  virtual void setAngulo(int angulo);
 
 
   bool getSeleccionar() {return seleccionado;};
@@ -103,6 +105,9 @@ public:
   void setTiempoT(const std::string& tiempoT);
 
   bool getExaminar();
+
+  virtual void cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) { };
+
 };
 
 #endif /* DIBUJO_H_ */

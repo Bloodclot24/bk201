@@ -8,25 +8,32 @@ ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1,
   this->areaDibujo= areaDibujo;
 }
 
-void ConexionDibujo::generarPoligonos() {
+void ConexionDibujo::generarPoligonos(const Cairo::RefPtr<Cairo::Context>& context) {
 
-  Vertice v;
   poligonos.clear();
-  v.x= vSupIzq.x;
-  v.y= vSupIzq.y;
-  poligonos.push_back(v);
-  v.x= vCentro.x;
-  v.y= vSupIzq.y;
-  poligonos.push_back(v);
-  v.x= vCentro.x;
-  v.y= vCentro.y;
-  poligonos.push_back(v);
-  v.x= vCentro.x;
-  v.y= vFinal.y;
-  poligonos.push_back(v);
-  v.x= vFinal.x;
-  v.y= vFinal.y;
-  poligonos.push_back(v);
+
+//  Vertice v;
+  //  v.x= vSupIzq.x;
+  //  v.y= vSupIzq.y;
+  //  poligonos.push_back(v);
+  //  v.x= vCentro.x;
+  //  v.y= vSupIzq.y;
+  //  poligonos.push_back(v);
+  //  v.x= vCentro.x;
+  //  v.y= vCentro.y;
+  //  poligonos.push_back(v);
+  //  v.x= vCentro.x;
+  //  v.y= vFinal.y;
+  //  poligonos.push_back(v);
+  //  v.x= vFinal.x;
+  //  v.y= vFinal.y;
+  //  poligonos.push_back(v);
+
+  poligonos.push_back(rotarPin(vSupIzq.x, vSupIzq.y, context));
+  poligonos.push_back(rotarPin(vCentro.x, vSupIzq.y, context));
+  poligonos.push_back(rotarPin(vCentro.x, vCentro.y, context));
+  poligonos.push_back(rotarPin(vCentro.x, vFinal.y, context));
+  poligonos.push_back(rotarPin(vFinal.x, vFinal.y, context));
 }
 
 void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
@@ -65,9 +72,16 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   if(dibujoPin2) {
     vFinal= dibujoPin2->obtenerPin(nroPin2);
   }
-  calcularAtributos();
+  calcularAtributos(context);
+
   //regenero las trayectorias
-  generarPoligonos();
+  generarPoligonos(context);
+
+  if(seleccionado)
+    dibujarSeleccion(context);
+
+  //seteo matriz identidad
+  context->set_identity_matrix();
 
   //dibujo de a poligonos
   context->set_source_rgb(0.0, 0.0, 0.0);
@@ -85,9 +99,6 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
     }
   }
   context->stroke();
-
-  if(seleccionado)
-    dibujarSeleccion(context);
 
   context->set_source_rgb(1.0, 0.0, 0.0);
   context->move_to(vCentro.x, vCentro.y);
@@ -147,7 +158,7 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   return seleccionado;
 }
 
-void ConexionDibujo::calcularAtributos() {
+void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>& context) {
 
   int deltaX= vFinal.x-vSupIzq.x;
   int deltaY= vFinal.y-vSupIzq.y;
@@ -156,13 +167,13 @@ void ConexionDibujo::calcularAtributos() {
   ancho= deltaX;
   alto= deltaY;
   pines.clear();
-  pines.push_back(vSupIzq);
-  pines.push_back(vFinal);
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y, context));
+  pines.push_back(rotarPin(vFinal.x, vFinal.y, context));
 }
 
 void ConexionDibujo::setVerticeSupIzq(Vertice vSupIzq) {
 
-  vSupIzq= vSupIzq;
+  this->vSupIzq= vSupIzq;
 }
 
 void ConexionDibujo::setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nroPin2) {
@@ -171,4 +182,3 @@ void ConexionDibujo::setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nr
   this->dibujoPin2= dibujoPin2;
   this->nroPin2= nroPin2;
 }
-
