@@ -18,7 +18,6 @@ class Tabla: public Gtk::DrawingArea {
 
 private:
   VentanaTrabajo                *ventanaTrabajo;
-  Cairo::RefPtr<Cairo::Context> context;
   Glib::RefPtr<Gdk::Window>     window;
   std::list<uint32_t>           lista;
   int                           entradas;
@@ -29,11 +28,11 @@ private:
 
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
+  void dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context);
 
 public:
   Tabla(VentanaTrabajo *ventanaTrabajo);
   virtual ~Tabla() { };
-  void dibujarTabla();
   void setCantEntradas(int entradas);
   void setCantSalidas(int salidas);
   void setLista(std::list<uint32_t> lista);

@@ -60,7 +60,7 @@ bool Tabla::on_expose_event(GdkEventExpose* event) {
     Gdk::Region region= window->get_update_area();
     Gtk::Allocation allocation= get_allocation();
 
-    context= window->create_cairo_context();
+    Cairo::RefPtr<Cairo::Context> context= window->create_cairo_context();
     context->begin_new_path();
     context->set_line_width(10.0);
 
@@ -73,7 +73,7 @@ bool Tabla::on_expose_event(GdkEventExpose* event) {
     context->set_source_rgb(1.0, 1.0, 1.0);
     context->paint();
 
-    dibujarTabla();
+    dibujarTabla(context);
   }
 
   return false;
@@ -89,7 +89,7 @@ void Tabla::redibujar() {
   }
 }
 
-void Tabla::dibujarTabla() {
+void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
 
   if(entradas != 0 && salidas != 0) {
 
