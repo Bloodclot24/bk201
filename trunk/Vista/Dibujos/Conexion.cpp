@@ -11,7 +11,6 @@ ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vF
   vCentro.y= vInicialY + deltaY/2;
   ancho= deltaX;
   alto= deltaY;
-  seleccionado= true;
   generarPoligonos();
 }
 
@@ -79,34 +78,34 @@ void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& conte
 
 bool ConexionDibujo::setSeleccionado(int x, int y) {
 
-  bool seleccionado= false;
   bool primero= true;
   int menorX, mayorX;
   int menorY, mayorY;
   Vertice anterior;
   std::list<Vertice>::iterator it;
   for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
+
     if(!primero) {
 
-      if(anterior.x <= it->x) {
-        menorX= anterior.x;
-        mayorX= it->x;
+      if(anterior.x < it->x) {
+        menorX= anterior.x-5;
+        mayorX= it->x+5;
       } else {
-        menorX= it->x;
-        mayorX= anterior.x;
+        menorX= it->x-5;
+        mayorX= anterior.x+5;
       }
 
-      if(anterior.y <= it->y) {
-        menorY= anterior.y;
-        mayorY= it->y;
+      if(anterior.y < it->y) {
+        menorY= anterior.y-5;
+        mayorY= it->y+5;
       } else {
-        menorY= it->y;
-        mayorY= anterior.y;
+        menorY= it->y-5;
+        mayorY= anterior.y+5;
       }
-      if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY))) {
-         std::cout << "seleccionnadooooooooooooo" << std::endl;
-         seleccionado= true;
-       }
+
+      if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY)))
+        seleccionado= true;
+      anterior= *it;
     } else {
       primero= false;
       anterior= *it;
