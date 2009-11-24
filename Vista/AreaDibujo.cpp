@@ -240,13 +240,11 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
 
   for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
     encontrado= (*it)->setSeleccionado(x,y);
-
     if(encontrado)
       break;
   }
   if(!encontrado)
     return NULL;
-
   return *it;
 }
 
@@ -392,8 +390,11 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
       can_motion= false;
       cargoVInicial= false;
       conexion= false;
+      return true;
     }
   } else {
+
+
     deseleccionar();
     seleccionado= buscarDibujo(x, y);
 
@@ -404,6 +405,7 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
       seleccion= true;
       can_motion= true;
     }
+
     redibujar();
     return true;
   }

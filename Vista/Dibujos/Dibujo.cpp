@@ -5,7 +5,7 @@ Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
   vSupIzq.x= xUp;
   vSupIzq.y= yUp;
   angulo= 0;
-  seleccionado= false;
+  seleccionado= true;
   tiempoT= "0";
   examinar= false;
 }
