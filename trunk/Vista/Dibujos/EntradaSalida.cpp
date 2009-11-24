@@ -31,14 +31,6 @@ void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   if(seleccionado)
     dibujarSeleccion(context);
 
-//  context->set_source_rgb(1.0, 0.0, 0.0);
-//  std::list<Vertice>::iterator it;
-//  for(it= pins.begin(); it != pins.end(); it++) {
-//    context->move_to(it->x, it->y);
-//    context->line_to(it->x, it->y+5);
-//  }
-//  context->stroke();
-  
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);
 }

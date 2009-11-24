@@ -29,8 +29,6 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
-
-  virtual int obtenerPinMasCercano(int x, int y);
 };
 
 #endif /* COMPUERTA_H_ */

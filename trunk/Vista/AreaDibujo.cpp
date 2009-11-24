@@ -351,13 +351,22 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
   if(conexion) {
      //obtengo el dibujo sobre el que se hizo click
     Dibujo *dibujo= buscarDibujo(x, y);
+
     //obtengo el pin mas cercano
     Vertice v;
     int nroPin;
     if(dibujo) {
       nroPin= dibujo->obtenerPinMasCercano(x,y);
+      if(nroPin != -1)
       v= dibujo->obtenerPin(nroPin);
     } else {
+      buscarPosicion(x, y);
+      v.x= x;
+      v.y= y;
+    }
+
+    if(nroPin == -1) {
+      dibujo= NULL;
       buscarPosicion(x, y);
       v.x= x;
       v.y= y;
@@ -370,7 +379,7 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
        nroPin1= nroPin;
     } else {
       conexion= false;
-      ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, dibujoPin1, nroPin1);
+      ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, dibujoPin1, nroPin1, this);
       conexion->setVerticeFinal(v, dibujo, nroPin);
       agregarComponente(conexion);
       can_motion= false;

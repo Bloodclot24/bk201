@@ -97,3 +97,24 @@ void Dibujo::setTiempoT(const std::string& tiempoT) {
 bool Dibujo::getExaminar() {
   return examinar;
 }
+
+int Dibujo::obtenerPinMasCercano(int x, int y) {
+
+  bool encontrado= false;
+  int size= pines.size();
+  int i;
+  for(i= 0; i<size && !encontrado; i++) {
+    if( ((x >= pines[i].x-TOLERANCIA) && (x <= pines[i].x+TOLERANCIA)) && ((y >= pines[i].y-TOLERANCIA) && (y <= pines[i].y+TOLERANCIA)) ) {
+      encontrado= true;
+      break;
+    }
+  }
+  if(!encontrado)
+    return -1;
+
+  return i;
+}
+
+Vertice Dibujo::obtenerPin(int numPin) {
+  return pines[numPin];
+};

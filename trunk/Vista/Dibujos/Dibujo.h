@@ -94,8 +94,8 @@ public:
   void seleccionar();
   virtual bool setSeleccionado(int x, int y);
 
-  virtual int obtenerPinMasCercano(int x, int y) { std::cout << "padre" << std::endl; return -1; };
-  virtual Vertice obtenerPin(int numPin) { return pines[numPin]; };
+  int obtenerPinMasCercano(int x, int y);
+  Vertice obtenerPin(int numPin);
 
   std::string getLabel();
   void setLabel(const std::string& label);

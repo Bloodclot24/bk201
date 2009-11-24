@@ -1,12 +1,16 @@
 #ifndef CONEXION_H_
 #define CONEXION_H_
 
+class ConexionDibujo;
+
 #include "Dibujo.h"
+#include "../AreaDibujo.h"
 #include <list>
 
 #include <iostream>
 
 class ConexionDibujo: public Dibujo {
+  friend class AreaDibujo;
 
 private:
   Dibujo*               dibujoPin1;
@@ -15,6 +19,7 @@ private:
   Dibujo*               dibujoPin2;
   int                   nroPin2;
   std::list<Vertice>    poligonos;
+  AreaDibujo*           areaDibujo;
 
 protected:
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
@@ -28,7 +33,7 @@ public:
     * @param supIzqX La componente x del vertice superior izquierdo.
     * @param supIzqY La componente y del vertice superior izquierdo.
     */
-  ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1);
+  ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujo *areaDibujo);
 
   virtual ~ConexionDibujo() { };
 

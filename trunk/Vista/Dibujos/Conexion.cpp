@@ -1,10 +1,11 @@
 #include "Conexion.h"
 
-ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1): Dibujo::Dibujo(vInicialX, vInicialY) {
+ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujo *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
 
   label= "Conexion";
   this->dibujoPin1= dibujoPin1;
   this->nroPin1= nroPin1;
+  this->areaDibujo= areaDibujo;
 }
 
 void ConexionDibujo::generarPoligonos() {
@@ -32,12 +33,29 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   //si tengo algun extremo suelto, veo si tengo un
   //pin cercano
-  if(!dibujoPin1) {
-
-  }
-  if(!dibujoPin2) {
-
-  }
+//  if(!dibujoPin1) {
+//    dibujoPin1= areaDibujo->buscarDibujo(vSupIzq.x, vSupIzq.y);
+//    if(dibujoPin1) {
+//      nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
+//      if(nroPin1 == -1)
+//        dibujoPin1= NULL;
+//    }
+//  }
+//  if(!dibujoPin2) {
+//    dibujoPin2= areaDibujo->buscarDibujo(vFinal.x, vFinal.y);
+//
+//    std::cout << dibujoPin2 << std::endl;
+//
+//
+//    if(dibujoPin2) {
+//      nroPin2= dibujoPin2->obtenerPinMasCercano(vFinal.x,vFinal.x);
+//
+//      std::cout << "nroPin2:" << nroPin2 << std::endl;
+//
+//      if(nroPin2 == -1)
+//        dibujoPin2= NULL;
+//    }
+//  }
   //busco cambios en la ubicacion de los pines a los que
   //estoy unido
 
@@ -137,12 +155,14 @@ void ConexionDibujo::calcularAtributos() {
   vCentro.y= vSupIzq.y + deltaY/2;
   ancho= deltaX;
   alto= deltaY;
+  pines.clear();
+  pines.push_back(vSupIzq);
+  pines.push_back(vFinal);
 }
 
 void ConexionDibujo::setVerticeSupIzq(Vertice vSupIzq) {
 
   vSupIzq= vSupIzq;
-  calcularAtributos();
 }
 
 void ConexionDibujo::setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nroPin2) {
@@ -150,6 +170,5 @@ void ConexionDibujo::setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nr
   vFinal= vertice;
   this->dibujoPin2= dibujoPin2;
   this->nroPin2= nroPin2;
-  calcularAtributos();
 }
 
