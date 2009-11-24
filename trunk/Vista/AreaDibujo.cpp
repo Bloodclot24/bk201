@@ -117,8 +117,7 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
       (*it)->dibujar(context);
     }
   }
-//TODO
-	ventanaTrabajo->window_print->setDibujosAImprimir(dibujos);
+  
   return false;
 }
 
