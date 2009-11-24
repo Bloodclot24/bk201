@@ -104,8 +104,19 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
     }
     context->stroke();
 
-    //Dibujo los elementos
     std::list<Dibujo*>::iterator it;
+    for(it= dibujos.begin(); it != dibujos.end(); it++) {
+      //seteo matriz identidad
+      context->set_identity_matrix();
+      //roto respecto el centro de la imagen
+      Vertice vCentro= (*it)->getVerticeCentro();
+      context->translate(vCentro.x, vCentro.y);
+      context->rotate_degrees((*it)->getAngulo());
+      context->translate(-vCentro.x, -vCentro.y);
+      (*it)->cargarNuevosPines(context);
+    }
+
+    //Dibujo los elementos
     for(it= dibujos.begin(); it != dibujos.end(); it++) {
       //seteo matriz identidad
       context->set_identity_matrix();

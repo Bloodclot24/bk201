@@ -23,8 +23,8 @@ private:
 
 protected:
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
-  void generarPoligonos();
-  void calcularAtributos();
+  void generarPoligonos(const Cairo::RefPtr<Cairo::Context>& context);
+  void calcularAtributos(const Cairo::RefPtr<Cairo::Context>& context);
 
 public:
   /**

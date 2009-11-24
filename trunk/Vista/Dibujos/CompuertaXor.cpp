@@ -1,23 +1,13 @@
 #include "CompuertaXor.h"
 
-CompuertaXor::CompuertaXor(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) {
+CompuertaXor::CompuertaXor(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
-  cargarNuevosPines(vSupIzq);
-}
-
-void CompuertaXor::cargarNuevosPines(Vertice vSupIzq) {
+void CompuertaXor::cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) {
 
   pines.clear();
-  Vertice v;
-  v.x= vSupIzq.x;
-  v.y= vSupIzq.y+10;
-  pines.push_back(v);
-  v.x= vSupIzq.x;
-  v.y= vSupIzq.y+30;
-  pines.push_back(v);
-  v.x= vSupIzq.x+40;
-  v.y= vSupIzq.y+20;
-  pines.push_back(v);
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+10, context));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+30, context));
+  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20, context));
 }
 
 void CompuertaXor::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

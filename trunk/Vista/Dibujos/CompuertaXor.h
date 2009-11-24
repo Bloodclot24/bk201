@@ -7,7 +7,7 @@
 class CompuertaXor: public Compuerta {
 
 protected:
-  virtual void cargarNuevosPines(Vertice vSupIzq);
+  virtual void cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context);
 
 public:
   /**

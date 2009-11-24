@@ -954,4 +954,14 @@ Ygounet Guido</property>
       <action-widget response="0">button1</action-widget>
     </action-widgets>
   </object>
+  <object class="GtkWindow" id="window_remoto">
+    <child>
+      <object class="GtkHBox" id="hbox_porfavorfunciona">
+        <property name="visible">True</property>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+  </object>
 </interface>
