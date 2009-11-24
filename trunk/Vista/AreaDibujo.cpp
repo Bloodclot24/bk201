@@ -390,6 +390,7 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
     } else {
       conexion= false;
       ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, dibujoPin1, nroPin1, this);
+      ventanaTrabajo->controladorVentana->crearComponente(conexion);
       conexion->setVerticeFinal(v, dibujo, nroPin);
       agregarComponente(conexion);
       can_motion= false;

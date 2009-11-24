@@ -9,6 +9,8 @@ class Server;
 #include "../HTTP/HttpRequest.h"
 #include "../Threads/ThreadAceptor.h"
 #include "../Circuito/CircuitoRemotoServidor.h"
+#include "../Controlador/ControladorVentana.h"
+#include <dirent.h>
 
 #define SERVER_PUERTO_DEFECTO  1234
 
@@ -43,6 +45,10 @@ public:
      void nuevoCliente(Socket *s);
 
      void finalizarCliente(CircuitoRemotoServidor *sr);
+
+     std::list<DescripcionCircuito> getListaCircuitos();
+
+     ~Server();
 
 };
 

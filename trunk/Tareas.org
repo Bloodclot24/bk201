@@ -37,9 +37,9 @@
      - [ ] Traduccion del modelo grafico al modelo a simular.
    - [X] Mas de una ventana de edicion.
    - [ ] Menues contextuales.
-   - [ ] Ventanas para modificar parametros de los componentes.
+   - [X] Ventanas para modificar parametros de los componentes.
    - [X] Ventana de impresion.
-   - [ ] Ventana para inspeccionar servidores remotos.
+   - [X] Ventana para inspeccionar servidores remotos.
 
 * Plan de trabajo
 ** DONE Semana 1
@@ -74,7 +74,7 @@
 
    - [X] Server simple.
 
-   - [ ] Persistencia.
+   - [X] Persistencia.
 
    - [ ] Integracion de la simulacion con la parte grafica.
 
@@ -93,27 +93,27 @@
 
    - [ ] Menues contextuales.
 
-** TODO Semana 5
+** DONE Semana 5
    DEADLINE: <2009-12-01 Tue>
    
    - [X] Testing de la simulacion sobre la red.
 
-   - [ ] Ventana de inspeccion de servidores remotos.
+   - [X] Ventana de inspeccion de servidores remotos.
 
-   - [ ] Ventanas de modificacion de parametros de componentes.
+   - [X] Ventanas de modificacion de parametros de componentes.
 
 ** TODO Semana 6
    DEADLINE: <2009-12-08 Tue>
    
-   - [ ] Ventana de impresion.
+   - [X] Ventana de impresion.
 
    - [ ] Testing y documentacion en general.
 
 
-* TODO Dudas
+* DONE Dudas
   - [X] Posibilidad de utilizar threads emisor/receptor solo en el
     servidor para atender multiples clientes. Cada cliente es 1
     solo thread. Las transmisiones/recepciones de datos son
     sincronicas.
-  - [ ] Timeouts utilizando setitimer/getitimer o alarm.
-  - [ ] Persistencia: como diferenciar entre distintos componentes.
+  - [X] Timeouts utilizando setitimer/getitimer o alarm.
+  - [X] Persistencia: como diferenciar entre distintos componentes.

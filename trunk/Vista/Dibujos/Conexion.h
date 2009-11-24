@@ -48,6 +48,8 @@ public:
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
   void setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nroPin2);
+     void setVerticeInfDer(Vertice vInfDer);
+     Vertice getVerticeInfDer();
 };
 
 #endif /* CONEXION_H_ */

@@ -58,11 +58,16 @@ void ControladorVentana::crearComponente(CircuitoDibujo* d){
      circuitos[d] = D;
 }
 
+void ControladorVentana::crearComponente(ConexionDibujo* d){
+     pistas[d] = d;
+}
+
 DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
      DatosCircuitoRemoto* dcr = new DatosCircuitoRemoto;
      dcr->c = new CircuitoDibujo(10,10,10,3);
      circuitos[dcr->c]=dcr;
-     ventana->agregarDibujo(dcr->c);
+     if(ventana)
+	  ventana->agregarDibujo(dcr->c);
      return dcr;
 }
 
@@ -102,11 +107,20 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
      if(dc != NULL){
 	  dc->c->setTiempoT("10");
 	  compuertas[dc->c] = dc;
-	  ventana->agregarDibujo(dc->c);
+	  if(ventana)
+	       ventana->agregarDibujo(dc->c);
 	  std::cout << "Cargado OK\n";
      }
 
      return dc;
+}
+
+ConexionDibujo* ControladorVentana::cargarConexion(){
+     ConexionDibujo* d = new ConexionDibujo(0,0,NULL,0,NULL);
+     pistas[d]=d;
+     if(ventana)
+	  ventana->agregarDibujo(d);
+     return d;
 }
 
 void ControladorVentana::eliminarComponente(Dibujo* d){
@@ -121,13 +135,13 @@ void ControladorVentana::eliminarComponente(Dibujo* d){
 	  circuitos[d] = NULL;
      }
      else if(pistas[d] != NULL){
-	  delete pistas[d];
-	  pistas[d] = NULL;
+     	  delete pistas[d];
+     	  pistas[d] = NULL;
      }
-     else if(pines[d] != NULL){
-	  delete pines[d];
-	  pines[d] = NULL;
-     }
+     // else if(pines[d] != NULL){
+     // 	  delete pines[d];
+     // 	  pines[d] = NULL;
+     // }
 }
 
 void ControladorVentana::simular(){
@@ -171,6 +185,7 @@ void ControladorVentana::cargar(const std::string& nombreArchivo){
 }
 
 void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista){
-     ventana->recibirListaCircuitos(lista);
+     if(ventana)
+	  ventana->recibirListaCircuitos(lista);
      return;
 }
