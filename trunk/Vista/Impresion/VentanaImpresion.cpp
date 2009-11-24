@@ -1,10 +1,11 @@
 #include "VentanaImpresion.h"
-
+#include <iostream>
 
 VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
 									btnPageSetup("Setup"),
 									btnPrintPreview("Preview"),
 									btnPrint(Gtk::Stock::PRINT){
+  std::cout << "SE CREO LA VENTANA!!!!!!" << std::endl;
   m_refPageSetup = Gtk::PageSetup::create();
   m_refSettings = Gtk::PrintSettings::create();
 
@@ -15,6 +16,7 @@ VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
   vBox.pack_start(hBox, Gtk::PACK_SHRINK);
   add(vBox);
   show_all_children();
+  
 }
 
 

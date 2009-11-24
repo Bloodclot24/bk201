@@ -1,7 +1,7 @@
 #include "Impresora.h"
 #include <string>
 
-Impresora::Impresora(std::list<Dibujos*> dibujos, Tabla* Tabla)
+Impresora::Impresora(std::list<Dibujo*> dibujos, Tabla* Tabla)
 {
 	if(dibujos.size()){
 		this->dibujos = dibujos;
@@ -14,7 +14,7 @@ Impresora::Impresora(std::list<Dibujos*> dibujos, Tabla* Tabla)
 }
 	
 
-Glib::RefPtr<Impresora> Impresora::create(std::list<Dibujos*> dibujos, Tabla* tabla)
+Glib::RefPtr<Impresora> Impresora::create(std::list<Dibujo*> dibujos, Tabla* tabla)
 {
 	return Glib::RefPtr<Impresora>(new Impresora(dibujos, tabla));
 }
@@ -32,9 +32,9 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 //	const double height = print_context->get_height();
 //	const double x_step = width/100.0;
 //	const double y_step = height/100.0;
-	if(!tabla || !dibujos.size()){ 
+	if(!tabla && !dibujos.size()){ 
 		std:: cerr << "Error al imprimir!!! " << std::endl;
-		#warning "Ver El Manejo De Errores Si Llega A Ser Posible Este Error En Impresora";
+		//#warning "Ver El Manejo De Errores Si Llega A Ser Posible Este Error En Impresora";
 		return;
 	}
 	Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();

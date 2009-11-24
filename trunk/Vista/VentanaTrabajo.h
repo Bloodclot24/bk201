@@ -46,7 +46,7 @@ class VentanaTrabajo;
 #define PATH_CONEXION "Vista/Imagenes/conexion.png"
 #define PATH_IO "Vista/Imagenes/io.png"
 #define PATH_CIRCUITO "Vista/Imagenes/circuito.png"
-
+class VentanaImpresion;
 /**
  * Ventana de principal de trabajo para el usuario.
  */
@@ -148,7 +148,7 @@ private:
   DibujoCircuitoRemoto *circuitoRemoto;
 
   /*IMPRESION*/
-  Gtk::Window *window_print;
+  VentanaImpresion *window_print;
 
 protected:
   //Signal handlers
