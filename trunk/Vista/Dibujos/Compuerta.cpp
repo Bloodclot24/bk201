@@ -13,26 +13,22 @@ void Compuerta::setVerticeSupIzq(Vertice vSupIzq) {
   vCentro.x= vSupIzq.x + (ancho/2);
   vCentro.y= vSupIzq.y + (alto/2);
   this->vSupIzq= vSupIzq;
-  cargarNuevosPins(vSupIzq);
+  cargarNuevosPines(vSupIzq);
 }
 
-Vertice* Compuerta::obtenerPin(int x, int y) {
+int Compuerta::obtenerPinMasCercano(int x, int y) {
 
-  std::list<Vertice>::iterator it;
   bool encontrado= false;
-  for(it= pines.begin(); it != pines.end() && !encontrado; it++) {
-
-    if( ((x >= it->x-TOLERANCIA) && (x <= it->x+TOLERANCIA)) && ((y >= it->y-TOLERANCIA) && (y <= it->y+TOLERANCIA)) ) {
+  int size= pines.size();
+  int i;
+  for(i= 0; i<size && !encontrado; i++) {
+    if( ((x >= pines[i].x-TOLERANCIA) && (x <= pines[i].x+TOLERANCIA)) && ((y >= pines[i].y-TOLERANCIA) && (y <= pines[i].y+TOLERANCIA)) ) {
       encontrado= true;
       break;
     }
   }
   if(!encontrado)
-    return NULL;
+    return -1;
 
-  Vertice *v= new Vertice();
-  v->x= it->x;
-  v->y= it->y;
-
-  return v;
+  return i;
 }

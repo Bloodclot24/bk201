@@ -7,6 +7,8 @@ CompuertaAnd::CompuertaAnd(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) {
 
 void CompuertaAnd::cargarNuevosPines(Vertice vSupIzq) {
 
+  std::cout << "nuevos pines" << std::endl;
+
   pines.clear();
   Vertice v;
   v.x= vSupIzq.x;
@@ -43,13 +45,13 @@ void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   if(seleccionado)
     dibujarSeleccion(context);
 
-//  context->set_source_rgb(1.0, 0.0, 0.0);
-//  std::list<Vertice>::iterator it;
-//  for(it= pins.begin(); it != pins.end(); it++) {
-//    context->move_to(it->x, it->y);
-//    context->line_to(it->x, it->y+5);
-//  }
-//  context->stroke();
+  context->set_source_rgb(1.0, 0.0, 0.0);
+  int size= pines.size();
+  for(int i= 0; i<size; i++) {
+    context->move_to(pines[i].x, pines[i].y);
+    context->line_to(pines[i].x, pines[i].y+5);
+  }
+  context->stroke();
   
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);

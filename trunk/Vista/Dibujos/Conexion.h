@@ -9,12 +9,17 @@
 class ConexionDibujo: public Dibujo {
 
 private:
-  Vertice vFinal;
-  std::list<Vertice> poligonos;
+  Dibujo*               dibujoPin1;
+  int                   nroPin1;
+  Vertice               vFinal;
+  Dibujo*               dibujoPin2;
+  int                   nroPin2;
+  std::list<Vertice>    poligonos;
 
 protected:
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
   void generarPoligonos();
+  void calcularAtributos();
 
 public:
   /**
@@ -23,7 +28,7 @@ public:
     * @param supIzqX La componente x del vertice superior izquierdo.
     * @param supIzqY La componente y del vertice superior izquierdo.
     */
-  ConexionDibujo(int vInicialX, int vInicialY, int vFinalX, int vFinalY);
+  ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1);
 
   virtual ~ConexionDibujo() { };
 
@@ -35,6 +40,9 @@ public:
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
   virtual bool setSeleccionado(int x, int y);
+
+  virtual void setVerticeSupIzq(Vertice vSupIzq);
+  void setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nroPin2);
 };
 
 #endif /* CONEXION_H_ */
