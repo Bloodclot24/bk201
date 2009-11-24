@@ -9,9 +9,13 @@
 #include "../XML/Xml.h"
 #include "../Util/Util.h"
 #include "../Controlador/ControladorVentana.h"
+#include "../Vista/Dibujos/Conexion.h"
 
-class Persistidor
-{
+/** 
+ * Clase que se utiliza para guardar/cargar el estado del modelo en
+ * disco
+ */
+class Persistidor{
 private:
      std::string nombre;
      std::string extension;
@@ -20,23 +24,24 @@ private:
      std::map<int,Componente*> componentesCargados;
 		
 public:
+     /** 
+      * Crea un persistidor y le asocia un nombre de archivo.
+      * 
+      * @param nombre El nombre del archivo.
+      */
      Persistidor(const std::string& nombre){
 	  this->nombre=nombre;
 	  this->extension = ".bk";
+	  /* Si no tiene la extension se la agrego */
 	  if(nombre.substr(nombre.size()-3,3).compare(".bk")!=0)
 	       this->nombre+=extension;
-	  //Creo el archivo donde voy a guardar los datos del circuito
-	  // archivo.open(this->nombre.c_str(), std::fstream::in);
-	  // if(!archivo.good()) std::cerr << "Se produjo un error al crear el archivo: " << nombre+extension << std::endl;
-	  // this->archivo.close();
      };
 		
      void persistir(ControladorVentana *c){
 	  if(c){
+	       /* abro el archivo */
 	       archivo.open(nombre.c_str(),std::fstream::out | std::fstream::trunc);
 	       if(archivo.good()){
-		    //TODO
-		    //Guardar los componenetes en el archivo
 				  
 		    //Creo el archivo, establezco la raiz con sus propiedades
 		    Xml xml("Circuito");
@@ -60,6 +65,7 @@ public:
 			 }
 		    }
 		    
+		    //Serializo los circuitos
 		    std::map<Dibujo*, DatosCircuitoRemoto*>::iterator it2 = c->circuitos.begin();
 		    for(;it2 != c->circuitos.end(); it2++){
 			 DatosCircuitoRemoto * dcr = (*it2).second;
@@ -76,24 +82,73 @@ public:
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
+		    //Serializo las conexiones
+		    std::map<Dibujo*, ConexionDibujo*>::iterator it3 = c->pistas.begin();
+		    for(;it3 != c->pistas.end(); it3++){
+			 ConexionDibujo * pista = (*it3).second;
+			 if(pista != NULL){
+			      XmlNodo componente("Conexion");
+			      //guardo el tipo de componente
+			      componente.setPropiedad("x1",Util::intToString(pista->getVerticeSupIzq().x).c_str());
+			      componente.setPropiedad("y1",Util::intToString(pista->getVerticeSupIzq().y).c_str());
+			      componente.setPropiedad("x2",Util::intToString(pista->getVerticeInfDer().x).c_str());
+			      componente.setPropiedad("y2",Util::intToString(pista->getVerticeInfDer().y).c_str());
+			      componente.setPropiedad("alfa", Util::intToString(pista->getAngulo()).c_str());
+			      componente.setPropiedad("label",pista->getLabel().c_str());
+			      xml.getRaiz()->agregarHijo(componente);
+			 }
+		    }
+
 		    std::string *resultado=xml.toString();
+		    /* escribo el XML a disco */
 		    archivo.write(resultado->c_str(), resultado->size());
 		    delete resultado;
+		    xml.liberar();
 	       }else std::cerr << "No se pudo abrir el archivo: " << nombre+extension << std::endl;
 	       archivo.close();
 	  }
      };
-		
-     void recuperar(ControladorVentana *c){
+
+     DescripcionCircuito obtenerDescripcion(){
 	  std::ifstream archivo;
 	  archivo.open(nombre.c_str(), std::fstream::in);
-	  std::cout << "Abro " << nombre << std::endl;
+	  DescripcionCircuito d;
 	  if(archivo.good()){
 	       std::string buffer, bufferlinea;
+	       /* leo el archivo */
 	       while(archivo.good()){
 		    std::getline(archivo,bufferlinea);
 		    buffer+=bufferlinea;
 	       }
+
+	       d.nombre = nombre;
+	       /* decodifico el XML */
+	       Xml xml(buffer.c_str(), buffer.size());
+	       d.cantidadEntradas = atoi(xml.getRaiz()->getPropiedad("entradas").c_str());
+	       d.cantidadSalidas = atoi(xml.getRaiz()->getPropiedad("salidas").c_str());
+	       xml.liberar();
+	  }else std::cerr << "No se pudo abrir el archivo: " << nombre << std::endl;
+	  archivo.close();
+	  return d;
+     };
+
+		
+     /** 
+      * Recupera el estado del modelo desde disco.
+      * 
+      * @param c El controlador a restablecer.
+      */
+     void recuperar(ControladorVentana *c){
+	  std::ifstream archivo;
+	  archivo.open(nombre.c_str(), std::fstream::in);
+	  if(archivo.good()){
+	       std::string buffer, bufferlinea;
+	       /* leo el archivo */
+	       while(archivo.good()){
+		    std::getline(archivo,bufferlinea);
+		    buffer+=bufferlinea;
+	       }
+	       /* decodifico el XML */
 	       Xml xml(buffer.c_str(), buffer.size());
 	       c->circuito.cantidadEntradas = atoi(xml.getRaiz()->getPropiedad("entradas").c_str());
 	       c->circuito.cantidadEntradas = atoi(xml.getRaiz()->getPropiedad("salidas").c_str());
@@ -119,9 +174,21 @@ public:
 			 dcr->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
 			 dcr->c->setLabel(componente.getPropiedad("label"));
 		    }
+		    if(componente.getNombre().compare("Conexion")==0){
+			 ConexionDibujo *pista = c->cargarConexion();
+			 Vertice v;
+			 v.x = atoi(componente.getPropiedad("x1").c_str());
+			 v.y = atoi(componente.getPropiedad("y1").c_str());
+			 pista->setVerticeSupIzq(v);
+			 v.x = atoi(componente.getPropiedad("x2").c_str());
+			 v.y = atoi(componente.getPropiedad("y2").c_str());
+			 pista->setVerticeInfDer(v);
+			 pista->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
+			 pista->setLabel(componente.getPropiedad("label"));
+		    }
 		    componente = componente.obtenerHermano();
 	       }
-	       
+	       xml.liberar();
 	  }else std::cerr << "No se pudo abrir el archivo: " << nombre << std::endl;
 	  archivo.close();
      };
