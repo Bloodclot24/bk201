@@ -1,5 +1,6 @@
 #include "Impresora.h"
 #include <string>
+#include <iostream>
 
 Impresora::Impresora(std::list<Dibujo*> dibujos, Tabla* Tabla)
 {
@@ -40,8 +41,9 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();
 	cairo_ctx->set_line_width(1);
 	cairo_ctx->set_source_rgb(1.0, 0, 0);
-
-	if(circuito){
+	
+	//TODO Ver Manejo Del Flag, si lo pongo funciona solo a veces
+	//if(circuito){
 		//Dibujo los elementos
     	std::list<Dibujo*>::iterator it;
     	for(it= dibujos.begin(); it != dibujos.end(); it++) {
@@ -53,47 +55,12 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
       		cairo_ctx->rotate_degrees((*it)->getAngulo());
       		cairo_ctx->translate(-vCentro.x, -vCentro.y);
       		(*it)->dibujar(cairo_ctx);
+      		std::cout<< "Dibujando..." << std::endl;
     	}
-	}else{
+	//}else{
 		//TODO: 
 		//Ver si hago Impresora clase friend de tabla o hacemos publico el metodo
 		//AMIGAAAAA:P
-		//tabla->dibujarTabla();
-	}		
-//	double x = 0;
-//	double y = 0;
-//	double x_to = x_step;
-//	double y_to = height;
-//	for(int i = 0; i < 100 ; ++i)
-//	{
-//		cairo_ctx->move_to(x, y);
-//		cairo_ctx->line_to(x_to, y_to);
-//		y += y_step;
-//		x_to += x_step;
-//	}
-//	cairo_ctx->stroke();
-//
-//	cairo_ctx->set_source_rgb(0, 1.0, 0);
-//	x = 0;
-//	y = 0;
-//	x_to = width;
-//	y_to = y_step;
-//	for(int i = 0; i < 100 ; ++i)
-//	{
-//		cairo_ctx->move_to(x, y);
-//		cairo_ctx->line_to(x_to, y_to);
-//		x += x_step;
-//		y_to += y_step;
-//	}
-//
-//	cairo_ctx->stroke();
-//
-//	cairo_ctx->set_source_rgb(0, 0, 0);
-//	cairo_ctx->set_font_size(28.0);
-//	std::string text("Taller de Programación - FIUBA");
-//	Cairo::TextExtents extents;
-//	cairo_ctx->get_text_extents(text, extents);
-//	cairo_ctx->move_to (width/2.0 + - extents.x_bearing - extents.width/2, height/2.0);
-//	cairo_ctx->show_text(text);
-//	cairo_ctx->fill();
+		//tabla->dibujarTabla(cairo_ctx);
+//	}		
 }

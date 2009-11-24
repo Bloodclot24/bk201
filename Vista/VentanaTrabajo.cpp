@@ -374,8 +374,11 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
 
 void VentanaTrabajo::imprimir() {
 
-  if(window_print)
+  if(window_print){
+  	window_print->setDibujosAImprimir(areaDibujo->dibujos);
+    window_print->setTablasAImprimir(tabla);
     window_print->show();
+  }
 }
 
 void VentanaTrabajo::recibirListaCircuitos(const std::list<DescripcionCircuito> &lista) {
