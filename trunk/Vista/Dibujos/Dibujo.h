@@ -18,6 +18,7 @@
  * ser dibujados en el area de dibujo.
  */
 class Dibujo: public Gtk::Widget {
+  friend class VentanaTrabajo;
 
 protected:
   Vertice               vCentro;
@@ -30,6 +31,7 @@ protected:
   std::string           label;
   std::string           tiempoT;
   bool                  examinar;
+
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
   void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
@@ -108,6 +110,7 @@ public:
 
   virtual void cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) { };
 
+  virtual void mostrarPropiedades() {};
 };
 
 #endif /* DIBUJO_H_ */
