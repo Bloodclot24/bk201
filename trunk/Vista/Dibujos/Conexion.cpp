@@ -10,25 +10,14 @@ ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1,
   this->areaDibujo= areaDibujo;
 }
 
-void ConexionDibujo::generarPoligonos(const Cairo::RefPtr<Cairo::Context>&) {
+void ConexionDibujo::generarPoligonos(const Cairo::RefPtr<Cairo::Context>& context) {
 
-  Vertice v;
   poligonos.clear();
-  v.x= vSupIzq.x;
-  v.y= vSupIzq.y;
-  poligonos.push_back(v);
-  v.x= vCentro.x;
-  v.y= vSupIzq.y;
-  poligonos.push_back(v);
-  v.x= vCentro.x;
-  v.y= vCentro.y;
-  poligonos.push_back(v);
-  v.x= vCentro.x;
-  v.y= vFinal.y;
-  poligonos.push_back(v);
-  v.x= vFinal.x;
-  v.y= vFinal.y;
-  poligonos.push_back(v);
+  poligonos.push_back(rotarPin(vSupIzq.x, vSupIzq.y, context));
+  poligonos.push_back(rotarPin(vCentro.x, vSupIzq.y, context));
+  poligonos.push_back(rotarPin(vCentro.x, vCentro.y, context));
+  poligonos.push_back(rotarPin(vCentro.x, vFinal.y, context));
+  poligonos.push_back(rotarPin(vFinal.x, vFinal.y, context));
 }
 
 void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
@@ -36,37 +25,37 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //si tengo algun extremo suelto, veo si tengo un
   //pin cercano
      if(!dibujoPin1 && areaDibujo) {
-	  dibujoPin1= areaDibujo->buscarDibujoCercano(this, vSupIzq.x, vSupIzq.y);
-	  std::cout << dibujoPin1 << std::endl;
-	  if(dibujoPin1) {
-	       nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
-	       
-	       std::cout << "nroPin1:" << nroPin1 << std::endl;
+          dibujoPin1= areaDibujo->buscarDibujoCercano(this, vSupIzq.x, vSupIzq.y);
+          std::cout << dibujoPin1 << std::endl;
+          if(dibujoPin1) {
+               nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
 
-	       if(nroPin1 == -1)
-		    dibujoPin1= NULL;
-	  }
+               std::cout << "nroPin1:" << nroPin1 << std::endl;
+
+               if(nroPin1 == -1)
+                    dibujoPin1= NULL;
+          }
      }
      if(!dibujoPin2 && areaDibujo) {
-	  dibujoPin2= areaDibujo->buscarDibujoCercano(this, vFinal.x, vFinal.y);
-	  
-	  //std::cout << dibujoPin2 << std::endl;
-	  
-	  
-	  if(dibujoPin2) {
-	       nroPin2= dibujoPin2->obtenerPinMasCercano(vFinal.x,vFinal.y);
-	       
-	       std::cout << "nroPin2:" << nroPin2 << std::endl;
-	       
-	       if(nroPin2 == -1)
-		    dibujoPin2= NULL;
-	  }
+          dibujoPin2= areaDibujo->buscarDibujoCercano(this, vFinal.x, vFinal.y);
+
+          //std::cout << dibujoPin2 << std::endl;
+
+
+          if(dibujoPin2) {
+               nroPin2= dibujoPin2->obtenerPinMasCercano(vFinal.x,vFinal.y);
+
+               std::cout << "nroPin2:" << nroPin2 << std::endl;
+
+               if(nroPin2 == -1)
+                    dibujoPin2= NULL;
+          }
      }
   //busco cambios en la ubicacion de los pines a los que
   //estoy unido
 
   if(dibujoPin1) {
-   
+
        vSupIzq= dibujoPin1->obtenerPin(nroPin1);
   }
   if(dibujoPin2) {
@@ -75,6 +64,17 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   calcularAtributos(context);
   //regenero las trayectorias
   generarPoligonos(context);
+
+   context->stroke();
+
+  if(seleccionado)
+    dibujarSeleccion(context);
+
+  //Muestro la etiqueta
+  mostrarEtiqueta(context,vSupIzq.y,alto);
+
+  //seteo matriz identidad
+  context->set_identity_matrix();
 
   //dibujo de a poligonos
   context->set_source_rgb(0.0, 0.0, 0.0);
@@ -92,17 +92,6 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
     }
   }
   context->stroke();
-
-  if(seleccionado)
-    dibujarSeleccion(context);
-
-  context->set_source_rgb(1.0, 0.0, 0.0);
-  context->move_to(vCentro.x, vCentro.y);
-  context->line_to(vCentro.x, vCentro.y+5);
-  context->stroke();
-  
-  //Muestro la etiqueta
-  mostrarEtiqueta(context,vSupIzq.y,alto);
 }
 
 void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
@@ -154,7 +143,7 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   return seleccionado;
 }
 
-void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>&){
+void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>& context){
 
   int deltaX= vFinal.x-vSupIzq.x;
   int deltaY= vFinal.y-vSupIzq.y;
@@ -163,14 +152,14 @@ void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>&){
   ancho= deltaX;
   alto= deltaY;
   pines.clear();
-  pines.push_back(vSupIzq);
-  pines.push_back(vFinal);
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y, context));
+  pines.push_back(rotarPin(vFinal.x, vFinal.y, context));
 }
 
 void ConexionDibujo::setVerticeSupIzq(Vertice vSupIzq) {
      this->dibujoPin1 = NULL;;
   this->nroPin1= 0;
-  
+
   this->vSupIzq= vSupIzq;
 }
 
