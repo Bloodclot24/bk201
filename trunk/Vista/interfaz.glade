@@ -456,8 +456,6 @@ Ygounet Guido</property>
     <property name="title" translatable="yes">Especifique el servidor</property>
     <property name="modal">True</property>
     <property name="window_position">center-always</property>
-    <property name="default_width">300</property>
-    <property name="default_height">100</property>
     <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -728,8 +726,6 @@ Ygounet Guido</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
-                <property name="is_focus">True</property>
-                <property name="can_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -883,7 +879,6 @@ Ygounet Guido</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
-                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -963,16 +958,6 @@ Ygounet Guido</property>
       <action-widget response="0">button1</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkWindow" id="window_remoto">
-    <child>
-      <object class="GtkHBox" id="hbox_porfavorfunciona">
-        <property name="visible">True</property>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkDialog" id="dialog_prop_conexion">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Propiedades</property>
@@ -1043,7 +1028,6 @@ Ygounet Guido</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
-                <property name="is_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -1167,7 +1151,7 @@ Ygounet Guido</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
-                <property name="receives_default">True</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
               </object>
               <packing>
@@ -1315,7 +1299,6 @@ Ygounet Guido</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>
-                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
