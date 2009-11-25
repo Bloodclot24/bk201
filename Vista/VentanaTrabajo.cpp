@@ -76,8 +76,6 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("messagedialog_servidor", dialog_message);
   refXml->get_widget("messagedialog_error_servidor", messagedialog_error_servidor);
   messagedialog_error_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_servidor));
-  refXml->get_widget("dialog_lista_circuitos", dialog_lista_circuitos);
-  dialog_lista_circuitos->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_lista_circuitos));
 
   //Treeview Circuitos
   Glib::RefPtr<Glib::Object> obj_treeView_circuitos= refXml->get_object("treeview_circuitos");
@@ -87,10 +85,19 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refTreeSelection= treeView_circuitos->get_selection();
 
   //Propiedades
-  refXml->get_widget("dialog_propiedades", dialog_propiedades);
-  dialog_propiedades->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  refXml->get_widget("dialog_prop_compuerta", dialog_prop_compuerta);
+  dialog_prop_compuerta->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  refXml->get_widget("dialog_prop_conexion", dialog_prop_conexion);
+  dialog_prop_conexion->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  refXml->get_widget("dialog_prop_io", dialog_prop_io);
+  dialog_prop_io->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  refXml->get_widget("dialog_prop_circuito", dialog_prop_circuito);
+  dialog_prop_circuito->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
 
-   window->show_all();
+  //Teclado
+  window->signal_key_press_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_key_press_event));
+
+  window->show_all();
 
   if(primeraVez)
     Gtk::Main::run(*window);
@@ -430,7 +437,6 @@ void VentanaTrabajo::on_lista_circuitos(int response_id) {
   }
 }
 
-
 void VentanaTrabajo::agregarCircuito(std::string circuito, int i, int o) {
 
   Gtk::TreeModel::Row row= *(treeModel_circuitos->append());
@@ -445,18 +451,18 @@ void VentanaTrabajo::on_propiedades(int response_id) {
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop", entry);
+      refXml->get_widget("entry_label_prop_compuertas", entry);
       Glib::ustring label= entry->get_text();
       areaDibujo->seleccionado->setLabel(label);
-      refXml->get_widget("entry_tiempo_prop", entry);
+      refXml->get_widget("entry_tiempo_prop_compuertas", entry);
       Glib::ustring tiempo= entry->get_text();
       areaDibujo->seleccionado->setTiempoT(tiempo);
-      dialog_propiedades->hide();
+      dialog_prop_compuerta->hide();
       areaDibujo->redibujar();
     }
       break;
     default:
-      dialog_propiedades->hide();
+      dialog_prop_compuerta->hide();
       break;
   }
 }
@@ -468,4 +474,10 @@ void VentanaTrabajo::agregarDibujo(Dibujo *dibujo){
 void VentanaTrabajo::agregarDibujo(ConexionDibujo *dibujo){
   areaDibujo->agregarDibujo(dibujo);
   dibujo->setAreaDibujo(areaDibujo);
-} 
+}
+
+bool VentanaTrabajo::on_key_press_event(GdkEventKey* event) {
+  if(event->keyval == 65535)
+    areaDibujo->borrarSeleccion();
+  return true;
+}

@@ -443,12 +443,12 @@ void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
     std::string label= seleccionado->getLabel();
     std::string tiempo= seleccionado->getTiempoT();
     Gtk::Entry *entry;
-    ventanaTrabajo->refXml->get_widget("entry_label_prop", entry);
+    ventanaTrabajo->refXml->get_widget("entry_label_prop_compuertas", entry);
     entry->set_text(label);
-    ventanaTrabajo->refXml->get_widget("entry_tiempo_prop", entry);
+    ventanaTrabajo->refXml->get_widget("entry_tiempo_prop_compuertas", entry);
     entry->set_text(tiempo);
     //muestro el dialogo de propiedades
-    ventanaTrabajo->dialog_propiedades->show();
+    ventanaTrabajo->dialog_prop_compuerta->show();
   }
 }
 

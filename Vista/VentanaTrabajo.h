@@ -138,7 +138,10 @@ private:
   void agregarCircuito(std::string circuito, int i, int o);
 
   /*PROPIEDADES*/
-  Gtk::Dialog *dialog_propiedades;
+  Gtk::Dialog *dialog_prop_compuerta;
+  Gtk::Dialog *dialog_prop_conexion;
+  Gtk::Dialog *dialog_prop_io;
+  Gtk::Dialog *dialog_prop_circuito;
   void on_propiedades(int response_id);
 
   /*TABLA*/
@@ -149,6 +152,9 @@ private:
 
   /*IMPRESION*/
   VentanaImpresion *window_print;
+
+  /*TECLADO*/
+  bool on_key_press_event(GdkEventKey* event);
 
 protected:
   //Signal handlers
