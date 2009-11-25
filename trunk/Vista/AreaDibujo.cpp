@@ -324,17 +324,8 @@ void AreaDibujo::rotarSeleccion90Izquierda() {
 void AreaDibujo::verCircuito() {
 
   if(seleccion && !motion) {
-    Gtk::Dialog *dialog_remoto;
-    ventanaTrabajo->refXml->get_widget("dialog_remoto", dialog_remoto);
-    //Remoto
-    Gtk::VBox* vbox_remoto;
-    ventanaTrabajo->refXml->get_widget("vbox_remoto", vbox_remoto);
-    vbox_remoto->add(*(ventanaTrabajo->circuitoRemoto));
-    if(dialog_remoto) {
-      dialog_remoto->run();
-      dialog_remoto->hide();
+    ventanaTrabajo->window_remoto->show_all();
     }
-  }
 }
 
 bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {

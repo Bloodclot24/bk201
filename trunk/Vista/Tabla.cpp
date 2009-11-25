@@ -173,3 +173,8 @@ void Tabla::setCantEntradas(int entradas) {
 void Tabla::setCantSalidas(int salidas) {
   this->salidas= salidas;
 }
+
+void Tabla::setLista(std::list<uint32_t> lista) {
+  this->lista= lista;
+  this->redibujar();
+}

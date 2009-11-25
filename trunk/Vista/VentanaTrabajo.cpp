@@ -56,6 +56,15 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("vbox_tabla", vbox_tabla);
   vbox_tabla->add(*tabla);
 
+  //Circuito Remoto
+  refXml->get_widget("window_remoto", window_remoto);
+  Gtk::ScrolledWindow *scrolledwindow_remoto;
+  refXml->get_widget("scrolledwindow_remoto", scrolledwindow_remoto);
+  scrolledwindow_remoto->add(*circuitoRemoto);
+  Gtk::Button *button_cerrar_remoto;
+  refXml->get_widget("button_cerrar_remoto", button_cerrar_remoto);
+  button_cerrar_remoto->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::cerrar_circuito_remoto));
+
   //Menu Bar
   loadMenuBar(window);
 
@@ -382,7 +391,7 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
 void VentanaTrabajo::imprimir() {
 
   if(window_print){
-  	window_print->setDibujosAImprimir(areaDibujo->dibujos);
+    window_print->setDibujosAImprimir(areaDibujo->dibujos);
     window_print->setTablasAImprimir(tabla);
     window_print->show();
   }
@@ -405,7 +414,7 @@ void VentanaTrabajo::recibirListaCircuitos(const std::list<DescripcionCircuito> 
     dialog_message->hide();
     dialog_servidor->set_sensitive(true);
     if(messagedialog_error_servidor) {
-      messagedialog_error_servidor->set_message("Error al conectar el servidor");
+      messagedialog_error_servidor->set_message("Error al conectar con el servidor");
       messagedialog_error_servidor->show();
     }
   }
@@ -552,4 +561,9 @@ bool VentanaTrabajo::on_key_press_event(GdkEventKey* event) {
   if(event->keyval == 65535)
     areaDibujo->borrarSeleccion();
   return true;
+}
+
+void VentanaTrabajo::cerrar_circuito_remoto() {
+
+  window_remoto->hide();
 }

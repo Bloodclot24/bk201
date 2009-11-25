@@ -24,6 +24,7 @@ class VentanaTrabajo;
 #include <gtkmm/treeview.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/radiobutton.h>
+#include <gtkmm/scrolledwindow.h>
 
 #include <iostream>
 #include "AreaDibujo.h"
@@ -152,7 +153,9 @@ private:
   Tabla *tabla;
 
   /*CIRCUITO REMOTO*/
+  Gtk::Window *window_remoto;
   DibujoCircuitoRemoto *circuitoRemoto;
+  void cerrar_circuito_remoto();
 
   /*IMPRESION*/
   VentanaImpresion *window_print;
