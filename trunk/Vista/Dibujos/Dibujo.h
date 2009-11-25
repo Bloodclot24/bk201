@@ -11,7 +11,6 @@
 #include <iostream>
 
 #define TOLERANCIA 5
-#define UNIDAD_TIEMPO " ns"
 
 /**
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
@@ -34,6 +33,7 @@ protected:
 
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
+  virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) { };
   void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
 
   Vertice rotarPin(int x, int y, const Cairo::RefPtr<Cairo::Context>& context);

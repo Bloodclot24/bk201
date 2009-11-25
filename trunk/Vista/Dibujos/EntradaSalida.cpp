@@ -44,3 +44,13 @@ std::string EntradaSalida::getTipoPin() {
 void EntradaSalida::setTipoPin(std::string tipoPin) {
    this->tipoPin= tipoPin;
 }
+
+void EntradaSalida::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
+
+  context->move_to(vSupIzq.x, yTexto);
+  context->show_text(label);
+  context->move_to(vSupIzq.x, yTexto+15);
+  context->show_text("Tipo: ");
+  context->show_text(tipoPin);
+  context->stroke();
+};

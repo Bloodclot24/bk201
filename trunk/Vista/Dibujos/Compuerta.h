@@ -4,6 +4,7 @@
 #include "Dibujo.h"
 
 #define DIMENSION_COMPUERTA 40
+#define UNIDAD_TIEMPO " ns"
 
 class Compuerta: public Dibujo {
 
@@ -11,6 +12,7 @@ class Compuerta: public Dibujo {
 
 protected:
   virtual void cargarNuevosPines(Vertice vSupIzq) { };
+  virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto);
 
 public:
   /**

@@ -7,7 +7,11 @@
 
 class EntradaSalida: public Dibujo {
 
+private:
   std::string   tipoPin;
+
+protected:
+  virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto);
 
 public:
   /**

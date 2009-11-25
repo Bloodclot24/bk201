@@ -25,3 +25,14 @@ std::string Compuerta::getTiempoT() {
 void Compuerta::setTiempoT(const std::string& tiempoT) {
   this->tiempoT= tiempoT;
 }
+
+void Compuerta::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
+
+  context->move_to(vSupIzq.x, yTexto);
+  context->show_text(label);
+  context->move_to(vSupIzq.x, yTexto+15);
+  context->show_text(tiempoT);
+  context->show_text(UNIDAD_TIEMPO);
+  context->stroke();
+};
+

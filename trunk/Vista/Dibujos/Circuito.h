@@ -18,6 +18,7 @@ private:
    std::string puerto;
 
 protected:
+   virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto);
    void cargarNuevosPines(Vertice vSupIzq);
    int pasoPinesMenor(int mayor, int menor);
 public:
