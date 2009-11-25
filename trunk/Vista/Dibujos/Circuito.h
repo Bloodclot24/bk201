@@ -14,6 +14,8 @@ private:
    int pasoEntrada;
    int salidas;
    int pasoSalida;
+   std::string servidor;
+   std::string puerto;
 
 protected:
    void cargarNuevosPines(Vertice vSupIzq);
@@ -37,6 +39,11 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
+
+  std::string getServidor();
+  void setServidor(std::string servidor);
+  std::string getPuerto();
+  void setPuerto(std::string puerto);
 };
 
 #endif /* CIRCUITO_H_ */

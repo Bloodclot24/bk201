@@ -7,6 +7,8 @@
 
 class Compuerta: public Dibujo {
 
+  std::string   tiempoT;
+
 protected:
   virtual void cargarNuevosPines(Vertice vSupIzq) { };
 
@@ -23,14 +25,15 @@ public:
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
 
+  std::string getTiempoT();
+  void setTiempoT(const std::string& tiempoT);
+
   /**
     * Se dibuja la compuerta And en el contexto dado por parametro.
     *
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
-
-  virtual void mostrarPropiedades() {};
 };
 
 #endif /* COMPUERTA_H_ */

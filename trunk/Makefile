@@ -10,7 +10,6 @@ SOURCES=Controlador/controlador.cpp \
 	Red/Mensajero.cpp \
 	Threads/ThreadAceptor.cpp \
 	Server/Server.cpp \
-	Circuito/CircuitoRemotoServidor.cpp \
 	Vista/Dibujos/CompuertaBuffer.cpp \
 	Vista/Dibujos/CompuertaXor.cpp \
 	Vista/Dibujos/CompuertaAnd.cpp \

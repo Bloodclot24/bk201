@@ -12,5 +12,7 @@
 #define IO "IO"
 #define CONEXION "Conexion"
 #define CIRCUITO "Circuito"
+#define ENTRADA "IN"
+#define SALIDA "OUT"
 
 #endif /* CONSTANTES_H_ */

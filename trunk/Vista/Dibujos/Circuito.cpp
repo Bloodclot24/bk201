@@ -2,6 +2,7 @@
 
 CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salidas): Dibujo::Dibujo(supIzqX, supIzqY) {
 
+  tipo= CIRCUITO;
   label= "Circuito";
   this->entradas= entradas;
   this->salidas= salidas;
@@ -96,3 +97,19 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);
 };
+
+std::string CircuitoDibujo::getServidor() {
+ return servidor;
+}
+
+void CircuitoDibujo::setServidor(std::string servidor) {
+  this->servidor= servidor;
+}
+
+std::string CircuitoDibujo::getPuerto() {
+  return puerto;
+}
+
+void CircuitoDibujo::setPuerto(std::string puerto) {
+  this->puerto= puerto;
+}

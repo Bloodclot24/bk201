@@ -6,8 +6,8 @@ Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
   vSupIzq.y= yUp;
   angulo= 0;
   seleccionado= true;
-  tiempoT= "0";
   examinar= false;
+  tipo= "";
 }
 
 Vertice Dibujo::getVerticeCentro() {
@@ -73,7 +73,7 @@ void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int v
   context->move_to(vSupIzq.x, yTexto);
   context->show_text(label);
   context->move_to(vSupIzq.x, yTexto+15);
-  context->show_text(tiempoT);
+  //context->show_text(tiempoT);
   context->show_text(UNIDAD_TIEMPO);
   context->stroke();
 }
@@ -98,14 +98,6 @@ std::string Dibujo::getLabel() {
 
 void Dibujo::setLabel(const std::string& label) {
   this->label= label;
-}
-
-std::string Dibujo::getTiempoT() {
-  return tiempoT;
-}
-
-void Dibujo::setTiempoT(const std::string& tiempoT) {
-  this->tiempoT= tiempoT;
 }
 
 bool Dibujo::getExaminar() {
@@ -135,3 +127,8 @@ int Dibujo::obtenerPinMasCercano(int x, int y) {
 Vertice Dibujo::obtenerPin(int numPin) {
   return pines[numPin];
 };
+
+
+std::string Dibujo::getTipo() {
+  return tipo;
+}

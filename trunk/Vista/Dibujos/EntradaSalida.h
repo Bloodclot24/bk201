@@ -7,6 +7,8 @@
 
 class EntradaSalida: public Dibujo {
 
+  std::string   tipoPin;
+
 public:
   /**
     * Crea una entrada o una salida.
@@ -26,6 +28,9 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
+
+  std::string getTipoPin();
+  void setTipoPin(std::string tipoPin);
 };
 
 #endif /* ENTRADASALIDA_H_ */
