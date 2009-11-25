@@ -39,13 +39,4 @@ void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);
-
-  context->set_identity_matrix();
-
-  for(int i=0;i<pines.size();i++){
-       context->move_to(pines[i].x, pines[i].y);
-       context->line_to(pines[i].x, pines[i].y+5);
-       context->stroke();
-  }
-
 }
