@@ -113,3 +113,15 @@ std::string CircuitoDibujo::getPuerto() {
 void CircuitoDibujo::setPuerto(std::string puerto) {
   this->puerto= puerto;
 }
+
+void CircuitoDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
+
+  context->move_to(vSupIzq.x, yTexto);
+  context->show_text(label);
+  context->move_to(vSupIzq.x, yTexto+15);
+  context->show_text("Servidor: ");
+  context->show_text(servidor);
+  context->show_text(":");
+  context->show_text(puerto);
+  context->stroke();
+};

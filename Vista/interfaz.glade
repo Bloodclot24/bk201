@@ -1130,7 +1130,6 @@ Ygounet Guido</property>
                 <property name="receives_default">False</property>
                 <property name="active">True</property>
                 <property name="draw_indicator">True</property>
-                <property name="group">radiobutton_entrada_io</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -1263,6 +1262,7 @@ Ygounet Guido</property>
               <object class="GtkLabel" id="labe_puerto_prop_circuito">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">Puerto:</property>
+                <property name="justify">right</property>
               </object>
               <packing>
                 <property name="top_attach">2</property>
@@ -1314,6 +1314,7 @@ Ygounet Guido</property>
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="has_focus">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
