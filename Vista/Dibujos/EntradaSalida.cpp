@@ -2,6 +2,8 @@
 
 EntradaSalida::EntradaSalida(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
+  tipo= IO;
+  tipoPin= ENTRADA;
   label= "I/O";
   ancho= alto= DIMENSION_IO;
   vCentro.x= supIzqX +(ancho/2);
@@ -35,3 +37,10 @@ void EntradaSalida::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   mostrarEtiqueta(context,vSupIzq.y,alto);
 }
 
+std::string EntradaSalida::getTipoPin() {
+  return tipoPin;
+}
+
+void EntradaSalida::setTipoPin(std::string tipoPin) {
+   this->tipoPin= tipoPin;
+}

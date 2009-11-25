@@ -29,8 +29,8 @@ protected:
   bool                  seleccionado;
   std::vector<Vertice>  pines;
   std::string           label;
-  std::string           tiempoT;
   bool                  examinar;
+  std::string           tipo;
 
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
@@ -103,14 +103,15 @@ public:
 
   std::string getLabel();
   void setLabel(const std::string& label);
-  std::string getTiempoT();
-  void setTiempoT(const std::string& tiempoT);
+
 
   bool getExaminar();
 
   virtual void cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) { };
 
-  virtual void mostrarPropiedades() {};
+  std::string getTipo();
+
+
 };
 
 #endif /* DIBUJO_H_ */

@@ -2,6 +2,7 @@
 
 ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujo *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
 
+  tipo= CONEXION;
   label= "Conexion";
   this->dibujoPin1= NULL;
   this->nroPin1= -1;

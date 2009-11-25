@@ -435,21 +435,83 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 
 void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
 
-  //busco el elemento sobre el que se hizo doble click
-  //y muestro sus propiedades
+  //busco el elemento sobre el que se hizo doble click y
+  //muestro sus propiedades segun el tipo de componente
   seleccionado= buscarDibujo(x, y);
   if(seleccionado) {
+    std::string tipo= seleccionado->getTipo();
     can_motion= false;
-    std::string label= seleccionado->getLabel();
-    std::string tiempo= seleccionado->getTiempoT();
-    Gtk::Entry *entry;
-    ventanaTrabajo->refXml->get_widget("entry_label_prop_compuertas", entry);
-    entry->set_text(label);
-    ventanaTrabajo->refXml->get_widget("entry_tiempo_prop_compuertas", entry);
-    entry->set_text(tiempo);
-    //muestro el dialogo de propiedades
-    ventanaTrabajo->dialog_prop_compuerta->show();
+
+    if((tipo.compare(AND)) == 0)
+      prepararVentanaCompuerta();
+    else if((tipo.compare(CONEXION)) == 0)
+      prepararVentanaConexion();
+    else if((tipo.compare(IO)) == 0)
+      prepararVentanaIO();
+    else if((tipo.compare(CIRCUITO)) == 0)
+      prepararVentanaCircuito();
   }
+}
+
+void AreaDibujo::prepararVentanaCompuerta() {
+
+  Compuerta *compuerta= dynamic_cast<Compuerta*>(seleccionado);
+  std::string label= compuerta->getLabel();
+  std::string tiempo= compuerta->getTiempoT();
+  Gtk::Entry *entry;
+  ventanaTrabajo->refXml->get_widget("entry_label_prop_compuertas", entry);
+  entry->set_text(label);
+  ventanaTrabajo->refXml->get_widget("entry_tiempo_prop_compuertas", entry);
+  entry->set_text(tiempo);
+  //muestro el dialogo de propiedades
+  ventanaTrabajo->dialog_prop_compuerta->show();
+}
+
+void AreaDibujo::prepararVentanaConexion() {
+
+  std::string label= seleccionado->getLabel();
+  Gtk::Entry *entry;
+  ventanaTrabajo->refXml->get_widget("entry_label_prop_conexion", entry);
+  entry->set_text(label);
+  //muestro el dialogo de propiedades
+  ventanaTrabajo->dialog_prop_conexion->show();
+}
+
+void AreaDibujo::prepararVentanaIO() {
+
+  EntradaSalida *io= dynamic_cast<EntradaSalida*>(seleccionado);
+  std::string label= io->getLabel();
+  std::string tipoPin= io->getTipoPin();
+  Gtk::Entry *entry;
+  ventanaTrabajo->refXml->get_widget("entry_label_prop_io", entry);
+  entry->set_text(label);
+  Gtk::RadioButton *entrada;
+  ventanaTrabajo->refXml->get_widget("radiobutton_entrada_io", entrada);
+  Gtk::RadioButton *salida;
+  ventanaTrabajo->refXml->get_widget("radiobutton_salida_io", salida);
+  if(tipoPin.compare(ENTRADA) == 0)
+    entrada->set_active(true);
+  else
+    entrada->set_active(false);
+  //muestro el dialogo de propiedades
+  ventanaTrabajo->dialog_prop_io->show();
+}
+
+void AreaDibujo::prepararVentanaCircuito() {
+
+  CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(seleccionado);
+  std::string label= circuito->getLabel();
+  std::string servidor= circuito->getServidor();
+  std::string puerto= circuito->getPuerto();
+  Gtk::Entry *entry;
+  ventanaTrabajo->refXml->get_widget("entry_label_prop_circuito", entry);
+  entry->set_text(label);
+  ventanaTrabajo->refXml->get_widget("entry_servidor_prop_circuito", entry);
+  entry->set_text(servidor);
+  ventanaTrabajo->refXml->get_widget("entry_puerto_prop_circuito", entry);
+  entry->set_text(puerto);
+  //muestro el dialogo de propiedades
+  ventanaTrabajo->dialog_prop_circuito->show();
 }
 
 void AreaDibujo::agregarDibujo(Dibujo *dibujo) {

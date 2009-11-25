@@ -73,6 +73,12 @@ private:
   bool eventoClickBtnIzq(int x, int y);
   void eventoDobleClickBtnIzq(int x, int y);
 
+  //Ventanas Propiedades
+  void prepararVentanaCompuerta();
+  void prepararVentanaConexion();
+  void prepararVentanaIO();
+  void prepararVentanaCircuito();
+
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
   virtual void on_drop_drag_data_received(

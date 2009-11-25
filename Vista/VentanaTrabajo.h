@@ -23,6 +23,7 @@ class VentanaTrabajo;
 #include <gtkmm/messagedialog.h>
 #include <gtkmm/treeview.h>
 #include <gtkmm/liststore.h>
+#include <gtkmm/radiobutton.h>
 
 #include <iostream>
 #include "AreaDibujo.h"
@@ -139,10 +140,13 @@ private:
 
   /*PROPIEDADES*/
   Gtk::Dialog *dialog_prop_compuerta;
+  void on_propiedades_compuerta(int response_id);
   Gtk::Dialog *dialog_prop_conexion;
+  void on_propiedades_conexion(int response_id);
   Gtk::Dialog *dialog_prop_io;
+  void on_propiedades_io(int response_id);
   Gtk::Dialog *dialog_prop_circuito;
-  void on_propiedades(int response_id);
+  void on_propiedades_circuito(int response_id);
 
   /*TABLA*/
   Tabla *tabla;

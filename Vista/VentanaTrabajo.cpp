@@ -86,13 +86,13 @@ void VentanaTrabajo::correr(bool primeraVez) {
 
   //Propiedades
   refXml->get_widget("dialog_prop_compuerta", dialog_prop_compuerta);
-  dialog_prop_compuerta->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  dialog_prop_compuerta->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades_compuerta));
   refXml->get_widget("dialog_prop_conexion", dialog_prop_conexion);
-  dialog_prop_conexion->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  dialog_prop_conexion->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades_conexion));
   refXml->get_widget("dialog_prop_io", dialog_prop_io);
-  dialog_prop_io->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  dialog_prop_io->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades_io));
   refXml->get_widget("dialog_prop_circuito", dialog_prop_circuito);
-  dialog_prop_circuito->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades));
+  dialog_prop_circuito->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades_circuito));
 
   //Teclado
   window->signal_key_press_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_key_press_event));
@@ -446,17 +446,18 @@ void VentanaTrabajo::agregarCircuito(std::string circuito, int i, int o) {
 }
 
 /**PROPIEDADES**/
-void VentanaTrabajo::on_propiedades(int response_id) {
+void VentanaTrabajo::on_propiedades_compuerta(int response_id) {
 
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
+      Compuerta *compuerta= dynamic_cast<Compuerta*>(areaDibujo->seleccionado);
       Gtk::Entry *entry;
       refXml->get_widget("entry_label_prop_compuertas", entry);
       Glib::ustring label= entry->get_text();
-      areaDibujo->seleccionado->setLabel(label);
+      compuerta->setLabel(label);
       refXml->get_widget("entry_tiempo_prop_compuertas", entry);
       Glib::ustring tiempo= entry->get_text();
-      areaDibujo->seleccionado->setTiempoT(tiempo);
+      compuerta->setTiempoT(tiempo);
       dialog_prop_compuerta->hide();
       areaDibujo->redibujar();
     }
@@ -466,6 +467,77 @@ void VentanaTrabajo::on_propiedades(int response_id) {
       break;
   }
 }
+
+void VentanaTrabajo::on_propiedades_conexion(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      Gtk::Entry *entry;
+      refXml->get_widget("entry_label_prop_conexion", entry);
+      Glib::ustring label= entry->get_text();
+      areaDibujo->seleccionado->setLabel(label);
+      dialog_prop_conexion->hide();
+      areaDibujo->redibujar();
+    }
+      break;
+    default:
+      dialog_prop_conexion->hide();
+      break;
+  }
+}
+
+void VentanaTrabajo::on_propiedades_io(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      EntradaSalida *io= dynamic_cast<EntradaSalida*>(areaDibujo->seleccionado);
+      Gtk::Entry *entry;
+      refXml->get_widget("entry_label_prop_io", entry);
+      Glib::ustring label= entry->get_text();
+      io->setLabel(label);
+      Gtk::RadioButton *entrada;
+      refXml->get_widget("radiobutton_entrada_io", entrada);
+      Gtk::RadioButton *salida;
+      refXml->get_widget("radiobutton_salida_io", salida);
+      if(entrada->get_active())
+        io->setTipoPin(ENTRADA);
+      else
+        io->setTipoPin(SALIDA);
+      dialog_prop_io->hide();
+      areaDibujo->redibujar();
+    }
+      break;
+    default:
+      dialog_prop_io->hide();
+      break;
+  }
+}
+
+void VentanaTrabajo::on_propiedades_circuito(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(areaDibujo->seleccionado);
+      Gtk::Entry *entry;
+      refXml->get_widget("entry_label_prop_circuito", entry);
+      Glib::ustring label= entry->get_text();
+      circuito->setLabel(label);
+      refXml->get_widget("entry_servidor_prop_circuito", entry);
+      Glib::ustring servidor= entry->get_text();
+      circuito->setServidor(servidor);
+      refXml->get_widget("entry_puerto_prop_circuito", entry);
+      Glib::ustring puerto= entry->get_text();
+      circuito->setPuerto(puerto);
+      dialog_prop_circuito->hide();
+      areaDibujo->redibujar();
+    }
+      break;
+    default:
+      dialog_prop_circuito->hide();
+      break;
+  }
+}
+
 
 void VentanaTrabajo::agregarDibujo(Dibujo *dibujo){
   areaDibujo->agregarDibujo(dibujo);
