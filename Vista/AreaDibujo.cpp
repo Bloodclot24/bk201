@@ -254,6 +254,22 @@ Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
   return *it;
 }
 
+Dibujo* AreaDibujo::buscarDibujoCercano(Dibujo *origen, int x, int y) {
+
+  std::list<Dibujo*>::iterator it;
+  bool encontrado= false;
+
+  for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
+    encontrado= (*it)->setSeleccionado(x,y);
+    if(encontrado && *it != origen)
+	 break;
+    else encontrado=false;
+  }
+  if(!encontrado)
+    return NULL;
+  return *it;
+}
+
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   //Evento click boton izquierdo
@@ -391,7 +407,7 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
       conexion= false;
       ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, dibujoPin1, nroPin1, this);
       ventanaTrabajo->controladorVentana->crearComponente(conexion);
-      conexion->setVerticeFinal(v, dibujo, nroPin);
+      conexion->setVerticeFinal(v);
       agregarComponente(conexion);
       can_motion= false;
       cargoVInicial= false;

@@ -87,6 +87,7 @@ protected:
   void dibujarIO(unsigned int xUp, unsigned int yUp);
 
   Dibujo* buscarDibujo(int x, int y);
+     Dibujo* buscarDibujoCercano(Dibujo *origen, int x, int y);
 
 public:
   AreaDibujo(VentanaTrabajo *ventanaTrabajo);

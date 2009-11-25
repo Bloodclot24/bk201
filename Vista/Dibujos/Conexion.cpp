@@ -3,12 +3,14 @@
 ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujo *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
 
   label= "Conexion";
-  this->dibujoPin1= dibujoPin1;
-  this->nroPin1= nroPin1;
+  this->dibujoPin1= NULL;
+  this->nroPin1= -1;
+  this->dibujoPin2= NULL;
+  this->nroPin2= -1;
   this->areaDibujo= areaDibujo;
 }
 
-void ConexionDibujo::generarPoligonos() {
+void ConexionDibujo::generarPoligonos(const Cairo::RefPtr<Cairo::Context>&) {
 
   Vertice v;
   poligonos.clear();
@@ -33,41 +35,46 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   //si tengo algun extremo suelto, veo si tengo un
   //pin cercano
-//  if(!dibujoPin1) {
-//    dibujoPin1= areaDibujo->buscarDibujo(vSupIzq.x, vSupIzq.y);
-//    if(dibujoPin1) {
-//      nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
-//      if(nroPin1 == -1)
-//        dibujoPin1= NULL;
-//    }
-//  }
-//  if(!dibujoPin2) {
-//    dibujoPin2= areaDibujo->buscarDibujo(vFinal.x, vFinal.y);
-//
-//    std::cout << dibujoPin2 << std::endl;
-//
-//
-//    if(dibujoPin2) {
-//      nroPin2= dibujoPin2->obtenerPinMasCercano(vFinal.x,vFinal.x);
-//
-//      std::cout << "nroPin2:" << nroPin2 << std::endl;
-//
-//      if(nroPin2 == -1)
-//        dibujoPin2= NULL;
-//    }
-//  }
+     if(!dibujoPin1 && areaDibujo) {
+	  dibujoPin1= areaDibujo->buscarDibujoCercano(this, vSupIzq.x, vSupIzq.y);
+	  std::cout << dibujoPin1 << std::endl;
+	  if(dibujoPin1) {
+	       nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
+	       
+	       std::cout << "nroPin1:" << nroPin1 << std::endl;
+
+	       if(nroPin1 == -1)
+		    dibujoPin1= NULL;
+	  }
+     }
+     if(!dibujoPin2 && areaDibujo) {
+	  dibujoPin2= areaDibujo->buscarDibujoCercano(this, vFinal.x, vFinal.y);
+	  
+	  //std::cout << dibujoPin2 << std::endl;
+	  
+	  
+	  if(dibujoPin2) {
+	       nroPin2= dibujoPin2->obtenerPinMasCercano(vFinal.x,vFinal.y);
+	       
+	       std::cout << "nroPin2:" << nroPin2 << std::endl;
+	       
+	       if(nroPin2 == -1)
+		    dibujoPin2= NULL;
+	  }
+     }
   //busco cambios en la ubicacion de los pines a los que
   //estoy unido
 
   if(dibujoPin1) {
-    vSupIzq= dibujoPin1->obtenerPin(nroPin1);
+   
+       vSupIzq= dibujoPin1->obtenerPin(nroPin1);
   }
   if(dibujoPin2) {
     vFinal= dibujoPin2->obtenerPin(nroPin2);
   }
-  calcularAtributos();
+  calcularAtributos(context);
   //regenero las trayectorias
-  generarPoligonos();
+  generarPoligonos(context);
 
   //dibujo de a poligonos
   context->set_source_rgb(0.0, 0.0, 0.0);
@@ -147,7 +154,7 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   return seleccionado;
 }
 
-void ConexionDibujo::calcularAtributos() {
+void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>&){
 
   int deltaX= vFinal.x-vSupIzq.x;
   int deltaY= vFinal.y-vSupIzq.y;
@@ -167,19 +174,19 @@ void ConexionDibujo::setVerticeSupIzq(Vertice vSupIzq) {
   this->vSupIzq= vSupIzq;
 }
 
-void ConexionDibujo::setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nroPin2) {
+void ConexionDibujo::setVerticeFinal(Vertice vertice) {
 
   vFinal= vertice;
-  this->dibujoPin2= dibujoPin2;
-  this->nroPin2= nroPin2;
 }
 
 void ConexionDibujo::setVerticeInfDer(Vertice vInfDer){
      vFinal=vInfDer;
-  this->dibujoPin2= NULL;
-  this->nroPin2= 0;
 }
 
 Vertice  ConexionDibujo::getVerticeInfDer(){
      return vFinal;
+}
+
+void ConexionDibujo::setAreaDibujo(AreaDibujo *area){
+     areaDibujo= area;
 }

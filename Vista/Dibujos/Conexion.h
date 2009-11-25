@@ -47,9 +47,10 @@ public:
   virtual bool setSeleccionado(int x, int y);
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
-  void setVerticeFinal(Vertice vertice, Dibujo* dibujoPin2, int nroPin2);
+  void setVerticeFinal(Vertice vertice);
      void setVerticeInfDer(Vertice vInfDer);
      Vertice getVerticeInfDer();
+     void setAreaDibujo(AreaDibujo *area);
 };
 
 #endif /* CONEXION_H_ */
