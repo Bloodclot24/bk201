@@ -1,13 +1,11 @@
 #include "CircuitoRemoto.h"
 
-DibujoCircuitoRemoto::DibujoCircuitoRemoto(VentanaTrabajo* ventanaTrabajo){
+DibujoCircuitoRemoto::DibujoCircuitoRemoto(VentanaTrabajo* ventanaTrabajo) {
 
   this->ventanaTrabajo = ventanaTrabajo;
 }
 
 bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
-
-  std::cout << "llamando expose event" << std::endl;
 
   //ventana de dibujo
   window= get_window();
@@ -17,7 +15,7 @@ bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
     width= allocation.get_width();
     height= allocation.get_height();
 
-    context= window->create_cairo_context();
+    Cairo::RefPtr<Cairo::Context> context= window->create_cairo_context();
     context->begin_new_path();
     context->set_line_width(10.0);
 
@@ -69,7 +67,7 @@ void DibujoCircuitoRemoto::redibujar() {
 }
 
 
-void DibujoCircuitoRemoto::agregarDibujos(std::list<Dibujo*> dibujos){
-	this->dibujos = dibujos;
-	this->redibujar();
+void DibujoCircuitoRemoto::agregarDibujos(std::list<Dibujo*> dibujos) {
+  this->dibujos = dibujos;
+  this->redibujar();
 }

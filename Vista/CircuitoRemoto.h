@@ -7,13 +7,11 @@ class DibujoCircuitoRemoto;
 #include <cairomm/context.h>
 #include <list>
 #include "VentanaTrabajo.h"
-#include "Dibujos/Vertice.h"
 
 class DibujoCircuitoRemoto: public Gtk::DrawingArea {
 
 private:
   VentanaTrabajo*               ventanaTrabajo;
-  Cairo::RefPtr<Cairo::Context> context;
   Glib::RefPtr<Gdk::Window>     window;
   std::list<Dibujo*>            dibujos;
   int                           width;
