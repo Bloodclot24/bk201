@@ -464,7 +464,7 @@ Ygounet Guido</property>
   </object>
   <object class="GtkImage" id="circuito_image">
     <property name="visible">True</property>
-    <property name="pixbuf">Imagenes/circuito.png</property>
+    <property name="pixbuf">Imagenes/circuitoNet.png</property>
   </object>
   <object class="GtkDialog" id="dialog_servidor">
     <property name="border_width">5</property>

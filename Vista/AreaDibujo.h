@@ -9,6 +9,7 @@ class AreaDibujo;
 #include <gtkmm/stock.h>
 #include <cairomm/context.h>
 #include <list>
+#include <vector>
 #include "VentanaTrabajo.h"
 #include "Dibujos/Dibujo.h"
 #include "Dibujos/Constantes.h"
@@ -38,10 +39,10 @@ private:
   std::list<Dibujo*>            dibujos;
   int                           width;
   int                           height;
+  Vertice                       vAnteriorMotion;
   bool                          motion;
   bool                          can_motion;
   bool                          seleccion;
-  Dibujo*                       seleccionado;
 
   void deseleccionar();
 
@@ -52,11 +53,12 @@ private:
   int                           nroPin1;
   Vertice                       vInicial;
 
-  /*MenuPopup*/
-  Gtk::Menu     *menuPopup;
-  Glib::RefPtr<Gtk::UIManager> m_refUIManager;
-  Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
-  Glib::RefPtr<Gtk::ActionGroup> verCircuitoMenu;
+  //MenuPopup
+  Gtk::Menu                             *menuPopup;
+  Glib::RefPtr<Gtk::UIManager>          m_refUIManager;
+  Glib::RefPtr<Gtk::ActionGroup>        verRotar;
+  Glib::RefPtr<Gtk::ActionGroup>        verBorrar;
+  Glib::RefPtr<Gtk::ActionGroup>        verExaminar;
   void loadMenuPopup();
 
   /*TARGETS*/
@@ -74,10 +76,21 @@ private:
   void eventoDobleClickBtnIzq(int x, int y);
 
   //Ventanas Propiedades
-  void prepararVentanaCompuerta();
-  void prepararVentanaConexion();
-  void prepararVentanaIO();
-  void prepararVentanaCircuito();
+  void prepararVentanaCompuerta(Dibujo *seleccionado);
+  void prepararVentanaConexion(Dibujo *seleccionado);
+  void prepararVentanaIO(Dibujo *seleccionado);
+  void prepararVentanaCircuito(Dibujo *seleccionado);
+
+  //Seleccion Multiple
+  bool                          can_selected;
+  bool                          selected;
+  bool                          dibujarSelected;
+  Vertice                       vInicialSelected;
+  int                           anchoSelected;
+  int                           altoSelected;
+  std::vector<Dibujo*>          dibujoSeleccionados;
+  void dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& context);
+  void cargarSeleccionMultiple();
 
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
@@ -93,8 +106,8 @@ protected:
   void dibujarIO(unsigned int xUp, unsigned int yUp);
 
   Dibujo* buscarDibujo(int x, int y);
-     Dibujo* buscarDibujoCercano(Dibujo *origen, int x, int y);
-     bool existeDibujo(Dibujo* d);
+  Dibujo* buscarDibujoCercano(Dibujo *origen, int x, int y);
+  bool existeDibujo(Dibujo* d);
 
 public:
   AreaDibujo(VentanaTrabajo *ventanaTrabajo);

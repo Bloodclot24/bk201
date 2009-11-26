@@ -23,6 +23,11 @@ AreaDibujo::AreaDibujo(VentanaTrabajo *ventanaTrabajo): menuPopup() {
   //Conexion
   conexion= false;
   cargoVInicial= false;
+
+  //seleccion multiple
+  can_selected= false;
+  selected= false;
+  dibujarSelected= false;
 }
 
 AreaDibujo::~AreaDibujo() {
@@ -36,23 +41,25 @@ AreaDibujo::~AreaDibujo() {
 void AreaDibujo::loadMenuPopup() {
 
   //crea las acciones del menu popup
-  m_refActionGroup= Gtk::ActionGroup::create();
-  verCircuitoMenu= Gtk::ActionGroup::create();
+  verRotar= Gtk::ActionGroup::create();
+  verBorrar= Gtk::ActionGroup::create();
+  verExaminar= Gtk::ActionGroup::create();
 
   //menu editar
-  m_refActionGroup->add(Gtk::Action::create("MenuEditar", "Menu Editar"));
-  m_refActionGroup->add(Gtk::Action::create("Rotar90D", Gtk::Stock::REDO,"Rotar 90"),
+  verRotar->add(Gtk::Action::create("MenuEditar", "Menu Editar"));
+  verRotar->add(Gtk::Action::create("Rotar90D", Gtk::Stock::REDO,"Rotar 90"),
                           sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Derecha));
-  m_refActionGroup->add(Gtk::Action::create("Rotar90I", Gtk::Stock::UNDO,"Rotar 90"),
+  verRotar->add(Gtk::Action::create("Rotar90I", Gtk::Stock::UNDO,"Rotar 90"),
                           sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Izquierda));
-  m_refActionGroup->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
+  verBorrar->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
                             sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
-  verCircuitoMenu->add(Gtk::Action::create("Examinar", Gtk::Stock::FIND, "Examinar..."),
+  verExaminar->add(Gtk::Action::create("Examinar", Gtk::Stock::FIND, "Examinar..."),
                             sigc::mem_fun(*this, &AreaDibujo::verCircuito));
 
   m_refUIManager = Gtk::UIManager::create();
-  m_refUIManager->insert_action_group(m_refActionGroup);
-  m_refUIManager->insert_action_group(verCircuitoMenu);
+  m_refUIManager->insert_action_group(verRotar);
+  m_refUIManager->insert_action_group(verExaminar);
+  m_refUIManager->insert_action_group(verBorrar);
 
   //Etiquetas
   Glib::ustring ui_info =
@@ -103,6 +110,8 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
       }
     }
     context->stroke();
+
+    dibujarSeleccionMultiple(context);
 
     std::list<Dibujo*>::iterator it;
     for(it= dibujos.begin(); it != dibujos.end(); it++) {
@@ -155,8 +164,10 @@ void AreaDibujo::agregarComponente(Dibujo* dibujo) {
   deseleccionar();
   dibujo->seleccionar();
   dibujos.push_back(dibujo);
-  seleccionado= dibujo;
+  dibujoSeleccionados.clear();
+  dibujoSeleccionados.push_back(dibujo);
   seleccion= true;
+  selected= false;
   redibujar();
 }
 
@@ -296,30 +307,39 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   //Evento boton derecho
   } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
-    if(menuPopup && seleccion) {
-      if(!seleccionado->getExaminar())
-        verCircuitoMenu->set_sensitive(false);
+    Dibujo *seleccionado= dibujoSeleccionados[0];
+    if(menuPopup && !dibujoSeleccionados.empty()) {
+      verRotar->set_sensitive(true);
+      if(!seleccionado->getExaminar() || dibujoSeleccionados.size() != 1)
+        verExaminar->set_sensitive(false);
       else
-        verCircuitoMenu->set_sensitive(true);
+        verExaminar->set_sensitive(true);
+      if(dibujoSeleccionados.size() != 1)
+        verRotar->set_sensitive(false);
       menuPopup->popup(event->button, event->time);
     }
     return true;
+
   } else
   return false;
 }
 
 void AreaDibujo::borrarSeleccion() {
 
-  if(seleccion && !motion) {
-    ventanaTrabajo->controladorVentana->eliminarComponente(seleccionado);
-    dibujos.remove(seleccionado);
+  if(!dibujoSeleccionados.empty() && !motion) {
     seleccion= false;
+    for(unsigned int i=0; i<dibujoSeleccionados.size(); i++) {
+      ventanaTrabajo->controladorVentana->eliminarComponente(dibujoSeleccionados[i]);
+      dibujos.remove(dibujoSeleccionados[i]);
+    }
+    selected= false;
     redibujar();
   }
 }
 
 void AreaDibujo::rotarSeleccion90Derecha() {
 
+  Dibujo *seleccionado= dibujoSeleccionados[0];
   if(seleccion && !motion) {
     seleccionado->setAngulo(90);
     redibujar();
@@ -328,6 +348,7 @@ void AreaDibujo::rotarSeleccion90Derecha() {
 
 void AreaDibujo::rotarSeleccion90Izquierda() {
 
+  Dibujo *seleccionado= dibujoSeleccionados[0];
   if(seleccion && !motion) {
     seleccionado->setAngulo(-90);
     redibujar();
@@ -346,12 +367,27 @@ bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
   if(can_motion && event->type == GDK_MOTION_NOTIFY) {
     motion= true;
     seleccion= false;
-    seleccionado->deseleccionar();
-    Vertice vSupIzq;
-    vSupIzq.x= event->x;
-    vSupIzq.y= event->y;
-    buscarPosicion(vSupIzq.x, vSupIzq.y);
-    seleccionado->setVerticeSupIzq(vSupIzq);
+    selected= false;
+    deseleccionar();
+
+    for(unsigned int i=0; i<dibujoSeleccionados.size(); i++) {
+      Vertice vSupIzq= dibujoSeleccionados[i]->getVerticeSupIzq();
+      int delta= event->x - vAnteriorMotion.x;
+      vSupIzq.x= vSupIzq.x + delta;
+      delta= event->y - vAnteriorMotion.y;
+      vSupIzq.y= vSupIzq.y + delta;
+      dibujoSeleccionados[i]->setVerticeSupIzq(vSupIzq);
+    }
+    vAnteriorMotion.x= event->x;
+    vAnteriorMotion.y= event->y;
+    redibujar();
+    return true;
+
+  } else if(can_selected && event->type == GDK_MOTION_NOTIFY) {
+    anchoSelected= event->x - vInicialSelected.x;
+    altoSelected= event->y - vInicialSelected.y;
+    selected= true;
+    dibujarSelected= true;
     redibujar();
     return true;
   } else
@@ -360,15 +396,31 @@ bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
 
 bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 
-  if(event->button == 1) {
+  if(event->button == 1 && can_motion) {
     can_motion= false;
 
     if(motion) {
       motion= false;
       seleccion= true;
-      seleccionado->seleccionar();
+      Vertice v;
+      for(unsigned int i=0; i<dibujoSeleccionados.size(); i++) {
+        dibujoSeleccionados[i]->seleccionar();
+        v= dibujoSeleccionados[i]->getVerticeSupIzq();
+        buscarPosicion(v.x, v.y);
+        dibujoSeleccionados[i]->setVerticeSupIzq(v);
+        dibujarSelected= false;
+        selected= true;
+      }
       redibujar();
     }
+    return true;
+
+  } else if(event->button == 1 && can_selected) {
+    can_selected= false;
+    selected= true;
+    dibujarSelected= false;
+    cargarSeleccionMultiple();
+    redibujar();
     return true;
 
   } else
@@ -379,7 +431,7 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 
   if(conexion) {
-     //obtengo el dibujo sobre el que se hizo click
+    //obtengo el dibujo sobre el que se hizo click
     Dibujo *dibujo= buscarDibujo(x, y);
 
     //obtengo el pin mas cercano
@@ -421,14 +473,33 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
   } else {
 
     deseleccionar();
-    seleccionado= buscarDibujo(x, y);
+    if(!selected)
+      dibujoSeleccionados.clear();
+    Dibujo *dibujo=buscarDibujo(x, y);
+    if(dibujo && dibujoSeleccionados.empty())
+      dibujoSeleccionados.push_back(dibujo);
+    if(!dibujo)
+      dibujoSeleccionados.clear();
 
-    if(!seleccionado) {
+    if(dibujoSeleccionados.empty()) {
+      //Preparo la seleccion
+      vInicialSelected.x= x;
+      vInicialSelected.y= y;
+      anchoSelected= 0;
+      altoSelected= 0;
+      can_selected= true;
+      selected= false;
       can_motion= false;
       seleccion= false;
     } else {
+      if(dibujoSeleccionados.size() == 1) {
+        can_selected= false;
+        selected= false;
+      }
       seleccion= true;
       can_motion= true;
+      vAnteriorMotion.x= x;
+      vAnteriorMotion.y= y;
     }
 
     redibujar();
@@ -441,23 +512,24 @@ void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
 
   //busco el elemento sobre el que se hizo doble click y
   //muestro sus propiedades segun el tipo de componente
+  Dibujo *seleccionado= dibujoSeleccionados[0];
   seleccionado= buscarDibujo(x, y);
   if(seleccionado) {
     std::string tipo= seleccionado->getTipo();
     can_motion= false;
 
-    if((tipo.compare(AND)) == 0)
-      prepararVentanaCompuerta();
+    if((tipo.compare(COMPUERTA)) == 0)
+      prepararVentanaCompuerta(seleccionado);
     else if((tipo.compare(CONEXION)) == 0)
-      prepararVentanaConexion();
+      prepararVentanaConexion(seleccionado);
     else if((tipo.compare(IO)) == 0)
-      prepararVentanaIO();
+      prepararVentanaIO(seleccionado);
     else if((tipo.compare(CIRCUITO)) == 0)
-      prepararVentanaCircuito();
+      prepararVentanaCircuito(seleccionado);
   }
 }
 
-void AreaDibujo::prepararVentanaCompuerta() {
+void AreaDibujo::prepararVentanaCompuerta(Dibujo *seleccionado) {
 
   Compuerta *compuerta= dynamic_cast<Compuerta*>(seleccionado);
   std::string label= compuerta->getLabel();
@@ -471,7 +543,7 @@ void AreaDibujo::prepararVentanaCompuerta() {
   ventanaTrabajo->dialog_prop_compuerta->show();
 }
 
-void AreaDibujo::prepararVentanaConexion() {
+void AreaDibujo::prepararVentanaConexion(Dibujo *seleccionado) {
 
   std::string label= seleccionado->getLabel();
   Gtk::Entry *entry;
@@ -481,7 +553,7 @@ void AreaDibujo::prepararVentanaConexion() {
   ventanaTrabajo->dialog_prop_conexion->show();
 }
 
-void AreaDibujo::prepararVentanaIO() {
+void AreaDibujo::prepararVentanaIO(Dibujo *seleccionado) {
 
   EntradaSalida *io= dynamic_cast<EntradaSalida*>(seleccionado);
   std::string label= io->getLabel();
@@ -501,7 +573,7 @@ void AreaDibujo::prepararVentanaIO() {
   ventanaTrabajo->dialog_prop_io->show();
 }
 
-void AreaDibujo::prepararVentanaCircuito() {
+void AreaDibujo::prepararVentanaCircuito(Dibujo *seleccionado) {
 
   CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(seleccionado);
   std::string label= circuito->getLabel();
@@ -521,4 +593,37 @@ void AreaDibujo::prepararVentanaCircuito() {
 void AreaDibujo::agregarDibujo(Dibujo *dibujo) {
 
   agregarComponente(dibujo);
+}
+
+
+void AreaDibujo::dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& context) {
+
+  if(dibujarSelected) {
+    context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
+    context->rectangle(vInicialSelected.x, vInicialSelected.y, anchoSelected, altoSelected);
+    context->set_source_rgba(0, 0, 1, 0.2);
+    context->fill_preserve();
+    context->set_source_rgba (0, 0, 0, 0.5);
+    context->stroke();
+  }
+}
+
+void AreaDibujo::cargarSeleccionMultiple() {
+
+  std::cout << "Carga seleccion multiple" << std::endl;
+  dibujoSeleccionados.clear();
+
+  std::list<Dibujo*>::iterator it;
+  for(it= dibujos.begin(); it != dibujos.end(); it++) {
+    Vertice vSupIzq= (*it)->getVerticeSupIzq();
+
+    if((vSupIzq.x >= vInicialSelected.x && vSupIzq.x <= vInicialSelected.x+anchoSelected) && (vSupIzq.y >= vInicialSelected.y && vSupIzq.y <= vInicialSelected.y+altoSelected)) {
+      dibujoSeleccionados.push_back(*it);
+      (*it)->seleccionar();
+      std::cout << "Agregue tipo: " << (*it)->getTipo() << std::endl;
+    }
+  }
+
+  std::cout << "==================================" << std::endl;
+
 }
