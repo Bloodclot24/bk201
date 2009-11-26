@@ -9,13 +9,13 @@
 
 class Impresora : public Gtk::PrintOperation
 {
-//	friend class Tabla;
+	friend class Tabla;
 private:
 	std::list<Dibujo*> dibujos;
 	Tabla* tabla;
 	
 public:
-	Impresora(std::list<Dibujo*> dibujos, Tabla* Tabla);
+	Impresora(std::list<Dibujo*> dibujos, Tabla* tabla);
 	static Glib::RefPtr<Impresora> create(std::list<Dibujo*> dibujos, Tabla* tabla);
 
 protected:
