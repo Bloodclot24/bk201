@@ -33,6 +33,7 @@ public:
   virtual ~CircuitoDibujo() { };
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
+     void setEntradasSalidas(int entradas, int salidas);
 
   /**
     * Se dibuja el circuito en el contexto dado por parametro.
