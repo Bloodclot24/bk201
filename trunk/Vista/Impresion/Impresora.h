@@ -2,6 +2,7 @@
 #define IMPRESORA_H_
 
 #include <gtkmm.h>
+#include <gtkmm/printsettings.h>
 #include <vector>
 #include <list>
 #include "../Tabla.h"
