@@ -4,31 +4,35 @@ CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salid
 
   tipo= CIRCUITO;
   label= "Circuito";
-  this->entradas= entradas;
-  this->salidas= salidas;
-
-  int mayor;
-  if(entradas > salidas) {
-    mayor= entradas;
-    pasoEntrada= 10;
-    pasoSalida= pasoPinesMenor(entradas, salidas);
-  } else if(entradas < salidas) {
-    mayor= salidas;
-    pasoSalida= 10;
-    pasoEntrada= pasoPinesMenor(salidas, entradas);
-  } else if(entradas == salidas) {
-    mayor= salidas;
-    pasoEntrada= pasoSalida= 10;
-  }
-
-  ancho= alto= mayor*SEPARACION+10;
-
   vCentro.x= supIzqX + (ancho/2);
   vCentro.y= supIzqY + (alto/2);
 
-  cargarNuevosPines(vSupIzq);
+  setEntradasSalidas(entradas, salidas);
 
   examinar= true;
+}
+
+void CircuitoDibujo::setEntradasSalidas(int entradas, int salidas){
+     this->entradas= entradas;
+     this->salidas= salidas;
+     
+     int mayor;
+     if(entradas > salidas) {
+	  mayor= entradas;
+	  pasoEntrada= 10;
+	  pasoSalida= pasoPinesMenor(entradas, salidas);
+     } else if(entradas < salidas) {
+	  mayor= salidas;
+	  pasoSalida= 10;
+	  pasoEntrada= pasoPinesMenor(salidas, entradas);
+     } else if(entradas == salidas) {
+	  mayor= salidas;
+	  pasoEntrada= pasoSalida= 10;
+     }
+     
+     ancho= alto= mayor*SEPARACION+10;
+          
+     cargarNuevosPines(vSupIzq);
 }
 
 int CircuitoDibujo::pasoPinesMenor(int mayor, int menor) {

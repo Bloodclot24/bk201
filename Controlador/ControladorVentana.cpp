@@ -172,6 +172,7 @@ void ControladorVentana::obtenerListaServidor(const std::string& servidor, int p
      ThreadListado *listado = new ThreadListado(*this,servidor, puerto);
      listado->run();
 }
+
 void ControladorVentana::obtenerCircuitoServidor(const std::string& nombre, const std::string& servidor, int puerto){
      ThreadObtenerCircuito *obtener = new ThreadObtenerCircuito(*this,nombre, servidor, puerto);
      obtener->run();

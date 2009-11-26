@@ -45,8 +45,7 @@ public:
 				  
 		    //Creo el archivo, establezco la raiz con sus propiedades
 		    Xml xml("Circuito");
-		    xml.getRaiz()->setPropiedad("entradas",Util::intToString(c->circuito.cantidadEntradas).c_str());
-		    xml.getRaiz()->setPropiedad("salidas",Util::intToString(c->circuito.cantidadSalidas).c_str());
+		    int entradas=0,salidas=0;
 
 		    //Serializo las compuertas del circuito
 		    std::map<Dibujo*, DatosCompuerta*>::iterator it = c->compuertas.begin();
@@ -78,6 +77,8 @@ public:
 			      componente.setPropiedad("label",dcr->c->getLabel().c_str());
 			      componente.setPropiedad("servidor", dcr->c->getServidor().c_str());
 			      componente.setPropiedad("puerto", dcr->c->getPuerto().c_str());
+			      componente.setPropiedad("cantidadEntradas", Util::intToString(dcr->cantidadEntradas).c_str());
+			      componente.setPropiedad("cantidadSalidas", Util::intToString(dcr->cantidadSalidas).c_str());
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
@@ -94,6 +95,9 @@ public:
 			      componente.setPropiedad("alfa", Util::intToString(es->getAngulo()).c_str());
 			      componente.setPropiedad("label",es->getLabel().c_str());
 			      componente.setPropiedad("tipoPin",es->getTipoPin().c_str());
+			      if(es->getTipoPin().compare("IN") == 0)
+				   entradas++;
+			      else salidas++;
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
@@ -114,6 +118,9 @@ public:
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
+
+		    xml.getRaiz()->setPropiedad("entradas",Util::intToString(entradas).c_str());
+		    xml.getRaiz()->setPropiedad("salidas",Util::intToString(salidas).c_str());
 
 		    std::string *resultado=xml.toString();
 		    /* escribo el XML a disco */
@@ -184,8 +191,12 @@ public:
 		    if(componente.getNombre().compare("CircuitoRemoto")==0){
 			 DatosCircuitoRemoto* dcr = c->cargarCircuito();
 			 Vertice v;
+			 int entradas=0, salidas=0;
 			 v.x = atoi(componente.getPropiedad("x").c_str());
 			 v.y = atoi(componente.getPropiedad("y").c_str());
+			 entradas = atoi(componente.getPropiedad("cantidadEntradas").c_str());
+			 salidas = atoi(componente.getPropiedad("cantidadSalidas").c_str());
+			 dcr->c->setEntradasSalidas(entradas,salidas);
 			 dcr->c->setVerticeSupIzq(v);
 			 dcr->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
 			 dcr->c->setLabel(componente.getPropiedad("label"));
