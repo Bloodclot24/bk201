@@ -270,6 +270,17 @@ Dibujo* AreaDibujo::buscarDibujoCercano(Dibujo *origen, int x, int y) {
   return *it;
 }
 
+bool AreaDibujo::existeDibujo(Dibujo* d){
+     std::list<Dibujo*>::iterator it;
+     bool encontrado= false;
+
+     for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
+	  encontrado= (*it) == d;
+     }
+
+     return encontrado;
+}
+
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   //Evento click boton izquierdo

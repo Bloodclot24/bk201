@@ -94,6 +94,7 @@ protected:
 
   Dibujo* buscarDibujo(int x, int y);
      Dibujo* buscarDibujoCercano(Dibujo *origen, int x, int y);
+     bool existeDibujo(Dibujo* d);
 
 public:
   AreaDibujo(VentanaTrabajo *ventanaTrabajo);

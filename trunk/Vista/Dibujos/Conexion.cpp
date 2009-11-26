@@ -55,13 +55,17 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //busco cambios en la ubicacion de los pines a los que
   //estoy unido
 
-  if(dibujoPin1) {
+     if(areaDibujo->existeDibujo(dibujoPin1)) {
 
-       vSupIzq= dibujoPin1->obtenerPin(nroPin1);
-  }
-  if(dibujoPin2) {
-    vFinal= dibujoPin2->obtenerPin(nroPin2);
-  }
+	  vSupIzq= dibujoPin1->obtenerPin(nroPin1);
+     }
+     else
+	  dibujoPin1=NULL;
+     if(areaDibujo->existeDibujo(dibujoPin2)) {
+	  vFinal= dibujoPin2->obtenerPin(nroPin2);
+     }
+     else
+	  dibujoPin2=NULL;
   calcularAtributos(context);
   //regenero las trayectorias
   generarPoligonos(context);
