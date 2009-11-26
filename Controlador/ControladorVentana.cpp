@@ -24,7 +24,6 @@ void ControladorVentana::crearComponente(Compuerta* d, const std::string& tipo){
      DatosCompuerta *D = new DatosCompuerta;
      D->tipo = tipo;
      D->c = d;
-     D->tr=10;
 
      if(tipo.compare(TIPO_COMPUERTA_AND)==0){
 	  D->g = new GateAnd();
@@ -54,12 +53,15 @@ void ControladorVentana::crearComponente(CircuitoDibujo* d){
      D->cantidadEntradas = D->cantidadSalidas = 1;
      //D->cr = new CircuitoRemoto(D->servidor, D->puerto, D->nombre);
      D->c = d;
-     D->puerto = 0;
      circuitos[d] = D;
 }
 
 void ControladorVentana::crearComponente(ConexionDibujo* d){
      pistas[d] = d;
+}
+
+void ControladorVentana::crearComponente(EntradaSalida* d){
+     pines[d] = d;
 }
 
 DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
@@ -76,7 +78,6 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
      DatosCompuerta* dc = new DatosCompuerta;
 
      dc->tipo = tipo;
-     dc->tr = 10;
      std::cout << "cargo compuerta " << tipo << std::endl;
      if(tipo.compare(TIPO_COMPUERTA_AND)==0){
 	  dc->g = new GateAnd();
@@ -105,7 +106,6 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
      }
      
      if(dc != NULL){
-	  dc->c->setTiempoT("10");
 	  compuertas[dc->c] = dc;
 	  if(ventana)
 	       ventana->agregarDibujo(dc->c);
@@ -123,6 +123,14 @@ ConexionDibujo* ControladorVentana::cargarConexion(){
      return d;
 }
 
+EntradaSalida* ControladorVentana::cargarEntradaSalida(){
+     EntradaSalida* es = new EntradaSalida(0,0);
+     pines[es] = es;
+     if(ventana)
+	  ventana->agregarDibujo(es);
+     return es;
+}
+
 void ControladorVentana::eliminarComponente(Dibujo* d){
      if(compuertas[d] != NULL){
 	  delete compuertas[d]->g;
@@ -138,10 +146,10 @@ void ControladorVentana::eliminarComponente(Dibujo* d){
      	  delete pistas[d];
      	  pistas[d] = NULL;
      }
-     // else if(pines[d] != NULL){
-     // 	  delete pines[d];
-     // 	  pines[d] = NULL;
-     // }
+     else if(pines[d] != NULL){
+     	  delete pines[d];
+     	  pines[d] = NULL;
+     }
 }
 
 void ControladorVentana::simular(){

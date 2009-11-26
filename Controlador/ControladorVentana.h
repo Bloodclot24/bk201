@@ -16,6 +16,7 @@ struct DescripcionCircuito;
 #include "../Gates/Gate.h"
 #include "../Circuito/CircuitoRemoto.h"
 #include "../Vista/Dibujos/Conexion.h"
+#include "../Vista/Dibujos/EntradaSalida.h"
 
 
 
@@ -29,18 +30,12 @@ struct DatosCircuito{
 struct DatosCircuitoRemoto{
      CircuitoRemoto *cr;
      CircuitoDibujo *c;
-     std::string nombre;
-     std::string servidor;
-     int puerto;
-     std::string label;
      int cantidadEntradas, cantidadSalidas;
 };
 
 struct DatosCompuerta{
      Gate* g;
      Compuerta *c;
-     uint64_t tr;
-     std::string label;
      std::string tipo;
 };
 
@@ -66,7 +61,7 @@ protected:
      std::map<Dibujo*, DatosCompuerta*> compuertas;
      std::map<Dibujo*, DatosCircuitoRemoto*> circuitos;
      std::map<Dibujo*, ConexionDibujo*> pistas;
-//     std::map<Dibujo*, DatosPin*> pines;
+     std::map<Dibujo*, EntradaSalida*> pines;
 
      /** 
       * Avisa que se crea un nuevo circuito remoto y devuelve la
@@ -86,6 +81,8 @@ protected:
      DatosCompuerta* cargarCompuerta(const std::string& tipo);
 
      ConexionDibujo* cargarConexion();
+
+     EntradaSalida* cargarEntradaSalida();
 
      friend class Persistidor;
 
@@ -122,6 +119,7 @@ public:
      void crearComponente(CircuitoDibujo* d);
 
      void crearComponente(ConexionDibujo* d);
+     void crearComponente(EntradaSalida* d);
 
      /** 
       * Metodo que indica que se elimino un componente del circuito.

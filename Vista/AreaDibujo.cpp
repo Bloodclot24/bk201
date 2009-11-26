@@ -189,12 +189,14 @@ void AreaDibujo::dibujarConexion() {
 void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 
   EntradaSalida *entradaSalida= new EntradaSalida(xUp, yUp);
+  ventanaTrabajo->controladorVentana->crearComponente(entradaSalida);
   agregarComponente(entradaSalida);
 }
 
 void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
 
   CircuitoDibujo *circuito= new CircuitoDibujo(xCircuito, yCircuito, entradas, salidas);
+  ventanaTrabajo->controladorVentana->crearComponente(circuito);
   agregarComponente(circuito);
 }
 
