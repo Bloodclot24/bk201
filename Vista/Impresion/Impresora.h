@@ -9,10 +9,10 @@
 
 class Impresora : public Gtk::PrintOperation
 {
+//	friend class Tabla;
 private:
 	std::list<Dibujo*> dibujos;
 	Tabla* tabla;
-	bool circuito;	
 	
 public:
 	Impresora(std::list<Dibujo*> dibujos, Tabla* Tabla);
@@ -21,6 +21,7 @@ public:
 protected:
 	virtual void on_begin_print(const Glib::RefPtr<Gtk::PrintContext>& context);
 	virtual void on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& context, int numeroPagina);
+	//friend Tabla::dibujarTabla(void dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context);
 };
 
 
