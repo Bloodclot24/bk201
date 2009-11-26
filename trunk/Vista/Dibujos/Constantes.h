@@ -4,6 +4,7 @@
 /**
   * Constante varias para el dibujo de los componentes.
   */
+#define COMPUERTA "Compuerta"
 #define AND "And"
 #define OR "Or"
 #define NOT "Not"

@@ -463,7 +463,7 @@ void VentanaTrabajo::on_propiedades_compuerta(int response_id) {
 
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
-      Compuerta *compuerta= dynamic_cast<Compuerta*>(areaDibujo->seleccionado);
+      Compuerta *compuerta= dynamic_cast<Compuerta*>(areaDibujo->dibujoSeleccionados[0]);
       Gtk::Entry *entry;
       refXml->get_widget("entry_label_prop_compuertas", entry);
       Glib::ustring label= entry->get_text();
@@ -488,7 +488,7 @@ void VentanaTrabajo::on_propiedades_conexion(int response_id) {
       Gtk::Entry *entry;
       refXml->get_widget("entry_label_prop_conexion", entry);
       Glib::ustring label= entry->get_text();
-      areaDibujo->seleccionado->setLabel(label);
+      areaDibujo->dibujoSeleccionados[0]->setLabel(label);
       dialog_prop_conexion->hide();
       areaDibujo->redibujar();
     }
@@ -503,7 +503,7 @@ void VentanaTrabajo::on_propiedades_io(int response_id) {
 
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
-      EntradaSalida *io= dynamic_cast<EntradaSalida*>(areaDibujo->seleccionado);
+      EntradaSalida *io= dynamic_cast<EntradaSalida*>(areaDibujo->dibujoSeleccionados[0]);
       Gtk::Entry *entry;
       refXml->get_widget("entry_label_prop_io", entry);
       Glib::ustring label= entry->get_text();
@@ -530,7 +530,7 @@ void VentanaTrabajo::on_propiedades_circuito(int response_id) {
 
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
-      CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(areaDibujo->seleccionado);
+      CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(areaDibujo->dibujoSeleccionados[0]);
       Gtk::Entry *entry;
       refXml->get_widget("entry_label_prop_circuito", entry);
       Glib::ustring label= entry->get_text();
