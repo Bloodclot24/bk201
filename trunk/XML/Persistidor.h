@@ -75,13 +75,29 @@ public:
 			      componente.setPropiedad("x",Util::intToString(dcr->c->getVerticeSupIzq().x).c_str());
 			      componente.setPropiedad("y",Util::intToString(dcr->c->getVerticeSupIzq().y).c_str());
 			      componente.setPropiedad("alfa", Util::intToString(dcr->c->getAngulo()).c_str());
-			      componente.setPropiedad("label",dcr->label.c_str());
-			      componente.setPropiedad("servidor", dcr->servidor.c_str());
-			      componente.setPropiedad("puerto", Util::intToString(dcr->puerto).c_str());
-			      componente.setPropiedad("nombre", dcr->nombre.c_str());
+			      componente.setPropiedad("label",dcr->c->getLabel().c_str());
+			      componente.setPropiedad("servidor", dcr->c->getServidor().c_str());
+			      componente.setPropiedad("puerto", dcr->c->getPuerto().c_str());
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
+
+		    //Serializo los pines
+		    std::map<Dibujo*, EntradaSalida*>::iterator it4 = c->pines.begin();
+		    for(;it4 != c->pines.end(); it4++){
+			 EntradaSalida * es = (*it4).second;
+			 if(es != NULL){
+			      XmlNodo componente("EntradaSalida");
+			      //guardo el tipo de componente
+			      componente.setPropiedad("x",Util::intToString(es->getVerticeSupIzq().x).c_str());
+			      componente.setPropiedad("y",Util::intToString(es->getVerticeSupIzq().y).c_str());
+			      componente.setPropiedad("alfa", Util::intToString(es->getAngulo()).c_str());
+			      componente.setPropiedad("label",es->getLabel().c_str());
+			      componente.setPropiedad("tipoPin",es->getTipoPin().c_str());
+			      xml.getRaiz()->agregarHijo(componente);
+			 }
+		    }
+
 		    //Serializo las conexiones
 		    std::map<Dibujo*, ConexionDibujo*>::iterator it3 = c->pistas.begin();
 		    for(;it3 != c->pistas.end(); it3++){
@@ -186,6 +202,17 @@ public:
 			 pista->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
 			 pista->setLabel(componente.getPropiedad("label"));
 		    }
+		    if(componente.getNombre().compare("EntradaSalida")==0){
+			 EntradaSalida *pin = c->cargarEntradaSalida();
+			 Vertice v;
+			 v.x = atoi(componente.getPropiedad("x").c_str());
+			 v.y = atoi(componente.getPropiedad("y").c_str());
+			 pin->setVerticeSupIzq(v);
+			 pin->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
+			 pin->setLabel(componente.getPropiedad("label"));
+			 pin->setTipoPin(componente.getPropiedad("tipoPin"));
+		    }
+
 		    componente = componente.obtenerHermano();
 	       }
 	       xml.liberar();
