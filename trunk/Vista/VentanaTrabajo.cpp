@@ -86,6 +86,10 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("messagedialog_error_servidor", messagedialog_error_servidor);
   messagedialog_error_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_servidor));
 
+  refXml->get_widget("dialog_lista_circuitos", dialog_lista_circuitos);
+  dialog_lista_circuitos->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_lista_circuitos));
+
+
   //Treeview Circuitos
   Glib::RefPtr<Glib::Object> obj_treeView_circuitos= refXml->get_object("treeview_circuitos");
   treeView_circuitos= Glib::RefPtr<Gtk::TreeView>::cast_static(obj_treeView_circuitos);
