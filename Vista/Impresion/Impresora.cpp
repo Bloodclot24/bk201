@@ -27,8 +27,8 @@ void Impresora::on_begin_print(
 
 void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPaginas)
 {
-//	const double width = print_context->get_width();
-//	const double height = print_context->get_height();
+	const double width = print_context->get_width();
+	const double height = print_context->get_height();
 //	const double x_step = width/100.0;
 //	const double y_step = height/100.0;
 	if(!tabla && !dibujos.size()){ 
@@ -39,6 +39,34 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();
 	cairo_ctx->set_line_width(1);
 	cairo_ctx->set_source_rgb(1.0, 0, 0);
+	Glib::RefPtr<Gtk::PrintSettings> printSettings = get_print_settings();//Gtk::PrintSettings::create();
+	double widthPaper = printSettings->get_paper_width(Gtk::UNIT_POINTS);
+	double heightPaper = printSettings->get_paper_height(Gtk::UNIT_POINTS);
+	double scaleW = 0.0;
+	double scaleH = 0.0;
+	double scale = 0.0;
+
+	if(width > widthPaper) scaleW = width / widthPaper;
+	if(height > heightPaper) scaleH = height / heightPaper;
+
+	std::cout << "width!!! : " << width << std::endl;
+	std::cout << "height!!! : " << height << std::endl;
+
+	std::cout << "widthP!!! : " << widthPaper << std::endl;
+	std::cout << "heightP!!! : " << heightPaper << std::endl;
+
+
+
+	if(scaleW || scaleH){
+	  if (scaleW > scaleH) scale = scaleW;
+	  else scale = scaleH;
+	  std::cout << "Escalo!!! : " << (double)100.0/scale << std::endl;
+	  std::cout << "SH!!! : " << scaleH << std::endl;
+	  std::cout << "SW!!! : " << scaleW << std::endl;
+	  printSettings->set_scale(100.0/scale);
+	  set_print_settings(printSettings);
+	}
+
 	if(dibujos.size()){
 	//TODO Ver Manejo Del Flag, si lo pongo funciona solo a veces
 	//if(circuito){
@@ -62,80 +90,6 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 		//Ver si hago Impresora clase friend de tabla o hacemos publico el metodo
 		//AMIGAAAAA:P
 		tabla->dibujarTabla(cairo_ctx);
-//		if(tabla->entradas != 0 && tabla->salidas != 0) {
-//
-//		    tabla->ancho= (tabla->entradas+tabla->salidas+1)*TAMANIO+15;
-//		    tabla->alto= ((tabla->lista.size()/(tabla->entradas+tabla->salidas+1))+2)*TAMANIO;
-//		
-//		    cairo_ctx->set_source_rgb(0.0, 0.0, 1.0);
-//		    cairo_ctx->set_line_width(1);
-//		    //lineas horizontales
-//		    for(int j= INICIO_TABLA; j<=(tabla->alto+INICIO_TABLA); j+=TAMANIO) {
-//		          cairo_ctx->move_to(INICIO_TABLA, j);
-//		          cairo_ctx->line_to(tabla->ancho+INICIO_TABLA, j);
-//		    }
-//		
-//		    //lineas verticales
-//		    int contador= 0;
-//		    for(int i= INICIO_TABLA; i<=(tabla->ancho+INICIO_TABLA); i+=TAMANIO) {
-//		      if(contador == (tabla->entradas+tabla->salidas+1))
-//		        i= i+15;
-//		      cairo_ctx->move_to(i, INICIO_TABLA);
-//		      cairo_ctx->line_to(i, tabla->alto+INICIO_TABLA);
-//		      contador++;
-//		     }
-//		
-//		    cairo_ctx->select_font_face("Sans", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL);
-//		    cairo_ctx->set_font_size(12);
-//		
-//		    //indicador
-//		    int x= INICIO_TABLA+12;
-//		    cairo_ctx->move_to(x, TAMANIO-5);
-//		    cairo_ctx->show_text("IN");
-//		    x= x + tabla->entradas*TAMANIO - 5;
-//		    cairo_ctx->move_to(x, TAMANIO-5);
-//		    cairo_ctx->show_text("OUT");
-//		    x= x + tabla->salidas*TAMANIO + 5;
-//		    cairo_ctx->move_to(x, TAMANIO-5);
-//		    cairo_ctx->show_text("Time");
-//		
-//		    cairo_ctx->set_source_rgb(1.0, 0.0, 0.0);
-//		    //titulos
-//		    contador= 0;
-//		    int dec= 65;
-//		    std::string str;
-//		    for(int i= INICIO_TABLA+15; i<=tabla->ancho; i+=TAMANIO) {
-//		      str= (char)dec;
-//		      if(contador == (tabla->entradas+tabla->salidas)) {
-//		        i= i-5;
-//		        str= "T [ns]";
-//		      }
-//		      cairo_ctx->move_to(i, 2*TAMANIO-5);
-//		      cairo_ctx->show_text(str);
-//		      contador++;
-//		      dec++;
-//		    }
-//		
-//		    cairo_ctx->set_source_rgb(0.0, 0.0, 0.0);
-//		    //datos
-//		    contador= 0;
-//		    std::list<uint32_t>::iterator it= tabla->lista.begin();
-//		    for(int j= 3*TAMANIO-5; j<=(tabla->alto+INICIO_TABLA); j+=TAMANIO) {
-//		      for(int i= INICIO_TABLA+15; i<=tabla->ancho; i+=TAMANIO) {
-//		        if(contador == (tabla->entradas+tabla->salidas)) {
-//		          i= i+8;
-//		          contador= 0;
-//		        } else
-//		          contador++;
-//		        cairo_ctx->move_to(i, j);
-//		        cairo_ctx->show_text(Util::intToString(*it));
-//		        it++;
-//		      }
-//		    }
-//		
-//		    cairo_ctx->stroke();
-//		  
-//		//	}	
-//		}	
+
 	}
 }
