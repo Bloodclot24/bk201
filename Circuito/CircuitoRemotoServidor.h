@@ -61,8 +61,7 @@ public:
 	  server = serv;
      }
 
-     //TODO: agregue las llaves para q compile
-     void run() {};
+     void run();
 };
 
 #endif //__CIRCUITO_REMOTO_SERVIDOR__
