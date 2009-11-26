@@ -2,15 +2,19 @@
 #include <string>
 #include <iostream>
 
-Impresora::Impresora(std::list<Dibujo*> dibujos, Tabla* Tabla)
+Impresora::Impresora(std::list<Dibujo*> dibujos, Tabla* tabla)
 {
 	this->dibujos = dibujos;
+	std::cout << "Tabla: (impresora) " << tabla << std::endl;
+	std::cout << "Dibujo (impresora): " << &dibujos << std::endl;
 	this->tabla = tabla;
 }
 	
 
 Glib::RefPtr<Impresora> Impresora::create(std::list<Dibujo*> dibujos, Tabla* tabla)
 {
+	std::cout << "Tabla (create): " << tabla << std::endl;
+	std::cout << "Dibujo (create): " << &dibujos << std::endl;
 	return Glib::RefPtr<Impresora>(new Impresora(dibujos, tabla));
 }
 
@@ -57,7 +61,7 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 		//TODO: 
 		//Ver si hago Impresora clase friend de tabla o hacemos publico el metodo
 		//AMIGAAAAA:P
-		//tabla->dibujarTabla(cairo_ctx);
+		tabla->dibujarTabla(cairo_ctx);
 //		if(tabla->entradas != 0 && tabla->salidas != 0) {
 //
 //		    tabla->ancho= (tabla->entradas+tabla->salidas+1)*TAMANIO+15;

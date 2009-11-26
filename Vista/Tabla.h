@@ -15,7 +15,7 @@ class Tabla;
 
 class Tabla: public Gtk::DrawingArea {
   friend class VentanaTrabajo;
-
+  friend class Impresora;
 private:
   VentanaTrabajo                *ventanaTrabajo;
   Glib::RefPtr<Gdk::Window>     window;
@@ -32,6 +32,7 @@ protected:
 
 public:
   Tabla(VentanaTrabajo *ventanaTrabajo);
+  Tabla(const Tabla& Tabla){ };
   virtual ~Tabla() { };
   void setCantEntradas(int entradas);
   void setCantSalidas(int salidas);
