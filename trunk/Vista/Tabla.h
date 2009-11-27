@@ -12,7 +12,6 @@ class Tabla;
 #define INICIO_TABLA 10
 #define TAMANIO 40
 
-
 class Tabla: public Gtk::DrawingArea {
   friend class VentanaTrabajo;
   friend class Impresora;
@@ -32,7 +31,7 @@ protected:
 
 public:
   Tabla(VentanaTrabajo *ventanaTrabajo);
-  Tabla(const Tabla& Tabla){ };
+  Tabla(const Tabla& Tabla) { };
   virtual ~Tabla() { };
   void setCantEntradas(int entradas);
   void setCantSalidas(int salidas);

@@ -80,7 +80,6 @@ bool Tabla::on_expose_event(GdkEventExpose* event) {
 }
 
 void Tabla::redibujar() {
-
   //fuerzo al redibujado
   if(window) {
     Gdk::Rectangle r(0, 0, get_allocation().get_width(),
