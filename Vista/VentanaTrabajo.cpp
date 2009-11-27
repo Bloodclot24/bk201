@@ -121,7 +121,8 @@ void VentanaTrabajo::correr(bool primeraVez) {
 void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
 
   //crea las acciones del menu bar
-  m_refActionGroup = Gtk::ActionGroup::create();
+  m_refActionGroup= Gtk::ActionGroup::create();
+  m_guardar= Gtk::ActionGroup::create();
 
   //menu archivo
   m_refActionGroup->add(Gtk::Action::create("ArchivoMenu", "Archivo"));
@@ -129,7 +130,7 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
                         sigc::mem_fun(*this, &VentanaTrabajo::nuevo));
   m_refActionGroup->add(Gtk::Action::create("Abrir", Gtk::Stock::OPEN),
                         sigc::mem_fun(*this, &VentanaTrabajo::abrir));
-  m_refActionGroup->add(Gtk::Action::create("Guardar", Gtk::Stock::SAVE),
+  m_guardar->add(Gtk::Action::create("Guardar", Gtk::Stock::SAVE),
                         sigc::mem_fun(*this, &VentanaTrabajo::guardar));
   m_refActionGroup->add(Gtk::Action::create("Guardar como...", Gtk::Stock::SAVE_AS, "Guardar como..."),
                         sigc::mem_fun(*this, &VentanaTrabajo::guardarComo));
@@ -158,6 +159,7 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
 
   m_refUIManager = Gtk::UIManager::create();
   m_refUIManager->insert_action_group(m_refActionGroup);
+  m_refUIManager->insert_action_group(m_guardar);
 
   window->add_accel_group(m_refUIManager->get_accel_group());
 
@@ -196,59 +198,47 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
   Gtk::HBox* boxMenuBar;
   refXml->get_widget("hbox_menubar", boxMenuBar);
   boxMenuBar->add(*pMenubar);
+  m_guardar->set_sensitive(false);
 }
 
 void VentanaTrabajo::nuevo() {
-
   controlador->crearNuevaVentana();
 }
 
 void VentanaTrabajo::abrir() {
-
   filechooserdialog_open->run();
 }
 
 void VentanaTrabajo::guardar() {
-
-  std::cout << "Se apreto boton guardar" << std::endl;
+  controladorVentana->guardar();
 }
 
 void VentanaTrabajo::guardarComo() {
-
   filechooserdialog_saveas->run();
 }
 
-
 void VentanaTrabajo::cerrar() {
-
   controlador->cerrarVentana(id);
   window->hide();
 }
 
 void VentanaTrabajo::rotar90D() {
-
   areaDibujo->rotarSeleccion90Derecha();
 }
 
 void VentanaTrabajo::rotar90I() {
-
   areaDibujo->rotarSeleccion90Izquierda();
 }
 
 void VentanaTrabajo::borrar() {
-
   areaDibujo->borrarSeleccion();
 }
 
 void VentanaTrabajo::simular() {
-
-  std::cout << "Se apreto boton simular" << std::endl;
-
   controladorVentana->simular();
 }
 
 void VentanaTrabajo::about() {
-
   Gtk::AboutDialog* about;
   refXml->get_widget("aboutdialog", about);
   if(about) {
@@ -332,7 +322,6 @@ void VentanaTrabajo::on_response_open(int response_id) {
 
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
-      std::cout << "checkear open" << std::endl;
       Glib::ustring file= filechooserdialog_open->get_filename();
       std::cout << "Cargando File: " << file << std::endl;
       controladorVentana->cargar(file);
@@ -350,7 +339,7 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
   switch(response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       Glib::ustring file= filechooserdialog_saveas->get_filename();
-      controladorVentana->guardar(file);
+      controladorVentana->guardarComo(file);
       filechooserdialog_saveas->hide();
     }
       break;
@@ -611,4 +600,8 @@ void VentanaTrabajo::mostrarMensajeError(std::string mensaje) {
   messagedialog_errores->set_message(mensaje);
   messagedialog_errores->run();
   messagedialog_errores->hide();
+}
+
+void VentanaTrabajo::habilitarGuardar() {
+  m_guardar->set_sensitive(true);
 }
