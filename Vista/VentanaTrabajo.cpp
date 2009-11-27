@@ -584,9 +584,16 @@ bool VentanaTrabajo::on_delete_event_remoto(GdkEventAny *event) {
   return true;
 }
 
+
+void VentanaTrabajo::recibirTablaSimulacion(std::list<uint32_t> tabla){
+
+}
+
+
 void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &puerto, std::string &nombre) {
 
   nombre= this->nombre;
   servidor= this->servidor;
   puerto= this->puerto;
 }
+

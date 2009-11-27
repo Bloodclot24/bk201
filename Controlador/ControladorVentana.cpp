@@ -189,7 +189,7 @@ void ControladorVentana::simular(){
 	  entradas = g->getCantidadEntradas();
 	  salidas = g->getCantidadSalidas();
 	  /* busco en cada pin */
-	  std::cout << "CANTIDADDEENTRADAS: " << entradas << std::endl; 
+	  std::cout << "CANTIDADDEENTRADAS: " << entradas << " nombre: "<< g->getLabel() << std::endl; 
 	  for(int i=0;i<entradas+salidas;i++){
 	       Vertice v = g->obtenerPin(i);
 	       std::map<Dibujo*, ConexionDibujo*>::iterator itp;
@@ -214,7 +214,15 @@ void ControladorVentana::simular(){
      // 	  //(*itc).second->cr->conectar();
      // }
 
-     circuito.c->simularTodo(500);
+     std::list<uint32_t> tabla = circuito.c->simularTodo(500);
+     std::list<uint32_t>::iterator itt=tabla.begin();
+     for(;itt!=tabla.end();itt++){
+	  std::cout << "/" << (*itt);
+     }
+     std::cout << "/\n";
+
+     ventana->recibirTablaSimulacion(tabla);
+     
 }
 
 void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista){
@@ -227,7 +235,8 @@ void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool
 	  /* por cada una verifico todos los puntos */
 	  for(itv=lista.begin();itv!=lista.end();itv++){
 	       /* si algun pin coincide */
-	       if(int pin2=(*itc).second->c->obtenerPinMasCercano((*itv).x, (*itv).y) != -1){
+	       int pin2=0;
+	       if( (pin2=(*itc).second->c->obtenerPinMasCercano((*itv).x, (*itv).y)) != -1){
 		    if(esSalida){
 			 circuito.c->agregarConexion(componente, pin, numero,pin2);
 			 std::cout << "Conecto " << componente << ":" << pin << " , con " << numero << ":" << pin2 << std::endl;
@@ -264,7 +273,6 @@ void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool
      for(numero=0,itpin=pines.begin(); itpin!=pines.end(); itpin++,numero++){
 	  int pin2;
 	  /* proceso entradas/salidas */
-	  std::cout << "nentrada: " << nentrada << " nsalida: " << nsalida << "<---"<< (*itpin).second->getTipoPin() << std::endl;
 	  
 	  if((*itpin).second->getTipoPin().compare("IN")==0){
 	       pin2 = nentrada;

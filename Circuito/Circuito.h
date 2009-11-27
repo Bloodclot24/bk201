@@ -4,6 +4,7 @@
 #include "../Componente/Componente.h"
 #include <vector>
 #include <iostream>
+#include <list>
 
 /** 
  * Clase que representa la conexion entre componentes.
@@ -291,7 +292,8 @@ public:
       * estabilizacion de la salida.
       */
 
-     void simularTodo(uint64_t tiempo){
+     std::list<uint32_t> simularTodo(uint64_t tiempo){
+	  std::list<uint32_t> tabla;
 	  uint64_t combinaciones = 2;
 	  unsigned entradas= getCantidadEntradas();
 	  unsigned salidas = getCantidadSalidas(); 
@@ -355,8 +357,9 @@ public:
 	       }
 	       
 	       /* Asigno los nuevos valores a las entradas */
-	       for(unsigned j=0;j<entradas;j++)
+	       for(unsigned j=0;j<entradas;j++){
 		    setEntrada(j, i&1<<j);
+	       }
 	       actualizarConexiones();
 	       
 	       /* Simulo hasta que se estabilizen las entradas.*/
@@ -365,15 +368,19 @@ public:
 		    simularProximoEvento();
 
 	       /* Muestro los resultados */
-	       for(unsigned k=0;k<entradas;k++)
+	       for(unsigned k=0;k<entradas;k++){
 		    std::cout << " " << ((i&1<<k)!=0) << " |";
+		    tabla.push_back(((i&1<<k)!=0));
+	       }
 	       if(extendido)
 		    for(unsigned k=0;k<entradas;k++)
 			 std::cout << " " << ((i&1<<(k+entradas))!=0) << " |";
 	  
 	       if(this->tiempo < tiempo){
-		    for(unsigned l=0;l<salidas;l++)
+		    for(unsigned l=0;l<salidas;l++){
 			 std::cout << "| " << getSalida(l) << " ";
+			 tabla.push_back(getSalida(l));
+		    }
 		    if(extendido) {
 			 if(!inestableAnterior)
 			      for(unsigned l=0;l<salidas;l++)
@@ -383,6 +390,7 @@ public:
 				   std::cout << "| " << "?" << " ";
 		    }
 		    std::cout << " Tiempo: " << this->tiempo << " ns";
+		    tabla.push_back(this->tiempo);
 		    std::cout << std::endl;
 		    
 	       }
@@ -402,6 +410,7 @@ public:
 		    
 	       }
 	  }
+	  return tabla;
      }
 
 
@@ -473,9 +482,9 @@ public:
 	       if(conexiones[i] != NULL)
 		    delete conexiones[i];
 
-	  for(unsigned j=0;j<componentes.size();j++)
-	       if(componentes[j] != NULL)
-		    delete componentes[j];
+	  // for(unsigned j=0;j<componentes.size();j++)
+	  //      if(componentes[j] != NULL)
+	  // 	    delete componentes[j];
      }
 };
 

@@ -194,6 +194,7 @@ public:
     void recibirListaCircuitos(const std::list<DescripcionCircuito> &lista);
     void agregarDibujo(Dibujo *dibujo);
      void agregarDibujo(ConexionDibujo *dibujo);
+     void recibirTablaSimulacion(std::list<uint32_t> tabla);
 };
 
 #endif /*VENTANATRABAJO_H_*/
