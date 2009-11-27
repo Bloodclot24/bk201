@@ -3,12 +3,12 @@
 
 class DibujoCircuitoRemoto;
 
-#include <gtkmm/drawingarea.h>
+#include "AreaDibujoGenerica.h"
 #include <cairomm/context.h>
 #include <list>
 #include "VentanaTrabajo.h"
 
-class DibujoCircuitoRemoto: public Gtk::DrawingArea {
+class DibujoCircuitoRemoto: public AreaDibujoGenerica {
 
 private:
   VentanaTrabajo*               ventanaTrabajo;
@@ -25,6 +25,7 @@ public:
   DibujoCircuitoRemoto(VentanaTrabajo *ventanaTrabajo);
   virtual ~DibujoCircuitoRemoto() { };
   void agregarDibujos(std::list<Dibujo*> dibujos);
+  virtual void agregarDibujo(Dibujo* dibujo) { };
 };
 
 #endif /* CIRCUITOREMOTO_H_ */
