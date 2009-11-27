@@ -54,3 +54,7 @@ void EntradaSalida::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& contex
   context->show_text(tipoPin);
   context->stroke();
 };
+
+void EntradaSalida::setVerticesMotion(Vertice vertice) {
+  setVerticeSupIzq(vertice);
+}

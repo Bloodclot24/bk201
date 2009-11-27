@@ -14,6 +14,7 @@ private:
    int pasoEntrada;
    int salidas;
    int pasoSalida;
+   std::string nombre;
    std::string servidor;
    std::string puerto;
 
@@ -32,6 +33,8 @@ public:
 
   virtual ~CircuitoDibujo() { };
 
+  void agregarDatos(const std::string &servidor, const std::string &puerto, const std::string &nombre);
+
   virtual void setVerticeSupIzq(Vertice vSupIzq);
      void setEntradasSalidas(int entradas, int salidas);
 
@@ -46,8 +49,9 @@ public:
   void setServidor(std::string servidor);
   std::string getPuerto();
   void setPuerto(std::string puerto);
-     int getCantidadEntradas();
-     int getCantidadSalidas();
+  int getCantidadEntradas();
+  int getCantidadSalidas();
+  void setVerticesMotion(Vertice vertice);
 };
 
 #endif /* CIRCUITO_H_ */

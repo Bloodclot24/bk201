@@ -222,6 +222,9 @@ void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
 void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
 
   CircuitoDibujo *circuito= new CircuitoDibujo(xCircuito, yCircuito, entradas, salidas);
+  std::string servidor, puerto, nombre;
+  ventanaTrabajo->obtenerDatosCircuito(servidor, puerto, nombre);
+  circuito->agregarDatos(servidor, puerto, nombre);
   ventanaTrabajo->controladorVentana->crearComponente(circuito);
   agregarComponente(circuito);
 }
@@ -428,7 +431,8 @@ bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
       vSupIzq.x= vSupIzq.x + delta;
       delta= event->y - vAnteriorMotion.y;
       vSupIzq.y= vSupIzq.y + delta;
-      dibujoSeleccionados[i]->setVerticeSupIzq(vSupIzq);
+      //dibujoSeleccionados[i]->setVerticeSupIzq(vSupIzq);
+      dibujoSeleccionados[i]->setVerticesMotion(vSupIzq);
     }
     vAnteriorMotion.x= event->x;
     vAnteriorMotion.y= event->y;

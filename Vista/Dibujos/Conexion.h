@@ -49,9 +49,11 @@ public:
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
   void setVerticeFinal(Vertice vertice);
-     void setVerticeInfDer(Vertice vInfDer);
-     Vertice getVerticeInfDer();
-     void setAreaDibujo(AreaDibujo *area);
+  void setVerticeInfDer(Vertice vInfDer);
+  Vertice getVerticeInfDer();
+  void setAreaDibujo(AreaDibujo *area);
+
+  virtual void setVerticesMotion(Vertice vertice);
 };
 
 #endif /* CONEXION_H_ */

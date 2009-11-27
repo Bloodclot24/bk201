@@ -113,6 +113,8 @@ public:
 
   int getAncho();
   int getAlto();
+
+  virtual void setVerticesMotion(Vertice vertice) { };
 };
 
 #endif /* DIBUJO_H_ */

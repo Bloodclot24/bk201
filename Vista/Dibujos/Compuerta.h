@@ -37,8 +37,10 @@ public:
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
 
-     virtual int getCantidadEntradas(){ return 2; }
-     virtual int getCantidadSalidas(){ return 1; }
+  virtual int getCantidadEntradas(){ return 2; }
+  virtual int getCantidadSalidas(){ return 1; }
+
+  virtual void setVerticesMotion(Vertice vertice);
 };
 
 #endif /* COMPUERTA_H_ */
