@@ -198,8 +198,9 @@ public:
     void agregarDibujo(Dibujo *dibujo);
     void agregarDibujo(ConexionDibujo *dibujo);
     void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas);
-
+    void recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito);
     void mostrarMensajeError(std::string mensaje);
+
 };
 
 #endif /*VENTANATRABAJO_H_*/
