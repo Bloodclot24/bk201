@@ -29,8 +29,7 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 {
 	const double width = print_context->get_width();
 	const double height = print_context->get_height();
-//	const double x_step = width/100.0;
-//	const double y_step = height/100.0;
+
 	if(!tabla && !dibujos.size()){ 
 		std:: cerr << "Error al imprimir!!! " << std::endl;
 		//#warning "Ver El Manejo De Errores Si Llega A Ser Posible Este Error En Impresora";
@@ -40,8 +39,8 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	cairo_ctx->set_line_width(1);
 	cairo_ctx->set_source_rgb(1.0, 0, 0);
 	Glib::RefPtr<Gtk::PrintSettings> printSettings = get_print_settings();//Gtk::PrintSettings::create();
-	double widthPaper = printSettings->get_paper_width(Gtk::UNIT_POINTS);
-	double heightPaper = printSettings->get_paper_height(Gtk::UNIT_POINTS);
+	double widthPaper = printSettings->get_paper_width(Gtk::UNIT_INCH);
+	double heightPaper = printSettings->get_paper_height(Gtk::UNIT_INCH);
 	double scaleW = 0.0;
 	double scaleH = 0.0;
 	double scale = 0.0;
@@ -68,28 +67,19 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	}
 
 	if(dibujos.size()){
-	//TODO Ver Manejo Del Flag, si lo pongo funciona solo a veces
-	//if(circuito){
-		//Dibujo los elementos
-    	std::list<Dibujo*>::iterator it;
+		//En caso de que haya algun elemento seleccionado,
+		//antes de imprimir los deselecciono todos.
+		std::list<Dibujo*>::iterator it;
     	for(it= dibujos.begin(); it != dibujos.end(); it++) {
-      		//seteo matriz identidad
-      		cairo_ctx->set_identity_matrix();
-      		//roto respecto el centro de la imagen
-      		Vertice vCentro= (*it)->getVerticeCentro();
-      		cairo_ctx->translate(vCentro.x, vCentro.y);
-      		cairo_ctx->rotate_degrees((*it)->getAngulo());
-      		cairo_ctx->translate(-vCentro.x, -vCentro.y);
-      		(*it)->dibujar(cairo_ctx);
-      		std::cout<< "Dibujando..." << std::endl;
+			(*it)->deseleccionar();
     	}
+		
+		//Dibujo los elementos
+		areaDibujo->dibujarComponentes(cairo_ctx,dibujos); 
+      	
+      	
+      	std::cout<< "Dibujando..." << std::endl;
 	}
-	if(tabla){
-	//}else{
-		//TODO: 
-		//Ver si hago Impresora clase friend de tabla o hacemos publico el metodo
-		//AMIGAAAAA:P
-		tabla->dibujarTabla(cairo_ctx);
-
-	}
+	if(tabla) tabla->dibujarTabla(cairo_ctx);
+	
 }

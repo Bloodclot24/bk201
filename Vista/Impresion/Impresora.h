@@ -7,13 +7,16 @@
 #include <list>
 #include "../Tabla.h"
 #include "../Dibujos/Dibujo.h"
+#include "../AreaDibujo.h"
 
 class Impresora : public Gtk::PrintOperation
 {
 	friend class Tabla;
+	friend class AreaDibujo;
 private:
 	std::list<Dibujo*> dibujos;
 	Tabla* tabla;
+	AreaDibujo* areaDibujo;
 	
 public:
 	Impresora(std::list<Dibujo*> dibujos, Tabla* tabla);
