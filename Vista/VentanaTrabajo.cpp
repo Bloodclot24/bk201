@@ -1,6 +1,5 @@
 #include "VentanaTrabajo.h"
 
-
 VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *controladorV, unsigned int id) {
 
   try {
@@ -14,7 +13,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
   }
 
   areaDibujo= new AreaDibujo(this);
-  tabla= new Tabla(this);
+  tabla= new Tabla();
   circuitoRemoto= new DibujoCircuitoRemoto(this);
   this->controlador= controlador;
   this->controladorVentana= controladorV;
