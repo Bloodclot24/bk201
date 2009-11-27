@@ -44,6 +44,7 @@ void AreaDibujo::loadMenuPopup() {
   verRotar= Gtk::ActionGroup::create();
   verBorrar= Gtk::ActionGroup::create();
   verExaminar= Gtk::ActionGroup::create();
+  verInvertir= Gtk::ActionGroup::create();
 
   //menu editar
   verRotar->add(Gtk::Action::create("MenuEditar", "Menu Editar"));
@@ -51,6 +52,10 @@ void AreaDibujo::loadMenuPopup() {
                           sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Derecha));
   verRotar->add(Gtk::Action::create("Rotar90I", Gtk::Stock::UNDO,"Rotar 90"),
                           sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Izquierda));
+  verInvertir->add(Gtk::Action::create("InvertirV", Gtk::Stock::GO_UP,"Invertir Vertical"),
+                   sigc::mem_fun(*this, &AreaDibujo::invertirVertical));
+  verInvertir->add(Gtk::Action::create("InvertirH", Gtk::Stock::GO_DOWN,"Invertir Horizontal"),
+                   sigc::mem_fun(*this, &AreaDibujo::invertirHorizontal));
   verBorrar->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
                             sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
   verExaminar->add(Gtk::Action::create("Examinar", Gtk::Stock::FIND, "Examinar..."),
@@ -58,6 +63,7 @@ void AreaDibujo::loadMenuPopup() {
 
   m_refUIManager = Gtk::UIManager::create();
   m_refUIManager->insert_action_group(verRotar);
+  m_refUIManager->insert_action_group(verInvertir);
   m_refUIManager->insert_action_group(verExaminar);
   m_refUIManager->insert_action_group(verBorrar);
 
@@ -67,6 +73,8 @@ void AreaDibujo::loadMenuPopup() {
     "  <popup name='PopupMenu'>"
     "    <menuitem action='Rotar90D'/>"
     "    <menuitem action='Rotar90I'/>"
+    "    <menuitem action='InvertirV'/>"
+    "    <menuitem action='InvertirH'/>"
     "    <menuitem action='Examinar'/>"
     "    <menuitem action='Borrar'/>"
     "  </popup>"
@@ -317,12 +325,15 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
     Dibujo *seleccionado= dibujoSeleccionados[0];
     if(menuPopup && !dibujoSeleccionados.empty()) {
       verRotar->set_sensitive(true);
+      verInvertir->set_sensitive(true);
       if(!seleccionado->getExaminar() || dibujoSeleccionados.size() != 1)
         verExaminar->set_sensitive(false);
       else
         verExaminar->set_sensitive(true);
-      if(dibujoSeleccionados.size() != 1)
+      if(dibujoSeleccionados.size() != 1) {
         verRotar->set_sensitive(false);
+        verInvertir->set_sensitive(false);
+      }
       menuPopup->popup(event->button, event->time);
     }
     return true;
@@ -358,6 +369,38 @@ void AreaDibujo::rotarSeleccion90Izquierda() {
   Dibujo *seleccionado= dibujoSeleccionados[0];
   if(seleccion && !motion) {
     seleccionado->setAngulo(-90);
+    redibujar();
+  }
+}
+
+int tipoInversion(int angulo) {
+
+  if((angulo/90)%2 ==0)
+    return 0;
+  else
+    return 180;
+}
+
+void AreaDibujo::invertirVertical() {
+
+  Dibujo *seleccionado= dibujoSeleccionados[0];
+  if(seleccion && !motion) {
+    int angulo= tipoInversion(seleccionado->getAngulo());
+    if(angulo != 0)
+      angulo= 90;
+    seleccionado->setAngulo(angulo);
+    redibujar();
+  }
+}
+
+void AreaDibujo::invertirHorizontal() {
+
+  Dibujo *seleccionado= dibujoSeleccionados[0];
+  if(seleccion && !motion) {
+    int angulo= tipoInversion(seleccionado->getAngulo());
+    if(angulo == 0)
+       angulo= 180;
+    seleccionado->setAngulo(angulo);
     redibujar();
   }
 }

@@ -61,6 +61,7 @@ private:
   Gtk::Menu                             *menuPopup;
   Glib::RefPtr<Gtk::UIManager>          m_refUIManager;
   Glib::RefPtr<Gtk::ActionGroup>        verRotar;
+  Glib::RefPtr<Gtk::ActionGroup>        verInvertir;
   Glib::RefPtr<Gtk::ActionGroup>        verBorrar;
   Glib::RefPtr<Gtk::ActionGroup>        verExaminar;
   void loadMenuPopup();
@@ -124,9 +125,11 @@ public:
   void dibujarConexion();
   void dibujarCircuito(int entradas, int salidas);
 
-  void borrarSeleccion();
   void rotarSeleccion90Derecha();
   void rotarSeleccion90Izquierda();
+  void invertirVertical();
+  void invertirHorizontal();
+  void borrarSeleccion();
   void verCircuito();
      
   void agregarDibujo(Dibujo *dibujo);
