@@ -38,7 +38,8 @@ bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
       }
     }
     context->stroke();
-
+	//TODO: ver que hacer con esto, implica 3 friends class
+//	ventanaTrabajo->areaDibujo->dibujarComponentes(context,dibujos);
     //Dibujo los elementos
     std::list<Dibujo*>::iterator it;
     for(it= dibujos.begin(); it != dibujos.end(); it++) {

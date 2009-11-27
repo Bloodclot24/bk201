@@ -54,7 +54,8 @@ class VentanaImpresion;
  */
 class VentanaTrabajo: public Gtk::Window {
   friend class AreaDibujo;
-
+//TODO: ver que hacer con esto, implica 3 friends class
+//  friend class DibujoCircuitoRemoto;
 private:
   Glib::RefPtr<Gtk::Builder> refXml;
   Controlador        *controlador;

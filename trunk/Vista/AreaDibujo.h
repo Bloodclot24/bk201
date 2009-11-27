@@ -22,6 +22,8 @@ class AreaDibujo;
 #include "Dibujos/Conexion.h"
 #include "Dibujos/EntradaSalida.h"
 #include "Dibujos/Circuito.h"
+#include "Impresion/Impresora.h"
+//#include "CircuitoRemoto.h"
 
 #include <iostream>
 
@@ -31,7 +33,9 @@ class VentanaTrabajo;
 class AreaDibujo: public Gtk::DrawingArea {
   friend class VentanaTrabajo;
   friend class ConexionDibujo;
-
+  friend class Impresora;
+//TODO: ver que hacer con esto, implica 3 friends class
+//  friend class DibujoCircuitoRemoto;
 private:
   VentanaTrabajo                *ventanaTrabajo;
   Cairo::RefPtr<Cairo::Context> context;
