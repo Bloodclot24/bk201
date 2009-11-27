@@ -86,6 +86,7 @@ private:
   bool                          selected;
   bool                          dibujarSelected;
   Vertice                       vInicialSelected;
+  Vertice                       vFinalSelected;
   int                           anchoSelected;
   int                           altoSelected;
   std::vector<Dibujo*>          dibujoSeleccionados;
