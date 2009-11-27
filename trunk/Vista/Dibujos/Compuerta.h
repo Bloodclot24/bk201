@@ -36,6 +36,9 @@ public:
     * @param context El contexto del area de dibujo.
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
+
+     virtual int getCantidadEntradas(){ return 2; }
+     virtual int getCantidadSalidas(){ return 1; }
 };
 
 #endif /* COMPUERTA_H_ */

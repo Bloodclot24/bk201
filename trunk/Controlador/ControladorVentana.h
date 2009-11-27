@@ -30,7 +30,6 @@ struct DatosCircuito{
 struct DatosCircuitoRemoto{
      CircuitoRemoto *cr;
      CircuitoDibujo *c;
-     int cantidadEntradas, cantidadSalidas;
 };
 
 struct DatosCompuerta{
@@ -132,6 +131,9 @@ public:
       * Crea un circuito con los componentes agregados y simula.
       */
      void simular();
+
+     void crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista);
+     void buscarExtremos(ConexionDibujo* pista, Vertice v, std::list<Vertice> &lista, std::map<ConexionDibujo*, ConexionDibujo*> *listaRecorridos);
      
      /** 
       * Devuelve una lista con los resultados de la simulacion. Cada
