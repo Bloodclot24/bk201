@@ -110,8 +110,8 @@ int Dibujo::obtenerPinMasCercano(int x, int y) {
       break;
     }
 
-    std::cout << "pines[i].x: " << pines[i].x << std::endl;
-    std::cout << "pines[i].y: " << pines[i].y << std::endl;
+    // std::cout << "pines[i].x: " << pines[i].x << std::endl;
+    // std::cout << "pines[i].y: " << pines[i].y << std::endl;
   }
   if(!encontrado)
     return -1;
