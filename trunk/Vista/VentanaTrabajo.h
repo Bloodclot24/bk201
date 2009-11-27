@@ -65,6 +65,7 @@ private:
   /*MENUBAR*/
   Glib::RefPtr<Gtk::UIManager> m_refUIManager;
   Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
+  Glib::RefPtr<Gtk::ActionGroup> m_guardar;
   void loadMenuBar(Gtk::Window *main_window);
   void nuevo();
   void abrir();
@@ -200,7 +201,7 @@ public:
     void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas);
     void recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito);
     void mostrarMensajeError(std::string mensaje);
-
+    void habilitarGuardar();
 };
 
 #endif /*VENTANATRABAJO_H_*/

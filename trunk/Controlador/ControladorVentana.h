@@ -51,6 +51,7 @@ class ControladorVentana{
 private:
      ControladorVentana(const ControladorVentana& c);
      ControladorVentana& operator=(const ControladorVentana& c);
+     std::string filename;
 
 protected:
      /* Estan declarados protegidos, para que la clase Persistidor
@@ -91,7 +92,7 @@ public:
       * llamar a setVentana() para asociarlo a una ventana.
       * 
       */
-     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0;};
+     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0; filename="";};
 
      /** 
       * Asocia una ventana al controlador.
@@ -175,7 +176,12 @@ public:
       * 
       * @param nombreArchivo Nombre del archivo donde guardar.
       */
-     void guardar(const std::string& nombreArchivo);
+     void guardarComo(const std::string& nombreArchivo);
+
+     /**
+      * Guarda en un archivo el estado del modelo con el ultimo filename.
+      */
+     void guardar();
      
      /** 
       * Carga el estado del modelo desde un archivo.
@@ -183,7 +189,6 @@ public:
       * @param nombreArchivo El nombre del archivo.
       */
      bool cargar(const std::string& nombreArchivo);
-
 };
 
 #endif //__CONTROLADORVENTANA_H_INCLUDED__
