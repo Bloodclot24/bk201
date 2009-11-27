@@ -74,9 +74,6 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   if(seleccionado)
     dibujarSeleccion(context);
 
-  //Muestro la etiqueta
-  mostrarEtiqueta(context,vSupIzq.y,alto);
-
   //seteo matriz identidad
   context->set_identity_matrix();
 
@@ -182,13 +179,6 @@ Vertice  ConexionDibujo::getVerticeInfDer() {
 void ConexionDibujo::setAreaDibujo(AreaDibujo *area) {
   areaDibujo= area;
 }
-
-void ConexionDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
-
-  context->move_to(vSupIzq.x+30, yTexto+10);
-  context->show_text(label);
-  context->stroke();
-};
 
 void ConexionDibujo::setVerticesMotion(Vertice vertice) {
 
