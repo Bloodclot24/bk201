@@ -50,6 +50,7 @@ public:
   std::string getPuerto();
   void setPuerto(std::string puerto);
   std::string getNombre();
+     void setNombre(const std::string& nombre){this->nombre=nombre;}
   int getCantidadEntradas();
   int getCantidadSalidas();
   void setVerticesMotion(Vertice vertice);

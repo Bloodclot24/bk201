@@ -10,14 +10,14 @@ ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1,
   this->areaDibujo= areaDibujo;
 }
 
-void ConexionDibujo::generarPoligonos(const Cairo::RefPtr<Cairo::Context>& context) {
+void ConexionDibujo::generarPoligonos() {
 
   poligonos.clear();
-  poligonos.push_back(rotarPin(vSupIzq.x, vSupIzq.y, context));
-  poligonos.push_back(rotarPin(vCentro.x, vSupIzq.y, context));
-  poligonos.push_back(rotarPin(vCentro.x, vCentro.y, context));
-  poligonos.push_back(rotarPin(vCentro.x, vFinal.y, context));
-  poligonos.push_back(rotarPin(vFinal.x, vFinal.y, context));
+  poligonos.push_back(rotarPin(vSupIzq.x, vSupIzq.y));
+  poligonos.push_back(rotarPin(vCentro.x, vSupIzq.y));
+  poligonos.push_back(rotarPin(vCentro.x, vCentro.y));
+  poligonos.push_back(rotarPin(vCentro.x, vFinal.y));
+  poligonos.push_back(rotarPin(vFinal.x, vFinal.y));
 }
 
 void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
@@ -65,9 +65,9 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
      }
      else
 	  dibujoPin2=NULL;
-  calcularAtributos(context);
+  calcularAtributos();
   //regenero las trayectorias
-  generarPoligonos(context);
+  generarPoligonos();
 
    context->stroke();
 
@@ -147,7 +147,7 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
   return seleccionado;
 }
 
-void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>& context){
+void ConexionDibujo::calcularAtributos(){
 
   int deltaX= vFinal.x-vSupIzq.x;
   int deltaY= vFinal.y-vSupIzq.y;
@@ -156,8 +156,8 @@ void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>& cont
   ancho= deltaX;
   alto= deltaY;
   pines.clear();
-  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y, context));
-  pines.push_back(rotarPin(vFinal.x, vFinal.y, context));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y));
+  pines.push_back(rotarPin(vFinal.x, vFinal.y));
 }
 
 void ConexionDibujo::setVerticeSupIzq(Vertice vSupIzq) {

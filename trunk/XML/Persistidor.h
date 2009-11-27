@@ -77,6 +77,7 @@ public:
 			      componente.setPropiedad("label",dcr->c->getLabel().c_str());
 			      componente.setPropiedad("servidor", dcr->c->getServidor().c_str());
 			      componente.setPropiedad("puerto", dcr->c->getPuerto().c_str());
+			      componente.setPropiedad("nombre", dcr->c->getNombre().c_str());
 			      componente.setPropiedad("cantidadEntradas", Util::intToString(dcr->c->getCantidadEntradas()).c_str());
 			      componente.setPropiedad("cantidadSalidas", Util::intToString(dcr->c->getCantidadSalidas()).c_str());
 			      xml.getRaiz()->agregarHijo(componente);
@@ -202,6 +203,9 @@ public:
 			 dcr->c->setVerticeSupIzq(v);
 			 dcr->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
 			 dcr->c->setLabel(componente.getPropiedad("label"));
+			 dcr->c->setServidor(componente.getPropiedad("servidor"));
+			 dcr->c->setPuerto(componente.getPropiedad("puerto"));
+			 dcr->c->setNombre(componente.getPropiedad("nombre"));
 		    }
 		    if(componente.getNombre().compare("Conexion")==0){
 			 ConexionDibujo *pista = c->cargarConexion();

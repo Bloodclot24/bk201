@@ -7,7 +7,7 @@
 class CompuertaOr: public Compuerta {
 
 protected:
-  virtual void cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context);
+  virtual void cargarNuevosPines();
 
 public:
   /**

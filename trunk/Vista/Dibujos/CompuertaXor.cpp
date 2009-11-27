@@ -2,12 +2,12 @@
 
 CompuertaXor::CompuertaXor(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
-void CompuertaXor::cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) {
+void CompuertaXor::cargarNuevosPines() {
 
   pines.clear();
-  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+10, context));
-  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+30, context));
-  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20, context));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+10));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+30));
+  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20));
 }
 
 void CompuertaXor::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

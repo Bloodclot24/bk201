@@ -130,7 +130,7 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
       context->translate(vCentro.x, vCentro.y);
       context->rotate_degrees((*it)->getAngulo());
       context->translate(-vCentro.x, -vCentro.y);
-      (*it)->cargarNuevosPines(context);
+      (*it)->cargarNuevosPines();
     }
 
     //Dibujo los elementos
