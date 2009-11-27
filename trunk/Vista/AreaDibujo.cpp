@@ -126,19 +126,26 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
     }
 
     //Dibujo los elementos
-    for(it= dibujos.begin(); it != dibujos.end(); it++) {
-      //seteo matriz identidad
-      context->set_identity_matrix();
-      //roto respecto el centro de la imagen
-      Vertice vCentro= (*it)->getVerticeCentro();
-      context->translate(vCentro.x, vCentro.y);
-      context->rotate_degrees((*it)->getAngulo());
-      context->translate(-vCentro.x, -vCentro.y);
-      (*it)->dibujar(context);
-    }
+    dibujarComponentes(context, dibujos);
+
   }
   
   return false;
+}
+
+void AreaDibujo::dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context, std::list<Dibujo*> dibujos) {
+
+  std::list<Dibujo*>::iterator it;
+  for(it= dibujos.begin(); it != dibujos.end(); it++) {
+    //seteo matriz identidad
+    context->set_identity_matrix();
+    //roto respecto el centro de la imagen
+    Vertice vCentro= (*it)->getVerticeCentro();
+    context->translate(vCentro.x, vCentro.y);
+    context->rotate_degrees((*it)->getAngulo());
+    context->translate(-vCentro.x, -vCentro.y);
+    (*it)->dibujar(context);
+  }
 }
 
 void AreaDibujo::redibujar() {
