@@ -35,3 +35,6 @@ void Compuerta::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, i
   context->stroke();
 };
 
+void Compuerta::setVerticesMotion(Vertice vertice) {
+  setVerticeSupIzq(vertice);
+}

@@ -379,10 +379,10 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       Gtk::Entry *entry;
       refXml->get_widget("entry_servidor", entry);
-      Glib::ustring servidor= entry->get_text();
+      this->servidor= entry->get_text();
       std::cout << "Servidor: " << servidor << std::endl;
       refXml->get_widget("entry_puerto", entry);
-      Glib::ustring puerto= entry->get_text();
+      this->puerto= entry->get_text();
       std::cout << "Puerto: " << puerto << std::endl;
       dialog_servidor->set_sensitive(false);
 
@@ -446,6 +446,7 @@ void VentanaTrabajo::on_lista_circuitos(int response_id) {
         int entradas= row[columns_circuito.col_entradas];
         int salidas= row[columns_circuito.col_salidas];
         dialog_lista_circuitos->hide();
+        this->nombre= circuito;
         areaDibujo->dibujarCircuito(entradas, salidas);
       }
     }
@@ -557,7 +558,6 @@ void VentanaTrabajo::on_propiedades_circuito(int response_id) {
   }
 }
 
-
 void VentanaTrabajo::agregarDibujo(Dibujo *dibujo){
   areaDibujo->agregarDibujo(dibujo);
 } 
@@ -582,4 +582,11 @@ void VentanaTrabajo::cerrar_circuito_remoto() {
 bool VentanaTrabajo::on_delete_event_remoto(GdkEventAny *event) {
   cerrar_circuito_remoto();
   return true;
+}
+
+void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &puerto, std::string &nombre) {
+
+  nombre= this->nombre;
+  servidor= this->servidor;
+  puerto= this->puerto;
 }

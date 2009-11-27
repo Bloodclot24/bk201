@@ -2,8 +2,7 @@
 
 ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujo *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
 
-  tipo= CONEXION;
-  label= "Conexion";
+  tipo= label= CONEXION;
   this->dibujoPin1= NULL;
   this->nroPin1= -1;
   this->dibujoPin2= NULL;
@@ -162,32 +161,36 @@ void ConexionDibujo::calcularAtributos(const Cairo::RefPtr<Cairo::Context>& cont
 }
 
 void ConexionDibujo::setVerticeSupIzq(Vertice vSupIzq) {
-     this->dibujoPin1 = NULL;;
+  this->dibujoPin1 = NULL;;
   this->nroPin1= 0;
 
   this->vSupIzq= vSupIzq;
 }
 
 void ConexionDibujo::setVerticeFinal(Vertice vertice) {
-
   vFinal= vertice;
 }
 
-void ConexionDibujo::setVerticeInfDer(Vertice vInfDer){
-     vFinal=vInfDer;
+void ConexionDibujo::setVerticeInfDer(Vertice vInfDer) {
+  vFinal=vInfDer;
 }
 
-Vertice  ConexionDibujo::getVerticeInfDer(){
-     return vFinal;
+Vertice  ConexionDibujo::getVerticeInfDer() {
+  return vFinal;
 }
 
-void ConexionDibujo::setAreaDibujo(AreaDibujo *area){
-     areaDibujo= area;
+void ConexionDibujo::setAreaDibujo(AreaDibujo *area) {
+  areaDibujo= area;
 }
 
 void ConexionDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
 
-  context->move_to(vSupIzq.x+30, yTexto);
+  context->move_to(vSupIzq.x+30, yTexto+10);
   context->show_text(label);
   context->stroke();
 };
+
+void ConexionDibujo::setVerticesMotion(Vertice vertice) {
+
+  std::cout << "MOTION" << std::endl;
+}

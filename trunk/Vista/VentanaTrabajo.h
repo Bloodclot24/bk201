@@ -158,7 +158,10 @@ private:
   DibujoCircuitoRemoto *circuitoRemoto;
   void cerrar_circuito_remoto();
   bool on_delete_event_remoto(GdkEventAny *event);
-
+  void obtenerDatosCircuito(std::string &servidor, std::string &puerto, std::string &nombre);
+  std::string nombre;
+  std::string puerto;
+  std::string servidor;
 
   /*IMPRESION*/
   VentanaImpresion *window_print;

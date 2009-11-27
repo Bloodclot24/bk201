@@ -131,9 +131,25 @@ void CircuitoDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& conte
 };
 
 int CircuitoDibujo::getCantidadEntradas(){
-     return entradas;
+  return entradas;
 }
 
 int CircuitoDibujo::getCantidadSalidas(){
-     return salidas;
+  return salidas;
+}
+
+void CircuitoDibujo::setVerticesMotion(Vertice vertice) {
+  setVerticeSupIzq(vertice);
+}
+
+void CircuitoDibujo::agregarDatos(const std::string &servidor, const std::string &puerto, const std::string &nombre) {
+
+  std::cout << "Agregando Datos" << std::endl;
+  std::cout << "servidor: " << servidor << std::endl;
+  std::cout << "puerto: " << puerto << std::endl;
+  std::cout << "Nombre: " << nombre << std::endl;
+
+  this->servidor= servidor;
+  this->puerto= puerto;
+  this->nombre= nombre;
 }
