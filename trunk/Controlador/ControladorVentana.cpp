@@ -383,7 +383,8 @@ std::list<uint64_t> ControladorVentana::obtenerTabla(){
 
 void ControladorVentana::guardarComo(const std::string& nombreArchivo){
      this->filename= nombreArchivo;
-     ventana->habilitarGuardar();
+     if(ventana)
+	  ventana->habilitarGuardar();
      Persistidor p(nombreArchivo);
      p.persistir(this);
 }
@@ -396,7 +397,8 @@ void ControladorVentana::guardar() {
 
 bool ControladorVentana::cargar(const std::string& nombreArchivo){
      this->filename= nombreArchivo;
-     ventana->habilitarGuardar();
+     if(ventana)
+	  ventana->habilitarGuardar();
      Persistidor p(nombreArchivo);
      return p.recuperar(this);
 }

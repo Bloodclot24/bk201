@@ -1,6 +1,8 @@
 #include "CompuertaBuffer.h"
 
-CompuertaBuffer::CompuertaBuffer(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
+CompuertaBuffer::CompuertaBuffer(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { 
+     cargarNuevosPines();
+}
 
 void CompuertaBuffer::cargarNuevosPines() {
 
