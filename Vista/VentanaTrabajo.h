@@ -169,6 +169,9 @@ private:
   /*TECLADO*/
   bool on_key_press_event(GdkEventKey* event);
 
+  //ERROR
+  Gtk::MessageDialog *messagedialog_errores;
+
 protected:
   //Signal handlers
   void on_drag_data_get(
@@ -195,6 +198,8 @@ public:
     void agregarDibujo(Dibujo *dibujo);
     void agregarDibujo(ConexionDibujo *dibujo);
     void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas);
+
+    void mostrarMensajeError(std::string mensaje);
 };
 
 #endif /*VENTANATRABAJO_H_*/

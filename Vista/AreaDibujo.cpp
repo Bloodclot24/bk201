@@ -637,16 +637,17 @@ void AreaDibujo::prepararVentanaIO(Dibujo *seleccionado) {
 void AreaDibujo::prepararVentanaCircuito(Dibujo *seleccionado) {
 
   CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(seleccionado);
-  std::string label= circuito->getLabel();
+  std::string label_nombre= circuito->getLabel();
   std::string servidor= circuito->getServidor();
   std::string puerto= circuito->getPuerto();
   Gtk::Entry *entry;
   ventanaTrabajo->refXml->get_widget("entry_label_prop_circuito", entry);
-  entry->set_text(label);
-  ventanaTrabajo->refXml->get_widget("entry_servidor_prop_circuito", entry);
-  entry->set_text(servidor);
-  ventanaTrabajo->refXml->get_widget("entry_puerto_prop_circuito", entry);
-  entry->set_text(puerto);
+  entry->set_text(label_nombre);
+//  Gtk::Label *label;
+//  ventanaTrabajo->refXml->get_widget("entry_servidor_prop_circuito", label);
+//  label->set_text(servidor);
+//  ventanaTrabajo->refXml->get_widget("entry_puerto_prop_circuito", label);
+//  label->set_text(puerto);
   //muestro el dialogo de propiedades
   ventanaTrabajo->dialog_prop_circuito->show();
 }

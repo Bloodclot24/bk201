@@ -108,6 +108,9 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //Teclado
   window->signal_key_press_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_key_press_event));
 
+  //Dialog de mensajes de error
+  //refXml->get_widget("messagedialog_errores", messagedialog_errores);
+
   window->show_all();
 
   if(primeraVez)
@@ -541,12 +544,6 @@ void VentanaTrabajo::on_propiedades_circuito(int response_id) {
       refXml->get_widget("entry_label_prop_circuito", entry);
       Glib::ustring label= entry->get_text();
       circuito->setLabel(label);
-      refXml->get_widget("entry_servidor_prop_circuito", entry);
-      Glib::ustring servidor= entry->get_text();
-      circuito->setServidor(servidor);
-      refXml->get_widget("entry_puerto_prop_circuito", entry);
-      Glib::ustring puerto= entry->get_text();
-      circuito->setPuerto(puerto);
       dialog_prop_circuito->hide();
       areaDibujo->redibujar();
     }
@@ -595,5 +592,12 @@ void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &pu
   nombre= this->nombre;
   servidor= this->servidor;
   puerto= this->puerto;
+}
+
+//ERROR
+void VentanaTrabajo::mostrarMensajeError(std::string mensaje) {
+  messagedialog_errores->set_message(mensaje);
+  messagedialog_errores->run();
+  messagedialog_errores->hide();
 }
 
