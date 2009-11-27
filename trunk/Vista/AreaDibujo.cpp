@@ -413,10 +413,10 @@ void AreaDibujo::invertirHorizontal() {
 void AreaDibujo::verCircuito() {
 
   if(seleccion && !motion) {
-	  Dibujo* dibujoCircuitoRemoto = this->dibujosSeleccionados[0];
+	  CircuitoDibujo* dibujoCircuitoRemoto = dynamic_cast<CircuitoDibujo*> (this->dibujoSeleccionados[0]);
 	  ControladorVentana controlador;
-	  controlador.obtenerCirucuitoServidor(dibujoCircuitoRemoto.getNombre(),dibujoCircuitoRemoto.getServidor(),dibujoCircuitoRemoto.getPuerto());
-	  ventanaTrabajo->window_remoto->show_all();
+	  controlador.obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
+	  //ventanaTrabajo->window_remoto->show_all();
     }
 }
 
