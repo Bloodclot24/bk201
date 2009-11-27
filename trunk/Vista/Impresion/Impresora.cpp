@@ -21,9 +21,11 @@ Glib::RefPtr<Impresora> Impresora::create(std::list<Dibujo*> dibujos, Tabla* tab
 void Impresora::on_begin_print(
         const Glib::RefPtr<Gtk::PrintContext>& print_context)
 {
-	set_n_pages(1);
+	//TODO: provisorio, tendria que ser N paginas de acuerdo a la cantidad
+	//de lineas a imprimir
+	if(tabla && dibujos.size()) set_n_pages(2);
+	else set_n_pages(1);
 }
-
 
 void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPaginas)
 {
@@ -40,8 +42,8 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	cairo_ctx->set_source_rgb(1.0, 0, 0);
 	Glib::RefPtr<Gtk::PageSetup> pageSetup= get_default_page_setup();
 	Glib::RefPtr<Gtk::PrintSettings> printSettings = get_print_settings();//Gtk::PrintSettings::create();
-	double widthPaper = pageSetup->get_paper_width(Gtk::UNIT_PIXEL); //printSettings->get_paper_width(Gtk::UNIT_INCH);
-	double heightPaper = pageSetup->get_paper_height(Gtk::UNIT_PIXEL);//printSettings->get_paper_height(Gtk::UNIT_INCH);
+	double widthPaper = pageSetup->get_paper_width(Gtk::UNIT_INCH); //printSettings->get_paper_width(Gtk::UNIT_INCH);
+	double heightPaper = pageSetup->get_paper_height(Gtk::UNIT_INCH);//printSettings->get_paper_height(Gtk::UNIT_INCH);
 	double scaleW = 0.0;
 	double scaleH = 0.0;
 	double scale = 0.0;
@@ -59,6 +61,14 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	std::cout << "scaleH!!! : " << scaleH << std::endl;
 
 
+	Gtk::Allocation allocation = cairo_ctx->get_allocation();
+	double width1= allocation.get_width();
+	double height1= allocation.get_height();
+
+	std::cout << "width allocation!!! : " << width1 << std::endl;
+	std::cout << "height allocation!!! : " << height1 << std::endl;
+
+
 	if(scaleW || scaleH){
 	  if (scaleW > scaleH) scale = scaleW;
 	  else scale = scaleH;
@@ -66,7 +76,9 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	  std::cout << "SH!!! : " << scaleH << std::endl;
 	  std::cout << "SW!!! : " << scaleW << std::endl;
 	  printSettings->set_scale(scale);
-//	  set_print_settings(printSettings);
+	  printSettings->set_orientation(Gtk::PAGE_ORIENTATION_LANDSCAPE );
+	  set_print_settings(printSettings);
+	  cairo_ctx->scale(scaleW,scaleH);
 	  set_default_page_setup(pageSetup);
 	}
 
@@ -77,13 +89,21 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
     	for(it= dibujos.begin(); it != dibujos.end(); it++) {
 			(*it)->deseleccionar();
     	}
-		
+
 		//Dibujo los elementos
 		areaDibujo->dibujarComponentes(cairo_ctx,dibujos); 
       	
       	
       	std::cout<< "Dibujando..." << std::endl;
 	}
-	if(tabla) tabla->dibujarTabla(cairo_ctx);
-	
+	if(tabla){
+//		set_current_page(2);
+		tabla->dibujarTabla(cairo_ctx);
+	}
 }
+
+bool Impresora::on_my_paginate(const Glib::RefPtr<Gtk::PrintContext>& context){
+
+	return true;
+}
+
