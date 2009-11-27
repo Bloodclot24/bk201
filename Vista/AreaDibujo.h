@@ -109,6 +109,8 @@ protected:
   Dibujo* buscarDibujoCercano(Dibujo *origen, int x, int y);
   bool existeDibujo(Dibujo* d);
 
+  void dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context, std::list<Dibujo*> dibujos);
+
 public:
   AreaDibujo(VentanaTrabajo *ventanaTrabajo);
   virtual ~AreaDibujo();
