@@ -241,6 +241,8 @@ void VentanaTrabajo::borrar() {
 void VentanaTrabajo::simular() {
 
   std::cout << "Se apreto boton simular" << std::endl;
+
+  controladorVentana->simular();
 }
 
 void VentanaTrabajo::about() {

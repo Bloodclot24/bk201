@@ -46,6 +46,8 @@ public:
   void setServidor(std::string servidor);
   std::string getPuerto();
   void setPuerto(std::string puerto);
+     int getCantidadEntradas();
+     int getCantidadSalidas();
 };
 
 #endif /* CIRCUITO_H_ */

@@ -129,3 +129,11 @@ void CircuitoDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& conte
   context->show_text(puerto);
   context->stroke();
 };
+
+int CircuitoDibujo::getCantidadEntradas(){
+     return entradas;
+}
+
+int CircuitoDibujo::getCantidadSalidas(){
+     return salidas;
+}

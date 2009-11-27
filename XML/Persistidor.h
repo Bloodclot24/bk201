@@ -77,8 +77,8 @@ public:
 			      componente.setPropiedad("label",dcr->c->getLabel().c_str());
 			      componente.setPropiedad("servidor", dcr->c->getServidor().c_str());
 			      componente.setPropiedad("puerto", dcr->c->getPuerto().c_str());
-			      componente.setPropiedad("cantidadEntradas", Util::intToString(dcr->cantidadEntradas).c_str());
-			      componente.setPropiedad("cantidadSalidas", Util::intToString(dcr->cantidadSalidas).c_str());
+			      componente.setPropiedad("cantidadEntradas", Util::intToString(dcr->c->getCantidadEntradas()).c_str());
+			      componente.setPropiedad("cantidadSalidas", Util::intToString(dcr->c->getCantidadSalidas()).c_str());
 			      xml.getRaiz()->agregarHijo(componente);
 			 }
 		    }
