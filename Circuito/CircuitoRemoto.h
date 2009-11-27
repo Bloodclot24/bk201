@@ -13,15 +13,28 @@ class CircuitoRemoto: public Componente{
      Socket *s;			/**< Socket por el cual me conecto  */
      Mensajero mensajero;
      unsigned entradas,salidas;
+     std::string nombre;
 public:
      CircuitoRemoto(const std::string& host, int puerto, const std::string& nombre){
 	  s = new Socket(host,puerto);
-	  s->conectar();
 	  mensajero.setSocket(s);
+	  entradas= salidas= (unsigned) -1;
+	  this->nombre = nombre;
+     }
+
+     bool conectar(){
+	  s->conectar();
 	  Soap mensaje("SeleccionarCircuito");
 	  mensaje.setParametro("Nombre", nombre.c_str());
 	  mensajero.enviarMensaje(&mensaje);
-	  entradas= salidas= (unsigned) -1;
+	  Soap *respuesta = mensajero.recibirRespuesta();
+	  bool valor;
+	  if(respuesta != NULL &&					\
+	     !respuesta->getNombre().compare("SeleccionarCircuitoResponse")){
+	       valor = respuesta->getParametroNumerico("Estado");
+	       delete respuesta;
+	  }
+	  return valor;
      }
 
      bool esEstable(){

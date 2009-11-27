@@ -161,10 +161,12 @@ public:
       * 
       * @param c El controlador a restablecer.
       */
-     void recuperar(ControladorVentana *c){
+     bool recuperar(ControladorVentana *c){
 	  std::ifstream archivo;
+	  bool rv=false;
 	  archivo.open(nombre.c_str(), std::fstream::in);
 	  if(archivo.good()){
+	       rv=true;
 	       std::string buffer, bufferlinea;
 	       /* leo el archivo */
 	       while(archivo.good()){
@@ -229,6 +231,7 @@ public:
 	       xml.liberar();
 	  }else std::cerr << "No se pudo abrir el archivo: " << nombre << std::endl;
 	  archivo.close();
+	  return rv;
      };
      
 };

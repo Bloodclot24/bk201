@@ -221,7 +221,7 @@ void ControladorVentana::simular(){
      }
      std::cout << "/\n";
 
-     ventana->recibirTablaSimulacion(tabla);
+     ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas);
      
 }
 
@@ -356,9 +356,9 @@ void ControladorVentana::guardar(const std::string& nombreArchivo){
      p.persistir(this);
 }
 
-void ControladorVentana::cargar(const std::string& nombreArchivo){
+bool ControladorVentana::cargar(const std::string& nombreArchivo){
      Persistidor p(nombreArchivo);
-     p.recuperar(this);
+     return p.recuperar(this);
 }
 
 void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista){
