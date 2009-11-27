@@ -109,7 +109,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   window->signal_key_press_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_key_press_event));
 
   //Dialog de mensajes de error
-  //refXml->get_widget("messagedialog_errores", messagedialog_errores);
+  refXml->get_widget("messagedialog_errores", messagedialog_errores);
 
   window->show_all();
 
