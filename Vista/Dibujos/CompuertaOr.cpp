@@ -1,6 +1,8 @@
 #include "CompuertaOr.h"
 
-CompuertaOr::CompuertaOr(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
+CompuertaOr::CompuertaOr(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { 
+  cargarNuevosPines();
+}
 
 void CompuertaOr::cargarNuevosPines() {
 

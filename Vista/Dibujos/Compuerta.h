@@ -11,7 +11,7 @@ class Compuerta: public Dibujo {
   std::string   tiempoT;
 
 protected:
-  virtual void cargarNuevosPines(Vertice vSupIzq) { };
+  virtual void cargarNuevosPines() {};
   virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto);
 
 public:

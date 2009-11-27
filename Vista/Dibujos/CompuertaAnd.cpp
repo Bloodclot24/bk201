@@ -1,8 +1,7 @@
 #include "CompuertaAnd.h"
 
 CompuertaAnd::CompuertaAnd(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) {
-
-  //cargarNuevosPines(vSupIzq);
+     cargarNuevosPines();
 }
 
 //void CompuertaAnd::cargarNuevosPines(Vertice vSupIzq) {

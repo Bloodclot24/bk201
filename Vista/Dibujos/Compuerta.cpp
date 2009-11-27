@@ -14,7 +14,7 @@ void Compuerta::setVerticeSupIzq(Vertice vSupIzq) {
   vCentro.x= vSupIzq.x + (ancho/2);
   vCentro.y= vSupIzq.y + (alto/2);
   this->vSupIzq= vSupIzq;
-  cargarNuevosPines(vSupIzq);
+  cargarNuevosPines();
 }
 
 std::string Compuerta::getTiempoT() {
