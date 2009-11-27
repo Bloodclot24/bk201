@@ -156,6 +156,8 @@ private:
   Gtk::Window *window_remoto;
   DibujoCircuitoRemoto *circuitoRemoto;
   void cerrar_circuito_remoto();
+  bool on_delete_event_remoto(GdkEventAny *event);
+
 
   /*IMPRESION*/
   VentanaImpresion *window_print;

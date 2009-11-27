@@ -64,6 +64,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   Gtk::Button *button_cerrar_remoto;
   refXml->get_widget("button_cerrar_remoto", button_cerrar_remoto);
   button_cerrar_remoto->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::cerrar_circuito_remoto));
+  window_remoto->signal_delete_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_delete_event_remoto));
 
   //Menu Bar
   loadMenuBar(window);
@@ -85,10 +86,8 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("messagedialog_servidor", dialog_message);
   refXml->get_widget("messagedialog_error_servidor", messagedialog_error_servidor);
   messagedialog_error_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_servidor));
-
   refXml->get_widget("dialog_lista_circuitos", dialog_lista_circuitos);
   dialog_lista_circuitos->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_lista_circuitos));
-
 
   //Treeview Circuitos
   Glib::RefPtr<Glib::Object> obj_treeView_circuitos= refXml->get_object("treeview_circuitos");
@@ -569,5 +568,11 @@ bool VentanaTrabajo::on_key_press_event(GdkEventKey* event) {
 
 void VentanaTrabajo::cerrar_circuito_remoto() {
 
-  window_remoto->hide();
+    window_remoto->hide();
+  //TODO: ACA DESTRUIR EL ARCHIVO TEMPORAL
+}
+
+bool VentanaTrabajo::on_delete_event_remoto(GdkEventAny *event) {
+  cerrar_circuito_remoto();
+  return true;
 }
