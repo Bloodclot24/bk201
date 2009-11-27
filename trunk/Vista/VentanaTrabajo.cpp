@@ -594,10 +594,21 @@ void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &pu
   puerto= this->puerto;
 }
 
+void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito) {
+
+  ControladorVentana controlador;
+//  controlador.setAreaDibujo(*circuitoRemoto);
+  controlador.cargar(nombreArchivo);
+  Gtk::Label *label;
+  refXml->get_widget("label_nombre_circuito", label);
+  label->set_text(nombreCircuito);
+
+  window_remoto->show_all();
+}
+
 //ERROR
 void VentanaTrabajo::mostrarMensajeError(std::string mensaje) {
   messagedialog_errores->set_message(mensaje);
   messagedialog_errores->run();
   messagedialog_errores->hide();
 }
-

@@ -38,15 +38,16 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();
 	cairo_ctx->set_line_width(1);
 	cairo_ctx->set_source_rgb(1.0, 0, 0);
+	Glib::RefPtr<Gtk::PageSetup> pageSetup= get_default_page_setup();
 	Glib::RefPtr<Gtk::PrintSettings> printSettings = get_print_settings();//Gtk::PrintSettings::create();
-	double widthPaper = printSettings->get_paper_width(Gtk::UNIT_INCH);
-	double heightPaper = printSettings->get_paper_height(Gtk::UNIT_INCH);
+	double widthPaper = pageSetup->get_paper_width(Gtk::UNIT_PIXEL); //printSettings->get_paper_width(Gtk::UNIT_INCH);
+	double heightPaper = pageSetup->get_paper_height(Gtk::UNIT_PIXEL);//printSettings->get_paper_height(Gtk::UNIT_INCH);
 	double scaleW = 0.0;
 	double scaleH = 0.0;
 	double scale = 0.0;
 
-	if(width > widthPaper) scaleW = width / widthPaper;
-	if(height > heightPaper) scaleH = height / heightPaper;
+	if(width > widthPaper) scaleW = (double)( width / widthPaper);
+	if(height > heightPaper) scaleH = (double)( height / heightPaper);
 
 	std::cout << "width!!! : " << width << std::endl;
 	std::cout << "height!!! : " << height << std::endl;
@@ -54,16 +55,19 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	std::cout << "widthP!!! : " << widthPaper << std::endl;
 	std::cout << "heightP!!! : " << heightPaper << std::endl;
 
+	std::cout << "scaleW!!! : " << scaleW << std::endl;
+	std::cout << "scaleH!!! : " << scaleH << std::endl;
 
 
 	if(scaleW || scaleH){
 	  if (scaleW > scaleH) scale = scaleW;
 	  else scale = scaleH;
-	  std::cout << "Escalo!!! : " << (double)100.0/scale << std::endl;
+	  std::cout << "Escalo!!! : " << (double)scale << std::endl;
 	  std::cout << "SH!!! : " << scaleH << std::endl;
 	  std::cout << "SW!!! : " << scaleW << std::endl;
-	  printSettings->set_scale(100.0/scale);
-	  set_print_settings(printSettings);
+	  printSettings->set_scale(scale);
+//	  set_print_settings(printSettings);
+	  set_default_page_setup(pageSetup);
 	}
 
 	if(dibujos.size()){
