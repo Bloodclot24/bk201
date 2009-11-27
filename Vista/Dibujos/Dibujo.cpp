@@ -127,3 +127,11 @@ Vertice Dibujo::obtenerPin(int numPin) {
 std::string Dibujo::getTipo() {
   return tipo;
 }
+
+int Dibujo::getAncho() {
+  return ancho;
+}
+
+int Dibujo::getAlto() {
+  return alto;
+}

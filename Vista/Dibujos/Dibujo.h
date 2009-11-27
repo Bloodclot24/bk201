@@ -111,7 +111,8 @@ public:
 
   std::string getTipo();
 
-
+  int getAncho();
+  int getAlto();
 };
 
 #endif /* DIBUJO_H_ */
