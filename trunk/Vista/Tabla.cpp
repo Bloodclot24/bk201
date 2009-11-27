@@ -1,59 +1,11 @@
 #include "Tabla.h"
 
-Tabla::Tabla(VentanaTrabajo *ventanaTrabajo) {
-
-  this->ventanaTrabajo= ventanaTrabajo;
-  entradas= 0;
-  salidas= 0;
-
-  /*PRUEBAS*/
-  entradas= 1;
-  salidas= 1;
-
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(5);
-//  lista.push_back(1);
-//  lista.push_back(1);
-//  lista.push_back(1);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-//  lista.push_back(0);
-//  lista.push_back(1);
-  lista.push_back(0);
-  lista.push_back(1);
-  lista.push_back(0);
-  lista.push_back(1);
-  lista.push_back(0);
-  lista.push_back(7);
+Tabla::Tabla() {
+  this->entradas= 0;
+  this->salidas= 0;
 }
 
 bool Tabla::on_expose_event(GdkEventExpose* event) {
-
   //ventana de dibujo
   window= get_window();
   if(window) {

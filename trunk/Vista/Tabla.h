@@ -13,10 +13,9 @@ class Tabla;
 #define TAMANIO 40
 
 class Tabla: public Gtk::DrawingArea {
-  friend class VentanaTrabajo;
   friend class Impresora;
+
 private:
-  VentanaTrabajo                *ventanaTrabajo;
   Glib::RefPtr<Gdk::Window>     window;
   std::list<uint32_t>           lista;
   int                           entradas;
@@ -30,7 +29,7 @@ protected:
   void dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context);
 
 public:
-  Tabla(VentanaTrabajo *ventanaTrabajo);
+  Tabla();
   Tabla(const Tabla& Tabla) { };
   virtual ~Tabla() { };
   void setCantEntradas(int entradas);

@@ -1342,10 +1342,26 @@ Ygounet Guido</property>
               </object>
             </child>
             <child type="label">
-              <object class="GtkLabel" id="label_remoto">
+              <object class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">&lt;b&gt; Circuito Remoto &lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <child>
+                  <object class="GtkLabel" id="label_circuito_remoto">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">&lt;b&gt; Circuito Remoto: &lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label_nombre_circuito">
+                    <property name="visible">True</property>
+                  </object>
+                  <packing>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </object>
             </child>
           </object>
