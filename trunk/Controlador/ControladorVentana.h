@@ -182,7 +182,7 @@ public:
       * 
       * @param nombreArchivo El nombre del archivo.
       */
-     void cargar(const std::string& nombreArchivo);
+     bool cargar(const std::string& nombreArchivo);
 
 };
 

@@ -19,7 +19,14 @@ void CircuitoRemotoServidor::run(){
 	  if(comando.compare("SeleccionarCircuito")==0){
 	       std::cout << "Seleccionando circuito " << s->getParametro("Nombre") << std::endl;
 	       controlador= new ControladorVentana();
-	       controlador->cargar(s->getParametro("Nombre"));
+	       bool respuesta;
+	       if(controlador->cargar(s->getParametro("Nombre")))
+		    respuesta = 1;
+	       else respuesta = 0;
+	       Soap res("SeleccionarCircuitoResponse");
+	       res.setParametro("Estado", respuesta);
+	       m.enviarRespuesta(&res);
+    
 	  }
 	  else if(comando.compare("GetListado")==0){
 	       std::cout << "Listado de circuitos: " << std::endl;
@@ -35,13 +42,6 @@ void CircuitoRemotoServidor::run(){
 		    nodo.setPropiedad("cantidadSalidas", Util::intToString(d.cantidadSalidas).c_str());
 		    cuerpo.agregarHijo(nodo);
 
-	       }
-	       for(int i=0;i<rand()%10+5;i++){
-		    XmlNodo nodo("Circuito");
-		    nodo.setPropiedad("nombre", "lalalalala");
-		    nodo.setPropiedad("cantidadEntradas", Util::intToString(rand()%6+1).c_str());
-		    nodo.setPropiedad("cantidadSalidas", Util::intToString(rand()%6+1).c_str());
-		    cuerpo.agregarHijo(nodo);
 	       }
 	       m.enviarRespuesta(&res);
 	       stop();
