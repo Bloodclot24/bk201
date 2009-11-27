@@ -187,7 +187,7 @@ void ConexionDibujo::setAreaDibujo(AreaDibujo *area){
 
 void ConexionDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
 
-  context->move_to(vSupIzq.x, yTexto);
+  context->move_to(vSupIzq.x+30, yTexto);
   context->show_text(label);
   context->stroke();
 };
