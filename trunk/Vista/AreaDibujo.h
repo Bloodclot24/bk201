@@ -65,7 +65,7 @@ private:
   Glib::RefPtr<Gtk::ActionGroup>        verExaminar;
   void loadMenuPopup();
 
-  /*TARGETS*/
+  //Target
   std::list<Gtk::TargetEntry> listTargets;
 
   void buscarPosicion(int &x, int &y);
@@ -95,6 +95,7 @@ private:
   int                           altoSelected;
   std::vector<Dibujo*>          dibujoSeleccionados;
   void dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& context);
+  void buscarInclusion(Dibujo *dibujo, Vertice vertice, Vertice vMenor, bool &marcado);
   void cargarSeleccionMultiple();
 
 protected:

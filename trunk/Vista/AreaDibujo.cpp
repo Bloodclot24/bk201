@@ -617,6 +617,15 @@ void AreaDibujo::dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& c
   }
 }
 
+void AreaDibujo::buscarInclusion(Dibujo *dibujo, Vertice vertice, Vertice vMenor, bool &marcado) {
+
+  if((vertice.x >= vMenor.x && vertice.x <= vMenor.x+abs(anchoSelected)) && (vertice.y >= vMenor.y && vertice.y <= vMenor.y+abs(altoSelected)) && !marcado) {
+    dibujoSeleccionados.push_back(dibujo);
+    dibujo->seleccionar();
+    marcado= true;
+  }
+}
+
 void AreaDibujo::cargarSeleccionMultiple() {
 
   Vertice vMenor;
@@ -629,13 +638,18 @@ void AreaDibujo::cargarSeleccionMultiple() {
   else
     vMenor.y= vFinalSelected.y;
 
+  bool marcado= false;
   dibujoSeleccionados.clear();
   std::list<Dibujo*>::iterator it;
   for(it= dibujos.begin(); it != dibujos.end(); it++) {
-    Vertice vSupIzq= (*it)->getVerticeSupIzq();
-      if((vSupIzq.x >= vMenor.x && vSupIzq.x <= vMenor.x+abs(anchoSelected)) && (vSupIzq.y >= vMenor.y && vSupIzq.y <= vMenor.y+abs(altoSelected))) {
-        dibujoSeleccionados.push_back(*it);
-        (*it)->seleccionar();
-      }
+    Vertice vertice= (*it)->getVerticeSupIzq();
+    buscarInclusion(*it, vertice, vMenor, marcado);
+    vertice.x= vertice.x + (*it)->getAncho();
+    buscarInclusion(*it, vertice, vMenor, marcado);
+    vertice.y= vertice.y + (*it)->getAlto();
+    buscarInclusion(*it, vertice, vMenor, marcado);
+    vertice.x= vertice.x + (*it)->getAncho();
+    buscarInclusion(*it, vertice, vMenor, marcado);
+    marcado= false;
   }
 }
