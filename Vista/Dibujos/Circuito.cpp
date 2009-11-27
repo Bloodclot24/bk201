@@ -143,13 +143,12 @@ void CircuitoDibujo::setVerticesMotion(Vertice vertice) {
 }
 
 void CircuitoDibujo::agregarDatos(const std::string &servidor, const std::string &puerto, const std::string &nombre) {
-
-  std::cout << "Agregando Datos" << std::endl;
-  std::cout << "servidor: " << servidor << std::endl;
-  std::cout << "puerto: " << puerto << std::endl;
-  std::cout << "Nombre: " << nombre << std::endl;
-
   this->servidor= servidor;
   this->puerto= puerto;
   this->nombre= nombre;
+  this->label= nombre;
+}
+
+std::string CircuitoDibujo::getNombre() {
+  return this->nombre;
 }

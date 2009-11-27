@@ -49,6 +49,7 @@ public:
   void setServidor(std::string servidor);
   std::string getPuerto();
   void setPuerto(std::string puerto);
+  std::string getNombre();
   int getCantidadEntradas();
   int getCantidadSalidas();
   void setVerticesMotion(Vertice vertice);
