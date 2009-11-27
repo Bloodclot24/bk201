@@ -3,7 +3,6 @@
 
 class AreaDibujo;
 
-#include <gtkmm/drawingarea.h>
 #include <gtkmm/menu.h>
 #include <gtkmm/uimanager.h>
 #include <gtkmm/stock.h>
@@ -11,6 +10,7 @@ class AreaDibujo;
 #include <list>
 #include <vector>
 #include "VentanaTrabajo.h"
+#include "AreaDibujoGenerica.h"
 #include "Dibujos/Dibujo.h"
 #include "Dibujos/Constantes.h"
 #include "Dibujos/Compuerta.h"
@@ -30,7 +30,7 @@ class AreaDibujo;
 #define PASO 10
 
 class VentanaTrabajo;
-class AreaDibujo: public Gtk::DrawingArea {
+class AreaDibujo: public AreaDibujoGenerica {
   friend class VentanaTrabajo;
   friend class ConexionDibujo;
   friend class Impresora;
@@ -132,7 +132,7 @@ public:
   void borrarSeleccion();
   void verCircuito();
      
-  void agregarDibujo(Dibujo *dibujo);
+  virtual void agregarDibujo(Dibujo *dibujo);
 };
 
 #endif /* AREADIBUJO_H_ */
