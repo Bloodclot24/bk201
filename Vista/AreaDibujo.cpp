@@ -378,7 +378,7 @@ int tipoInversion(int angulo) {
   if((angulo/90)%2 ==0)
     return 0;
   else
-    return 180;
+    return 90;
 }
 
 void AreaDibujo::invertirVertical() {
@@ -386,9 +386,10 @@ void AreaDibujo::invertirVertical() {
   Dibujo *seleccionado= dibujoSeleccionados[0];
   if(seleccion && !motion) {
     int angulo= tipoInversion(seleccionado->getAngulo());
-    if(angulo != 0)
-      angulo= 90;
-    seleccionado->setAngulo(angulo);
+    if(angulo == 90) {
+      angulo= 180;
+      seleccionado->setAngulo(angulo);
+    }
     redibujar();
   }
 }
@@ -398,9 +399,10 @@ void AreaDibujo::invertirHorizontal() {
   Dibujo *seleccionado= dibujoSeleccionados[0];
   if(seleccion && !motion) {
     int angulo= tipoInversion(seleccionado->getAngulo());
-    if(angulo == 0)
+    if(angulo == 0) {
        angulo= 180;
-    seleccionado->setAngulo(angulo);
+       seleccionado->setAngulo(angulo);
+    }
     redibujar();
   }
 }
