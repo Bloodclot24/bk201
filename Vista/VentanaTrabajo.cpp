@@ -307,6 +307,11 @@ void VentanaTrabajo::loadToolBar() {
   refXml->get_widget("imprimir", bImprimir);
   if(bImprimir)
     bImprimir->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::imprimir));
+
+  refXml->get_widget("simular", bSimular);
+  if(bSimular)
+    bSimular->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::simular));
+
 }
 
 void VentanaTrabajo::on_drag_data_get(

@@ -426,6 +426,8 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
     can_selected= false;
     selected= true;
     dibujarSelected= false;
+    vFinalSelected.x= event->x;
+    vFinalSelected.y= event->y;
     cargarSeleccionMultiple();
     redibujar();
     return true;
@@ -617,20 +619,23 @@ void AreaDibujo::dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& c
 
 void AreaDibujo::cargarSeleccionMultiple() {
 
-  std::cout << "Carga seleccion multiple" << std::endl;
-  dibujoSeleccionados.clear();
+  Vertice vMenor;
+  if(vInicialSelected.x <= vFinalSelected.x)
+    vMenor.x= vInicialSelected.x;
+  else
+    vMenor.x= vFinalSelected.x;
+  if(vInicialSelected.y <= vFinalSelected.y)
+    vMenor.y= vInicialSelected.y;
+  else
+    vMenor.y= vFinalSelected.y;
 
+  dibujoSeleccionados.clear();
   std::list<Dibujo*>::iterator it;
   for(it= dibujos.begin(); it != dibujos.end(); it++) {
     Vertice vSupIzq= (*it)->getVerticeSupIzq();
-
-    if((vSupIzq.x >= vInicialSelected.x && vSupIzq.x <= vInicialSelected.x+anchoSelected) && (vSupIzq.y >= vInicialSelected.y && vSupIzq.y <= vInicialSelected.y+altoSelected)) {
-      dibujoSeleccionados.push_back(*it);
-      (*it)->seleccionar();
-      std::cout << "Agregue tipo: " << (*it)->getTipo() << std::endl;
-    }
+      if((vSupIzq.x >= vMenor.x && vSupIzq.x <= vMenor.x+abs(anchoSelected)) && (vSupIzq.y >= vMenor.y && vSupIzq.y <= vMenor.y+abs(altoSelected))) {
+        dibujoSeleccionados.push_back(*it);
+        (*it)->seleccionar();
+      }
   }
-
-  std::cout << "==================================" << std::endl;
-
 }
