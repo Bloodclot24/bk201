@@ -1209,21 +1209,6 @@ Ygounet Guido</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry_servidor_prop_circuito">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-                <property name="x_options"></property>
-                <property name="y_options">GTK_EXPAND</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel" id="labe_puerto_prop_circuito">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">Puerto:</property>
@@ -1237,18 +1222,25 @@ Ygounet Guido</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry_puerto_prop_circuito">
+              <object class="GtkLabel" id="entry_servidor_prop_circuito">
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="entry_puerto_prop_circuito">
+                <property name="visible">True</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
                 <property name="right_attach">2</property>
                 <property name="top_attach">2</property>
                 <property name="bottom_attach">3</property>
-                <property name="x_options"></property>
-                <property name="y_options">GTK_EXPAND</property>
               </packing>
             </child>
           </object>
