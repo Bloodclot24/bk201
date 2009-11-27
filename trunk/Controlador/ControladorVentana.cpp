@@ -177,7 +177,7 @@ void ControladorVentana::simular(){
      std::map<Dibujo*, DatosCircuitoRemoto*>::iterator itc=circuitos.begin();
      for(;itc != circuitos.end(); itc++){
 	  circuito.c->agregarComponente((*itc).second->cr);
-	  //(*itc).second->cr->conectar();
+	  (*itc).second->cr->conectar();
      }
 
      itg=compuertas.begin();
@@ -208,11 +208,34 @@ void ControladorVentana::simular(){
 	       }
 	  }
      }
-     // itc=circuitos.begin();
-     // for(;itc != circuitos.end(); itc++){
-     // 	  circuito.c->agregarComponente((*itc).second->cr);
-     // 	  //(*itc).second->cr->conectar();
-     // }
+
+     itc=circuitos.begin();
+     for(;itc != circuitos.end(); itc++,numero++){
+	  int entradas,salidas;
+	  CircuitoDibujo *cr = (*itc).second->c;
+	  entradas = cr->getCantidadEntradas();
+	  salidas = cr->getCantidadSalidas();
+	  /* busco en cada pin */
+	  std::cout << "CANTIDADDEENTRADAS: " << entradas << " nombre: "<< cr->getLabel() << std::endl; 
+	  for(int i=0;i<entradas+salidas;i++){
+	       Vertice v = cr->obtenerPin(i);
+	       std::map<Dibujo*, ConexionDibujo*>::iterator itp;
+	       /* comparo la posicion del pin con las lineas */
+	       for(itp = pistas.begin(); itp!=pistas.end();itp++){
+		    ConexionDibujo* pista = (*itp).second;
+		    if(pista->setSeleccionado(v.x,v.y)){
+			 if(pista->getVerticeSupIzq()==v || pista->getVerticeInfDer()==v){
+			      /* Este componente conecta con la linea*/
+			      std::list<Vertice> puntosConexion;
+			      /* busco todos los puntos de conexion de la linea */
+			      buscarExtremos(pista, v, puntosConexion ,NULL);
+			      crearConexiones(numero, i, i<entradas?false:true, puntosConexion);
+			 }
+		    }
+	       }
+	  }
+
+     }
 
      std::list<uint32_t> tabla = circuito.c->simularTodo(500);
      std::list<uint32_t>::iterator itt=tabla.begin();
