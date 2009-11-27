@@ -6,12 +6,12 @@ CompuertaAnd::CompuertaAnd(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) {
 }
 
 //void CompuertaAnd::cargarNuevosPines(Vertice vSupIzq) {
-void CompuertaAnd::cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) {
+void CompuertaAnd::cargarNuevosPines() {
 
   pines.clear();
-  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+10, context));
-  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+30, context));
-  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20, context));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+10));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+30));
+  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20));
 }
 
 void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

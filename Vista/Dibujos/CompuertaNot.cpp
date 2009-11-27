@@ -2,11 +2,11 @@
 
 CompuertaNot::CompuertaNot(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
-void CompuertaNot::cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) {
+void CompuertaNot::cargarNuevosPines() {
 
   pines.clear();
-  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+20, context));
-  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20, context));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+20));
+  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20));
 }
 
 void CompuertaNot::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

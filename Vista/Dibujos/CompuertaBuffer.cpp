@@ -2,11 +2,11 @@
 
 CompuertaBuffer::CompuertaBuffer(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { }
 
-void CompuertaBuffer::cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) {
+void CompuertaBuffer::cargarNuevosPines() {
 
   pines.clear();
-  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+20, context));
-  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20, context));
+  pines.push_back(rotarPin(vSupIzq.x, vSupIzq.y+20));
+  pines.push_back(rotarPin(vSupIzq.x+40, vSupIzq.y+20));
 }
 
 void CompuertaBuffer::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {

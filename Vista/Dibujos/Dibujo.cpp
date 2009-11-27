@@ -1,4 +1,7 @@
 #include "Dibujo.h"
+#include <math.h>
+
+#define PI 3.141592654
 
 Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
 
@@ -73,18 +76,16 @@ void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int v
   mostrarAtributos(context, yTexto);
 }
 
-Vertice Dibujo::rotarPin(int x, int y, const Cairo::RefPtr<Cairo::Context>& context) {
 
-  Vertice v;
-  v.x= x;
-  v.y= y;
-  double xi=v.x;
-  double yi=v.y;
-  context->user_to_device(xi,yi);
-  v.x= xi;
-  v.y= yi;
-
-  return v;
+Vertice Dibujo::rotarPin(int x, int y){
+     Vertice v;
+     double xi=x-vCentro.x;
+     double yi=y-vCentro.y;
+     double angulo=(double)(this->angulo)*PI/(double)180.0;
+     std::cout << "Angulo: " << angulo << " ("<< this->angulo << ")" <<  std::endl;;
+     v.x = round(xi*cos(angulo)-yi*sin(angulo)+vCentro.x);
+     v.y = round(xi*sin(angulo)+yi*cos(angulo)+vCentro.y);
+     return v;
 }
 
 std::string Dibujo::getLabel() {

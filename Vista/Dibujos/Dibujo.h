@@ -16,7 +16,7 @@
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
  * ser dibujados en el area de dibujo.
  */
-class Dibujo: public Gtk::Widget {
+class Dibujo{
   friend class VentanaTrabajo;
 
 protected:
@@ -36,7 +36,7 @@ protected:
   virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) { };
   void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
 
-  Vertice rotarPin(int x, int y, const Cairo::RefPtr<Cairo::Context>& context);
+     Vertice rotarPin(int x, int y);
 
 public:
   /**
@@ -107,7 +107,7 @@ public:
 
   bool getExaminar();
 
-  virtual void cargarNuevosPines(const Cairo::RefPtr<Cairo::Context>& context) { };
+  virtual void cargarNuevosPines() { };
 
   std::string getTipo();
 

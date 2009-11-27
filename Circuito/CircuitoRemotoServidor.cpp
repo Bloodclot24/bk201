@@ -20,9 +20,14 @@ void CircuitoRemotoServidor::run(){
 	       std::cout << "Seleccionando circuito " << s->getParametro("Nombre") << std::endl;
 	       controlador= new ControladorVentana();
 	       bool respuesta;
-	       if(controlador->cargar(s->getParametro("Nombre")))
+	       if(controlador->cargar(s->getParametro("Nombre"))){
 		    respuesta = 1;
-	       else respuesta = 0;
+		    c = controlador->getCircuito();
+	       }
+	       else{
+		    respuesta = 0;
+		    delete controlador;
+	       }
 	       Soap res("SeleccionarCircuitoResponse");
 	       res.setParametro("Estado", respuesta);
 	       m.enviarRespuesta(&res);

@@ -92,7 +92,7 @@ public:
       * llamar a setVentana() para asociarlo a una ventana.
       * 
       */
-     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0; filename="";};
+     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0; filename=""; circuito.c=NULL;};
 
      /** 
       * Asocia una ventana al controlador.
@@ -132,6 +132,8 @@ public:
       * Crea un circuito con los componentes agregados y simula.
       */
      void simular();
+
+     Circuito* getCircuito();
 
      void crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista);
      void buscarExtremos(ConexionDibujo* pista, Vertice v, std::list<Vertice> &lista, std::map<ConexionDibujo*, ConexionDibujo*> *listaRecorridos);

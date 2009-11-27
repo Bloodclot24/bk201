@@ -50,7 +50,7 @@ void ControladorVentana::crearComponente(Compuerta* d, const std::string& tipo){
 
 void ControladorVentana::crearComponente(CircuitoDibujo* d){
      DatosCircuitoRemoto *D = new DatosCircuitoRemoto;
-     //D->cr = new CircuitoRemoto(D->servidor, D->puerto, D->nombre);
+     D->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), d->getNombre());
      D->c = d;
      circuitos[d] = D;
 }
@@ -66,6 +66,7 @@ void ControladorVentana::crearComponente(EntradaSalida* d){
 DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
      DatosCircuitoRemoto* dcr = new DatosCircuitoRemoto;
      dcr->c = new CircuitoDibujo(10,10,10,3);
+     dcr->cr = NULL;
      circuitos[dcr->c]=dcr;
      if(ventana)
 	  ventana->agregarDibujo(dcr->c);
@@ -151,10 +152,9 @@ void ControladorVentana::eliminarComponente(Dibujo* d){
      }
 }
 
-void ControladorVentana::simular(){
+Circuito* ControladorVentana::getCircuito(){
      if(circuito.c != NULL)
 	  delete circuito.c;
-
      
      circuito.cantidadEntradas = 0;
      circuito.cantidadSalidas = 0;
@@ -176,6 +176,10 @@ void ControladorVentana::simular(){
      /* agrego los circuitos al circuito */
      std::map<Dibujo*, DatosCircuitoRemoto*>::iterator itc=circuitos.begin();
      for(;itc != circuitos.end(); itc++){
+	  if((*itc).second->cr == NULL){
+	       CircuitoDibujo *d = (*itc).second->c;
+	       (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), "sumador1bit.bk"); //d->getNombre());
+	  }
 	  circuito.c->agregarComponente((*itc).second->cr);
 	  (*itc).second->cr->conectar();
      }
@@ -236,7 +240,11 @@ void ControladorVentana::simular(){
 	  }
 
      }
+     return circuito.c;
+}
 
+void ControladorVentana::simular(){
+     getCircuito();
      std::list<uint32_t> tabla = circuito.c->simularTodo(500);
      std::list<uint32_t>::iterator itt=tabla.begin();
      for(;itt!=tabla.end();itt++){
@@ -245,7 +253,6 @@ void ControladorVentana::simular(){
      std::cout << "/\n";
 
      ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas);
-     
 }
 
 void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista){
