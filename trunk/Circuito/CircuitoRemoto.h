@@ -27,17 +27,23 @@ public:
      bool conectar(){
 	  bool valor=true;
 	  if(!conectado){
-	       s->conectar();
-	       Soap mensaje("SeleccionarCircuito");
-	       mensaje.setParametro("Nombre", nombre.c_str());
-	       mensajero.enviarMensaje(&mensaje);
-	       Soap *respuesta = mensajero.recibirRespuesta();
-	       if(respuesta != NULL &&					\
-		  !respuesta->getNombre().compare("SeleccionarCircuitoResponse")){
-		    valor = respuesta->getParametroNumerico("Estado");
-		    delete respuesta;
-		    if(valor)
-			 conectado=true;
+	       if(s->conectar(15)){
+		    s->setTimeout(10,0);
+		    Soap mensaje("SeleccionarCircuito");
+		    mensaje.setParametro("Nombre", nombre.c_str());
+		    mensajero.enviarMensaje(&mensaje);
+		    Soap *respuesta = mensajero.recibirRespuesta();
+		    if(respuesta != NULL &&				\
+		       !respuesta->getNombre().compare("SeleccionarCircuitoResponse")){
+			 valor = respuesta->getParametroNumerico("Estado");
+			 delete respuesta;
+			 if(valor)
+			      conectado=true;
+		    }
+	       }
+	       else{
+		    valor=false;
+		    conectado=false;
 	       }
 	  }
 	  return valor;

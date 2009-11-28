@@ -33,7 +33,7 @@ public:
 	  this->nombre=nombre;
 	  this->extension = ".bk";
 	  /* Si no tiene la extension se la agrego */
-	  if(nombre.substr(nombre.size()-3,3).compare(".bk")!=0)
+	  if(nombre.size()>3 && nombre.substr(nombre.size()-3,3).compare(".bk")!=0)
 	       this->nombre+=extension;
      };
 		

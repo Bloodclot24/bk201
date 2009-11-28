@@ -181,7 +181,7 @@ Circuito* ControladorVentana::getCircuito(){
      for(;itc != circuitos.end(); itc++){
 	  if((*itc).second->cr == NULL){
 	       CircuitoDibujo *d = (*itc).second->c;
-	       (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), "sumador1bit.bk"); //d->getNombre());
+	       (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), d->getNombre());
 	  }
 	  circuito.c->agregarComponente((*itc).second->cr);
 	  if(!(*itc).second->cr->conectar())
