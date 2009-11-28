@@ -34,7 +34,3 @@ void Compuerta::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, i
   context->show_text(UNIDAD_TIEMPO);
   context->stroke();
 };
-
-void Compuerta::setVerticesMotion(Vertice vertice) {
-  setVerticeSupIzq(vertice);
-}

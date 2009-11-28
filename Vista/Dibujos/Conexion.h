@@ -52,7 +52,7 @@ public:
   Vertice getVerticeInfDer();
   void setAreaDibujo(AreaDibujoGenerica *area);
 
-  virtual void setVerticesMotion(Vertice vertice);
+  virtual void setVerticesMotion(int deltax, int deltay);
 };
 
 #endif /* CONEXION_H_ */

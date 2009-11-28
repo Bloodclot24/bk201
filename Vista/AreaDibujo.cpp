@@ -355,15 +355,12 @@ bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
     seleccion= false;
     selected= false;
     deseleccionar();
-
+    int deltax, deltay;
     for(unsigned int i=0; i<dibujoSeleccionados.size(); i++) {
       Vertice vSupIzq= dibujoSeleccionados[i]->getVerticeSupIzq();
-      int delta= event->x - vAnteriorMotion.x;
-      vSupIzq.x= vSupIzq.x + delta;
-      delta= event->y - vAnteriorMotion.y;
-      vSupIzq.y= vSupIzq.y + delta;
-      //dibujoSeleccionados[i]->setVerticeSupIzq(vSupIzq);
-      dibujoSeleccionados[i]->setVerticesMotion(vSupIzq);
+      deltax= event->x - vAnteriorMotion.x;
+      deltay= event->y - vAnteriorMotion.y;
+      dibujoSeleccionados[i]->setVerticesMotion(deltax, deltay);
     }
     vAnteriorMotion.x= event->x;
     vAnteriorMotion.y= event->y;

@@ -35,7 +35,5 @@ public:
 
   std::string getTipoPin();
   void setTipoPin(std::string tipoPin);
-
-  virtual void setVerticesMotion(Vertice vertice);
 };
 #endif /* ENTRADASALIDA_H_ */

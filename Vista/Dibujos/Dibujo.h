@@ -3,14 +3,16 @@
 
 #include <gtkmm/widget.h>
 #include <cairomm/context.h>
-#include "Constantes.h"
 #include <list>
 #include <vector>
+#include <math.h>
+#include "Constantes.h"
 #include "Vertice.h"
 
 #include <iostream>
 
 #define TOLERANCIA 5
+#define PI 3.141592654
 
 /**
  * El Dibujo es una clase madre que deben cumplir todos aquellos dibujos que quieran
@@ -114,7 +116,7 @@ public:
   int getAncho();
   int getAlto();
 
-  virtual void setVerticesMotion(Vertice vertice) { };
+  virtual void setVerticesMotion(int deltax, int deltay);
 };
 
 #endif /* DIBUJO_H_ */

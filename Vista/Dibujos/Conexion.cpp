@@ -180,7 +180,13 @@ void ConexionDibujo::setAreaDibujo(AreaDibujoGenerica *area) {
   areaDibujo= area;
 }
 
-void ConexionDibujo::setVerticesMotion(Vertice vertice) {
-
-  std::cout << "MOTION" << std::endl;
+void ConexionDibujo::setVerticesMotion(int deltax, int deltay) {
+  Vertice vInicio;
+  vInicio.x= vSupIzq.x + deltax;
+  vInicio.y= vSupIzq.y + deltay;
+  Vertice vFin;
+  vFin.x= vFinal.x + deltax;
+  vFin.y= vFinal.y + deltay;
+  setVerticeSupIzq(vInicio);
+  setVerticeInfDer(vFin);
 }

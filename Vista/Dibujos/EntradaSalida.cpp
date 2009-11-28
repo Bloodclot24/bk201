@@ -46,7 +46,6 @@ void EntradaSalida::setTipoPin(std::string tipoPin) {
 }
 
 void EntradaSalida::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
-
   context->move_to(vSupIzq.x, yTexto);
   context->show_text(label);
   context->move_to(vSupIzq.x, yTexto+15);
@@ -54,7 +53,3 @@ void EntradaSalida::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& contex
   context->show_text(tipoPin);
   context->stroke();
 };
-
-void EntradaSalida::setVerticesMotion(Vertice vertice) {
-  setVerticeSupIzq(vertice);
-}

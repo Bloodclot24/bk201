@@ -39,8 +39,6 @@ public:
 
   virtual int getCantidadEntradas(){ return 2; }
   virtual int getCantidadSalidas(){ return 1; }
-
-  virtual void setVerticesMotion(Vertice vertice);
 };
 
 #endif /* COMPUERTA_H_ */
