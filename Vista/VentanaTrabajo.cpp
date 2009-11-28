@@ -52,9 +52,9 @@ void VentanaTrabajo::correr(bool primeraVez) {
   vbox_drawing_area->add(*areaDibujo);
 
   //Tabla
-  Gtk::VBox* vbox_tabla;
-  refXml->get_widget("vbox_tabla", vbox_tabla);
-  vbox_tabla->add(*tabla);
+  Gtk::Viewport* viewport_tabla;
+  refXml->get_widget("viewport_tabla", viewport_tabla);
+  viewport_tabla->add(*tabla);
 
   //Circuito Remoto
   refXml->get_widget("window_remoto", window_remoto);

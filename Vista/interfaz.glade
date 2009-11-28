@@ -217,11 +217,19 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="vbox_tabla">
+              <object class="GtkScrolledWindow" id="scrolledwindow_tabla">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
+                <property name="can_focus">True</property>
+                <property name="hscrollbar_policy">automatic</property>
+                <property name="vscrollbar_policy">automatic</property>
                 <child>
-                  <placeholder/>
+                  <object class="GtkViewport" id="viewport_tabla">
+                    <property name="visible">True</property>
+                    <property name="resize_mode">queue</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
                 </child>
               </object>
               <packing>

@@ -10,8 +10,6 @@ bool Tabla::on_expose_event(GdkEventExpose* event) {
   window= get_window();
   if(window) {
     Gdk::Region region= window->get_update_area();
-    Gtk::Allocation allocation= get_allocation();
-
     Cairo::RefPtr<Cairo::Context> context= window->create_cairo_context();
     context->begin_new_path();
     context->set_line_width(10.0);
@@ -27,6 +25,10 @@ bool Tabla::on_expose_event(GdkEventExpose* event) {
 
     dibujarTabla(context);
   }
+
+  //seteo el largo y ancho del drawing area
+  if(entradas != 0 && salidas != 0)
+    set_size_request(ancho+2*INICIO_TABLA, alto+2*INICIO_TABLA);
 
   return false;
 }
@@ -51,8 +53,8 @@ void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
     context->set_line_width(1);
     //lineas horizontales
     for(int j= INICIO_TABLA; j<=(alto+INICIO_TABLA); j+=TAMANIO) {
-          context->move_to(INICIO_TABLA, j);
-          context->line_to(ancho+INICIO_TABLA, j);
+      context->move_to(INICIO_TABLA, j);
+      context->line_to(ancho+INICIO_TABLA, j);
     }
 
     //lineas verticales
@@ -103,7 +105,7 @@ void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
     for(int j= 3*TAMANIO-5; j<=(alto+INICIO_TABLA); j+=TAMANIO) {
       for(int i= INICIO_TABLA+15; i<=ancho; i+=TAMANIO) {
         if(contador == (entradas+salidas)) {
-          i= i+8;
+          i= i+4;
           contador= 0;
         } else
           contador++;
