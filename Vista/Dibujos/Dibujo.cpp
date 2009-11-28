@@ -42,6 +42,17 @@ bool Dibujo::setSeleccionado(int x, int y) {
   return seleccionado;
 }
 
+bool Dibujo::estaSeleccionado(int x, int y) {
+  bool estaSeleccionado= false;
+  if((x >= vSupIzq.x) && ((x <= vSupIzq.x+ancho)) && (y >= vSupIzq.y) && (y <= (vSupIzq.y+alto)))
+    estaSeleccionado= true;
+  else
+    estaSeleccionado= false;
+
+  return estaSeleccionado;
+}
+
+
 void Dibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
 
   context->set_source_rgba(0.0, 0.0, 1.0, 0.3);

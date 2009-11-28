@@ -99,8 +99,6 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //Propiedades
   refXml->get_widget("dialog_prop_compuerta", dialog_prop_compuerta);
   dialog_prop_compuerta->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades_compuerta));
-  refXml->get_widget("dialog_prop_conexion", dialog_prop_conexion);
-  dialog_prop_conexion->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades_conexion));
   refXml->get_widget("dialog_prop_io", dialog_prop_io);
   dialog_prop_io->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_propiedades_io));
   refXml->get_widget("dialog_prop_circuito", dialog_prop_circuito);
@@ -478,24 +476,6 @@ void VentanaTrabajo::on_propiedades_compuerta(int response_id) {
       break;
     default:
       dialog_prop_compuerta->hide();
-      break;
-  }
-}
-
-void VentanaTrabajo::on_propiedades_conexion(int response_id) {
-
-  switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop_conexion", entry);
-      Glib::ustring label= entry->get_text();
-      areaDibujo->dibujoSeleccionados[0]->setLabel(label);
-      dialog_prop_conexion->hide();
-      areaDibujo->redibujar();
-    }
-      break;
-    default:
-      dialog_prop_conexion->hide();
       break;
   }
 }

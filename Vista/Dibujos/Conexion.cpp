@@ -74,6 +74,9 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
    context->stroke();
 
+   std::cout << "redibujando: " << seleccionado << std::endl;
+
+
   if(seleccionado)
     dibujarSeleccion(context);
 
@@ -110,59 +113,41 @@ void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& conte
 
 bool ConexionDibujo::setSeleccionado(int x, int y) {
 
-  std::cout << "SET SELECCIONADO" << std::endl;
-
   bool primero= true;
-  int menorX, mayorX;
-  int menorY, mayorY;
-  Vertice anterior;
-  std::list<Vertice>::iterator it;
-  bool encontrado= false;
-  seleccionado= false;
+   int menorX, mayorX;
+   int menorY, mayorY;
+   Vertice anterior;
+   std::list<Vertice>::iterator it;
+   for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
 
+     if(!primero) {
 
-  for(it= poligonos.begin(); it != poligonos.end() && !encontrado; it++) {
+       if(anterior.x < it->x) {
+         menorX= anterior.x-5;
+         mayorX= it->x+5;
+       } else {
+         menorX= it->x-5;
+         mayorX= anterior.x+5;
+       }
 
-    std::cout << "adentro" << std::endl;
+       if(anterior.y < it->y) {
+         menorY= anterior.y-5;
+         mayorY= it->y+5;
+       } else {
+         menorY= it->y-5;
+         mayorY= anterior.y+5;
+       }
 
-    if(!primero) {
+       if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY)))
+         seleccionado= true;
+       anterior= *it;
+     } else {
+       primero= false;
+       anterior= *it;
+     }
+   }
 
-      if(anterior.x < it->x) {
-        menorX= anterior.x-5;
-        mayorX= it->x+5;
-      } else {
-        menorX= it->x-5;
-        mayorX= anterior.x+5;
-      }
-
-      if(anterior.y < it->y) {
-        menorY= anterior.y-5;
-        mayorY= it->y+5;
-      } else {
-        menorY= it->y-5;
-        mayorY= anterior.y+5;
-      }
-
-//      std::cout << "menorX:" << menorX << std::endl;
-//      std::cout << "mayorX:" << mayorX << std::endl;
-//      std::cout << "menorY:" << menorY << std::endl;
-//      std::cout << "mayorY:" << mayorY << std::endl;
-
-
-      if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY))) {
-        encontrado= true;
-        seleccionado= true;
-      }
-      anterior= *it;
-    } else {
-      primero= false;
-      anterior= *it;
-    }
-  }
-
-  //std::cout << "seleccionado: " << seleccionado << std::endl;
-
-  return seleccionado;
+   return seleccionado;
 }
 
 void ConexionDibujo::calcularAtributos(){

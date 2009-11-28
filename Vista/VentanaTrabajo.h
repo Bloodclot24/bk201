@@ -144,8 +144,6 @@ private:
   /*PROPIEDADES*/
   Gtk::Dialog *dialog_prop_compuerta;
   void on_propiedades_compuerta(int response_id);
-  Gtk::Dialog *dialog_prop_conexion;
-  void on_propiedades_conexion(int response_id);
   Gtk::Dialog *dialog_prop_io;
   void on_propiedades_io(int response_id);
   Gtk::Dialog *dialog_prop_circuito;

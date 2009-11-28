@@ -419,6 +419,8 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 //Clicks
 bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 
+  std::cout << "=====EVENTO CLICK BTN IZQ===="<< std::endl;
+
   if(conexion) {
     //obtengo el primer vertice de la conexion
     if(!cargoVInicial) {
@@ -432,8 +434,9 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
       vFinal.x= x;
       vFinal.y= y;
       ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, vFinal, this);
-      agregarComponente(conexion);
       ventanaTrabajo->controladorVentana->crearComponente(conexion);
+      agregarComponente(conexion);
+      can_motion= false;
     }
     return true;
 
@@ -490,8 +493,6 @@ void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
 
     if((tipo.compare(COMPUERTA)) == 0)
       prepararVentanaCompuerta(seleccionado);
-    else if((tipo.compare(CONEXION)) == 0)
-      prepararVentanaConexion(seleccionado);
     else if((tipo.compare(IO)) == 0)
       prepararVentanaIO(seleccionado);
     else if((tipo.compare(CIRCUITO)) == 0)
@@ -511,16 +512,6 @@ void AreaDibujo::prepararVentanaCompuerta(Dibujo *seleccionado) {
   entry->set_text(tiempo);
   //muestro el dialogo de propiedades
   ventanaTrabajo->dialog_prop_compuerta->show();
-}
-
-void AreaDibujo::prepararVentanaConexion(Dibujo *seleccionado) {
-
-  std::string label= seleccionado->getLabel();
-  Gtk::Entry *entry;
-  ventanaTrabajo->refXml->get_widget("entry_label_prop_conexion", entry);
-  entry->set_text(label);
-  //muestro el dialogo de propiedades
-  ventanaTrabajo->dialog_prop_conexion->show();
 }
 
 void AreaDibujo::prepararVentanaIO(Dibujo *seleccionado) {
