@@ -1,6 +1,6 @@
 #include "Conexion.h"
 
-ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujo *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
+ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujoGenerica *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
 
   tipo= label= CONEXION;
   this->dibujoPin1= NULL;
@@ -176,7 +176,7 @@ Vertice  ConexionDibujo::getVerticeInfDer() {
   return vFinal;
 }
 
-void ConexionDibujo::setAreaDibujo(AreaDibujo *area) {
+void ConexionDibujo::setAreaDibujo(AreaDibujoGenerica *area) {
   areaDibujo= area;
 }
 

@@ -183,7 +183,8 @@ Circuito* ControladorVentana::getCircuito(){
 	       (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), "sumador1bit.bk"); //d->getNombre());
 	  }
 	  circuito.c->agregarComponente((*itc).second->cr);
-	  (*itc).second->cr->conectar();
+	  if(!(*itc).second->cr->conectar())
+	       std::cerr << "Error: no se pudo conectar con el circuito " <<  (*itc).second->c->getNombre() << std::endl;
      }
 
      itg=compuertas.begin();

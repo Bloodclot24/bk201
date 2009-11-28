@@ -7,6 +7,7 @@ SOURCES=Controlador/controlador.cpp \
 	XML/Soap.cpp \
 	Util/Util.cpp \
 	Vista/AreaDibujo.cpp \
+	Vista/AreaDibujoGenerica.cpp \
 	Red/Mensajero.cpp \
 	Threads/ThreadAceptor.cpp \
 	Server/Server.cpp \

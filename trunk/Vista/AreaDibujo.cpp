@@ -156,35 +156,6 @@ void AreaDibujo::dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context
   }
 }
 
-void AreaDibujo::redibujar() {
-
-  //fuerzo al redibujado
-  if(window) {
-    Gdk::Rectangle r(0, 0, get_allocation().get_width(),
-                     get_allocation().get_height());
-    window->invalidate_rect(r, false);
-  }
-}
-
-void AreaDibujo::deseleccionar() {
-
-  //libero los componentes
-  std::list<Dibujo*>::iterator it;
-  for(it= dibujos.begin(); it != dibujos.end(); it++)
-    (*it)->deseleccionar();
-}
-
-void AreaDibujo::agregarComponente(Dibujo* dibujo) {
-
-  deseleccionar();
-  dibujo->seleccionar();
-  dibujos.push_back(dibujo);
-  dibujoSeleccionados.clear();
-  dibujoSeleccionados.push_back(dibujo);
-  seleccion= true;
-  selected= false;
-  redibujar();
-}
 
 void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp) {
 
@@ -268,48 +239,6 @@ void AreaDibujo::on_drop_drag_data_received(
   }
 
   context->drag_finish(false, false, time);
-}
-
-Dibujo* AreaDibujo::buscarDibujo(int x, int y) {
-
-  std::list<Dibujo*>::iterator it;
-  bool encontrado= false;
-
-  for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
-    encontrado= (*it)->setSeleccionado(x,y);
-    if(encontrado)
-      break;
-  }
-  if(!encontrado)
-    return NULL;
-  return *it;
-}
-
-Dibujo* AreaDibujo::buscarDibujoCercano(Dibujo *origen, int x, int y) {
-
-  std::list<Dibujo*>::iterator it;
-  bool encontrado= false;
-
-  for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
-    encontrado= (*it)->setSeleccionado(x,y);
-    if(encontrado && *it != origen)
-	 break;
-    else encontrado=false;
-  }
-  if(!encontrado)
-    return NULL;
-  return *it;
-}
-
-bool AreaDibujo::existeDibujo(Dibujo* d){
-     std::list<Dibujo*>::iterator it;
-     bool encontrado= false;
-
-     for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
-	  encontrado= (*it) == d;
-     }
-
-     return encontrado;
 }
 
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
@@ -649,11 +578,6 @@ void AreaDibujo::prepararVentanaCircuito(Dibujo *seleccionado) {
   label->set_text(puerto);
   //muestro el dialogo de propiedades
   ventanaTrabajo->dialog_prop_circuito->show();
-}
-
-void AreaDibujo::agregarDibujo(Dibujo *dibujo) {
-
-  agregarComponente(dibujo);
 }
 
 
