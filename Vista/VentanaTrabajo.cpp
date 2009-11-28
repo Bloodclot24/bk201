@@ -568,7 +568,6 @@ void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &pu
 
 void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito) {
 
-  std::cout << "hola mundo X100000\n";
   ControladorVentana controlador;
   controlador.setAreaDibujo(circuitoRemoto);
   controlador.cargar(nombreArchivo);
@@ -576,6 +575,7 @@ void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, con
   refXml->get_widget("label_nombre_circuito", label);
   label->set_text(nombreCircuito);
   window_remoto->show_all();
+  ::remove(nombreArchivo.c_str());
 }
 
 //ERROR
