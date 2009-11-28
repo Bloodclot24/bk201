@@ -14,7 +14,7 @@ Soap* Mensajero::recibirMensaje(){
 
      std::string mensaje;
 
-     while(!salida){
+     while(!salida && s->esValido()){
 	  s->recibir(&c ,1);
 	  mensaje +=c;
 	  
@@ -30,10 +30,12 @@ Soap* Mensajero::recibirMensaje(){
 	  return NULL;
 
      char* datos = new char[req.getContentLength()];
-
+     
      s->recibir(datos, req.getContentLength());
      
-     Soap *soap = new Soap(datos, req.getContentLength());
+     Soap *soap=NULL;
+     if(s->esValido())
+	  soap = new Soap(datos, req.getContentLength());
      
      delete[] datos;
      
@@ -48,7 +50,7 @@ Soap* Mensajero::recibirRespuesta(){
 
      std::string mensaje;
 
-     while(!salida){
+     while(!salida  && s->esValido()){
 	  s->recibir(&c ,1);
 	  mensaje +=c;
 	  
@@ -66,8 +68,10 @@ Soap* Mensajero::recibirRespuesta(){
      char* datos = new char[res.getContentLength()];
 
      s->recibir(datos, res.getContentLength());
-     
-     Soap *soap = new Soap(datos, res.getContentLength());
+
+     Soap *soap=NULL;
+     if(s->esValido())
+	  soap = new Soap(datos, res.getContentLength());
      
      delete[] datos;
      
