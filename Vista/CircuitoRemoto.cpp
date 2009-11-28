@@ -67,9 +67,3 @@ void DibujoCircuitoRemoto::redibujar() {
   }
 }
 
-
-void DibujoCircuitoRemoto::agregarDibujo(Dibujo* dibujo) {
-     dibujo->deseleccionar();
-     this->dibujos.push_back(dibujo);
-     this->redibujar();
-}

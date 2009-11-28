@@ -39,16 +39,11 @@ class AreaDibujo: public AreaDibujoGenerica {
 private:
   VentanaTrabajo                *ventanaTrabajo;
   Cairo::RefPtr<Cairo::Context> context;
-  Glib::RefPtr<Gdk::Window>     window;
-  std::list<Dibujo*>            dibujos;
   int                           width;
   int                           height;
   Vertice                       vAnteriorMotion;
   bool                          motion;
   bool                          can_motion;
-  bool                          seleccion;
-
-  void deseleccionar();
 
   //Conexion
   bool                          conexion;
@@ -70,7 +65,6 @@ private:
   std::list<Gtk::TargetEntry> listTargets;
 
   void buscarPosicion(int &x, int &y);
-  void redibujar();
 
   //Circuito
   int xCircuito;
@@ -88,13 +82,11 @@ private:
 
   //Seleccion Multiple
   bool                          can_selected;
-  bool                          selected;
   bool                          dibujarSelected;
   Vertice                       vInicialSelected;
   Vertice                       vFinalSelected;
   int                           anchoSelected;
   int                           altoSelected;
-  std::vector<Dibujo*>          dibujoSeleccionados;
   void dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& context);
   void buscarInclusion(Dibujo *dibujo, Vertice vertice, Vertice vMenor, bool &marcado);
   void cargarSeleccionMultiple();
@@ -108,13 +100,8 @@ protected:
   virtual bool on_motion_notify_event(GdkEventMotion* event);
   virtual bool on_button_release_event(GdkEventButton* event);
 
-  void agregarComponente(Dibujo* dibujo);
   void dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp);
   void dibujarIO(unsigned int xUp, unsigned int yUp);
-
-  Dibujo* buscarDibujo(int x, int y);
-  Dibujo* buscarDibujoCercano(Dibujo *origen, int x, int y);
-  bool existeDibujo(Dibujo* d);
 
   void dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context, std::list<Dibujo*> dibujos);
 
@@ -132,7 +119,6 @@ public:
   void borrarSeleccion();
   void verCircuito();
      
-  virtual void agregarDibujo(Dibujo *dibujo);
 };
 
 #endif /* AREADIBUJO_H_ */

@@ -4,7 +4,7 @@
 class ConexionDibujo;
 
 #include "Dibujo.h"
-#include "../AreaDibujo.h"
+#include "../AreaDibujoGenerica.h"
 #include <list>
 
 #include <iostream>
@@ -19,7 +19,7 @@ private:
   Dibujo*               dibujoPin2;
   int                   nroPin2;
   std::list<Vertice>    poligonos;
-  AreaDibujo*           areaDibujo;
+  AreaDibujoGenerica*   areaDibujo;
 
 protected:
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
@@ -33,7 +33,7 @@ public:
     * @param supIzqX La componente x del vertice superior izquierdo.
     * @param supIzqY La componente y del vertice superior izquierdo.
     */
-  ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujo *areaDibujo);
+  ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujoGenerica *areaDibujo);
 
   virtual ~ConexionDibujo() { };
 
@@ -50,7 +50,7 @@ public:
   void setVerticeFinal(Vertice vertice);
   void setVerticeInfDer(Vertice vInfDer);
   Vertice getVerticeInfDer();
-  void setAreaDibujo(AreaDibujo *area);
+  void setAreaDibujo(AreaDibujoGenerica *area);
 
   virtual void setVerticesMotion(Vertice vertice);
 };

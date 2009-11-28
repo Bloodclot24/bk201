@@ -61,12 +61,12 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	std::cout << "scaleH!!! : " << scaleH << std::endl;
 
 
-	Gtk::Allocation allocation = cairo_ctx->get_allocation();
-	double width1= allocation.get_width();
-	double height1= allocation.get_height();
+	// Gtk::Allocation allocation = cairo_ctx->get_allocation();
+	// double width1= allocation.get_width();
+	// double height1= allocation.get_height();
 
-	std::cout << "width allocation!!! : " << width1 << std::endl;
-	std::cout << "height allocation!!! : " << height1 << std::endl;
+	// std::cout << "width allocation!!! : " << width1 << std::endl;
+	// std::cout << "height allocation!!! : " << height1 << std::endl;
 
 
 	if(scaleW || scaleH){

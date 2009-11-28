@@ -12,8 +12,6 @@ class DibujoCircuitoRemoto: public AreaDibujoGenerica {
 
 private:
   VentanaTrabajo*               ventanaTrabajo;
-  Glib::RefPtr<Gdk::Window>     window;
-  std::list<Dibujo*>            dibujos;
   int                           width;
   int                           height;
   void redibujar();
@@ -24,7 +22,6 @@ protected:
 public:
   DibujoCircuitoRemoto(VentanaTrabajo *ventanaTrabajo);
   virtual ~DibujoCircuitoRemoto() { };
-  virtual void agregarDibujo(Dibujo* dibujo);
 };
 
 #endif /* CIRCUITOREMOTO_H_ */

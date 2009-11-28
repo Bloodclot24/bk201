@@ -22,15 +22,17 @@ void CircuitoRemotoServidor::run(){
 	  //me fijo de que tipo es el mensaje
 	  if(comando.compare("SeleccionarCircuito")==0){
 	       std::cout << "Seleccionando circuito " << s->getParametro("Nombre") << std::endl;
-	       controlador= new ControladorVentana();
-	       bool respuesta;
-	       if(controlador->cargar(s->getParametro("Nombre"))){
-		    respuesta = 1;
-		    c = controlador->getCircuito();
-	       }
-	       else{
-		    respuesta = 0;
-		    delete controlador;
+	       bool respuesta=1;
+	       if(!controlador){
+		    controlador= new ControladorVentana();
+		    if(controlador->cargar(s->getParametro("Nombre"))){
+			 respuesta = 1;
+			 c = controlador->getCircuito();
+		    }
+		    else{
+			 respuesta = 0;
+			 delete controlador;
+		    }
 	       }
 	       Soap res("SeleccionarCircuitoResponse");
 	       res.setParametro("Estado", respuesta);

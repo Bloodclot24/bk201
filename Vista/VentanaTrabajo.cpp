@@ -550,7 +550,7 @@ void VentanaTrabajo::agregarDibujo(Dibujo *dibujo){
 
 void VentanaTrabajo::agregarDibujo(ConexionDibujo *dibujo){
   areaDibujo->agregarDibujo(dibujo);
-  dibujo->setAreaDibujo(areaDibujo);
+  //dibujo->setAreaDibujo(areaDibujo);
 }
 
 bool VentanaTrabajo::on_key_press_event(GdkEventKey* event) {
