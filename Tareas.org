@@ -28,15 +28,15 @@
    - [X] Implementar protocolo SOAP.
    - [X] Definir la estructura de los mensajes a enviar/recibir.
 
-** TODO Entorno grafico
+** DONE Entorno grafico
    - [X] Drag&Drop.
-   - [-] Ventana de edicion simple.
+   - [X] Ventana de edicion simple.
      - [X] Barras de herramientas.
      - [X] Grilla punteada.
      - [X] Representacion grafica de los componentes.
-     - [ ] Traduccion del modelo grafico al modelo a simular.
+     - [X] Traduccion del modelo grafico al modelo a simular.
    - [X] Mas de una ventana de edicion.
-   - [ ] Menues contextuales.
+   - [X] Menues contextuales.
    - [X] Ventanas para modificar parametros de los componentes.
    - [X] Ventana de impresion.
    - [X] Ventana para inspeccionar servidores remotos.
@@ -65,7 +65,7 @@
 
    - [X] Integracion Drag&Drop.
 
-** TODO Semana 3
+** DONE Semana 3
    DEADLINE: <2009-11-17 Tue>
 
    - [X] Clases encargadas del XML.
@@ -76,13 +76,13 @@
 
    - [X] Persistencia.
 
-   - [ ] Integracion de la simulacion con la parte grafica.
+   - [X] Integracion de la simulacion con la parte grafica.
 
-     - [ ] Traducir el modelo grafico al modelo a simular.
+     - [X] Traducir el modelo grafico al modelo a simular.
 
    - [X] Mas de una ventana de edicion.
 
-** TODO Semana 4
+** DONE Semana 4
    DEADLINE: <2009-11-24 Tue>
    
    - [X] Definir estructura de los mensajes SOAP.
@@ -91,7 +91,7 @@
 
    - [X] Server multi-cliente.
 
-   - [ ] Menues contextuales.
+   - [X] Menues contextuales.
 
 ** DONE Semana 5
    DEADLINE: <2009-12-01 Tue>

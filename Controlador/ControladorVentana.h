@@ -17,6 +17,7 @@ struct DescripcionCircuito;
 #include "../Circuito/CircuitoRemoto.h"
 #include "../Vista/Dibujos/Conexion.h"
 #include "../Vista/Dibujos/EntradaSalida.h"
+#include "../Vista/AreaDibujoGenerica.h"
 
 
 
@@ -57,6 +58,7 @@ protected:
      /* Estan declarados protegidos, para que la clase Persistidor
       * pueda cargar/grabar el estado */
      VentanaTrabajo* ventana;
+     AreaDibujoGenerica *area;
      DatosCircuito circuito;
      std::map<Dibujo*, DatosCompuerta*> compuertas;
      std::map<Dibujo*, DatosCircuitoRemoto*> circuitos;
@@ -100,6 +102,8 @@ public:
       * @param v Ventana a asociar al controlador.
       */
      void setVentana(VentanaTrabajo* v){ ventana = v; }
+
+     void setAreaDibujo(AreaDibujoGenerica *a){ area = a; }
 
      /** 
       * Metodo que indica al controlador que se acaba de agregar una
@@ -172,6 +176,8 @@ public:
       * @param puerto El puerto al cual me conecto.
       */
      void obtenerCircuitoServidor(const std::string& nombre, const std::string& servidor, int puerto);
+
+     void notificarCircuito(const std::string& nombreArchivo, const std::string& nombre);
 
      /** 
       * Guarda en un archivo el estado del modelo.

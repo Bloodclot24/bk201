@@ -17,6 +17,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
   circuitoRemoto= new DibujoCircuitoRemoto(this);
   this->controlador= controlador;
   this->controladorVentana= controladorV;
+  controladorV->setAreaDibujo(areaDibujo);
   this->id= id;
   window_print= new VentanaImpresion();
 }
@@ -585,13 +586,13 @@ void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &pu
 
 void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito) {
 
+  std::cout << "hola mundo X100000\n";
   ControladorVentana controlador;
-//  controlador.setAreaDibujo(*circuitoRemoto);
+  controlador.setAreaDibujo(circuitoRemoto);
   controlador.cargar(nombreArchivo);
   Gtk::Label *label;
   refXml->get_widget("label_nombre_circuito", label);
   label->set_text(nombreCircuito);
-
   window_remoto->show_all();
 }
 

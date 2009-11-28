@@ -68,8 +68,8 @@ DatosCircuitoRemoto* ControladorVentana::cargarCircuito(){
      dcr->c = new CircuitoDibujo(10,10,10,3);
      dcr->cr = NULL;
      circuitos[dcr->c]=dcr;
-     if(ventana)
-	  ventana->agregarDibujo(dcr->c);
+     if(area)
+	  area->agregarDibujo(dcr->c);
      return dcr;
 }
 
@@ -107,8 +107,8 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
      
      if(dc != NULL){
 	  compuertas[dc->c] = dc;
-	  if(ventana)
-	       ventana->agregarDibujo(dc->c);
+	  if(area)
+	       area->agregarDibujo(dc->c);
 	  std::cout << "Cargado OK\n";
      }
 
@@ -118,16 +118,18 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
 ConexionDibujo* ControladorVentana::cargarConexion(){
      ConexionDibujo* d = new ConexionDibujo(0,0,NULL,0,NULL);
      pistas[d]=d;
-     if(ventana)
-	  ventana->agregarDibujo(d);
+     if(area){
+	  //d->setAreaDibujo(area);
+	  area->agregarDibujo(d);
+     }
      return d;
 }
 
 EntradaSalida* ControladorVentana::cargarEntradaSalida(){
      EntradaSalida* es = new EntradaSalida(0,0);
      pines[es] = es;
-     if(ventana)
-	  ventana->agregarDibujo(es);
+     if(area)
+	  area->agregarDibujo(es);
      return es;
 }
 
@@ -407,4 +409,10 @@ void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista){
      if(ventana)
 	  ventana->recibirListaCircuitos(lista);
      return;
+}
+
+void ControladorVentana::notificarCircuito(const std::string& nombreArchivo, const std::string& nombre){
+     std::cout << "Ventana: " << ventana << std::endl;
+     if(ventana)
+	  ventana->recibirCircuitoRemoto(nombreArchivo, nombre);
 }
