@@ -124,6 +124,26 @@ bool Socket::conectar(void){
      return esValido(); 
 }
 
+bool Socket::conectar(int timeout){
+     setNoBloqueante();
+     std::cout << "pongo no bloqueante\n";
+     int estado = conectar();
+     if(estado == EINPROGRESS || estado==0){
+	  error = 0;
+	  std::cout << "OK, espero la conexion\n";
+	  if(seleccionar(timeout)<=0){
+	       std::cout << "Timeout \n";
+	       error = errno;
+	  }
+	  else std::cout << "TimeoutNO "<< error << " \n";
+     }
+     else{
+	  error = errno;
+     }
+     setBloqueante();
+     return esValido();
+}
+
 int Socket::seleccionar(int tiempo){
      struct timeval tv; 
      tv.tv_sec = tiempo;

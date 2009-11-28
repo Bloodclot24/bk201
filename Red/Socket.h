@@ -116,6 +116,8 @@ public:
       */
      bool conectar(void);
 
+     bool conectar(int timeout);
+
      int seleccionar(int tiempo);
 
      bool setNoBloqueante();

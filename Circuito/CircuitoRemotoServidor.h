@@ -58,6 +58,7 @@ public:
      CircuitoRemotoServidor(Socket *s, Server *serv){
 	  ns=s;
 	  m.setSocket(s);
+	  ns->setTimeout(10,0);
 	  server = serv;
 	  controlador=NULL;
 	  c=NULL;

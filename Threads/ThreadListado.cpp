@@ -16,22 +16,7 @@ void ThreadListado::run(){
 	  control.notificarLista(lista);
 	  return;
      }
-     s.setNoBloqueante();
-     std::cout << "pongo no bloqueante\n";
-     int w = s.conectar();
-     std::cout << "W: " << w << std::endl;
-     if(w == EINPROGRESS || w==0){
-	  std::cout << "OK, espero la conexion\n";
-	  if(s.seleccionar(15)<=0){
-	       std::cout << "Timeout \n";
-	       s.invalidar();
-	  }
-	  else s.revalidar();
-     }
-     else{
-	  std::cout << "?????\n";
-     }
-     s.setBloqueante();
+     s.conectar(15);
      if(s.esValido()){
 	  std::cout << "Conectado" << std::endl;
 	  Mensajero m(&s);
