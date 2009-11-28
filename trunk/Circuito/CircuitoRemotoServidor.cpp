@@ -9,6 +9,10 @@ void CircuitoRemotoServidor::run(){
 	  if(s== NULL){
 	       std::cout << "El mensaje es NULL\n";
 	       stop();
+	       if(controlador){
+		    delete controlador;
+		    controlador=NULL;
+	       }
 	       continue; //TODO: hacer algo (cerrar la conexion)
 	  }
 	  std::string comando = s->getNombre();

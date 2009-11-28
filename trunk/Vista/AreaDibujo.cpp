@@ -414,8 +414,7 @@ void AreaDibujo::verCircuito() {
 
   if(seleccion && !motion) {
 	  CircuitoDibujo* dibujoCircuitoRemoto = dynamic_cast<CircuitoDibujo*> (this->dibujoSeleccionados[0]);
-	  ControladorVentana controlador;
-	  controlador.obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
+	  ventanaTrabajo->controladorVentana->obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
 	  //ventanaTrabajo->window_remoto->show_all();
     }
 }

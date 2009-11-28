@@ -33,6 +33,8 @@ void ThreadObtenerCircuito::run(){
 	       std::ofstream temporal(nombreTemporal.c_str());
 	       temporal.write(contenido.c_str(), contenido.size());
 	       temporal.close();
+	       std::cout << "Aviso la llegada del circuito \n";
+	       control.notificarCircuito(nombreTemporal, nombre);
 	  }
 	  else{
 	       std::cout << "Respuesta es NULL.\n";

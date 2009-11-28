@@ -24,8 +24,7 @@ protected:
 public:
   DibujoCircuitoRemoto(VentanaTrabajo *ventanaTrabajo);
   virtual ~DibujoCircuitoRemoto() { };
-  void agregarDibujos(std::list<Dibujo*> dibujos);
-  virtual void agregarDibujo(Dibujo* dibujo) { };
+  virtual void agregarDibujo(Dibujo* dibujo);
 };
 
 #endif /* CIRCUITOREMOTO_H_ */

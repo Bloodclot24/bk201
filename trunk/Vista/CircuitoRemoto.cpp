@@ -68,7 +68,8 @@ void DibujoCircuitoRemoto::redibujar() {
 }
 
 
-void DibujoCircuitoRemoto::agregarDibujos(std::list<Dibujo*> dibujos) {
-  this->dibujos = dibujos;
-  this->redibujar();
+void DibujoCircuitoRemoto::agregarDibujo(Dibujo* dibujo) {
+     dibujo->deseleccionar();
+     this->dibujos.push_back(dibujo);
+     this->redibujar();
 }
