@@ -23,8 +23,9 @@ void Impresora::on_begin_print(
 {
 	//TODO: provisorio, tendria que ser N paginas de acuerdo a la cantidad
 	//de lineas a imprimir
-	if(tabla && dibujos.size()) set_n_pages(2);
-	else set_n_pages(1);
+//	if(tabla && dibujos.size()) set_n_pages(2);
+//	else set_n_pages(1);
+	set_n_pages(1);
 }
 
 void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPaginas)
@@ -61,27 +62,28 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	std::cout << "scaleH!!! : " << scaleH << std::endl;
 
 
-	// Gtk::Allocation allocation = cairo_ctx->get_allocation();
-	// double width1= allocation.get_width();
-	// double height1= allocation.get_height();
 
-	// std::cout << "width allocation!!! : " << width1 << std::endl;
-	// std::cout << "height allocation!!! : " << height1 << std::endl;
-
-
+//	Glib::RefPtr<Gtk::PrintJob> printjob =	Gtk::PrintJob::create ("LALALA", this, printSettings, pageSetup);
+//	Cairo::RefPtr<Cairo::Surface> surface = printjob->get_surface();
+	
+	Cairo::RefPtr<Cairo::Surface> surface = cairo_ctx->get_target();
+	surface->reference();
+	
 	if(scaleW || scaleH){
 	  if (scaleW > scaleH) scale = scaleW;
 	  else scale = scaleH;
-	  std::cout << "Escalo!!! : " << (double)scale << std::endl;
+	  std::cout << "Escalo!!! : " << (double)scale/100.0 << std::endl;
 	  std::cout << "SH!!! : " << scaleH << std::endl;
 	  std::cout << "SW!!! : " << scaleW << std::endl;
 	  printSettings->set_scale(scale);
 	  printSettings->set_orientation(Gtk::PAGE_ORIENTATION_LANDSCAPE );
 	  set_print_settings(printSettings);
-	  cairo_ctx->scale(scaleW,scaleH);
+	  cairo_ctx->scale(scaleW/100.0,scaleH/100.0);
+	  cairo_ctx->set_source(surface,0.,0.);
+	  cairo_ctx->paint();
 	  set_default_page_setup(pageSetup);
 	}
-
+	
 	if(dibujos.size()){
 		//En caso de que haya algun elemento seleccionado,
 		//antes de imprimir los deselecciono todos.
