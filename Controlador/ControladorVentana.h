@@ -94,7 +94,7 @@ public:
       * llamar a setVentana() para asociarlo a una ventana.
       * 
       */
-     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0; filename=""; circuito.c=NULL;};
+     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0; filename=""; circuito.c=NULL; area=NULL;};
 
      /** 
       * Asocia una ventana al controlador.
