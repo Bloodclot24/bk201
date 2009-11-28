@@ -42,16 +42,15 @@ bool Dibujo::setSeleccionado(int x, int y) {
   return seleccionado;
 }
 
-bool Dibujo::estaSeleccionado(int x, int y) {
-  bool estaSeleccionado= false;
+bool Dibujo::estaCercano(int x, int y) {
+  bool cercano= false;
   if((x >= vSupIzq.x) && ((x <= vSupIzq.x+ancho)) && (y >= vSupIzq.y) && (y <= (vSupIzq.y+alto)))
-    estaSeleccionado= true;
+    cercano= true;
   else
-    estaSeleccionado= false;
+    cercano= false;
 
-  return estaSeleccionado;
+  return cercano;
 }
-
 
 void Dibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context) {
 

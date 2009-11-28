@@ -253,7 +253,6 @@ void VentanaTrabajo::loadButtonDrag(Gtk::ToolButton *button, std::string tipo, s
     //le seteo un drag window
     button->set_use_drag_window(true);
     button->drag_source_set(listTargets);
-    button->drag_unhighlight();
     //le conecto la señal de drag
     button->signal_drag_data_get().connect(sigc::bind<Glib::ustring>(sigc::mem_fun(*this, &VentanaTrabajo::on_drag_data_get), tipo));
     //creo icono para el drag
