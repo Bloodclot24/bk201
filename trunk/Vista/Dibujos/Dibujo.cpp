@@ -1,10 +1,6 @@
 #include "Dibujo.h"
-#include <math.h>
-
-#define PI 3.141592654
 
 Dibujo::Dibujo(int xUp, int yUp): vCentro(), vSupIzq() {
-
   vSupIzq.x= xUp;
   vSupIzq.y= yUp;
   angulo= 0;
@@ -76,16 +72,14 @@ void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int v
   mostrarAtributos(context, yTexto);
 }
 
-
 Vertice Dibujo::rotarPin(int x, int y){
-     Vertice v;
-     double xi=x-vCentro.x;
-     double yi=y-vCentro.y;
-     double angulo=(double)(this->angulo)*PI/(double)180.0;
-     std::cout << "Angulo: " << angulo << " ("<< this->angulo << ")" <<  std::endl;;
-     v.x = round(xi*cos(angulo)-yi*sin(angulo)+vCentro.x);
-     v.y = round(xi*sin(angulo)+yi*cos(angulo)+vCentro.y);
-     return v;
+  Vertice v;
+  double xi=x-vCentro.x;
+  double yi=y-vCentro.y;
+  double angulo=(double)(this->angulo)*PI/(double)180.0;
+  v.x = round(xi*cos(angulo)-yi*sin(angulo)+vCentro.x);
+  v.y = round(xi*sin(angulo)+yi*cos(angulo)+vCentro.y);
+  return v;
 }
 
 std::string Dibujo::getLabel() {
@@ -110,9 +104,6 @@ int Dibujo::obtenerPinMasCercano(int x, int y) {
       encontrado= true;
       break;
     }
-
-    // std::cout << "pines[i].x: " << pines[i].x << std::endl;
-    // std::cout << "pines[i].y: " << pines[i].y << std::endl;
   }
   if(!encontrado)
     return -1;
@@ -135,4 +126,11 @@ int Dibujo::getAncho() {
 
 int Dibujo::getAlto() {
   return alto;
+}
+
+void Dibujo::setVerticesMotion(int deltax, int deltay) {
+  Vertice vertice;
+  vertice.x= vSupIzq.x + deltax;
+  vertice.y= vSupIzq.y + deltay;
+  setVerticeSupIzq(vertice);
 }

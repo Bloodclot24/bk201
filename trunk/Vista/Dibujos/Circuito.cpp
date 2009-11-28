@@ -138,10 +138,6 @@ int CircuitoDibujo::getCantidadSalidas() {
   return salidas;
 }
 
-void CircuitoDibujo::setVerticesMotion(Vertice vertice) {
-  setVerticeSupIzq(vertice);
-}
-
 void CircuitoDibujo::agregarDatos(const std::string &servidor, const std::string &puerto, const std::string &nombre) {
   this->servidor= servidor;
   this->puerto= puerto;
