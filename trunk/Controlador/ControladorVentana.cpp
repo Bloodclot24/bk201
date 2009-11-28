@@ -135,6 +135,7 @@ EntradaSalida* ControladorVentana::cargarEntradaSalida(){
 }
 
 void ControladorVentana::eliminarComponente(Dibujo* d){
+     //TODO: [d] crea nuevo objeto
      if(compuertas[d] != NULL){
 	  delete compuertas[d]->g;
 	  delete compuertas[d];
@@ -184,8 +185,9 @@ Circuito* ControladorVentana::getCircuito(){
 	       (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), d->getNombre());
 	  }
 	  circuito.c->agregarComponente((*itc).second->cr);
-	  if(!(*itc).second->cr->conectar())
+	  if(!(*itc).second->cr->conectar()){
 	       std::cerr << "Error: no se pudo conectar con el circuito " <<  (*itc).second->c->getNombre() << std::endl;
+	  }
      }
 
      itg=compuertas.begin();
