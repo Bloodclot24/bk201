@@ -93,7 +93,9 @@ bool Socket::enviar(const void *buf, int longitud){
 
      if(retorno == -1)
 	  error = errno;
-	  
+
+     if(retorno < longitud)
+	  invalidar();
      
      return esValido();
 }
@@ -101,7 +103,14 @@ bool Socket::enviar(const void *buf, int longitud){
 /* Recibe la cantidad de bytes pedidos en el buffer */
 /****************************************************************************/
 int Socket::recibir(void *buf, int cuanto){
-     return recv(s, buf, cuanto, MSG_WAITALL);
+     int recibido = recv(s, buf, cuanto, MSG_WAITALL);
+
+     if(recibido < cuanto){
+	  std::cout << "Marcando como invalido(timeout)\n";
+	  invalidar();
+     }
+     
+     return recibido;
 }
      
 

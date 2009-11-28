@@ -34,6 +34,9 @@ void CircuitoRemotoServidor::run(){
 			 delete controlador;
 		    }
 	       }
+	       else if(c){
+		    c->reset();
+	       }
 	       Soap res("SeleccionarCircuitoResponse");
 	       res.setParametro("Estado", respuesta);
 	       m.enviarRespuesta(&res);

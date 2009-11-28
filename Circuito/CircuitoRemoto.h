@@ -6,6 +6,7 @@
 #include "../Red/Mensajero.h"
 #include "../XML/Soap.h"
 
+
 /** 
  * Tipo de componente que representa un circuito en otro servidor.
  */
@@ -25,10 +26,9 @@ public:
      }
 
      bool conectar(){
-	  bool valor=true;
+	  bool valor=false;
 	  if(!conectado){
-	       if(s->conectar(15)){
-		    s->setTimeout(10,0);
+	       if(s->conectar()){
 		    Soap mensaje("SeleccionarCircuito");
 		    mensaje.setParametro("Nombre", nombre.c_str());
 		    mensajero.enviarMensaje(&mensaje);

@@ -1,5 +1,7 @@
 #include "Mensajero.h"
 
+#define DEFAULT_TIMEOUT 10
+
 void Mensajero::setSocket(Socket *s){
      this->s = s;
 }
@@ -9,6 +11,9 @@ Soap* Mensajero::recibirMensaje(){
 	  std::cout << "Socket invalido"<< s->obtenerError() << " \n";
 	  return NULL;
      }
+
+     s->setTimeout(DEFAULT_TIMEOUT,0);
+
      char c=0;
      bool salida=false;
 
@@ -41,13 +46,18 @@ Soap* Mensajero::recibirMensaje(){
 	  soap = new Soap(datos, req.getContentLength());
      
      delete[] datos;
-     
+
+     s->setTimeout(DEFAULT_TIMEOUT,0);
+
      return soap;
 }
 
 Soap* Mensajero::recibirRespuesta(){
      if(!s || !s->esValido())
 	  return NULL;
+
+     s->setTimeout(DEFAULT_TIMEOUT,0);
+
      char c=0;
      bool salida=false;
 
@@ -80,6 +90,8 @@ Soap* Mensajero::recibirRespuesta(){
 	  soap = new Soap(datos, res.getContentLength());
      
      delete[] datos;
+
+     s->setTimeout(DEFAULT_TIMEOUT,0);
      
      return soap;
 }
@@ -88,6 +100,8 @@ Soap* Mensajero::recibirRespuesta(){
 int Mensajero::enviarMensaje(Soap* soap){
      if(soap == NULL || !s || !s->esValido())
 	  return -1;
+
+     s->setTimeout(DEFAULT_TIMEOUT,0);
 
      std::string *soapString = soap->toString();
 
@@ -103,6 +117,8 @@ int Mensajero::enviarMensaje(Soap* soap){
 
      delete soapString;
 
+     s->setTimeout(DEFAULT_TIMEOUT,0);
+
      return 0;
 }
 
@@ -110,6 +126,8 @@ int Mensajero::enviarRespuesta(Soap* soap){
 
      if(!s || !s->esValido())
 	  return -1;
+
+     s->setTimeout(DEFAULT_TIMEOUT,0);
 
      unsigned codigo = 400;
      unsigned longitud = 0;
@@ -135,6 +153,8 @@ int Mensajero::enviarRespuesta(Soap* soap){
 	  s->enviar(soapString->c_str(), longitud);
 	  delete soapString;
      }
+
+     s->setTimeout(DEFAULT_TIMEOUT,0);
 
      return 0;
 }
