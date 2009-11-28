@@ -24,6 +24,9 @@ Soap* Mensajero::recibirMensaje(){
 	  }
      }
 
+     if(!s->esValido())
+	  return NULL;
+
      HttpRequest req(mensaje.c_str(),1);
      
      if(!req.esValido() || req.getContentLength() == 0)
@@ -59,6 +62,9 @@ Soap* Mensajero::recibirRespuesta(){
 		    salida=true;
 	  }
      }
+
+     if(!s->esValido())
+	  return NULL;
 
      HttpResponse res(mensaje.c_str());
      
