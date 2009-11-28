@@ -83,3 +83,7 @@ bool AreaDibujoGenerica::existeDibujo(Dibujo* d){
 
      return encontrado;
 }
+
+void AreaDibujoGenerica::vaciarListaDibujos(){
+	if(dibujos.size()) dibujos.clear();
+}
