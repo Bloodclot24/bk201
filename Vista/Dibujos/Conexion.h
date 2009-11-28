@@ -15,7 +15,7 @@ class ConexionDibujo: public Dibujo {
 private:
   Dibujo*               dibujoPin1;
   int                   nroPin1;
-  Vertice               vFinal;
+  Vertice               vInfDer;
   Dibujo*               dibujoPin2;
   int                   nroPin2;
   std::list<Vertice>    poligonos;
@@ -45,6 +45,9 @@ public:
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
   virtual bool setSeleccionado(int x, int y);
+  virtual bool estaCercano(int x, int y);
+
+  virtual void setAngulo(int angulo);
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
   void setVerticeFinal(Vertice vertice);

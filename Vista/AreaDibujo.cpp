@@ -345,10 +345,9 @@ void AreaDibujo::invertirHorizontal() {
 void AreaDibujo::verCircuito() {
 
   if(seleccion && !motion) {
-	  CircuitoDibujo* dibujoCircuitoRemoto = dynamic_cast<CircuitoDibujo*> (this->dibujoSeleccionados[0]);
-	  ventanaTrabajo->controladorVentana->obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
-	  //ventanaTrabajo->window_remoto->show_all();
-    }
+    CircuitoDibujo* dibujoCircuitoRemoto = dynamic_cast<CircuitoDibujo*> (this->dibujoSeleccionados[0]);
+    ventanaTrabajo->controladorVentana->obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
+  }
 }
 
 bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
@@ -419,8 +418,6 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 //Clicks
 bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 
-  std::cout << "=====EVENTO CLICK BTN IZQ===="<< std::endl;
-
   if(conexion) {
     //obtengo el primer vertice de la conexion
     if(!cargoVInicial) {
@@ -441,9 +438,6 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
     return true;
 
   } else {
-
-    std::cout << "-----------------------------clickkkk--------------------------------------------" << std::endl;
-
     deseleccionar();
     if(!selected)
       dibujoSeleccionados.clear();
