@@ -1,13 +1,13 @@
 #include "Conexion.h"
 
-ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujoGenerica *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
+ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Vertice vFinal, AreaDibujoGenerica *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
 
   tipo= label= CONEXION;
-  this->dibujoPin1= NULL;
-  this->nroPin1= -1;
-  this->dibujoPin2= NULL;
-  this->nroPin2= -1;
+  this->vFinal= vFinal;
   this->areaDibujo= areaDibujo;
+  this->dibujoPin1= NULL;
+  this->dibujoPin2= NULL;
+  generarPoligonos();
 }
 
 void ConexionDibujo::generarPoligonos() {
@@ -24,13 +24,16 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   //si tengo algun extremo suelto, veo si tengo un
   //pin cercano
+
+  std::cout << "redibujando: " << seleccionado << std::endl;
+
      if(!dibujoPin1 && areaDibujo) {
           dibujoPin1= areaDibujo->buscarDibujoCercano(this, vSupIzq.x, vSupIzq.y);
-          std::cout << dibujoPin1 << std::endl;
+//          std::cout << dibujoPin1 << std::endl;
           if(dibujoPin1) {
                nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
 
-               std::cout << "nroPin1:" << nroPin1 << std::endl;
+//               std::cout << "nroPin1:" << nroPin1 << std::endl;
 
                if(nroPin1 == -1)
                     dibujoPin1= NULL;
@@ -45,7 +48,7 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
           if(dibujoPin2) {
                nroPin2= dibujoPin2->obtenerPinMasCercano(vFinal.x,vFinal.y);
 
-               std::cout << "nroPin2:" << nroPin2 << std::endl;
+//               std::cout << "nroPin2:" << nroPin2 << std::endl;
 
                if(nroPin2 == -1)
                     dibujoPin2= NULL;
@@ -107,12 +110,20 @@ void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& conte
 
 bool ConexionDibujo::setSeleccionado(int x, int y) {
 
+  std::cout << "SET SELECCIONADO" << std::endl;
+
   bool primero= true;
   int menorX, mayorX;
   int menorY, mayorY;
   Vertice anterior;
   std::list<Vertice>::iterator it;
-  for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
+  bool encontrado= false;
+  seleccionado= false;
+
+
+  for(it= poligonos.begin(); it != poligonos.end() && !encontrado; it++) {
+
+    std::cout << "adentro" << std::endl;
 
     if(!primero) {
 
@@ -132,14 +143,24 @@ bool ConexionDibujo::setSeleccionado(int x, int y) {
         mayorY= anterior.y+5;
       }
 
-      if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY)))
+//      std::cout << "menorX:" << menorX << std::endl;
+//      std::cout << "mayorX:" << mayorX << std::endl;
+//      std::cout << "menorY:" << menorY << std::endl;
+//      std::cout << "mayorY:" << mayorY << std::endl;
+
+
+      if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY))) {
+        encontrado= true;
         seleccionado= true;
+      }
       anterior= *it;
     } else {
       primero= false;
       anterior= *it;
     }
   }
+
+  //std::cout << "seleccionado: " << seleccionado << std::endl;
 
   return seleccionado;
 }

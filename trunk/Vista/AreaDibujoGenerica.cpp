@@ -42,6 +42,11 @@ Dibujo* AreaDibujoGenerica::buscarDibujo(int x, int y) {
   std::list<Dibujo*>::iterator it;
   bool encontrado= false;
 
+  std::cout << "Buscando Dibujo" << std::endl;
+  std::cout << "x: " << x << std::endl;
+  std::cout << "y: " << y << std::endl;
+
+
   for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
     encontrado= (*it)->setSeleccionado(x,y);
     if(encontrado)

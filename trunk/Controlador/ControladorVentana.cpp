@@ -116,7 +116,8 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
 }
 
 ConexionDibujo* ControladorVentana::cargarConexion(){
-     ConexionDibujo* d = new ConexionDibujo(0,0,NULL,0,NULL);
+     Vertice v;
+     ConexionDibujo* d = new ConexionDibujo(0,0,v,NULL);
      pistas[d]=d;
      if(area){
 	  //d->setAreaDibujo(area);

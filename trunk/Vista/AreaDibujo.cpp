@@ -180,6 +180,7 @@ void AreaDibujo::dibujarConexion() {
 
   deseleccionar();
   conexion= true;
+  cargoVInicial= false;
   redibujar();
 }
 
@@ -254,7 +255,9 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   //Evento boton derecho
   } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
-    Dibujo *seleccionado= dibujoSeleccionados[0];
+    Dibujo *seleccionado= NULL;
+    if(!dibujoSeleccionados.empty())
+      seleccionado= dibujoSeleccionados[0];
     if(menuPopup && !dibujoSeleccionados.empty()) {
       verRotar->set_sensitive(true);
       verInvertir->set_sensitive(true);
@@ -417,46 +420,26 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
 bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 
   if(conexion) {
-    //obtengo el dibujo sobre el que se hizo click
-    Dibujo *dibujo= buscarDibujo(x, y);
-
-    //obtengo el pin mas cercano
-    Vertice v;
-    int nroPin;
-    if(dibujo) {
-      nroPin= dibujo->obtenerPinMasCercano(x,y);
-      if(nroPin != -1)
-      v= dibujo->obtenerPin(nroPin);
-    } else {
-      buscarPosicion(x, y);
-      v.x= x;
-      v.y= y;
-    }
-
-    if(nroPin == -1) {
-      dibujo= NULL;
-      buscarPosicion(x, y);
-      v.x= x;
-      v.y= y;
-    }
-
+    //obtengo el primer vertice de la conexion
     if(!cargoVInicial) {
-       cargoVInicial= true;
-       vInicial= v;
-       dibujoPin1= dibujo;
-       nroPin1= nroPin;
+      vInicial.x= x;
+      vInicial.y= y;
+      cargoVInicial= true;
     } else {
       conexion= false;
-      ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, dibujoPin1, nroPin1, this);
-      ventanaTrabajo->controladorVentana->crearComponente(conexion);
-      conexion->setVerticeFinal(v);
+      //obtengo el segundo vertice de la conexion y creo la conexion
+      Vertice vFinal;
+      vFinal.x= x;
+      vFinal.y= y;
+      ConexionDibujo *conexion= new ConexionDibujo(vInicial.x, vInicial.y, vFinal, this);
       agregarComponente(conexion);
-      can_motion= false;
-      cargoVInicial= false;
+      ventanaTrabajo->controladorVentana->crearComponente(conexion);
     }
     return true;
 
   } else {
+
+    std::cout << "-----------------------------clickkkk--------------------------------------------" << std::endl;
 
     deseleccionar();
     if(!selected)
@@ -498,8 +481,9 @@ void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
 
   //busco el elemento sobre el que se hizo doble click y
   //muestro sus propiedades segun el tipo de componente
-  Dibujo *seleccionado= dibujoSeleccionados[0];
-  seleccionado= buscarDibujo(x, y);
+  Dibujo *seleccionado= NULL;
+  if(!dibujoSeleccionados.empty())
+    seleccionado= dibujoSeleccionados[0];
   if(seleccionado) {
     std::string tipo= seleccionado->getTipo();
     can_motion= false;

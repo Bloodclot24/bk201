@@ -34,7 +34,6 @@ void Dibujo::deseleccionar() {
 }
 
 bool Dibujo::setSeleccionado(int x, int y) {
-
   if((x >= vSupIzq.x) && ((x <= vSupIzq.x+ancho)) && (y >= vSupIzq.y) && (y <= (vSupIzq.y+alto)))
     seleccionado= true;
   else
