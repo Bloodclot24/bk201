@@ -24,7 +24,7 @@ class VentanaTrabajo;
 #include <gtkmm/treeview.h>
 #include <gtkmm/liststore.h>
 #include <gtkmm/radiobutton.h>
-#include <gtkmm/scrolledwindow.h>
+#include <gtkmm/viewport.h>
 
 #include <iostream>
 #include "AreaDibujo.h"
