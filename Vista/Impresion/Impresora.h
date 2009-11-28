@@ -1,7 +1,8 @@
 #ifndef IMPRESORA_H_
 #define IMPRESORA_H_
 
-#include <gtkmm.h>
+#include <gtkmm/printoperation.h>
+#include <gtkmm/printcontext.h>
 #include <gtkmm/printsettings.h>
 #include <vector>
 #include <list>

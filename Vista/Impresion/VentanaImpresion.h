@@ -4,12 +4,13 @@
 #include "Impresora.h"
 #include <memory>
 #include <vector>
-#include <pangomm.h>
 #include <gtkmm/window.h>
 #include <gtkmm/printoperation.h>
 #include <gtkmm/button.h>
 #include <gtkmm/box.h>
-#include <gtkmm.h>
+#include <gtkmm/pagesetup.h>
+#include <gtkmm/printsettings.h>
+#include <gtkmm/scrolledwindow.h>
 #include <iostream>
 
 class Impresora;
