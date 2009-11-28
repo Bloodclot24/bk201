@@ -323,6 +323,7 @@ void VentanaTrabajo::on_response_open(int response_id) {
     case Gtk::RESPONSE_ACCEPT: {
       Glib::ustring file= filechooserdialog_open->get_filename();
       std::cout << "Cargando File: " << file << std::endl;
+      areaDibujo->vaciarListaDibujos();
       controladorVentana->cargar(file);
       filechooserdialog_open->hide();
     }
@@ -570,6 +571,7 @@ void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, con
 
   ControladorVentana controlador;
   controlador.setAreaDibujo(circuitoRemoto);
+  circuitoRemoto->vaciarListaDibujos();
   controlador.cargar(nombreArchivo);
   Gtk::Label *label;
   refXml->get_widget("label_nombre_circuito", label);
