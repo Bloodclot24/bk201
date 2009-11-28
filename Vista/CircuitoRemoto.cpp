@@ -50,6 +50,8 @@ bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
       context->translate(vCentro.x, vCentro.y);
       context->rotate_degrees((*it)->getAngulo());
       context->translate(-vCentro.x, -vCentro.y);
+      //deselecciono los objetos antes de dibujarlos
+      (*it)->deseleccionar();
       (*it)->dibujar(context);
     }
   }

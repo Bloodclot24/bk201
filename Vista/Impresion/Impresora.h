@@ -4,6 +4,7 @@
 #include <gtkmm/printoperation.h>
 #include <gtkmm/printcontext.h>
 #include <gtkmm/printsettings.h>
+#include <gtkmm/printjob.h>
 #include <vector>
 #include <list>
 #include "../Tabla.h"
