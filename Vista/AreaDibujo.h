@@ -48,8 +48,6 @@ private:
   //Conexion
   bool                          conexion;
   bool                          cargoVInicial;
-  Dibujo*                       dibujoPin1;
-  int                           nroPin1;
   Vertice                       vInicial;
 
   //MenuPopup

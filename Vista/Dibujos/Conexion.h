@@ -33,7 +33,7 @@ public:
     * @param supIzqX La componente x del vertice superior izquierdo.
     * @param supIzqY La componente y del vertice superior izquierdo.
     */
-  ConexionDibujo(int vInicialX, int vInicialY, Dibujo* dibujoPin1, int nroPin1, AreaDibujoGenerica *areaDibujo);
+  ConexionDibujo(int vInicialX, int vInicialY, Vertice vFinal, AreaDibujoGenerica *areaDibujo);
 
   virtual ~ConexionDibujo() { };
 
