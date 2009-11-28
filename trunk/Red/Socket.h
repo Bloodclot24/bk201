@@ -116,6 +116,14 @@ public:
       */
      bool conectar(void);
 
+     int seleccionar(int tiempo);
+
+     bool setNoBloqueante();
+
+     bool setBloqueante();
+
+     void invalidar(void);
+
      /** 
       * Cierra el socket, lo desconecta.
       * 

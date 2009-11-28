@@ -382,6 +382,7 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       dialog_message->set_message("Conectandose al servidor...");
 
       controladorVentana->obtenerListaServidor(servidor, atoi(puerto.c_str()));
+
     }
       break;
     default:
@@ -413,6 +414,7 @@ void VentanaTrabajo::recibirListaCircuitos(const std::list<DescripcionCircuito> 
     dialog_lista_circuitos->show();
 
   } else {
+       std::cout << "Lista vacía\n";
     dialog_message->hide();
     dialog_servidor->set_sensitive(true);
     if(messagedialog_error_servidor) {

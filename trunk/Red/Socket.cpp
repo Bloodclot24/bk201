@@ -1,6 +1,11 @@
 #include "Socket.h"
 #include <unistd.h>
 #include <fcntl.h> 
+#include <sys/select.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 
 /* Crea un nuevo socket con la direccion de destino y puerto dados */
 /****************************************************************************/
@@ -119,6 +124,33 @@ bool Socket::conectar(void){
      return esValido(); 
 }
 
+int Socket::seleccionar(int tiempo){
+     struct timeval tv; 
+     tv.tv_sec = tiempo;
+     tv.tv_usec = 0;
+     fd_set myset;
+     FD_ZERO(&myset);
+     FD_SET(s, &myset);
+     return select(s+1, NULL, &myset, NULL, &tv);
+}
+
+bool Socket::setNoBloqueante(){
+     // Set non-blocking 
+     long arg = fcntl(s, F_GETFL, NULL); 
+     arg |= O_NONBLOCK; 
+     fcntl(s, F_SETFL, arg); 
+     return true;
+}
+
+bool Socket::setBloqueante(){
+     // Set non-blocking 
+     long arg = fcntl(s, F_GETFL, NULL); 
+     arg &= ~O_NONBLOCK; 
+     fcntl(s, F_SETFL, arg); 
+     return true;
+}
+
+
 /* Cierra el socket, lo desconecta */
 /****************************************************************************/
 bool Socket::cerrar(void){
@@ -137,12 +169,11 @@ bool Socket::cerrar(void){
  * para emision de los mismos. */
 /****************************************************************************/
 void Socket::setTimeout(int seg, int useg){
-#ifndef DEBUG
      struct timeval tiempo;
      tiempo.tv_sec= seg;
      tiempo.tv_usec= useg;
      setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char*)&tiempo, sizeof(tiempo));
-#endif
+     setsockopt(s, SOL_SOCKET, SO_SNDTIMEO, (char*)&tiempo, sizeof(tiempo));
 }
 
 /* Indica si se produjo algun error durante la ultima operacion */
@@ -156,6 +187,13 @@ bool Socket::esValido(void){
 void Socket::revalidar(void){
      error = 0;
 }
+
+/* setea el estado del socket a invalido */
+/****************************************************************************/
+void Socket::invalidar(void){
+     error = -1;
+}
+
 
 /* Devuelve la descripcion del ultimo error */
 /****************************************************************************/

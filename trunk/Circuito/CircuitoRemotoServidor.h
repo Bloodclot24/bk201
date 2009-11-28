@@ -59,6 +59,8 @@ public:
 	  ns=s;
 	  m.setSocket(s);
 	  server = serv;
+	  controlador=NULL;
+	  c=NULL;
      }
 
      void run();

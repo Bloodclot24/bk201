@@ -10,27 +10,28 @@ ThreadListado::ThreadListado(ControladorVentana& control, const std::string& hos
 
 void ThreadListado::run(){
      std::list<DescripcionCircuito> lista;
-
-     // DescripcionCircuito d={"Circuito1", 1,2};
-     // DescripcionCircuito e={"Circuito2", 4,1};
-     // DescripcionCircuito f={"Circuito3", 5,3};
-     // DescripcionCircuito g={"Circuito4", 3,3};
-
-     // std::cout << "Agrego los circuitos a la lista\n";
-
-     // lista.push_back(d);
-     // lista.push_back(e);
-     // lista.push_back(f);
-     // lista.push_back(g);
-
-     // sleep(2);
-
-     // std::cout << "Notifico a la ventana\n";
-     // control.notificarLista(lista);
-     // return;
-
      Socket s(host, puerto);
-     s.conectar();
+     std::cout << "valido: " << s.esValido() << std::endl;
+     if(!s.esValido()){
+	  control.notificarLista(lista);
+	  return;
+     }
+     s.setNoBloqueante();
+     std::cout << "pongo no bloqueante\n";
+     int w = s.conectar();
+     std::cout << "W: " << w << std::endl;
+     if(w == EINPROGRESS || w==0){
+	  std::cout << "OK, espero la conexion\n";
+	  if(s.seleccionar(15)<=0){
+	       std::cout << "Timeout \n";
+	       s.invalidar();
+	  }
+	  else s.revalidar();
+     }
+     else{
+	  std::cout << "?????\n";
+     }
+     s.setBloqueante();
      if(s.esValido()){
 	  std::cout << "Conectado" << std::endl;
 	  Mensajero m(&s);
@@ -56,6 +57,9 @@ void ThreadListado::run(){
 	       }
 	  }
 	  delete respuesta;
+     }
+     else{
+	  std::cout << "Timeouttttttttttttttttttttttt\n";
      }
      control.notificarLista(lista);
 }

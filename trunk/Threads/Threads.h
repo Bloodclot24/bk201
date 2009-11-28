@@ -144,17 +144,6 @@ public:
 };
 
 
-static void dummyHandler(int signo){
-/*      std::cerr << "señal aca esta...................................................................................\n"; */
-/*      if(signo == SIGUSR1) */
-/* 	  std::cerr << "SIGUSR1\n"; */
-/*      else if(signo == SIGALRM) */
-/* 	  std::cerr << "SIGALRM\n"; */
-/*      else */
-/* 	  std::cerr << "SIG???????????????????????\n"; */
-     return;
-}
-
 /** 
  * Encapsulacion de Threads.
  */
@@ -207,11 +196,11 @@ protected:
       */
      Thread(){ corriendo = false; thread = 0;
 	  memset(&actions, 0, sizeof(actions));
-	  sigemptyset(&actions.sa_mask);
-	  actions.sa_flags = 0;
-	  actions.sa_handler = &dummyHandler;
-	  if(sigaction(SIGUSR1,&actions,NULL)==0)
-	       signalable=1;
+	  // sigemptyset(&actions.sa_mask);
+	  // actions.sa_flags = 0;
+	  // actions.sa_handler = &dummyHandler;
+	  // if(sigaction(SIGUSR1,&actions,NULL)==0)
+	  //      signalable=1;
      }
      
      /** 
