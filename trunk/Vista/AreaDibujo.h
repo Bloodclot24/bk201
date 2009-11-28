@@ -74,7 +74,6 @@ private:
 
   //Ventanas Propiedades
   void prepararVentanaCompuerta(Dibujo *seleccionado);
-  void prepararVentanaConexion(Dibujo *seleccionado);
   void prepararVentanaIO(Dibujo *seleccionado);
   void prepararVentanaCircuito(Dibujo *seleccionado);
 

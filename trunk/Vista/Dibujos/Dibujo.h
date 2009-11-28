@@ -98,6 +98,7 @@ public:
 
   void deseleccionar();
   void seleccionar();
+  virtual bool estaSeleccionado(int x, int y);
   virtual bool setSeleccionado(int x, int y);
 
   int obtenerPinMasCercano(int x, int y);
