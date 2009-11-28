@@ -34,8 +34,7 @@ class AreaDibujo: public AreaDibujoGenerica {
   friend class VentanaTrabajo;
   friend class ConexionDibujo;
   friend class Impresora;
-//TODO: ver que hacer con esto, implica 3 friends class
-//  friend class DibujoCircuitoRemoto;
+
 private:
   VentanaTrabajo                *ventanaTrabajo;
   Cairo::RefPtr<Cairo::Context> context;
