@@ -25,10 +25,10 @@ void Impresora::on_begin_print(
 	//de lineas a imprimir
 //	if(tabla && dibujos.size()) set_n_pages(2);
 //	else set_n_pages(1);
-	set_n_pages(1);
+	set_n_pages(2);
 }
 
-void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPaginas)
+void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPagina)
 {
 	double width = print_context->get_width();
 	double height = print_context->get_height();
@@ -48,8 +48,15 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	double scaleH = 1.0;
 	double scale = 0.0;
 	//Paso a INCH el ancho y el alto del print_context
+	std::cout << "width en pixels: " << width << std::endl;
+	std::cout << "height en pixels: " << height << std::endl;
+
 	width = (double) (width / print_context->get_dpi_x());
 	height = (double) (height / print_context->get_dpi_y());
+
+	std::cout << "puntos por pulgada en x: " << print_context->get_dpi_x() << std::endl;
+
+	std::cout << "puntos por pulgada en y: " << print_context->get_dpi_y() << std::endl;
 
 	if(width > widthPaper) scaleW = (double)( (widthPaper*100.0)/width/*width / widthPaper*/);
 	if(height > heightPaper) scaleH = (double)( (heightPaper*100.0)/height/*height / heightPaper*/);
@@ -70,26 +77,29 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	  std::cout << "SH!!! : " << scaleH/100.0 << std::endl;
 	  std::cout << "SW!!! : " << scaleW/100.0 << std::endl;
 	}
-	
-	if(dibujos.size()){
-		//En caso de que haya algun elemento seleccionado,
-		//antes de imprimir los deselecciono todos.
-		std::list<Dibujo*>::iterator it;
-    	for(it= dibujos.begin(); it != dibujos.end(); it++) {
-			(*it)->deseleccionar();
-			cairo_ctx->scale(scaleW,scaleH);
-	    	//roto respecto el centro de la imagen
-			Vertice vCentro= (*it)->getVerticeCentro();
-		    cairo_ctx->translate(vCentro.x, vCentro.y);
-		    cairo_ctx->rotate_degrees((*it)->getAngulo());
-		    cairo_ctx->translate(-vCentro.x, -vCentro.y);
-		    (*it)->dibujar(cairo_ctx);
-		    cairo_ctx->set_identity_matrix();
-	    }
-	}
-	if(tabla){
-//		set_current_page(2);
+	if(numeroPagina == 0){
+		if(dibujos.size()){
+			//En caso de que haya algun elemento seleccionado,
+			//antes de imprimir los deselecciono todos.
+			std::list<Dibujo*>::iterator it;
+			for(it= dibujos.begin(); it != dibujos.end(); it++) {
+				(*it)->deseleccionar();
+//				cairo_ctx->scale(0.5,0.5);
+				//roto respecto el centro de la imagen
+				Vertice vCentro= (*it)->getVerticeCentro();
+				cairo_ctx->translate(vCentro.x, vCentro.y);
+				cairo_ctx->rotate_degrees((*it)->getAngulo());
+				cairo_ctx->translate(-vCentro.x, -vCentro.y);
+				(*it)->dibujar(cairo_ctx);
+				cairo_ctx->set_identity_matrix();
+			}
+		}
+	}else{
+		if(tabla){
+
+		cairo_ctx->scale(scaleW,scaleH);
 		tabla->dibujarTabla(cairo_ctx);
+		}
 	}
 	
 }
