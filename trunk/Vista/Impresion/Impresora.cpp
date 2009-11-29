@@ -58,8 +58,8 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 
 	std::cout << "puntos por pulgada en y: " << print_context->get_dpi_y() << std::endl;
 
-	if(width > widthPaper) scaleW = (double)( (widthPaper*100.0)/width/*width / widthPaper*/);
-	if(height > heightPaper) scaleH = (double)( (heightPaper*100.0)/height/*height / heightPaper*/);
+	if(width > widthPaper) scaleW = (double)( widthPaper / (width * 100.0)/*width / widthPaper*/);
+	if(height > heightPaper) scaleH = (double)( heightPaper / (height * 100.0)/*height / heightPaper*/);
 	
 	std::cout << "width!!! : " << width << std::endl;
 	std::cout << "height!!! : " << height << std::endl;
@@ -84,7 +84,7 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 			std::list<Dibujo*>::iterator it;
 			for(it= dibujos.begin(); it != dibujos.end(); it++) {
 				(*it)->deseleccionar();
-				cairo_ctx->scale(0.5,0.5);
+				cairo_ctx->scale(scaleW,scaleH);//0.5,0.5);
 				//roto respecto el centro de la imagen
 				Vertice vCentro= (*it)->getVerticeCentro();
 				cairo_ctx->translate(vCentro.x, vCentro.y);
