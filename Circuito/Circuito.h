@@ -399,8 +399,10 @@ public:
 		    
 	       }
 	       else{ // Paso mas del tiempo maximo permitido
-		    for(unsigned l=0;l<salidas;l++)
+		    for(unsigned l=0;l<salidas;l++){
 			 std::cout << "| " << "?" << " ";
+			 tabla.push_back((uint32_t)-1);
+		    }
 		    if(extendido) {
 			 if(!inestableAnterior)
 			      for(unsigned l=0;l<salidas;l++)
@@ -410,6 +412,7 @@ public:
 				   std::cout << "| " << "?" << " ";
 		    }
 		    std::cout << " Tiempo: ??? (inestable)";
+		    tabla.push_back((uint32_t)-1);
 		    std::cout << std::endl;
 		    
 	       }

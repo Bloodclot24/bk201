@@ -179,6 +179,10 @@ Circuito* ControladorVentana::getCircuito(){
      /* agrego los circuitos al circuito */
      std::map<Dibujo*, DatosCircuitoRemoto*>::iterator itc=circuitos.begin();
      for(;itc != circuitos.end(); itc++){
+	  if((*itc).second->cr != NULL){
+	       delete (*itc).second->cr;
+	       (*itc).second->cr = NULL;
+	  }
 	  if((*itc).second->cr == NULL){
 	       CircuitoDibujo *d = (*itc).second->c;
 	       (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), d->getNombre());

@@ -110,7 +110,10 @@ void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
         } else
           contador++;
         context->move_to(i, j);
-        context->show_text(Util::intToString(*it));
+	if(*it != (uint32_t)-1)
+	     context->show_text(Util::intToString(*it));
+	else
+	     context->show_text("??");
         it++;
       }
     }
