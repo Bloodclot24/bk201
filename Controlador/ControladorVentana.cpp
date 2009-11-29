@@ -135,24 +135,23 @@ EntradaSalida* ControladorVentana::cargarEntradaSalida(){
 }
 
 void ControladorVentana::eliminarComponente(Dibujo* d){
-     //TODO: [d] crea nuevo objeto
-     if(compuertas[d] != NULL){
+     if(compuertas.count(d) > 0){
 	  delete compuertas[d]->g;
 	  delete compuertas[d];
-	  compuertas[d] = NULL;
+	  compuertas.erase(d);
      }
-     else if(circuitos[d] != NULL){
+     else if(circuitos.count(d) > 0){
 	  delete circuitos[d]->cr;
 	  delete circuitos[d];
-	  circuitos[d] = NULL;
+	  circuitos.erase(d);
      }
-     else if(pistas[d] != NULL){
+     else if(pistas.count(d) > 0){
      	  delete pistas[d];
-     	  pistas[d] = NULL;
+	  pistas.erase(d);
      }
-     else if(pines[d] != NULL){
+     else if(pines.count(d) > 0){
      	  delete pines[d];
-     	  pines[d] = NULL;
+	  pines.erase(d);
      }
 }
 
@@ -246,6 +245,7 @@ Circuito* ControladorVentana::getCircuito(){
 	  }
 
      }
+     circuito.c->reset();
      return circuito.c;
 }
 
@@ -401,9 +401,60 @@ void ControladorVentana::guardar() {
      p.persistir(this);
 }
 
+void ControladorVentana::eliminarTodo(){
+     if(circuito.c){
+	  delete circuito.c;
+	  circuito.c=NULL;
+	  circuito.cantidadEntradas = 0;
+	  circuito.cantidadSalidas = 0;
+     }
+     std::map<Dibujo*, DatosCompuerta*>::iterator itCompuertas;
+     while(compuertas.size()>0 ){
+	  itCompuertas = compuertas.begin();
+	  if(itCompuertas->second){
+	       if(itCompuertas->second->g)
+		    delete itCompuertas->second->g;
+	       delete itCompuertas->second;
+	  }
+	  if(!area)
+	       delete itCompuertas->first;
+
+	  compuertas.erase(itCompuertas);
+     }
+     
+     std::map<Dibujo*, DatosCircuitoRemoto*>::iterator itCircuitos;
+     while(circuitos.size()>0 ){
+	  itCircuitos = circuitos.begin();
+	  if(itCircuitos->second){
+	       if(itCircuitos->second->cr)
+		    delete itCircuitos->second->cr;
+	       delete itCircuitos->second;
+	       if(!area)
+		    delete itCircuitos->first;
+	  }
+	  circuitos.erase(itCircuitos);
+     }
+
+     std::map<Dibujo*, ConexionDibujo*>::iterator itPistas;
+     while(pistas.size() >0){
+	  itPistas = pistas.begin();
+	  if(!area)
+	       delete itPistas->first;
+	  pistas.erase(itPistas);
+     }
+     std::map<Dibujo*, EntradaSalida*>::iterator itPines;
+     while(pines.size() >0){
+	  itPines = pines.begin();
+	  if(!area)
+	       delete itPines->first;
+	  pines.erase(itPines);
+     }
+
+}
 
 bool ControladorVentana::cargar(const std::string& nombreArchivo){
      this->filename= nombreArchivo;
+     eliminarTodo();
      if(ventana)
 	  ventana->habilitarGuardar();
      Persistidor p(nombreArchivo);
@@ -420,4 +471,8 @@ void ControladorVentana::notificarCircuito(const std::string& nombreArchivo, con
      std::cout << "Ventana: " << ventana << std::endl;
      if(ventana)
 	  ventana->recibirCircuitoRemoto(nombreArchivo, nombre);
+}
+
+ControladorVentana::~ControladorVentana(){
+     eliminarTodo();
 }

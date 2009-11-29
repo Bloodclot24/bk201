@@ -65,6 +65,8 @@ public:
      }
 
      void run();
+
+     ~CircuitoRemotoServidor();
 };
 
 #endif //__CIRCUITO_REMOTO_SERVIDOR__

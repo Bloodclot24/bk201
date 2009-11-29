@@ -197,6 +197,9 @@ public:
       * @param nombreArchivo El nombre del archivo.
       */
      bool cargar(const std::string& nombreArchivo);
+
+     void eliminarTodo();
+     ~ControladorVentana();
 };
 
 #endif //__CONTROLADORVENTANA_H_INCLUDED__

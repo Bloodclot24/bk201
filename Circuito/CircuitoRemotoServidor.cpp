@@ -13,7 +13,7 @@ void CircuitoRemotoServidor::run(){
 		    delete controlador;
 		    controlador=NULL;
 	       }
-	       continue; //TODO: hacer algo (cerrar la conexion)
+	       continue;
 	  }
 	  std::string comando = s->getNombre();
 	       
@@ -22,20 +22,20 @@ void CircuitoRemotoServidor::run(){
 	  //me fijo de que tipo es el mensaje
 	  if(comando.compare("SeleccionarCircuito")==0){
 	       std::cout << "Seleccionando circuito " << s->getParametro("Nombre") << std::endl;
-	       bool respuesta=1;
-	       if(!controlador){
-		    controlador= new ControladorVentana();
-		    if(controlador->cargar(s->getParametro("Nombre"))){
-			 respuesta = 1;
-			 c = controlador->getCircuito();
-		    }
-		    else{
-			 respuesta = 0;
-			 delete controlador;
-		    }
+	       int respuesta=1;
+	       if(controlador){
+		    delete controlador;
+		    controlador = NULL;
 	       }
-	       else if(c){
-		    c->reset();
+	       controlador= new ControladorVentana();
+	       if(controlador->cargar(s->getParametro("Nombre"))){
+		    respuesta = 1;
+		    c = controlador->getCircuito();
+	       }
+	       else{
+		    respuesta = 0;
+		    delete controlador;
+		    controlador = NULL;
 	       }
 	       Soap res("SeleccionarCircuitoResponse");
 	       res.setParametro("Estado", respuesta);
@@ -166,10 +166,19 @@ void CircuitoRemotoServidor::run(){
 	       finish();
 	  }
 
-
-	  delete s;
+	  if(s)
+	       delete s;
      }
      delete ns;
 
+     std::cout << "mato al cliente\n";
      server->finalizarCliente(this);
 }
+
+CircuitoRemotoServidor::~CircuitoRemotoServidor(){
+
+     std::cout << "borro el controlador\n";
+     if(controlador)
+	  delete controlador;
+}
+

@@ -135,8 +135,12 @@ private:
       */
      void actualizarConexiones(){
 	  deboActualizar = false;
-	  for(unsigned k=0;k<conexiones.size();k++)
-	       conexiones[k]->actualizar();
+	  for(unsigned k=0;k<conexiones.size();k++){
+	       if(conexiones[k] != NULL)
+		    conexiones[k]->actualizar();
+	       else 
+		    std::cerr << "Conexion NULL????\n";
+	  }
      }
 
      /** 
