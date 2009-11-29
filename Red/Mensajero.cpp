@@ -1,6 +1,6 @@
 #include "Mensajero.h"
 
-#define DEFAULT_TIMEOUT 10
+#define DEFAULT_TIMEOUT 25
 
 void Mensajero::setSocket(Socket *s){
      this->s = s;
