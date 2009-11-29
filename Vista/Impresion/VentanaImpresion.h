@@ -13,6 +13,8 @@
 #include <gtkmm/scrolledwindow.h>
 #include <iostream>
 
+#define PATH_LOGO "Vista/Imagenes/logo.png"
+
 class Impresora;
 class PrintFormOperation;
 

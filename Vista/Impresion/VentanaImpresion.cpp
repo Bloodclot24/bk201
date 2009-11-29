@@ -2,16 +2,17 @@
 #include <iostream>
 
 VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
-									btnPageSetup("Setup"),
-									btnPrintPreview("Preview"),
+									btnPageSetup(Gtk::Stock::PAGE_SETUP),
+									btnPrintPreview(Gtk::Stock::PRINT_PREVIEW),
 									btnPrint(Gtk::Stock::PRINT){
   std::cout << "SE CREO LA VENTANA!!!!!!" << std::endl;
   m_refPageSetup = Gtk::PageSetup::create();
   m_refSettings = Gtk::PrintSettings::create();
 
   set_title("BK201 Imprimir");
-  set_default_size(400, 300);
-
+  set_default_size(400, 10);
+  set_position(Gtk::WIN_POS_CENTER);
+  set_icon_from_file(PATH_LOGO);
   build_main_menu();
   vBox.pack_start(hBox, Gtk::PACK_SHRINK);
   add(vBox);
