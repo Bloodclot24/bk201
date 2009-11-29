@@ -30,8 +30,8 @@ void Impresora::on_begin_print(
 
 void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPaginas)
 {
-	const double width = print_context->get_width();
-	const double height = print_context->get_height();
+	double width = print_context->get_width();
+	double height = print_context->get_height();
 
 	if(!tabla && !dibujos.size()){ 
 		std:: cerr << "Error al imprimir!!! " << std::endl;
@@ -42,16 +42,18 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	cairo_ctx->set_line_width(1);
 	cairo_ctx->set_source_rgb(1.0, 0, 0);
 	Glib::RefPtr<Gtk::PageSetup> pageSetup= get_default_page_setup();
-//	Glib::RefPtr<Gtk::PrintSettings> printSettings = get_print_settings();//Gtk::PrintSettings::create();
 	double widthPaper = pageSetup->get_paper_width(Gtk::UNIT_INCH); //printSettings->get_paper_width(Gtk::UNIT_INCH);
 	double heightPaper = pageSetup->get_paper_height(Gtk::UNIT_INCH);//printSettings->get_paper_height(Gtk::UNIT_INCH);
-	double scaleW = 0.0;
-	double scaleH = 0.0;
+	double scaleW = 1.0;
+	double scaleH = 1.0;
 	double scale = 0.0;
+	//Paso a INCH el ancho y el alto del print_context
+	width = (double) (width / print_context->get_dpi_x());
+	height = (double) (height / print_context->get_dpi_y());
 
-	if(width > widthPaper) scaleW = (double)(( width / widthPaper) - 10);
-	if(height > heightPaper) scaleH = (double)(( height / heightPaper) - 10);
-
+	if(width > widthPaper) scaleW = (double)( (widthPaper*100.0)/width/*width / widthPaper*/);
+	if(height > heightPaper) scaleH = (double)( (heightPaper*100.0)/height/*height / heightPaper*/);
+	
 	std::cout << "width!!! : " << width << std::endl;
 	std::cout << "height!!! : " << height << std::endl;
 
@@ -60,28 +62,13 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 
 	std::cout << "scaleW!!! : " << scaleW << std::endl;
 	std::cout << "scaleH!!! : " << scaleH << std::endl;
-//
-//
-//
-////	Glib::RefPtr<Gtk::PrintJob> printjob =	Gtk::PrintJob::create ("LALALA", this, printSettings, pageSetup);
-////	Cairo::RefPtr<Cairo::Surface> surface = printjob->get_surface();
-//	
-//	Cairo::RefPtr<Cairo::Surface> surface = cairo_ctx->get_target();
-//	surface->reference();
-//	
+
 	if(scaleW || scaleH){
 	  if (scaleW > scaleH) scale = scaleW;
 	  else scale = scaleH;
 	  std::cout << "Escalo!!! : " << (double)scale/100.0 << std::endl;
-	  std::cout << "SH!!! : " << scaleH << std::endl;
-	  std::cout << "SW!!! : " << scaleW << std::endl;
-//	  printSettings->set_scale(scale);
-//	  printSettings->set_orientation(Gtk::PAGE_ORIENTATION_LANDSCAPE );
-//	  set_print_settings(printSettings);
-//	  cairo_ctx->scale(scaleW/100.0,scaleH/100.0);
-//	  cairo_ctx->set_source(surface,0.,0.);
-//	  cairo_ctx->paint();
-//	  set_default_page_setup(pageSetup);
+	  std::cout << "SH!!! : " << scaleH/100.0 << std::endl;
+	  std::cout << "SW!!! : " << scaleW/100.0 << std::endl;
 	}
 	
 	if(dibujos.size()){
@@ -90,80 +77,21 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 		std::list<Dibujo*>::iterator it;
     	for(it= dibujos.begin(); it != dibujos.end(); it++) {
 			(*it)->deseleccionar();
-    	}
-//		cairo_ctx->set_identity_matrix();
-		//Dibujo los elementos
-//		Cairo::Matrix matrix;
-//		cairo_ctx->get_matrix(matrix);
-//		areaDibujo->dibujarComponentes(cairo_ctx,dibujos); 
-//		cairo_ctx->set_matrix(matrix);
-//      	
-   // std::list<Dibujo*>::iterator it;
-
-  	for(it= dibujos.begin(); it != dibujos.end(); it++) {
-		cairo_ctx->scale(scaleW/100.0,scaleH/100.0);
-    	//roto respecto el centro de la imagen
-		Vertice vCentro= (*it)->getVerticeCentro();
-	    cairo_ctx->translate(vCentro.x, vCentro.y);
-	    cairo_ctx->rotate_degrees((*it)->getAngulo());
-	    cairo_ctx->translate(-vCentro.x, -vCentro.y);
-	    (*it)->dibujar(cairo_ctx);
-	    cairo_ctx->set_identity_matrix();
-	  }
-      	
-      	std::cout<< "Dibujando..." << std::endl;
+			cairo_ctx->scale(scaleW,scaleH);
+	    	//roto respecto el centro de la imagen
+			Vertice vCentro= (*it)->getVerticeCentro();
+		    cairo_ctx->translate(vCentro.x, vCentro.y);
+		    cairo_ctx->rotate_degrees((*it)->getAngulo());
+		    cairo_ctx->translate(-vCentro.x, -vCentro.y);
+		    (*it)->dibujar(cairo_ctx);
+		    cairo_ctx->set_identity_matrix();
+	    }
 	}
 	if(tabla){
 //		set_current_page(2);
 		tabla->dibujarTabla(cairo_ctx);
 	}
 	
-//const double width = print_context->get_width();
-//	const double height = print_context->get_height();
-//	const double x_step = width/100.0;
-//	const double y_step = height/100.0;
-//
-//	Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();
-//	cairo_ctx->set_line_width(1);
-//	cairo_ctx->set_source_rgb(1.0, 0, 0);
-//	
-//	double x = 0;
-//	double y = 0;
-//	double x_to = x_step;
-//	double y_to = height;
-//	for(int i = 0; i < 100 ; ++i)
-//	{
-//		cairo_ctx->move_to(x, y);
-//		cairo_ctx->line_to(x_to, y_to);
-//		y += y_step;
-//		x_to += x_step;
-//	}
-//	cairo_ctx->stroke();
-//
-//	cairo_ctx->set_source_rgb(0, 1.0, 0);
-//	x = 0;
-//	y = 0;
-//	x_to = width;
-//	y_to = y_step;
-//	for(int i = 0; i < 100 ; ++i)
-//	{
-//		cairo_ctx->move_to(x, y);
-//		cairo_ctx->line_to(x_to, y_to);
-//		x += x_step;
-//		y_to += y_step;
-//	}
-//
-//	cairo_ctx->stroke();
-//
-//	cairo_ctx->set_source_rgb(0, 0, 0);
-//	cairo_ctx->set_font_size(28.0);
-//	std::string text("Taller de Programación - FIUBA");
-//	Cairo::TextExtents extents;
-//	cairo_ctx->get_text_extents(text, extents);
-//	cairo_ctx->move_to (width/2.0 + - extents.x_bearing - extents.width/2, height/2.0);
-//	cairo_ctx->show_text(text);
-//	cairo_ctx->fill();
-//	
 }
 
 bool Impresora::on_my_paginate(const Glib::RefPtr<Gtk::PrintContext>& context){
