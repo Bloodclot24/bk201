@@ -61,21 +61,25 @@ public:
 	  /* por cada conexion del conjunto */
 	  for(unsigned i=0;i< componentes.size();i++){
 	       /* obtengo el valor de la entrada almacenado*/
-	       bool v = entradas[pinesC1[i]];
-	       /* Y aplico un OR con el valor que nos quiere imponer
-		* este componente.*/
-	       v |= componentes[i]->getPin(pinesC2[i]);
-	       /* Volvemos a almacenar el valor */
-	       entradas[pinesC1[i]] = v;
-	       /* Asi, si hay dos o mas componentes que se nos
-		* conectan a un mismo pin y ambos nos quieren asignar
-		* diferentes estados (alto y bajo), nos quedamos con
-		* el valor alto.*/
+	       if(pinesC1.size() > i && entradas.size() > pinesC1[i]){
+		    bool v = entradas[pinesC1[i]];
+		    /* Y aplico un OR con el valor que nos quiere imponer
+		     * este componente.*/
+		    v |= componentes[i]->getPin(pinesC2[i]);
+		    /* Volvemos a almacenar el valor */
+		    entradas[pinesC1[i]] = v;
+		    /* Asi, si hay dos o mas componentes que se nos
+		     * conectan a un mismo pin y ambos nos quieren asignar
+		     * diferentes estados (alto y bajo), nos quedamos con
+		     * el valor alto.*/
+	       }
 	  }
 	  /* Despues de calculado el valor final, lo asignamos a cada
 	   * pin.*/
-	  for(unsigned i=0;i<componentes.size();i++)
-	       c1->setPin(pinesC1[i], entradas[pinesC1[i]]);
+	  for(unsigned i=0;i<componentes.size();i++){
+	       if(pinesC1.size() > i && entradas.size() > pinesC1[i])
+		    c1->setPin(pinesC1[i], entradas[pinesC1[i]]);
+	  }
      }
      
      /**

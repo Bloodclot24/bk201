@@ -189,7 +189,12 @@ Circuito* ControladorVentana::getCircuito(){
 	  }
 	  circuito.c->agregarComponente((*itc).second->cr);
 	  if(!(*itc).second->cr->conectar()){
-	       std::cerr << "Error: no se pudo conectar con el circuito " <<  (*itc).second->c->getNombre() << std::endl;
+	       std::string error("Error: no se pudo conectar con el circuito ");
+	       error+=(*itc).second->c->getNombre();
+	       if(ventana)
+		    ventana->mostrarMensajeError(error);
+	       else
+		    std::cerr << error<<std::endl;
 	  }
      }
 

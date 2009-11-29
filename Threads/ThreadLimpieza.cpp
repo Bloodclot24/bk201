@@ -12,7 +12,6 @@ void ThreadLimpieza::run(){
 	       CircuitoRemotoServidor* crs = clientesABorrar.front();
 	       clientesABorrar.pop_front();
 	       std::cout << "Finalizando el cliente....\n";
-	       crs->join();
 	       delete crs;
 	  }
      }
@@ -21,7 +20,7 @@ void ThreadLimpieza::run(){
 
 void ThreadLimpieza::limpiarCliente(CircuitoRemotoServidor* crs){
      mutexClientes.lock();
-     if(clientesRegistrados.count(crs) != 0)
+     if(clientesRegistrados.count(crs) == 0)
 	  std::cerr << "Error: se intento eliminar un cliente que nunca se registro.\n";
      else{
 	  clientesRegistrados.erase(crs);
@@ -43,8 +42,9 @@ ThreadLimpieza::~ThreadLimpieza(){
      stop();
      mutexClientes.lock();
      std::map<CircuitoRemotoServidor*, CircuitoRemotoServidor*>::iterator it;
-     for(it=clientesRegistrados.begin();it!=clientesRegistrados.end();it++)
-	  clientesABorrar.push_back(it->second);
+     for(it=clientesRegistrados.begin();it!=clientesRegistrados.end();it++){
+	  it->second->stop();
+     }
 
      variableClientes.signal();
      mutexClientes.unlock();
