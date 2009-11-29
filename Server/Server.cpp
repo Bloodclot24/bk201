@@ -2,11 +2,15 @@
 #include "../Circuito/CircuitoRemotoServidor.h"
 #include "../XML/Persistidor.h"
 
+
 Server::Server(int puerto=SERVER_PUERTO_DEFECTO):s("localhost", puerto){
      aceptor = new ThreadAceptor(&s,this);
+     limpieza = new ThreadLimpieza();
 }
 
 bool Server::escuchar(){
+     limpieza->start();
+
      if(!s.esValido())
 	  return false;
      if(!s.enlazar())
@@ -14,6 +18,7 @@ bool Server::escuchar(){
      if(!s.escuchar())
 	  return false;
      aceptor->comenzar();
+
      return true;
 }
 
@@ -24,7 +29,7 @@ void Server::nuevoCliente(Socket *s){
 }
 
 void Server::finalizarCliente(CircuitoRemotoServidor *sr){
-     delete sr;
+     limpieza->agregarCliente(sr);
 }
 
 std::list<DescripcionCircuito> Server::getListaCircuitos(){
@@ -55,6 +60,6 @@ std::list<DescripcionCircuito> Server::getListaCircuitos(){
 
 
 Server::~Server(){
-
+     delete limpieza;
 //     delete aceptor;
 }

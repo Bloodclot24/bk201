@@ -11,6 +11,7 @@ class Server;
 #include "../Circuito/CircuitoRemotoServidor.h"
 #include "../Controlador/ControladorVentana.h"
 #include <dirent.h>
+#include "../Threads/ThreadLimpieza.h"
 
 #define SERVER_PUERTO_DEFECTO  1234
 
@@ -19,6 +20,7 @@ class Server{
 				 * conexiones entrantes */
      Socket s;			/**< Socket donde espero conexiones */
 
+     ThreadLimpieza* limpieza;
 public:
 
      /** 

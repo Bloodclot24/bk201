@@ -26,6 +26,7 @@ SOURCES=Controlador/controlador.cpp \
 	Threads/ThreadListado.cpp \
 	Vista/CircuitoRemoto.cpp \
 	Threads/ThreadObtenerCircuito.cpp \
+	Threads/ThreadLimpieza.cpp \
 	Vista/Impresion/VentanaImpresion.cpp \
 	Vista/Impresion/Impresora.cpp \
 	Circuito/CircuitoRemotoServidor.cpp
