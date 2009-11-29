@@ -186,10 +186,6 @@ private:
      struct sigaction actions;
      
 protected:
-     /** 
-      * Indica al hilo que debe detenerse.
-      */
-     void stop(){ corriendo = false; }
      
      /** 
       * Crea un nuevo Thread detenido.
@@ -217,6 +213,10 @@ protected:
      void finish(){ stop(); }
      
 public:
+     /** 
+      * Indica al hilo que debe detenerse.
+      */
+     void stop(){ corriendo = false; }
 
      /** 
       * Comienza el Thread. Invoca al metodo run() y vuelve
