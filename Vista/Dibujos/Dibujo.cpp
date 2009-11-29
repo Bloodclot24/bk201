@@ -75,7 +75,7 @@ void Dibujo::mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int v
     yTexto = vSupIzq.y -25;
 
   context->set_source_rgb(1.0, 0.0, 0.0);
-  context->set_identity_matrix();
+//  context->set_identity_matrix();
   context->select_font_face("Sans", Cairo::FONT_SLANT_NORMAL, Cairo::FONT_WEIGHT_NORMAL);
   context->set_font_size(12);
   mostrarAtributos(context, yTexto);
