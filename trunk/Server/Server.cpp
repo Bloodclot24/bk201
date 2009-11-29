@@ -24,12 +24,16 @@ bool Server::escuchar(){
 
 void Server::nuevoCliente(Socket *s){
      CircuitoRemotoServidor *sr = new CircuitoRemotoServidor(s, this);
+     /* registro el cliente, para forzar la salida del mismo si
+      * todavia no terminó cuando termina el servidor */
+     limpieza->registrarCliente(sr);
      sr->start();
      return;
 }
 
 void Server::finalizarCliente(CircuitoRemotoServidor *sr){
-     limpieza->agregarCliente(sr);
+     /* elimino el cliente definitivamente */
+     limpieza->limpiarCliente(sr);
 }
 
 std::list<DescripcionCircuito> Server::getListaCircuitos(){

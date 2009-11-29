@@ -21,6 +21,7 @@ class Server{
      Socket s;			/**< Socket donde espero conexiones */
 
      ThreadLimpieza* limpieza;
+     std::list<CircuitoRemotoServidor*> clientes;
 public:
 
      /** 
