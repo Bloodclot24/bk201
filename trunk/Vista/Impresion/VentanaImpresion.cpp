@@ -69,7 +69,7 @@ void VentanaImpresion::print_or_preview(Gtk::PrintOperationAction print_action)
   Glib::RefPtr<Impresora> print = Impresora::create(dibujos,tabla);
 
   print->set_track_print_status();
-  m_refSettings->set_orientation(Gtk::PAGE_ORIENTATION_LANDSCAPE );
+//  m_refSettings->set_orientation(Gtk::PAGE_ORIENTATION_LANDSCAPE );
   print->set_default_page_setup(m_refPageSetup);
   print->set_print_settings(m_refSettings);
 
