@@ -39,6 +39,9 @@ public:
 
   virtual int getCantidadEntradas(){ return 2; }
   virtual int getCantidadSalidas(){ return 1; }
+
+  virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) { };
+
 };
 
 #endif /* COMPUERTA_H_ */

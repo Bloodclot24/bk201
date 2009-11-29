@@ -119,6 +119,9 @@ public:
   int getAlto();
 
   virtual void setVerticesMotion(int deltax, int deltay);
+
+  virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) { };
+
 };
 
 #endif /* DIBUJO_H_ */
