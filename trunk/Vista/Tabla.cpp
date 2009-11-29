@@ -27,8 +27,10 @@ bool Tabla::on_expose_event(GdkEventExpose* event) {
   }
 
   //seteo el largo y ancho del drawing area
+  ancho= anchoColumna+2*INICIO_TABLA;
+  alto= altoFila+2*INICIO_TABLA;
   if(entradas != 0 && salidas != 0)
-    set_size_request(ancho+2*INICIO_TABLA, alto+2*INICIO_TABLA);
+    set_size_request(ancho, alto);
 
   return false;
 }
@@ -46,24 +48,24 @@ void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
 
   if(entradas != 0 && salidas != 0) {
 
-    ancho= (entradas+salidas+1)*TAMANIO+15;
-    alto= ((lista.size()/(entradas+salidas+1))+2)*TAMANIO;
+    anchoColumna= (entradas+salidas+1)*TAMANIO+15;
+    altoFila= ((lista.size()/(entradas+salidas+1))+2)*TAMANIO;
 
     context->set_source_rgb(0.0, 0.0, 1.0);
     context->set_line_width(1);
     //lineas horizontales
-    for(int j= INICIO_TABLA; j<=(alto+INICIO_TABLA); j+=TAMANIO) {
+    for(int j= INICIO_TABLA; j<=(altoFila+INICIO_TABLA); j+=TAMANIO) {
       context->move_to(INICIO_TABLA, j);
-      context->line_to(ancho+INICIO_TABLA, j);
+      context->line_to(anchoColumna+INICIO_TABLA, j);
     }
 
     //lineas verticales
     int contador= 0;
-    for(int i= INICIO_TABLA; i<=(ancho+INICIO_TABLA); i+=TAMANIO) {
+    for(int i= INICIO_TABLA; i<=(anchoColumna+INICIO_TABLA); i+=TAMANIO) {
       if(contador == (entradas+salidas+1))
         i= i+15;
       context->move_to(i, INICIO_TABLA);
-      context->line_to(i, alto+INICIO_TABLA);
+      context->line_to(i, altoFila+INICIO_TABLA);
       contador++;
      }
 
@@ -86,7 +88,7 @@ void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
     contador= 0;
     int dec= 65;
     std::string str;
-    for(int i= INICIO_TABLA+15; i<=ancho; i+=TAMANIO) {
+    for(int i= INICIO_TABLA+15; i<=anchoColumna; i+=TAMANIO) {
       str= (char)dec;
       if(contador == (entradas+salidas)) {
         i= i-5;
@@ -102,8 +104,8 @@ void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
     //datos
     contador= 0;
     std::list<uint32_t>::iterator it= lista.begin();
-    for(int j= 3*TAMANIO-5; j<=(alto+INICIO_TABLA); j+=TAMANIO) {
-      for(int i= INICIO_TABLA+15; i<=ancho; i+=TAMANIO) {
+    for(int j= 3*TAMANIO-5; j<=(altoFila+INICIO_TABLA); j+=TAMANIO) {
+      for(int i= INICIO_TABLA+15; i<=anchoColumna; i+=TAMANIO) {
         if(contador == (entradas+salidas)) {
           i= i+4;
           contador= 0;
@@ -120,6 +122,14 @@ void Tabla::dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context) {
 
     context->stroke();
   }
+}
+
+int Tabla::getAncho() {
+  return ancho;
+}
+
+int Tabla::getAlto() {
+  return alto;
 }
 
 void Tabla::setCantEntradas(int entradas) {

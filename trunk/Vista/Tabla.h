@@ -20,8 +20,10 @@ private:
   std::list<uint32_t>           lista;
   int                           entradas;
   int                           salidas;
-  int                           alto;
+  int                           anchoColumna;
+  int                           altoFila;
   int                           ancho;
+  int                           alto;
   void redibujar();
 
 protected:
@@ -30,8 +32,9 @@ protected:
 
 public:
   Tabla();
-  Tabla(const Tabla& Tabla) { };
   virtual ~Tabla() { };
+  int getAncho();
+  int getAlto();
   void setCantEntradas(int entradas);
   void setCantSalidas(int salidas);
   void setLista(std::list<uint32_t> lista);
