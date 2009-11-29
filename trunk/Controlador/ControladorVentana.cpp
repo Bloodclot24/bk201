@@ -173,6 +173,7 @@ Circuito* ControladorVentana::getCircuito(){
      /* agrego las compuertas al circuito */
      std::map<Dibujo*, DatosCompuerta*>::iterator itg=compuertas.begin();
      for(;itg != compuertas.end(); itg++){
+	  (*itg).second->g->setTPropagacion(atoi((*itg).second->c->getTiempoT().c_str()));
 	  circuito.c->agregarComponente((*itg).second->g);
      }
      

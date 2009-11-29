@@ -3,7 +3,7 @@
 Compuerta::Compuerta(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
   label= tipo= COMPUERTA;
-  tiempoT= "0";
+  tiempoT= "10";
   ancho= alto= DIMENSION_COMPUERTA;
   vCentro.x= supIzqX + (ancho/2);
   vCentro.y= supIzqY + (alto/2);

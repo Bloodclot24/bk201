@@ -11,7 +11,7 @@
 class Util {
 	
 public:
-  static std::string intToString(uint32_t numero);
+  static std::string intToString(int numero);
 };
 
 #endif /*UTIL_H_*/

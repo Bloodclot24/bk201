@@ -190,6 +190,7 @@ public:
 			 dc->c->setVerticeSupIzq(v);
 			 dc->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
 			 dc->c->setLabel(componente.getPropiedad("label"));
+			 dc->c->setTiempoT(componente.getPropiedad("tr"));
 		    }
 		    if(componente.getNombre().compare("CircuitoRemoto")==0){
 			 DatosCircuitoRemoto* dcr = c->cargarCircuito();
