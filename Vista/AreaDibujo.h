@@ -71,11 +71,6 @@ private:
   bool eventoClickBtnIzq(int x, int y);
   void eventoDobleClickBtnIzq(int x, int y);
 
-  //Ventanas Propiedades
-  void prepararVentanaCompuerta(Dibujo *seleccionado);
-  void prepararVentanaIO(Dibujo *seleccionado);
-  void prepararVentanaCircuito(Dibujo *seleccionado);
-
   //Seleccion Multiple
   bool                          can_selected;
   bool                          dibujarSelected;

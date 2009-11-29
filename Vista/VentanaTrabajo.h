@@ -140,14 +140,6 @@ private:
   Glib::RefPtr<Gtk::TreeSelection> refTreeSelection;
   void agregarCircuito(std::string circuito, int i, int o);
 
-  /*PROPIEDADES*/
-  Gtk::Dialog *dialog_prop_compuerta;
-  void on_propiedades_compuerta(int response_id);
-  Gtk::Dialog *dialog_prop_io;
-  void on_propiedades_io(int response_id);
-  Gtk::Dialog *dialog_prop_circuito;
-  void on_propiedades_circuito(int response_id);
-
   /*TABLA*/
   Tabla *tabla;
 
@@ -167,7 +159,18 @@ private:
   /*TECLADO*/
   bool on_key_press_event(GdkEventKey* event);
 
-  //ERROR
+  //Ventana Propiedades
+  Gtk::Dialog *dialog_prop_compuerta;
+  void on_propiedades_compuerta(int response_id);
+  void prepararVentanaCompuerta(Dibujo *seleccionado);
+  Gtk::Dialog *dialog_prop_io;
+  void on_propiedades_io(int response_id);
+  void prepararVentanaIO(Dibujo *seleccionado);
+  Gtk::Dialog *dialog_prop_circuito;
+  void on_propiedades_circuito(int response_id);
+  void prepararVentanaCircuito(Dibujo *seleccionado);
+
+  //Error
   Gtk::MessageDialog *messagedialog_errores;
 
 protected:
