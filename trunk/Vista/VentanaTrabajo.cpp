@@ -457,75 +457,6 @@ void VentanaTrabajo::agregarCircuito(std::string circuito, int i, int o) {
   row[columns_circuito.col_salidas]= o;
 }
 
-/**PROPIEDADES**/
-void VentanaTrabajo::on_propiedades_compuerta(int response_id) {
-
-  switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      Compuerta *compuerta= dynamic_cast<Compuerta*>(areaDibujo->dibujoSeleccionados[0]);
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop_compuertas", entry);
-      Glib::ustring label= entry->get_text();
-      compuerta->setLabel(label);
-      refXml->get_widget("entry_tiempo_prop_compuertas", entry);
-      Glib::ustring tiempo= entry->get_text();
-      compuerta->setTiempoT(tiempo);
-      dialog_prop_compuerta->hide();
-      areaDibujo->redibujar();
-    }
-      break;
-    default:
-      dialog_prop_compuerta->hide();
-      break;
-  }
-}
-
-void VentanaTrabajo::on_propiedades_io(int response_id) {
-
-  switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      EntradaSalida *io= dynamic_cast<EntradaSalida*>(areaDibujo->dibujoSeleccionados[0]);
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop_io", entry);
-      Glib::ustring label= entry->get_text();
-      io->setLabel(label);
-      Gtk::RadioButton *entrada;
-      refXml->get_widget("radiobutton_entrada_io", entrada);
-      Gtk::RadioButton *salida;
-      refXml->get_widget("radiobutton_salida_io", salida);
-      if(entrada->get_active())
-        io->setTipoPin(ENTRADA);
-      else
-        io->setTipoPin(SALIDA);
-      dialog_prop_io->hide();
-      areaDibujo->redibujar();
-    }
-      break;
-    default:
-      dialog_prop_io->hide();
-      break;
-  }
-}
-
-void VentanaTrabajo::on_propiedades_circuito(int response_id) {
-
-  switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(areaDibujo->dibujoSeleccionados[0]);
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop_circuito", entry);
-      Glib::ustring label= entry->get_text();
-      circuito->setLabel(label);
-      dialog_prop_circuito->hide();
-      areaDibujo->redibujar();
-    }
-      break;
-    default:
-      dialog_prop_circuito->hide();
-      break;
-  }
-}
-
 void VentanaTrabajo::agregarDibujo(Dibujo *dibujo){
   areaDibujo->agregarDibujo(dibujo);
 } 
@@ -579,13 +510,152 @@ void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, con
   ::remove(nombreArchivo.c_str());
 }
 
-//ERROR
+void VentanaTrabajo::habilitarGuardar() {
+  m_guardar->set_sensitive(true);
+}
+
+/***************************/
+/*** VENTANA PROPIEDADES ***/
+/***************************/
+void VentanaTrabajo::prepararVentanaCompuerta(Dibujo *seleccionado) {
+  //tomo todos los atributos de la compuerta
+  //y los muestro en la ventana de propiedades
+  Compuerta *compuerta= dynamic_cast<Compuerta*>(seleccionado);
+  std::string label= compuerta->getLabel();
+  std::string tiempo= compuerta->getTiempoT();
+  Gtk::Entry *entry;
+  refXml->get_widget("entry_label_prop_compuertas", entry);
+  entry->set_text(label);
+  refXml->get_widget("entry_tiempo_prop_compuertas", entry);
+  entry->set_text(tiempo);
+  //deshabilito la ventana
+  window->set_sensitive(false);
+  //muestro el dialogo de propiedades
+  dialog_prop_compuerta->show();
+}
+
+void VentanaTrabajo::on_propiedades_compuerta(int response_id) {
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      //tomo todos los atributos de la compuerta y los almaceno
+      Compuerta *compuerta= dynamic_cast<Compuerta*>(areaDibujo->dibujoSeleccionados[0]);
+      Gtk::Entry *entry;
+      refXml->get_widget("entry_label_prop_compuertas", entry);
+      Glib::ustring label= entry->get_text();
+      compuerta->setLabel(label);
+      refXml->get_widget("entry_tiempo_prop_compuertas", entry);
+      Glib::ustring tiempo= entry->get_text();
+      compuerta->setTiempoT(tiempo);
+      areaDibujo->redibujar();
+    }
+      break;
+    default:
+      break;
+  }
+  dialog_prop_compuerta->hide();
+  //habilito la ventana
+  window->set_sensitive(true);
+}
+
+void VentanaTrabajo::prepararVentanaIO(Dibujo *seleccionado) {
+  //tomo todos los atributos de la io
+  //y los muestro en la ventana de propiedades
+  EntradaSalida *io= dynamic_cast<EntradaSalida*>(seleccionado);
+  std::string label= io->getLabel();
+  std::string tipoPin= io->getTipoPin();
+  Gtk::Entry *entry;
+  refXml->get_widget("entry_label_prop_io", entry);
+  entry->set_text(label);
+  Gtk::RadioButton *entrada;
+  refXml->get_widget("radiobutton_entrada_io", entrada);
+  Gtk::RadioButton *salida;
+  refXml->get_widget("radiobutton_salida_io", salida);
+  if(tipoPin.compare(ENTRADA) == 0)
+    entrada->set_active(true);
+  else
+    entrada->set_active(false);
+  //deshabilito la ventana
+  window->set_sensitive(false);
+  //muestro el dialogo de propiedades
+  dialog_prop_io->show();
+}
+
+void VentanaTrabajo::on_propiedades_io(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      //tomo todos los atributos de la io y los almaceno
+      EntradaSalida *io= dynamic_cast<EntradaSalida*>(areaDibujo->dibujoSeleccionados[0]);
+      Gtk::Entry *entry;
+      refXml->get_widget("entry_label_prop_io", entry);
+      Glib::ustring label= entry->get_text();
+      io->setLabel(label);
+      Gtk::RadioButton *entrada;
+      refXml->get_widget("radiobutton_entrada_io", entrada);
+      Gtk::RadioButton *salida;
+      refXml->get_widget("radiobutton_salida_io", salida);
+      if(entrada->get_active())
+        io->setTipoPin(ENTRADA);
+      else
+        io->setTipoPin(SALIDA);
+      areaDibujo->redibujar();
+    }
+      break;
+    default:
+      break;
+  }
+  dialog_prop_io->hide();
+  //habilito la ventana
+  window->set_sensitive(true);
+}
+
+void VentanaTrabajo::prepararVentanaCircuito(Dibujo *seleccionado) {
+  //tomo todos los atributos de la circuito
+  //y los muestro en la ventana de propiedades
+  CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(seleccionado);
+  std::string label_nombre= circuito->getLabel();
+  std::string servidor= circuito->getServidor();
+  std::string puerto= circuito->getPuerto();
+  Gtk::Entry *entry;
+  refXml->get_widget("entry_label_prop_circuito", entry);
+  entry->set_text(label_nombre);
+  Gtk::Label *label;
+  refXml->get_widget("entry_servidor_prop_circuito", label);
+  label->set_text(servidor);
+  refXml->get_widget("entry_puerto_prop_circuito", label);
+  label->set_text(puerto);
+  //deshabilito el dibujo
+  window->set_sensitive(false);
+  //muestro el dialogo de propiedades
+  dialog_prop_circuito->show();
+}
+
+void VentanaTrabajo::on_propiedades_circuito(int response_id) {
+
+  switch(response_id) {
+    case Gtk::RESPONSE_ACCEPT: {
+      //tomo todos los atributos del circuito y los almaceno
+      CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(areaDibujo->dibujoSeleccionados[0]);
+      Gtk::Entry *entry;
+      refXml->get_widget("entry_label_prop_circuito", entry);
+      Glib::ustring label= entry->get_text();
+      circuito->setLabel(label);
+      areaDibujo->redibujar();
+    }
+      break;
+    default:
+      break;
+  }
+  dialog_prop_circuito->hide();
+  //habilito la ventana
+  window->set_sensitive(true);
+}
+
+/***************************/
+/*** ERROR ***/
+/***************************/
 void VentanaTrabajo::mostrarMensajeError(std::string mensaje) {
   messagedialog_errores->set_message(mensaje);
   messagedialog_errores->run();
   messagedialog_errores->hide();
-}
-
-void VentanaTrabajo::habilitarGuardar() {
-  m_guardar->set_sensitive(true);
 }
