@@ -53,3 +53,8 @@ void EntradaSalida::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& contex
   context->show_text(tipoPin);
   context->stroke();
 };
+
+void EntradaSalida::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
+
+  this->dibujar(context);
+}

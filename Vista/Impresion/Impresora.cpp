@@ -84,13 +84,13 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 			std::list<Dibujo*>::iterator it;
 			for(it= dibujos.begin(); it != dibujos.end(); it++) {
 				(*it)->deseleccionar();
-//				cairo_ctx->scale(0.5,0.5);
+				cairo_ctx->scale(0.5,0.5);
 				//roto respecto el centro de la imagen
 				Vertice vCentro= (*it)->getVerticeCentro();
 				cairo_ctx->translate(vCentro.x, vCentro.y);
 				cairo_ctx->rotate_degrees((*it)->getAngulo());
 				cairo_ctx->translate(-vCentro.x, -vCentro.y);
-				(*it)->dibujar(cairo_ctx);
+				(*it)->dibujarImpresion(cairo_ctx);
 				cairo_ctx->set_identity_matrix();
 			}
 		}

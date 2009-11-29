@@ -232,3 +232,22 @@ void ConexionDibujo::setAngulo(int angulo) {
   dibujoPin1= NULL;
   dibujoPin2= NULL;
 }
+
+void ConexionDibujo::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
+	 //dibujo de a poligonos
+	  context->set_source_rgb(0.0, 0.0, 0.0);
+	  bool primero= true;
+	  Vertice anterior;
+	  std::list<Vertice>::iterator it;
+	  for(it= poligonos.begin(); it != poligonos.end(); it++) {
+	    if(!primero) {
+	      context->move_to(anterior.x, anterior.y);
+	      context->line_to(it->x, it->y);
+	      anterior= *it;
+	    } else {
+	      primero= false;
+	      anterior= *it;
+	    }
+	  }
+	  context->stroke();
+}

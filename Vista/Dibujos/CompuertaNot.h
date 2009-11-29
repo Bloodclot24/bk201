@@ -27,6 +27,9 @@ public:
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
   int getCantidadEntradas(){ return 1; }
+
+  virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
+
 };
 
 #endif /* COMPUERTANOT_H_ */

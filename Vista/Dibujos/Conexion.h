@@ -56,6 +56,10 @@ public:
   void setAreaDibujo(AreaDibujoGenerica *area);
 
   virtual void setVerticesMotion(int deltax, int deltay);
+
+  virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
+
+
 };
 
 #endif /* CONEXION_H_ */

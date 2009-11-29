@@ -53,6 +53,8 @@ public:
   void setNombre(const std::string& nombre){this->nombre=nombre;}
   int getCantidadEntradas();
   int getCantidadSalidas();
+  virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
+
 };
 
 #endif /* CIRCUITO_H_ */

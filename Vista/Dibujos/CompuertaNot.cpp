@@ -40,3 +40,8 @@ void CompuertaNot::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //Muestro la etiqueta
   mostrarEtiqueta(context,vSupIzq.y,alto);
 }
+
+void CompuertaNot::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
+
+  this->dibujar(context);
+}
