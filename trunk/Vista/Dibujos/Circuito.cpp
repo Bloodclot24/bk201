@@ -150,27 +150,6 @@ std::string CircuitoDibujo::getNombre() {
 }
 
 void CircuitoDibujo::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
-	 //puerta
-	  context->set_source_rgb(0.0, 0.0, 1.0);
-	  context->move_to(vSupIzq.x+10, vSupIzq.y+10);
-	  context->line_to(vSupIzq.x+ancho-10, vSupIzq.y+10);
-	  context->move_to(vSupIzq.x+ancho-10, vSupIzq.y+10);
-	  context->line_to(vSupIzq.x+ancho-10, vSupIzq.y+alto-10);
-	  context->move_to(vSupIzq.x+ancho-10, vSupIzq.y+alto-10);
-	  context->line_to(vSupIzq.x+10, vSupIzq.y+alto-10);
-	  context->move_to(vSupIzq.x+10, vSupIzq.y+alto-10);
-	  context->line_to(vSupIzq.x+10, vSupIzq.y+10);
-	  context->stroke();
-	  //entradas y salidas
-	  context->set_source_rgb(0.0, 0.0, 0.0);
-	  int size= pines.size();
-	  for(int i= 0; i<size; i++) {
-	    context->move_to(pines[i].x, pines[i].y);
-	    context->line_to(pines[i].x+10, pines[i].y);
-	  }
-	  context->stroke();
 
-	  if(seleccionado)
-	    dibujarSeleccion(context);
-
+  this->dibujar(context);
 }
