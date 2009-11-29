@@ -74,6 +74,10 @@ public:
      virtual bool esEstable(){return tRestante==0;}
      
      virtual void simular(uint64_t tiempo)=0;
+
+     void setTPropagacion(uint64_t tr){
+	  tPropagacion = tr;
+     }
 };
 
 #endif //__GATE_H_INCLUDED__

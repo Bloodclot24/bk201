@@ -40,12 +40,15 @@ void ThreadLimpieza::registrarCliente(CircuitoRemotoServidor* crs){
 
 ThreadLimpieza::~ThreadLimpieza(){
      stop();
+     std::map<CircuitoRemotoServidor*, CircuitoRemotoServidor*> copia;
      mutexClientes.lock();
+     copia = clientesRegistrados;
+     mutexClientes.unlock();
      std::map<CircuitoRemotoServidor*, CircuitoRemotoServidor*>::iterator it;
-     for(it=clientesRegistrados.begin();it!=clientesRegistrados.end();it++){
+     for(it=copia.begin();it!=copia.end();it++){
 	  it->second->stop();
      }
-
+     mutexClientes.lock();
      variableClientes.signal();
      mutexClientes.unlock();
      join();

@@ -1,7 +1,7 @@
 #include "Util.h"
 
 /****************************************************************************/
-std::string Util::intToString(uint32_t numero) {
+std::string Util::intToString(int numero) {
 	
 	std::string snumero;
 	std::stringstream cvz;
