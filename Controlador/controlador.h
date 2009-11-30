@@ -19,29 +19,29 @@ private:
 
 public:
   /**
-    * Crea un controlador. 
-    */
-    Controlador();
+   * Crea un controlador. 
+   */
+  Controlador();
             
   /**
-    * Destruye el controlador. 
-    */
-    ~Controlador();
+   * Destruye el controlador. 
+   */
+  ~Controlador();
 
   /**
-    * Comienza a correr la aplicacion, tanto la vista como el modelo. 
-    */
-    void correr();
+   * Comienza a correr la aplicacion, tanto la vista como el modelo. 
+   */
+  void correr();
 
   /**
-    * Crea una nueva ventana de trabajo. 
-    */
-    void crearNuevaVentana();
+   * Crea una nueva ventana de trabajo. 
+   */
+  void crearNuevaVentana();
 
- /**
+  /**
    * Cierra una ventana de trabajo.
    */
-    void cerrarVentana(unsigned int id);
+  void cerrarVentana(unsigned int id);
 };
 
 #endif /*CONTROLADOR_H_*/
