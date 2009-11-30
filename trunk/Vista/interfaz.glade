@@ -17,6 +17,7 @@
           <object class="GtkHBox" id="hbox_menubar">
             <property name="visible">True</property>
             <property name="orientation">vertical</property>
+            <property name="homogeneous">True</property>
             <child>
               <placeholder/>
             </child>
