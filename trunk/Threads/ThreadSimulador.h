@@ -13,11 +13,11 @@ class ThreadSimulador;
  */
 class ThreadSimulador:public Thread{
 
-     ControladorVentana* cv;
+  ControladorVentana* cv;
 
 public:
-     ThreadSimulador(ControladorVentana* cv);
-     void run();
+  ThreadSimulador(ControladorVentana* cv);
+  void run();
 };
 
 #endif //__THREADSIMULADOR_H_INCLUDED__

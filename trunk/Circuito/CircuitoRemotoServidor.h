@@ -13,60 +13,47 @@ class CircuitoRemotoServidor;
 #include <fstream>
 #include "../Controlador/ControladorVentana.h"
 
-
-/**
- * Sumador completo de 1 bit
- * http://www.unicrom.com/dig_suma_binaria_completo.asp 
- *
+/** 
+ * Clase que representa una instancia de un circuito del lado del
+ * servidor. Este circuito se utiliza para proveer informacion a un
+ * cliente del otro lado de la red acerca del estado de la simulacion
+ * de un circuito en particular.
+ * 
  */
-class Sumador:public Circuito{
-public:
-     Sumador():Circuito(3,2){
-	  agregarComponente(new GateXor());
-	  agregarComponente(new GateAnd());
-	  agregarComponente(new GateXor());
-	  agregarComponente(new GateAnd());
-	  agregarComponente(new GateOr());
-	  
-	  agregarConexion(-1,0,0,0);
-	  agregarConexion(-1,0,1,0);
-	  agregarConexion(-1,1,0,1);
-	  agregarConexion(-1,1,1,1);
-	  agregarConexion(-1,2,2,1);
-	  agregarConexion(-1,2,3,1);
-	  agregarConexion(0,2,2,0);
-	  agregarConexion(0,2,3,0);
-	  agregarConexion(1,2,4,1);
-	  agregarConexion(2,2,-1,3);
-	  agregarConexion(3,2,4,0);
-	  agregarConexion(4,2,-1,4);
-     }
-     
-};
-
-
 class CircuitoRemotoServidor: public Thread{
 private:
-     Socket *ns;		/**< Socket a utilizar */
-     Mensajero m;
-     Soap *s;
-     Circuito *c;
-     Server *server;
-     ControladorVentana *controlador;
+  Socket *ns;		/**< Socket a utilizar */
+  Mensajero m;
+  Soap *s;
+  Circuito *c;
+  Server *server;
+  ControladorVentana *controlador;
 public:
 
-     CircuitoRemotoServidor(Socket *s, Server *serv){
-	  ns=s;
-	  m.setSocket(s);
-	  ns->setTimeout(10,0);
-	  server = serv;
-	  controlador=NULL;
-	  c=NULL;
-     }
+  /** 
+   * Crea un nuevo circuito remoto (del lado del servidor) que provee
+   * datos al cliente del otro lado de la red.
+   * 
+   * @param s El socket para comunicarnos con el cliente.
+   * @param serv El servidor que acepto la conexion del cliente.
+   * 
+   */
+  CircuitoRemotoServidor(Socket *s, Server *serv){
+    ns=s;
+    m.setSocket(s);
+    ns->setTimeout(10,0);
+    server = serv;
+    controlador=NULL;
+    c=NULL;
+  }
 
-     void run();
+  /** 
+   * Metodo principal de la clase.
+   * @see Thread
+   */
+  void run();
 
-     ~CircuitoRemotoServidor();
+  ~CircuitoRemotoServidor();
 };
 
 #endif //__CIRCUITO_REMOTO_SERVIDOR__

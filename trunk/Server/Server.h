@@ -25,51 +25,51 @@ class Server;
  *
  */
 class Server{
-     ThreadAceptor *aceptor;	/**< Thread para escuchar las
+  ThreadAceptor *aceptor;	/**< Thread para escuchar las
 				 * conexiones entrantes */
-     Socket s;			/**< Socket donde espero conexiones */
+  Socket s;			/**< Socket donde espero conexiones */
 
-     ThreadLimpieza* limpieza;
-     std::list<CircuitoRemotoServidor*> clientes;
+  ThreadLimpieza* limpieza;
+  std::list<CircuitoRemotoServidor*> clientes;
 public:
 
-     /** 
-      * Crea un nuevo server que recibe clientes en el puerto
-      * indicado.
-      * 
-      * @param puerto Puerto por donde espero conexiones.
-      */
-     Server(int puerto);
+  /** 
+   * Crea un nuevo server que recibe clientes en el puerto
+   * indicado.
+   * 
+   * @param puerto Puerto por donde espero conexiones.
+   */
+  Server(int puerto);
      
-     /** 
-      * Intenta escuchar conexiones entrantes. 
-      * 
-      * @return TRUE si se pueden recibir conexiones. FALSE en caso de
-      * error.
-      */
-     bool escuchar();
+  /** 
+   * Intenta escuchar conexiones entrantes. 
+   * 
+   * @return TRUE si se pueden recibir conexiones. FALSE en caso de
+   * error.
+   */
+  bool escuchar();
 
-     /** 
-      * Agrega un nuevo cliente al servidor.
-      * 
-      * @param s El socket para comunicarme al cliente.
-      */
-     void nuevoCliente(Socket *s);
+  /** 
+   * Agrega un nuevo cliente al servidor.
+   * 
+   * @param s El socket para comunicarme al cliente.
+   */
+  void nuevoCliente(Socket *s);
 
-     /**
-      * Finaliza (elimina) el cliente definitivamente.
-      *
-      * @param src El cliente a ser eliminado.
-      */
-     void finalizarCliente(CircuitoRemotoServidor *sr);
+  /**
+   * Finaliza (elimina) el cliente definitivamente.
+   *
+   * @param src El cliente a ser eliminado.
+   */
+  void finalizarCliente(CircuitoRemotoServidor *sr);
 
-     /**
-      * Obtiene la lista de circuitos que posee el servidor.
-      *
-      */
-     std::list<DescripcionCircuito> getListaCircuitos();
+  /**
+   * Obtiene la lista de circuitos que posee el servidor.
+   *
+   */
+  std::list<DescripcionCircuito> getListaCircuitos();
 
-     ~Server();
+  ~Server();
 
 };
 
