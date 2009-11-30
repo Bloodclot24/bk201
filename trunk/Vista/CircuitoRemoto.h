@@ -8,6 +8,9 @@ class DibujoCircuitoRemoto;
 #include <list>
 #include "VentanaTrabajo.h"
 
+/**
+ * Es la clase que dibuja el circuito remoto.
+ */
 class DibujoCircuitoRemoto: public AreaDibujoGenerica {
 
 private:
