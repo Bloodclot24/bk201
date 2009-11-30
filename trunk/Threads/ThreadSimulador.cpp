@@ -4,7 +4,8 @@ ThreadSimulador::ThreadSimulador(ControladorVentana* cv):cv(cv){
 }
 
 void ThreadSimulador::run(){
-     Circuito* c = cv->getCircuito();
+     std::string errores;
+     Circuito* c = cv->getCircuito(&errores);
 
      std::list<uint32_t> tabla = c->simularTodo(500);
 
