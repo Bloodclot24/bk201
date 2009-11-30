@@ -10,15 +10,8 @@
 #include "../Threads/ThreadListado.h"
 #include "../Threads/ThreadObtenerCircuito.h"
 #include "../Threads/ThreadSimulador.h"
+#include "../Vista/Dibujos/Constantes.h"
 
-#define TIPO_PISTA            "Conexion" 
-#define TIPO_COMPUERTA_AND    "And"
-#define TIPO_COMPUERTA_OR     "Or"
-#define TIPO_COMPUERTA_XOR    "Xor"
-#define TIPO_COMPUERTA_NOT    "Not"
-#define TIPO_COMPUERTA_BUFFER "Buffer"
-#define TIPO_PIN              "IO"
-#define TIPO_CIRCUITO         "Circuito"
 
 ControladorVentana::ControladorVentana(){
      ventana=NULL; 
@@ -176,7 +169,7 @@ Circuito* ControladorVentana::getCircuito(std::string *errores){
      std::map<Dibujo*, EntradaSalida*>::iterator it;
      /* cuento cantidad de entradas y salidas*/
      for(it=pines.begin();it!=pines.end();it++){
-	  if((*it).second->getTipoPin().compare("IN")==0)
+	  if((*it).second->getTipoPin().compare(TIPO_ENTRADA)==0)
 	       circuito.cantidadEntradas++;
 	  else circuito.cantidadSalidas++;
      }
@@ -338,7 +331,7 @@ void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool
 	  int pin2;
 	  /* proceso entradas/salidas */
 	  
-	  if((*itpin).second->getTipoPin().compare("IN")==0){
+	  if((*itpin).second->getTipoPin().compare(TIPO_ENTRADA)==0){
 	       pin2 = nentrada;
 	       nentrada++;
 	  }
@@ -406,8 +399,8 @@ void ControladorVentana::obtenerListaServidor(const std::string& servidor, int p
 
 void ControladorVentana::obtenerCircuitoServidor(const std::string& nombre, const std::string& servidor, int puerto){
      ThreadObtenerCircuito *obtener = new ThreadObtenerCircuito(*this,nombre, servidor, puerto);
-//     limpieza->registrarCliente(obtener);
-     obtener->run();
+     limpieza->registrarCliente(obtener);
+     obtener->start();
 }
 
 void ControladorVentana::eliminarThread(Thread* thread){

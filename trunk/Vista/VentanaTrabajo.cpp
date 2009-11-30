@@ -319,19 +319,19 @@ void VentanaTrabajo::loadToolBar() {
 
   //la barra de herramientas es una zona drag
   refXml->get_widget("and", bAnd);
-  loadButtonDrag(bAnd, AND, PATH_AND);
+  loadButtonDrag(bAnd, TIPO_COMPUERTA_AND, PATH_AND);
 
   refXml->get_widget("or", bOr);
-  loadButtonDrag(bOr, OR, PATH_OR);
+  loadButtonDrag(bOr, TIPO_COMPUERTA_OR, PATH_OR);
 
   refXml->get_widget("not", bNot);
-  loadButtonDrag(bNot, NOT, PATH_NOT);
+  loadButtonDrag(bNot, TIPO_COMPUERTA_NOT, PATH_NOT);
 
   refXml->get_widget("xor", bXor);
-  loadButtonDrag(bXor, XOR, PATH_XOR);
+  loadButtonDrag(bXor, TIPO_COMPUERTA_XOR, PATH_XOR);
 
   refXml->get_widget("buffer", bBuffer);
-  loadButtonDrag(bBuffer, BUFFER, PATH_BUFFER);
+  loadButtonDrag(bBuffer, TIPO_COMPUERTA_BUFFER, PATH_BUFFER);
 
   refXml->get_widget("conexion", bConexion);
   if(bConexion) {
@@ -339,10 +339,10 @@ void VentanaTrabajo::loadToolBar() {
   }
 
   refXml->get_widget("i/o", bIO);
-  loadButtonDrag(bIO, IO, PATH_IO);
+  loadButtonDrag(bIO, TIPO_PIN, PATH_IO);
 
   refXml->get_widget("circuito", bCircuito);
-  loadButtonDrag(bCircuito, CIRCUITO, PATH_CIRCUITO);
+  loadButtonDrag(bCircuito, TIPO_CIRCUITO, PATH_CIRCUITO);
 
   refXml->get_widget("imprimir", bImprimir);
   if(bImprimir)
@@ -359,7 +359,7 @@ void VentanaTrabajo::on_drag_data_get(
 
   const std::string str= componente;
 
-  if(componente.compare(CIRCUITO) == 0)
+  if(componente.compare(TIPO_CIRCUITO) == 0)
     ventanaServidor();
   selection_data.set(selection_data.get_target(), 8, (const guchar*)str.c_str(), str.length());
 }
@@ -531,7 +531,7 @@ void VentanaTrabajo::prepararVentanaIO(Dibujo *seleccionado) {
   refXml->get_widget("radiobutton_entrada_io", entrada);
   Gtk::RadioButton *salida;
   refXml->get_widget("radiobutton_salida_io", salida);
-  if(tipoPin.compare(ENTRADA) == 0)
+  if(tipoPin.compare(TIPO_ENTRADA) == 0)
     entrada->set_active(true);
   else
     entrada->set_active(false);
@@ -556,9 +556,9 @@ void VentanaTrabajo::on_propiedades_io(int response_id) {
       Gtk::RadioButton *salida;
       refXml->get_widget("radiobutton_salida_io", salida);
       if(entrada->get_active())
-        io->setTipoPin(ENTRADA);
+        io->setTipoPin(TIPO_ENTRADA);
       else
-        io->setTipoPin(SALIDA);
+        io->setTipoPin(TIPO_SALIDA);
       areaDibujo->redibujar();
     }
       break;

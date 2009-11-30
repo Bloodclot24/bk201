@@ -42,5 +42,5 @@ void ThreadObtenerCircuito::run(){
 	  
 	  delete respuesta;
      }
-     //control.eliminarThread(this);
+     control.eliminarThread(this);
 }

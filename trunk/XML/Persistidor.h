@@ -10,6 +10,7 @@
 #include "../Util/Util.h"
 #include "../Controlador/ControladorVentana.h"
 #include "../Vista/Dibujos/Conexion.h"
+#include "../Vista/Dibujos/Constantes.h"
 
 /** 
  * Clase que se utiliza para guardar/cargar el estado del modelo en
@@ -96,7 +97,7 @@ public:
 			      componente.setPropiedad("alfa", Util::intToString(es->getAngulo()).c_str());
 			      componente.setPropiedad("label",es->getLabel().c_str());
 			      componente.setPropiedad("tipoPin",es->getTipoPin().c_str());
-			      if(es->getTipoPin().compare("IN") == 0)
+			      if(es->getTipoPin().compare(TIPO_ENTRADA) == 0)
 				   entradas++;
 			      else salidas++;
 			      xml.getRaiz()->agregarHijo(componente);

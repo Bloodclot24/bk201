@@ -326,11 +326,11 @@ void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
     std::string tipo= seleccionado->getTipo();
     can_motion= false;
 
-    if((tipo.compare(COMPUERTA)) == 0)
+    if((tipo.compare(TIPO_COMPUERTA)) == 0)
       ventanaTrabajo->prepararVentanaCompuerta(seleccionado);
-    else if((tipo.compare(IO)) == 0)
+    else if((tipo.compare(TIPO_PIN)) == 0)
       ventanaTrabajo->prepararVentanaIO(seleccionado);
-    else if((tipo.compare(CIRCUITO)) == 0)
+    else if((tipo.compare(TIPO_CIRCUITO)) == 0)
       ventanaTrabajo->prepararVentanaCircuito(seleccionado);
   }
 }
@@ -354,15 +354,15 @@ void AreaDibujo::dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context
 
 void AreaDibujo::dibujarCompuerta(std::string tipo, int xUp, int yUp) {
   Compuerta *compuerta;
-  if((tipo.compare(AND)) == 0)
+  if((tipo.compare(TIPO_COMPUERTA_AND)) == 0)
     compuerta= new CompuertaAnd(xUp, yUp);
-  else if((tipo.compare(OR)) == 0)
+  else if((tipo.compare(TIPO_COMPUERTA_OR)) == 0)
     compuerta= new CompuertaOr(xUp, yUp);
-  else if((tipo.compare(NOT)) == 0)
+  else if((tipo.compare(TIPO_COMPUERTA_NOT)) == 0)
     compuerta= new CompuertaNot(xUp, yUp);
-  else if((tipo.compare(XOR)) == 0)
+  else if((tipo.compare(TIPO_COMPUERTA_XOR)) == 0)
     compuerta= new CompuertaXor(xUp, yUp);
-  else if((tipo.compare(BUFFER)) == 0)
+  else if((tipo.compare(TIPO_COMPUERTA_BUFFER)) == 0)
     compuerta= new CompuertaBuffer(xUp, yUp);
   ventanaTrabajo->controladorVentana->crearComponente(compuerta, tipo);
   agregarComponente(compuerta);
@@ -419,9 +419,9 @@ void AreaDibujo::on_drop_drag_data_received(
     std::string componente= selection_data.get_data_as_string();
     buscarPosicion(x,y);
 
-    if((componente.compare(IO)) == 0)
+    if((componente.compare(TIPO_PIN)) == 0)
       dibujarIO(x,y);
-    else if((componente.compare(CIRCUITO)) == 0) {
+    else if((componente.compare(TIPO_CIRCUITO)) == 0) {
       xCircuito= x;
       yCircuito= y;
     } else

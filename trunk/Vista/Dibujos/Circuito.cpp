@@ -2,7 +2,7 @@
 
 CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salidas): Dibujo::Dibujo(supIzqX, supIzqY) {
 
-  tipo= CIRCUITO;
+  tipo= TIPO_CIRCUITO;
   label= "Circuito";
   vCentro.x= supIzqX + (ancho/2);
   vCentro.y= supIzqY + (alto/2);
