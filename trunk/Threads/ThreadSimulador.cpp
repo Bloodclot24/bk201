@@ -9,6 +9,6 @@ void ThreadSimulador::run(){
 
      std::list<uint32_t> tabla = c->simularTodo(500);
 
-     cv->recibirTablaSimulacion(tabla);
+     cv->recibirTablaSimulacion(tabla, errores);
      return;
 }

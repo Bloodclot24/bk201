@@ -1313,17 +1313,105 @@ Ygounet Guido</property>
       </object>
     </child>
   </object>
-  <object class="GtkMessageDialog" id="messagedialog_errores">
+  <object class="GtkDialog" id="dialog_simulando">
     <property name="border_width">5</property>
-    <property name="window_position">center-always</property>
-    <property name="type_hint">normal</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="message_type">error</property>
+    <property name="title" translatable="yes">-Bk201-</property>
+    <property name="resizable">False</property>
+    <property name="icon">Imagenes/logo.png</property>
+    <property name="type_hint">dialog</property>
+    <property name="has_separator">False</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox21">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkHBox" id="hbox2">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkImage" id="image_linux_working">
+                <property name="visible">True</property>
+                <property name="pixbuf">Imagenes/linux_working.png</property>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_simulando">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">&lt;b&gt;Por favor espere...
+Gente simulando&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area21">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkDialog" id="dialog_error_servidor">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">-Bk201-</property>
+    <property name="resizable">False</property>
+    <property name="icon">Imagenes/logo.png</property>
+    <property name="type_hint">dialog</property>
+    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox18">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
+        <child>
+          <object class="GtkHBox" id="hbox_error_servidor">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkImage" id="image_error_servidor">
+                <property name="visible">True</property>
+                <property name="pixbuf">Imagenes/linux_error.png</property>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_error_servidor">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">&lt;b&gt;Error al conectarse con el servidor&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
         <child internal-child="action_area">
           <object class="GtkHButtonBox" id="dialog-action_area18">
             <property name="visible">True</property>
@@ -1332,7 +1420,7 @@ Ygounet Guido</property>
               <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="button_errores">
+              <object class="GtkButton" id="button_error">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -1355,7 +1443,80 @@ Ygounet Guido</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">button_errores</action-widget>
+      <action-widget response="0">button_error</action-widget>
+    </action-widgets>
+  </object>
+  <object class="GtkDialog" id="dialog_error_simulando">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">-Bk201-</property>
+    <property name="resizable">False</property>
+    <property name="icon">Imagenes/logo.png</property>
+    <property name="icon_name">Imagenes/logo.png</property>
+    <property name="type_hint">dialog</property>
+    <property name="has_separator">False</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox23">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkHBox" id="hbox_error_simulando">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkImage" id="image_error_simulando">
+                <property name="visible">True</property>
+                <property name="pixbuf">Imagenes/linux_einstein.png</property>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_error_simulando">
+                <property name="visible">True</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area23">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="button_error1">
+                <property name="label">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="use_stock">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="0">button_error1</action-widget>
     </action-widgets>
   </object>
 </interface>

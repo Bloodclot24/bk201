@@ -112,8 +112,6 @@ private:
   Gtk::Dialog *dialog_servidor;
   void on_response_servidor(int response_id);
   Gtk::MessageDialog *dialog_message;
-  Gtk::MessageDialog *messagedialog_error_servidor;
-  void on_error_servidor(int response_id);
   void ventanaServidor();
   Gtk::Dialog *dialog_lista_circuitos;
   void on_lista_circuitos(int response_id);
@@ -170,15 +168,28 @@ private:
   void on_propiedades_circuito(int response_id);
   void prepararVentanaCircuito(Dibujo *seleccionado);
 
-  //Error
-  Gtk::MessageDialog *messagedialog_errores;
-
   //Ventana Servidor
   sigc::connection id_ventana_servidor;
   bool llegoRta;
   std::list<DescripcionCircuito> lista_circuito;
   bool esperandoRtaServidor();
-  void hideVentanaServidor();
+
+  //Error Servidor
+  Gtk::Dialog *dialog_error_servidor;
+  void on_error_servidor(int response_id);
+
+  //Ventana Simulando
+  Gtk::Dialog *dialog_simulando;
+  sigc::connection id_ventana_simulando;
+  bool llegoTabla;
+  std::string mensajeTabla;
+  bool esperandoRtaSimulacion();
+
+  //Error Simulando
+  Gtk::Dialog *dialog_error_simulando;
+  Gtk::Label *label_error_simulando;
+  void mostrarMsjErrorSimulando(const std::string mensaje);
+  void on_error_simulando(int response_id);
 
 protected:
   //Signal handlers
@@ -205,9 +216,8 @@ public:
     void recibirListaCircuitos(std::list<DescripcionCircuito> lista);
     void agregarDibujo(Dibujo *dibujo);
     void agregarDibujo(ConexionDibujo *dibujo);
-    void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas);
+    void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas, const std::string& mensaje);
     void recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito);
-    void mostrarMensajeError(std::string mensaje);
     void habilitarGuardar();
 };
 
