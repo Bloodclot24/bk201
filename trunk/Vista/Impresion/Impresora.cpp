@@ -30,7 +30,6 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 
   if(!tabla && !dibujos.size()){ 
     std:: cerr << "Error al imprimir!!! " << std::endl;
-    //#warning "Ver El Manejo De Errores Si Llega A Ser Posible Este Error En Impresora";
     return;
   }
   Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();
@@ -45,6 +44,8 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
   width = (double) (width / print_context->get_dpi_x());
   height = (double) (height / print_context->get_dpi_y());
 
+  //Obtengo el ancho y el alto de los dibujos
+  //que van a imprimirse.
   std::list<Dibujo*>::iterator it;
   uint32_t yMax=0,xMax=0;
   uint32_t yMin=(uint32_t)-1,xMin=(uint32_t)-1;
@@ -68,14 +69,14 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 
   int anchoCtx = xMax-xMin;
   int altoCtx = yMax-yMin;
-
+  //Paso a INCH
   anchoCtx /= print_context->get_dpi_x();
   altoCtx /= print_context->get_dpi_y();
 
-
+  //Calculo el factor de escala.
   scaleW = (double)( widthPaper / (anchoCtx * 100.0));
   scaleH = (double)( heightPaper / (altoCtx * 100.0));
-
+  //Siempre me quedo con el menor.
   if(scaleW>scaleH)
     scaleW=scaleH;
   else
@@ -86,17 +87,22 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
     scaleH=1.0;
   }
 
+  //En la primera pagina, imprimo el circuito
   if(numeroPagina == 0){
     if(dibujos.size()){
-      //En caso de que haya algun elemento seleccionado,
-      //antes de imprimir los deselecciono todos.
+      //Obtengo la matriz, para poder recuperarla
+      //luego de escalar, por si se habia modificado
+      //la orientacion de la pagina.
       Cairo::Matrix matrix;
       cairo_ctx->get_matrix(matrix);
 						
       std::list<Dibujo*>::iterator it;
       for(it= dibujos.begin(); it != dibujos.end(); it++) {
-	(*it)->deseleccionar();
+    	  //En caso de que haya algun elemento seleccionado,
+    	  //antes de imprimir los deselecciono todos.
 
+    	  (*it)->deseleccionar();
+    	  //Aplico el escalado
 	cairo_ctx->scale(scaleW,scaleH);
 			
 
@@ -107,20 +113,19 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	cairo_ctx->translate(-vCentro.x, -vCentro.y);
 	(*it)->dibujarImpresion(cairo_ctx);
 	cairo_ctx->set_identity_matrix();
+	//Seteo la matriz que antes habia obtenido.
 	cairo_ctx->set_matrix(matrix);
       }
     }
   }else{
     if(tabla){
-      double ancho = tabla->getAncho()/print_context->get_dpi_x();
+      //Paso a INCH
+    	double ancho = tabla->getAncho()/print_context->get_dpi_x();
       double alto = tabla->getAlto()/print_context->get_dpi_y();
-
-      std::cout << "Ancho: " << ancho << std::endl;
-      std::cout << "Alto: " << alto << std::endl;
-
+      //Calculo el factor de escala.
       scaleW = (double)(widthPaper / (ancho * 100.0));
       scaleH = (double)(heightPaper/ (alto * 100.0));
-
+      //Siempre me quedo con el menor.
       if(scaleW>scaleH)
 	scaleW=scaleH;
       else
@@ -128,7 +133,8 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 
 
       if(scaleH!=0&&scaleW!=0)
-	cairo_ctx->scale(scaleW,scaleH);
+    	  //escalo
+    	  cairo_ctx->scale(scaleW,scaleH);
       tabla->dibujarTabla(cairo_ctx);
 		
     }
