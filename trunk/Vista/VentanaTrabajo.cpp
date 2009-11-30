@@ -83,7 +83,7 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //Dialog Servidor
   refXml->get_widget("dialog_servidor", dialog_servidor);
   dialog_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_servidor));
-  refXml->get_widget("messagedialog_servidor", dialog_message);
+  refXml->get_widget("dialog_conectandose", dialog_conectandose);
   refXml->get_widget("dialog_lista_circuitos", dialog_lista_circuitos);
   dialog_lista_circuitos->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_lista_circuitos));
 
@@ -378,14 +378,14 @@ bool VentanaTrabajo::esperandoRtaServidor() {
            agregarCircuito((*it).nombre, (*it).cantidadEntradas, (*it).cantidadSalidas);
            std::cout << "Agrego Circuito: " << (*it).nombre << std::endl;
       }
-      dialog_message->hide();
+      dialog_conectandose->hide();
       dialog_servidor->hide();
       dialog_lista_circuitos->show();
       //habilito la ventana
       window->set_sensitive(true);
     } else {
          std::cout << "Lista vacía\n";
-      dialog_message->hide();
+      dialog_conectandose->hide();
       dialog_servidor->set_sensitive(false);
       if(dialog_error_servidor)
         dialog_error_servidor->show();
@@ -406,8 +406,7 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       this->puerto= entry->get_text();
       std::cout << "Puerto: " << puerto << std::endl;
       dialog_servidor->set_sensitive(false);
-      dialog_message->show();
-      dialog_message->set_message("Conectandose al servidor...");
+      dialog_conectandose->show();
       llegoRta= false;
       id_ventana_servidor= Glib::signal_timeout().connect(sigc::mem_fun(*this,&VentanaTrabajo::esperandoRtaServidor), 1000);
       controladorVentana->obtenerListaServidor(servidor, atoi(puerto.c_str()));
