@@ -49,6 +49,7 @@ class VentanaTrabajo;
 class VentanaImpresion;
 /**
  * Ventana de principal de trabajo para el usuario.
+ * Es el encargo del manejo de los dialogos y del menubar.
  */
 class VentanaTrabajo: public Gtk::Window {
   friend class AreaDibujo;

@@ -38,6 +38,9 @@ AreaDibujo::~AreaDibujo() {
     delete *it;
 }
 
+/***************************/
+/*** MENUPOPUP ***/
+/***************************/
 void AreaDibujo::loadMenuPopup() {
 
   //crea las acciones del menu popup
@@ -85,8 +88,10 @@ void AreaDibujo::loadMenuPopup() {
   menuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
 }
 
+/***************************/
+/*** REDEFINICIONES ***/
+/***************************/
 bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
-
   //ventana de dibujo
   window= get_window();
   if(window) {
@@ -135,117 +140,11 @@ bool AreaDibujo::on_expose_event(GdkEventExpose* event) {
 
     //Dibujo los elementos
     dibujarComponentes(context, dibujos);
-
   }
-  
   return false;
 }
 
-void AreaDibujo::dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context, std::list<Dibujo*> dibujos) {
-
-  std::list<Dibujo*>::iterator it;
-  for(it= dibujos.begin(); it != dibujos.end(); it++) {
-    //seteo matriz identidad
-    context->set_identity_matrix();
-    //roto respecto el centro de la imagen
-    Vertice vCentro= (*it)->getVerticeCentro();
-    context->translate(vCentro.x, vCentro.y);
-    context->rotate_degrees((*it)->getAngulo());
-    context->translate(-vCentro.x, -vCentro.y);
-    (*it)->dibujar(context);
-  }
-}
-
-
-void AreaDibujo::dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp) {
-
-  Compuerta *compuerta;
-
-  if((tipo.compare(AND)) == 0)
-    compuerta= new CompuertaAnd(xUp, yUp);
-  else if((tipo.compare(OR)) == 0)
-    compuerta= new CompuertaOr(xUp, yUp);
-  else if((tipo.compare(NOT)) == 0)
-    compuerta= new CompuertaNot(xUp, yUp);
-  else if((tipo.compare(XOR)) == 0)
-    compuerta= new CompuertaXor(xUp, yUp);
-  else if((tipo.compare(BUFFER)) == 0)
-    compuerta= new CompuertaBuffer(xUp, yUp);
-
-  ventanaTrabajo->controladorVentana->crearComponente(compuerta, tipo);
-  agregarComponente(compuerta);
-}
-
-void AreaDibujo::dibujarConexion() {
-
-  deseleccionar();
-  conexion= true;
-  cargoVInicial= false;
-  redibujar();
-}
-
-void AreaDibujo::dibujarIO(unsigned int xUp, unsigned int yUp) {
-
-  EntradaSalida *entradaSalida= new EntradaSalida(xUp, yUp);
-  ventanaTrabajo->controladorVentana->crearComponente(entradaSalida);
-  agregarComponente(entradaSalida);
-}
-
-void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
-
-  CircuitoDibujo *circuito= new CircuitoDibujo(xCircuito, yCircuito, entradas, salidas);
-  std::string servidor, puerto, nombre;
-  ventanaTrabajo->obtenerDatosCircuito(servidor, puerto, nombre);
-  circuito->agregarDatos(servidor, puerto, nombre);
-  ventanaTrabajo->controladorVentana->crearComponente(circuito);
-  agregarComponente(circuito);
-}
-
-//TODO: Por ahora trata que no se dibuje fuera del area de dibujo
-void calcularPosicion(int &x, int max, int min) {
-
-  int mod= x % 10;
-  if(mod != 0)
-    x= x-mod;
-  if(x < min)
-    x= min;
-  else if(x+41 > max)
-    x= max - 40 - (max%10);
-}
-
-void AreaDibujo::buscarPosicion(int &x, int &y) {
-
-  //Modifico el punto para caiga justo en un punto de la grilla
-  calcularPosicion(x, width, PASO);
-  calcularPosicion(y, height, PASO);
-}
-
-void AreaDibujo::on_drop_drag_data_received(
-        const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
-        const Gtk::SelectionData& selection_data, guint info, guint time) {
-
-  ventanaTrabajo->setSensitiveEditar(true);
-
-  const int length = selection_data.get_length();
-  if((length >= 0) && (selection_data.get_format() == 8)) {
-
-    std::string componente= selection_data.get_data_as_string();
-    buscarPosicion(x,y);
-
-    if((componente.compare(IO)) == 0)
-      dibujarIO(x,y);
-    else if((componente.compare(CIRCUITO)) == 0) {
-      xCircuito= x;
-      yCircuito= y;
-    } else
-      dibujarCompuerta(componente,x,y);
-  }
-
-  context->drag_finish(false, false, time);
-}
-
 bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
-
   //Evento click boton izquierdo
   if(event->type == GDK_BUTTON_PRESS && event->button == 1)
     return eventoClickBtnIzq(event->x, event->y);
@@ -277,81 +176,6 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
 
   } else
   return false;
-}
-
-void AreaDibujo::borrarSeleccion() {
-
-  if(!dibujoSeleccionados.empty() && !motion) {
-    seleccion= false;
-    for(unsigned int i=0; i<dibujoSeleccionados.size(); i++) {
-      ventanaTrabajo->controladorVentana->eliminarComponente(dibujoSeleccionados[i]);
-      dibujos.remove(dibujoSeleccionados[i]);
-    }
-    if(dibujos.empty())
-      ventanaTrabajo->setSensitiveEditar(false);
-    selected= false;
-    redibujar();
-  }
-}
-
-void AreaDibujo::rotarSeleccion90Derecha() {
-
-  Dibujo *seleccionado= dibujoSeleccionados[0];
-  if(seleccion && !motion) {
-    seleccionado->setAngulo(90);
-    redibujar();
-  }
-}
-
-void AreaDibujo::rotarSeleccion90Izquierda() {
-
-  Dibujo *seleccionado= dibujoSeleccionados[0];
-  if(seleccion && !motion) {
-    seleccionado->setAngulo(-90);
-    redibujar();
-  }
-}
-
-int tipoInversion(int angulo) {
-
-  if((angulo/90)%2 ==0)
-    return 0;
-  else
-    return 90;
-}
-
-void AreaDibujo::invertirVertical() {
-
-  Dibujo *seleccionado= dibujoSeleccionados[0];
-  if(seleccion && !motion) {
-    int angulo= tipoInversion(seleccionado->getAngulo());
-    if(angulo == 90) {
-      angulo= 180;
-      seleccionado->setAngulo(angulo);
-    }
-    redibujar();
-  }
-}
-
-void AreaDibujo::invertirHorizontal() {
-
-  Dibujo *seleccionado= dibujoSeleccionados[0];
-  if(seleccion && !motion) {
-    int angulo= tipoInversion(seleccionado->getAngulo());
-    if(angulo == 0) {
-       angulo= 180;
-       seleccionado->setAngulo(angulo);
-    }
-    redibujar();
-  }
-}
-
-void AreaDibujo::verCircuito() {
-
-  if(seleccion && !motion) {
-    CircuitoDibujo* dibujoCircuitoRemoto = dynamic_cast<CircuitoDibujo*> (this->dibujoSeleccionados[0]);
-    ventanaTrabajo->controladorVentana->obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
-  }
 }
 
 bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
@@ -421,9 +245,8 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
     return false;
 }
 
-//Clicks
+/*** Clicks ***/
 bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
-
   if(conexion) {
     //obtengo el primer vertice de la conexion
     if(!cargoVInicial) {
@@ -483,7 +306,6 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
 }
 
 void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
-
   //busco el elemento sobre el que se hizo doble click y
   //muestro sus propiedades segun el tipo de componente
   Dibujo *seleccionado= NULL;
@@ -502,8 +324,167 @@ void AreaDibujo::eventoDobleClickBtnIzq(int x, int y) {
   }
 }
 
-void AreaDibujo::dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& context) {
+/***************************/
+/*** DIBUJOS ***/
+/***************************/
+void AreaDibujo::dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context, std::list<Dibujo*> dibujos) {
+  std::list<Dibujo*>::iterator it;
+  for(it= dibujos.begin(); it != dibujos.end(); it++) {
+    //seteo matriz identidad
+    context->set_identity_matrix();
+    //roto respecto el centro de la imagen
+    Vertice vCentro= (*it)->getVerticeCentro();
+    context->translate(vCentro.x, vCentro.y);
+    context->rotate_degrees((*it)->getAngulo());
+    context->translate(-vCentro.x, -vCentro.y);
+    (*it)->dibujar(context);
+  }
+}
 
+void AreaDibujo::dibujarCompuerta(std::string tipo, int xUp, int yUp) {
+  Compuerta *compuerta;
+  if((tipo.compare(AND)) == 0)
+    compuerta= new CompuertaAnd(xUp, yUp);
+  else if((tipo.compare(OR)) == 0)
+    compuerta= new CompuertaOr(xUp, yUp);
+  else if((tipo.compare(NOT)) == 0)
+    compuerta= new CompuertaNot(xUp, yUp);
+  else if((tipo.compare(XOR)) == 0)
+    compuerta= new CompuertaXor(xUp, yUp);
+  else if((tipo.compare(BUFFER)) == 0)
+    compuerta= new CompuertaBuffer(xUp, yUp);
+  ventanaTrabajo->controladorVentana->crearComponente(compuerta, tipo);
+  agregarComponente(compuerta);
+}
+
+void AreaDibujo::dibujarConexion() {
+  deseleccionar();
+  conexion= true;
+  cargoVInicial= false;
+  redibujar();
+}
+
+void AreaDibujo::dibujarIO(int xUp, int yUp) {
+  EntradaSalida *entradaSalida= new EntradaSalida(xUp, yUp);
+  ventanaTrabajo->controladorVentana->crearComponente(entradaSalida);
+  agregarComponente(entradaSalida);
+}
+
+void AreaDibujo::dibujarCircuito(int entradas, int salidas) {
+  CircuitoDibujo *circuito= new CircuitoDibujo(xCircuito, yCircuito, entradas, salidas);
+  std::string servidor, puerto, nombre;
+  ventanaTrabajo->obtenerDatosCircuito(servidor, puerto, nombre);
+  circuito->agregarDatos(servidor, puerto, nombre);
+  ventanaTrabajo->controladorVentana->crearComponente(circuito);
+  agregarComponente(circuito);
+}
+
+void calcularPosicion(int &x, int max, int min) {
+  int mod= x % 10;
+  if(mod != 0)
+    x= x-mod;
+  if(x < min)
+    x= min;
+  else if(x+41 > max)
+    x= max - 40 - (max%10);
+}
+
+void AreaDibujo::buscarPosicion(int &x, int &y) {
+  //Modifico el punto para caiga justo en un punto de la grilla
+  calcularPosicion(x, width, PASO);
+  calcularPosicion(y, height, PASO);
+}
+
+void AreaDibujo::on_drop_drag_data_received(
+        const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
+        const Gtk::SelectionData& selection_data, guint info, guint time) {
+  //Recibe la senial de drop y le pide a la zona de drag los datos
+  //del componente a dibujar.
+  ventanaTrabajo->setSensitiveEditar(true);
+
+  const int length = selection_data.get_length();
+  if((length >= 0) && (selection_data.get_format() == 8)) {
+
+    std::string componente= selection_data.get_data_as_string();
+    buscarPosicion(x,y);
+
+    if((componente.compare(IO)) == 0)
+      dibujarIO(x,y);
+    else if((componente.compare(CIRCUITO)) == 0) {
+      xCircuito= x;
+      yCircuito= y;
+    } else
+      dibujarCompuerta(componente,x,y);
+  }
+
+  context->drag_finish(false, false, time);
+}
+
+void AreaDibujo::borrarSeleccion() {
+  if(!dibujoSeleccionados.empty() && !motion) {
+    seleccion= false;
+    for(unsigned int i=0; i<dibujoSeleccionados.size(); i++) {
+      ventanaTrabajo->controladorVentana->eliminarComponente(dibujoSeleccionados[i]);
+      dibujos.remove(dibujoSeleccionados[i]);
+    }
+    if(dibujos.empty())
+      ventanaTrabajo->setSensitiveEditar(false);
+    selected= false;
+    redibujar();
+  }
+}
+
+void AreaDibujo::rotarSeleccion90Derecha() {
+  Dibujo *seleccionado= dibujoSeleccionados[0];
+  if(seleccion && !motion) {
+    seleccionado->setAngulo(90);
+    redibujar();
+  }
+}
+
+void AreaDibujo::rotarSeleccion90Izquierda() {
+  Dibujo *seleccionado= dibujoSeleccionados[0];
+  if(seleccion && !motion) {
+    seleccionado->setAngulo(-90);
+    redibujar();
+  }
+}
+
+int tipoInversion(int angulo) {
+  if((angulo/90)%2 ==0)
+    return 0;
+  else
+    return 90;
+}
+
+void AreaDibujo::invertirVertical() {
+  Dibujo *seleccionado= dibujoSeleccionados[0];
+  if(seleccion && !motion) {
+    if(tipoInversion(seleccionado->getAngulo()) == 90) {
+      seleccionado->setAngulo(180);
+      redibujar();
+    }
+  }
+}
+
+void AreaDibujo::invertirHorizontal() {
+  Dibujo *seleccionado= dibujoSeleccionados[0];
+  if(seleccion && !motion) {
+    if(tipoInversion(seleccionado->getAngulo()) == 0) {
+      seleccionado->setAngulo(180);
+      redibujar();
+    }
+  }
+}
+
+void AreaDibujo::verCircuito() {
+  if(seleccion && !motion) {
+    CircuitoDibujo* dibujoCircuitoRemoto = dynamic_cast<CircuitoDibujo*> (this->dibujoSeleccionados[0]);
+    ventanaTrabajo->controladorVentana->obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
+  }
+}
+
+void AreaDibujo::dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& context) {
   if(dibujarSelected) {
     context->set_source_rgba(0.0, 0.0, 1.0, 0.3);
     context->rectangle(vInicialSelected.x, vInicialSelected.y, anchoSelected, altoSelected);
@@ -515,7 +496,6 @@ void AreaDibujo::dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& c
 }
 
 void AreaDibujo::buscarInclusion(Dibujo *dibujo, Vertice vertice, Vertice vMenor, bool &marcado) {
-
   if((vertice.x >= vMenor.x && vertice.x <= vMenor.x+abs(anchoSelected)) && (vertice.y >= vMenor.y && vertice.y <= vMenor.y+abs(altoSelected)) && !marcado) {
     dibujoSeleccionados.push_back(dibujo);
     dibujo->seleccionar();
@@ -524,7 +504,8 @@ void AreaDibujo::buscarInclusion(Dibujo *dibujo, Vertice vertice, Vertice vMenor
 }
 
 void AreaDibujo::cargarSeleccionMultiple() {
-
+  //Recorre la lista de dibujos y carga aquellos dibujos que caen
+  //dentro de la seleccion realizada
   Vertice vMenor;
   if(vInicialSelected.x <= vFinalSelected.x)
     vMenor.x= vInicialSelected.x;
