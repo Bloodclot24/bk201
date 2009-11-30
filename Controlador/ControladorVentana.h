@@ -137,7 +137,7 @@ public:
       */
      void simular();
 
-     Circuito* getCircuito();
+     Circuito* getCircuito(std::string* errores);
 
      void crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista);
      void buscarExtremos(ConexionDibujo* pista, Vertice v, std::list<Vertice> &lista, std::map<ConexionDibujo*, ConexionDibujo*> *listaRecorridos);
@@ -165,7 +165,7 @@ public:
       * 
       * @param lista La lista recibida.
       */
-     void notificarLista(std::list<DescripcionCircuito> lista);
+     void notificarLista(std::list<DescripcionCircuito> lista, std::string mensaje);
 
      /** 
       * Hace un pedido al servidor para que le envie un circuito
