@@ -45,23 +45,34 @@ TESTSOURCES=Gates/testGates.cpp \
 	Circuito/testCircuitoRemotoSr.cpp
 
 MAIN=main.cpp
+SERVIDOR=Server/testServer.cpp
 
 CFLAGS+=-g3 -Wall -O0 `pkg-config --cflags gdkmm-2.4 gtkmm-2.4 gthread-2.0 libxml-2.0`
 LDFLAGS=`pkg-config --libs gdkmm-2.4 gtkmm-2.4 gthread-2.0 libxml-2.0`
 CC=g++
 EXECUTABLE=bk201
+EXECUTABLESERVIDOR=bk201_server
 
 OBJECTS=$(SOURCES:.cpp=.o)
 TESTOBJECTS=$(TESTSOURCES:.cpp=.o)
 MAINSOURCES=$(SOURCES) $(MAIN)
+MAINSERVIDOROBJECTS=$(SERVIDOR:.cpp=.o) $(OBJECTS)
+MAINSERVIDORSOURCES=$(SOURCES) $(SERVIDOR)
 MAINOBJECTS=$(MAIN:.cpp=.o) $(OBJECTS)
-ALLOBJECTS=$(MAINOBJECTS) $(TESTOBJECTS)
+ALLOBJECTS=$(MAINOBJECTS) $(MAINSERVIDOROBJECTS) $(TESTOBJECTS)
 TESTEXEC=$(TESTSOURCES:.cpp=)
 
-all: $(MAINSOURCES) $(EXECUTABLE)
+PREFIX=~/
+PROGNAME=bk201
+BASEDIR=$(PREFIX)/$(PROGNAME)
+
+all: $(MAINSOURCES) $(EXECUTABLE) $(EXECUTABLESERVIDOR)
 
 $(EXECUTABLE): $(MAINOBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(MAINOBJECTS) -o $@
+
+$(EXECUTABLESERVIDOR): $(MAINSERVIDOROBJECTS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(MAINSERVIDOROBJECTS) -o $@
 
 .cpp.o:
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -72,7 +83,18 @@ $(TESTEXEC): $(TESTOBJECTS) $(OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJECTS) $@.o -o $@
 
 clean:
-	rm -f $(ALLOBJECTS) $(EXECUTABLE) $(TESTEXEC)
+	rm -f $(ALLOBJECTS) $(EXECUTABLE) $(TESTEXEC) 
 
 prueba: $(MAINSOURCES) $(EXECUTABLE)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(SOURCES) $(MAIN) -o $(EXECUTABLE)
+
+install: all
+	mkdir -p $(BASEDIR)
+	mkdir -p $(BASEDIR)/Vista
+	cp -r -f Vista/Imagenes/ $(BASEDIR)/Vista
+	cp Vista/interfaz.glade $(BASEDIR)/Vista
+	cp $(EXECUTABLE) $(BASEDIR)
+	cp $(EXECUTABLESERVIDOR) $(BASEDIR)
+
+uninstall:
+	rm -r -f $(BASEDIR)
