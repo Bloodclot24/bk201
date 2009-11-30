@@ -156,7 +156,7 @@ void ControladorVentana::eliminarComponente(Dibujo* d){
      }
 }
 
-Circuito* ControladorVentana::getCircuito(std::string *errores=NULL){
+Circuito* ControladorVentana::getCircuito(std::string *errores){
      if(circuito.c != NULL)
 	  delete circuito.c;
      
@@ -265,9 +265,9 @@ void ControladorVentana::simular(){
      simulador->start();
 }
 
-void ControladorVentana::recibirTablaSimulacion(std::list<uint32_t> tabla){
+void ControladorVentana::recibirTablaSimulacion(std::list<uint32_t> tabla, std::string errores){
      if(ventana)
-	  ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas);
+	  ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas,errores);
 }
 
 void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista){
@@ -469,9 +469,9 @@ bool ControladorVentana::cargar(const std::string& nombreArchivo){
      return p.recuperar(this);
 }
 
-void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista, std::string mensaje){
+void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista){
      if(ventana)
-	  ventana->recibirListaCircuitos(lista, mensaje);
+	  ventana->recibirListaCircuitos(lista);
      return;
 }
 
