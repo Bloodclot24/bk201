@@ -88,6 +88,17 @@ void AreaDibujo::loadMenuPopup() {
   menuPopup = dynamic_cast<Gtk::Menu*>(m_refUIManager->get_widget("/PopupMenu"));
 }
 
+void AreaDibujo::activarMenuBar() {
+  if(dibujoSeleccionados.size() == 1) {
+    ventanaTrabajo->setSensitiveEditar(true);
+    if(dibujoSeleccionados[0]->getTipo().compare(CIRCUITO) != 0)
+      ventanaTrabajo->m_examinar->set_sensitive(false);
+  } else {
+    ventanaTrabajo->setSensitiveEditar(false);
+    ventanaTrabajo->m_borrar->set_sensitive(true);
+  }
+}
+
 /***************************/
 /*** REDEFINICIONES ***/
 /***************************/
@@ -237,7 +248,7 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
     vFinalSelected.y= event->y;
     cargarSeleccionMultiple();
     if(!dibujoSeleccionados.empty())
-      ventanaTrabajo->setSensitiveEditar(true);
+      activarMenuBar();
     redibujar();
     return true;
 
@@ -296,7 +307,7 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
       can_motion= true;
       vAnteriorMotion.x= x;
       vAnteriorMotion.y= y;
-      ventanaTrabajo->setSensitiveEditar(true);
+      activarMenuBar();
     }
 
     redibujar();

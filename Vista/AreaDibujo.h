@@ -61,6 +61,7 @@ private:
   Glib::RefPtr<Gtk::ActionGroup>        verBorrar;
   Glib::RefPtr<Gtk::ActionGroup>        verExaminar;
   void loadMenuPopup();
+  void activarMenuBar();
 
   //Circuito
   int xCircuito;
