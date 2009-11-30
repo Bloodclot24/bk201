@@ -277,10 +277,6 @@ void VentanaTrabajo::rotar90I() {
   areaDibujo->rotarSeleccion90Izquierda();
 }
 
-void VentanaTrabajo::examinar() {
-  areaDibujo->verCircuito();
-}
-
 void VentanaTrabajo::borrar() {
   areaDibujo->borrarSeleccion();
 }
@@ -441,20 +437,6 @@ void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &pu
   puerto= this->puerto;
 }
 
-void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito) {
-
-  ControladorVentana controlador;
-  controlador.iniciar();
-  controlador.setAreaDibujo(circuitoRemoto);
-  circuitoRemoto->vaciarListaDibujos();
-  controlador.cargar(nombreArchivo);
-  Gtk::Label *label;
-  refXml->get_widget("label_nombre_circuito", label);
-  label->set_text(nombreCircuito);
-  window_remoto->show_all();
-  ::remove(nombreArchivo.c_str());
-}
-
 /***************************/
 /*** IMPRESION ***/
 /***************************/
@@ -610,6 +592,19 @@ void VentanaTrabajo::on_propiedades_circuito(int response_id) {
   dialog_prop_circuito->hide();
   //habilito la ventana
   window->set_sensitive(true);
+}
+
+/***************************/
+/*** VENTANA EXAMINAR ***/
+/***************************/
+void VentanaTrabajo::examinar() {
+  areaDibujo->verCircuito();
+}
+
+void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito) {
+  this->nombreTemp= nombreArchivo;
+  this->nombreRemoto= nombreCircuito;
+  llegoRemoto= true;
 }
 
 /***************************/

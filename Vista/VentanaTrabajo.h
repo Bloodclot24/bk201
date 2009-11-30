@@ -165,6 +165,9 @@ private:
 
   //Ventana Examinar
   Gtk::Dialog *dialog_examinar;
+  sigc::connection id_ventana_remoto;
+  std::string nombreTemp, nombreRemoto;
+  bool llegoRemoto;
 
   //Ventana Servidor
   Gtk::Dialog *dialog_servidor;

@@ -67,6 +67,9 @@ private:
   int xCircuito;
   int yCircuito;
 
+  //Ventana Remoto
+  bool esperandoCircuitoRemoto();
+
   //Clicks
   bool eventoClickBtnIzq(int x, int y);
   void eventoDobleClickBtnIzq(int x, int y);
