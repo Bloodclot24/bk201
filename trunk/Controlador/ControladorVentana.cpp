@@ -193,9 +193,6 @@ Circuito* ControladorVentana::getCircuito(){
 	  if(!(*itc).second->cr->conectar()){
 	       std::string error("Error: no se pudo conectar con el circuito ");
 	       error+=(*itc).second->c->getNombre();
-	       if(ventana)
-		    ventana->mostrarMensajeError(error);
-	       else
 		    std::cerr << error<<std::endl;
 	  }
      }
