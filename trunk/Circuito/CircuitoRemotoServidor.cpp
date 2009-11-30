@@ -1,5 +1,9 @@
 #include "CircuitoRemotoServidor.h"
 
+/** 
+ * Intercambia mensajes con el cliente.
+ * 
+ */
 void CircuitoRemotoServidor::run(){
 
   while(isRunning()){

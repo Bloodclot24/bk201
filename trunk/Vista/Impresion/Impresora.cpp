@@ -24,7 +24,7 @@ void Impresora::on_begin_print(
   //en caso contrario, imprime en una sola pagina lo que posea.
   //Para poder imprimir en 2 paginas, tanto la tabla como el
   //circuito son escalados para que entren dentro de la pagina.
-	if(tabla->entradas && dibujos.size()) set_n_pages(2);
+  if(tabla->entradas && dibujos.size()) set_n_pages(2);
   else set_n_pages(1);
 }
 
@@ -103,14 +103,14 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 						
       std::list<Dibujo*>::iterator it;
       for(it= dibujos.begin(); it != dibujos.end(); it++) {
-    	  //En caso de que haya algun elemento seleccionado,
-    	  //antes de imprimir los deselecciono todos.
-
-    	  (*it)->deseleccionar();
-    	  //Aplico el escalado
+	//En caso de que haya algun elemento seleccionado,
+	//antes de imprimir los deselecciono todos.
+	
+	(*it)->deseleccionar();
+	//Aplico el escalado
 	cairo_ctx->scale(scaleW,scaleH);
-			
-
+	
+	
 	//roto respecto el centro de la imagen
 	Vertice vCentro= (*it)->getVerticeCentro();
 	cairo_ctx->translate(vCentro.x-xMin, vCentro.y-yMin);
@@ -125,7 +125,7 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
   }else{
     if(tabla){
       //Paso a INCH
-    	double ancho = tabla->getAncho()/print_context->get_dpi_x();
+      double ancho = tabla->getAncho()/print_context->get_dpi_x();
       double alto = tabla->getAlto()/print_context->get_dpi_y();
       //Calculo el factor de escala.
       scaleW = (double)(widthPaper / (ancho * 100.0));
@@ -138,8 +138,8 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 
 
       if(scaleH!=0&&scaleW!=0)
-    	  //escalo
-    	  cairo_ctx->scale(scaleW,scaleH);
+	//escalo
+	cairo_ctx->scale(scaleW,scaleH);
       tabla->dibujarTabla(cairo_ctx);
 		
     }

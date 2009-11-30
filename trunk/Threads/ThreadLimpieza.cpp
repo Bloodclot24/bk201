@@ -3,6 +3,10 @@
 ThreadLimpieza::ThreadLimpieza():variableClientes(&mutexClientes),variableSalida(&mutexSalida){
 }
 
+/** 
+ * Espera a que alguien pida que lo elimine.
+ * 
+ */
 void ThreadLimpieza::run(){
   mutexClientes.lock();
   while(isRunning() || clientesRegistrados.size()>0){
@@ -19,6 +23,11 @@ void ThreadLimpieza::run(){
   mutexSalida.unlock();
 }
 
+/** 
+ * Elimina un cliente registrado
+ * 
+ * @param crs El thread a eliminar.
+ */
 void ThreadLimpieza::limpiarCliente(Thread* crs){
 
   mutexClientes.lock();
@@ -28,11 +37,17 @@ void ThreadLimpieza::limpiarCliente(Thread* crs){
     clientesRegistrados.erase(crs);
   }
   clientesABorrar.push_back(crs);
+  /* aviso que alguien se quiere eliminar */
   variableClientes.signal();
   mutexClientes.unlock();
      
 }
 
+/** 
+ * Registra un nuevo cliente para ser eliminado cuando me lo pida.
+ * 
+ * @param crs El thread que se registra.
+ */
 void ThreadLimpieza::registrarCliente(Thread* crs){
 
   if(isRunning()){
@@ -43,7 +58,10 @@ void ThreadLimpieza::registrarCliente(Thread* crs){
   }
 }
 
-
+/** 
+ * Frena todos los threads registrados y esperan a que terminen.
+ * 
+ */
 ThreadLimpieza::~ThreadLimpieza(){
   mutexClientes.lock();
   std::map<Thread*, Thread*>::iterator it;
