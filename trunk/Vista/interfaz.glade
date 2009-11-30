@@ -476,7 +476,6 @@ Ygounet Guido</property>
     <property name="pixbuf">Imagenes/circuitoNet.png</property>
   </object>
   <object class="GtkDialog" id="dialog_servidor">
-    <property name="double_buffered">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">-Bk201-</property>
     <property name="resizable">False</property>
