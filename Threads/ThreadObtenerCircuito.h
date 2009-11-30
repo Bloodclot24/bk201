@@ -4,6 +4,11 @@
 #include "Threads.h"
 #include "../Controlador/ControladorVentana.h"
 
+/**
+ * Clase que dado un servidor, un puerto y el nombre del circuito
+ * lo obtiene y lo notifica.
+ *
+ */
 class ThreadObtenerCircuito:public Thread{
 private:
      std::string host;

@@ -15,6 +15,11 @@ public:
 	  salidas.push_back(false);
      }
 
+     /**
+       * Realiza la simulacion.
+       *
+       * @param tiempo Tiempo de propagacion.
+       */
      virtual void simular(uint64_t tiempo){
 	  if(tRestante <= tiempo){
 	       tRestante = 0;

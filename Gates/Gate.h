@@ -73,8 +73,20 @@ public:
       */
      virtual bool esEstable(){return tRestante==0;}
      
+
+     /**
+      * Realiza la simulacion.
+      *
+      * @param tiempo Tiempo de propagacion.
+      */
      virtual void simular(uint64_t tiempo)=0;
 
+     /**
+      * Setea el tiempo de propagacion de la compuerta.
+      *
+      * @param tr Es el tiempo de propagacion q se le va a setear a la compuerta.
+      *
+      */
      void setTPropagacion(uint64_t tr){
 	  tPropagacion = tr;
      }

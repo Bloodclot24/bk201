@@ -11,7 +11,13 @@
 class Util {
 	
 public:
-  static std::string intToString(int numero);
+
+	/**
+	 * Convierte de int a string.
+	 *
+	 * @param numero El numero entero que se quiere convertir a string.
+	 */
+	static std::string intToString(int numero);
 };
 
 #endif /*UTIL_H_*/

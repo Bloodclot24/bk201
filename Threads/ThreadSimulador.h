@@ -6,6 +6,11 @@ class ThreadSimulador;
 #include "Threads.h"
 #include "../Controlador/ControladorVentana.h"
 
+/**
+ * Clase encargada de "realizar" la simulacion y notificar
+ * su resultado.
+ *
+ */
 class ThreadSimulador:public Thread{
 
      ControladorVentana* cv;

@@ -25,6 +25,12 @@ public:
 	  conectado = false;
      }
 
+     /**
+      * Se conecta al servidor en cuestion, en caso de no poder hacerlo
+      * devuelve false. Si pudo conectarse, intenta seleccionar el circuito
+      * si puede hacerlo devuelve true, en caso contrario devuelve false.
+      *
+      */
      bool conectar(){
 	  bool valor=false;
 	  if(!conectado)
@@ -44,6 +50,11 @@ public:
 	  return valor;
      }
 
+     /**
+      * Devuelve true en caso de que el circuito
+      * sea estable, en caso contrario devuelve false.
+      *
+      */
      bool esEstable(){
 	  if(!s->esValido())
 	       return false;
@@ -69,6 +80,12 @@ public:
 	  mensajero.enviarMensaje(&mensaje);
      }
 
+     /**
+      * Obtiene el estado de la entrada solicitada.
+      *
+      * @param numero Es el numero de entrada de la cual se quiere obtener el estado.
+      *
+      */
      bool getEntrada(unsigned numero){
 	  if(!s->esValido())
 	       return false;
@@ -85,6 +102,12 @@ public:
 	  return valor;
      }
 
+     /**
+       * Obtiene el estado de la salida solicitada.
+       *
+       * @param numero Es el numero de salida de la cual se quiere obtener el estado.
+       *
+       */
      bool getSalida(unsigned numero){
 	  if(!s->esValido())
 	       return false;
@@ -101,6 +124,12 @@ public:
 	  return valor;
      }
 
+     /**
+       * Obtiene el estado del pin solicitado.
+       *
+       * @param numero Es el numero de pin de la cual se quiere obtener el estado.
+       *
+       */
      bool getPin(unsigned numero){
 	  if(!s->esValido())
 	       return false;
@@ -118,6 +147,13 @@ public:
 	  return valor;
      }
 
+     /**
+      * Setea el estado al pin en cuestion.
+      *
+      * @param numero Es el numero de pin al que se le quiere setear el estado.
+      * @param estado Es el estado a setearle al pin.
+      *
+      */
      void setPin(unsigned numero, bool estado){
 	  if(!s->esValido())
 	       return;
@@ -127,6 +163,11 @@ public:
 	  mensajero.enviarMensaje(&mensaje);
      }
 
+     /**
+       * Coloca todas las entradas y salidas del componente en estado
+       * logico bajo.
+       *
+       */
      void reset(){
 	  if(!s->esValido())
 	       return;
@@ -134,6 +175,10 @@ public:
 	  mensajero.enviarMensaje(&mensaje);
      }
 
+     /**
+      * Obtiene la cantidad de entradas del circuito.
+      *
+      */
      unsigned getCantidadEntradas(){
 	  if(entradas != (unsigned)-1)
 	       return entradas;
@@ -152,6 +197,10 @@ public:
 	  return valor;
      }
      
+     /**
+       * Devuelve la cantidad de salidas del circuito.
+       *
+       */
      unsigned getCantidadSalidas(){
 	  if(salidas != (unsigned)-1)
 	       return salidas;
@@ -170,6 +219,13 @@ public:
 	  return valor;
      }
      
+     /**
+       * Devuelve la cantidad de tiempo que debe transcurrir hasta que
+       * se estabilize la salida del componente.
+       *
+       *
+       * @return El tiempo hasta la estabilizacion.
+       */
      uint64_t getTProximoEvento(){
 	  if(!s->esValido())
 	       return (uint64_t)-1;
@@ -185,6 +241,11 @@ public:
 	  return valor;
      }
 
+     /**
+       * Corre la simulacion del componente.
+       *
+       * @param tiempo El tiempo de operacion a simular.
+       */
      void simular(uint64_t tiempo){
 	  if(!s->esValido())
 	       return;

@@ -4,6 +4,11 @@
 #include "Threads.h"
 #include "../Controlador/ControladorVentana.h"
 
+/**
+ * Clase encargada de obtener y notificar la lista de circuitos
+ * disponibles de un servidor en particular.
+ *
+ */
 class ThreadListado:public Thread{
 private:
      std::string host;
