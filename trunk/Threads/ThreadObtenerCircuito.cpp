@@ -20,7 +20,7 @@ void ThreadObtenerCircuito::run(){
 	  m.enviarMensaje(&mensaje);
 	  std::cout << "Envio el pedido.\n";
 	  Soap *respuesta = m.recibirRespuesta();
-
+	  
 	  std::cout << "Ya tengo la respuesta.\n";
 
 	  if(respuesta != NULL &&					\
@@ -38,9 +38,15 @@ void ThreadObtenerCircuito::run(){
 	  }
 	  else{
 	       std::cout << "Respuesta es NULL.\n";
+	       std::string vacio;
+	       control.notificarCircuito(vacio, nombre);
 	  }
 	  
 	  delete respuesta;
+     }
+     else{
+	  std::string vacio;
+	  control.notificarCircuito(vacio, nombre);
      }
      control.eliminarThread(this);
 }
