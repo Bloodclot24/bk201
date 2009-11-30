@@ -423,7 +423,8 @@ void VentanaTrabajo::agregarDibujo(ConexionDibujo *dibujo){
 /*** CIRCUITO REMOTO ***/
 /***************************/
 void VentanaTrabajo::cerrar_circuito_remoto() {
-    window_remoto->hide();
+  window_remoto->hide();
+  window->set_sensitive(true);
 }
 
 bool VentanaTrabajo::on_delete_event_remoto(GdkEventAny *event) {
