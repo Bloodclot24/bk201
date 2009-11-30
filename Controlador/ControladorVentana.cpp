@@ -385,7 +385,7 @@ void ControladorVentana::buscarExtremos(ConexionDibujo* pista, Vertice v, std::l
 void ControladorVentana::obtenerListaServidor(const std::string& servidor, int puerto){
      ThreadListado *listado = new ThreadListado(*this,servidor, puerto);
      std::cout << "-----------------------------------------START----------------------------\n";
-     listado->run();
+     listado->start();
 }
 
 void ControladorVentana::obtenerCircuitoServidor(const std::string& nombre, const std::string& servidor, int puerto){

@@ -173,6 +173,13 @@ private:
   //Error
   Gtk::MessageDialog *messagedialog_errores;
 
+  //Ventana Servidor
+  sigc::connection id_ventana_servidor;
+  bool llegoRta;
+  std::list<DescripcionCircuito> lista_circuito;
+  bool esperandoRtaServidor();
+  void hideVentanaServidor();
+
 protected:
   //Signal handlers
   void on_drag_data_get(
@@ -195,7 +202,7 @@ public:
     */
     void correr(bool primeraVez= false);
 
-    void recibirListaCircuitos(const std::list<DescripcionCircuito> &lista);
+    void recibirListaCircuitos(std::list<DescripcionCircuito> lista);
     void agregarDibujo(Dibujo *dibujo);
     void agregarDibujo(ConexionDibujo *dibujo);
     void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas);

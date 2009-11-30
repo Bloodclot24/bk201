@@ -356,11 +356,40 @@ void VentanaTrabajo::on_clicked_conexion() {
 }
 
 void VentanaTrabajo::ventanaServidor() {
-
   if(dialog_servidor) {
     dialog_servidor->set_sensitive(true);
-    dialog_servidor->run();
+    dialog_servidor->show();
+    //deshabilito la ventana
+    window->set_sensitive(false);
   }
+}
+
+bool VentanaTrabajo::esperandoRtaServidor() {
+  if(llegoRta) {
+    id_ventana_servidor.disconnect();
+    if(!lista_circuito.empty()) {
+      treeModel_circuitos->clear();
+      std::list<DescripcionCircuito>::const_iterator it;
+      for(it=lista_circuito.begin(); it != lista_circuito.end(); it++){
+           agregarCircuito((*it).nombre, (*it).cantidadEntradas, (*it).cantidadSalidas);
+           std::cout << "Agrego Circuito: " << (*it).nombre << std::endl;
+      }
+      dialog_message->hide();
+      dialog_servidor->hide();
+      dialog_lista_circuitos->show();
+      //habilito la ventana
+      window->set_sensitive(true);
+    } else {
+         std::cout << "Lista vacía\n";
+      dialog_message->hide();
+      dialog_servidor->set_sensitive(false);
+      if(messagedialog_error_servidor) {
+        messagedialog_error_servidor->set_message("Error al conectar con el servidor");
+        messagedialog_error_servidor->show();
+      }
+    }
+  }
+  return true;
 }
 
 void VentanaTrabajo::on_response_servidor(int response_id) {
@@ -375,16 +404,17 @@ void VentanaTrabajo::on_response_servidor(int response_id) {
       this->puerto= entry->get_text();
       std::cout << "Puerto: " << puerto << std::endl;
       dialog_servidor->set_sensitive(false);
-
       dialog_message->show();
       dialog_message->set_message("Conectandose al servidor...");
-
+      llegoRta= false;
+      id_ventana_servidor= Glib::signal_timeout().connect(sigc::mem_fun(*this,&VentanaTrabajo::esperandoRtaServidor), 1000);
       controladorVentana->obtenerListaServidor(servidor, atoi(puerto.c_str()));
-
     }
       break;
     default:
       dialog_servidor->hide();
+      //habilito la ventana
+      window->set_sensitive(true);
       break;
   }
 }
@@ -398,32 +428,14 @@ void VentanaTrabajo::imprimir() {
   }
 }
 
-void VentanaTrabajo::recibirListaCircuitos(const std::list<DescripcionCircuito> &lista) {
-
-  if(!lista.empty()) {
-    treeModel_circuitos->clear();
-    std::list<DescripcionCircuito>::const_iterator it;
-    for(it=lista.begin(); it != lista.end(); it++){
-	 agregarCircuito((*it).nombre, (*it).cantidadEntradas, (*it).cantidadSalidas);
-	 std::cout << "Agrego Circuito: " << (*it).nombre << std::endl;
-    }
-    dialog_message->hide();
-    dialog_servidor->hide();
-    dialog_lista_circuitos->show();
-
-  } else {
-       std::cout << "Lista vacía\n";
-    dialog_message->hide();
-    dialog_servidor->set_sensitive(true);
-    if(messagedialog_error_servidor) {
-      messagedialog_error_servidor->set_message("Error al conectar con el servidor");
-      messagedialog_error_servidor->show();
-    }
-  }
+void VentanaTrabajo::recibirListaCircuitos(std::list<DescripcionCircuito> lista) {
+  this->lista_circuito= lista;
+  this->llegoRta= true;
 }
 
 void VentanaTrabajo::on_error_servidor(int response_id) {
 
+  dialog_servidor->set_sensitive(true);
   messagedialog_error_servidor->hide();
 }
 
@@ -463,7 +475,6 @@ void VentanaTrabajo::agregarDibujo(Dibujo *dibujo){
 
 void VentanaTrabajo::agregarDibujo(ConexionDibujo *dibujo){
   areaDibujo->agregarDibujo(dibujo);
-  //dibujo->setAreaDibujo(areaDibujo);
 }
 
 bool VentanaTrabajo::on_key_press_event(GdkEventKey* event) {
@@ -485,7 +496,6 @@ bool VentanaTrabajo::on_delete_event_remoto(GdkEventAny *event) {
 
 
 void VentanaTrabajo::recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas){
-
   tabla->setCantEntradas(entradas);
   tabla->setCantSalidas(salidas);
   tabla->setLista(listaTabla);
@@ -624,7 +634,7 @@ void VentanaTrabajo::prepararVentanaCircuito(Dibujo *seleccionado) {
   label->set_text(servidor);
   refXml->get_widget("entry_puerto_prop_circuito", label);
   label->set_text(puerto);
-  //deshabilito el dibujo
+  //deshabilito la ventana
   window->set_sensitive(false);
   //muestro el dialogo de propiedades
   dialog_prop_circuito->show();
