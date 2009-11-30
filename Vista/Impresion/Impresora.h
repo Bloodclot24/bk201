@@ -11,6 +11,12 @@
 #include "../Dibujos/Dibujo.h"
 #include "../AreaDibujo.h"
 
+/**
+ * Clase impresora, esta clase se encarga
+ * de paginar lo que va a imprimirse y de
+ * "dibujar" la informacion que va a imprimirse.
+ *
+ */
 class Impresora : public Gtk::PrintOperation
 {
   friend class Tabla;
@@ -27,8 +33,6 @@ public:
 protected:
   virtual void on_begin_print(const Glib::RefPtr<Gtk::PrintContext>& context);
   virtual void on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& context, int numeroPagina);
-  //	bool on_my_paginate(const Glib::RefPtr<Gtk::PrintContext>& context);
-  //friend Tabla::dibujarTabla(void dibujarTabla(const Cairo::RefPtr<Cairo::Context>& context);
 };
 
 
