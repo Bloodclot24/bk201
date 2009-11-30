@@ -93,33 +93,125 @@ public:
     */
   virtual void setAngulo(int angulo);
 
-
+  /**
+   * Devuelve true si el dibujo esta seleccionado, en caso contrario
+   * devuelve false.
+   *
+   */
   bool getSeleccionar() {return seleccionado;};
 
+  /**
+   * Deselecciona el dibujo en cuestion.
+   */
   void deseleccionar();
+
+  /**
+   * Selecciona el dibujo en cuestion.
+   *
+   */
   void seleccionar();
+
+  /**
+    * Se fija si el dibujo esta en el rango que se pasa por
+    * como parametro, en caso de ser asi, retorna true y se marca
+    * como seleccionado; en caso contrario retorna false.
+    *
+    * @param x Es el valor en x en el cual se hizo click.
+    * @param y Es el valor en y en el que se hizo click.
+    */
   virtual bool setSeleccionado(int x, int y);
+
+
+  /**
+    * Se fija si el dibujo esta en el rango que se pasa por
+    * como parametro, en caso de ser asi, retorna true;
+    * en caso contrario retorna false.
+    *
+    * @param x Es el valor en x en el cual se hizo click.
+    * @param y Es el valor en y en el que se hizo click.
+    */
   virtual bool estaCercano(int x, int y);
 
-
+  /**
+   * Obtiene el pin mas cercano al punto que se le pasa como parametro
+   * retornando el numero de dicho pin.
+   *
+   * @param x Valor en x del punto al cual se le quiere obtener el pin mas cercano.
+   * @param y Valor en y del punto al cual se le quiere obtener el pin mas cercano.
+   *
+   */
   int obtenerPinMasCercano(int x, int y);
+
+
+  /**
+   * Dado un numero de pin, obtiene el Vertice correspondiente.
+   *
+   * @param numPin El numero de pin del que se quiere obtener el Vertice.
+   *
+   */
   Vertice obtenerPin(int numPin);
 
+  /**
+   * Obtiene la etiqueta o label del dibujo.
+   *
+   */
   std::string getLabel();
+
+  /**
+   * Setea la etiqueta o label del dibujo.
+   *
+   */
   void setLabel(const std::string& label);
 
-
+  /**
+   * Devuelve true en caso de que el dibujo se pueda ver mas en detalle,
+   * por ejemplo un circuito remoto; en caso contrario devuelve false.
+   *
+   */
   bool getExaminar();
 
+  /**
+   * Calcula las nuevas posiciones de los pines, por ejemplo por si hay
+   * que rotarlos.
+   *
+   */
   virtual void cargarNuevosPines() { };
 
+  /**
+   * Devuelve el tipo del que es el dibujo en cuestion.
+   *
+   */
   std::string getTipo();
 
+  /**
+   * Devuelve el ancho del dibujo en cuestion.
+   *
+   */
   int getAncho();
+
+  /**
+   * Devuelve el alto del dibujo en cuestion.
+   *
+   */
   int getAlto();
 
+  /**
+    * Setea el movimiento en x y en y que se le aplica
+    * al dibujo.
+    *
+    * @param deltax Es cuanto voy a desplazar el dibujo en x.
+    * @param deltay Es cuanto voy a desplazar el dibujo en y.
+    *
+    */
   virtual void setVerticesMotion(int deltax, int deltay);
 
+  /**
+    * Dibuja el dibujo en el contexto que recibe por parametro, este metodo se
+    * utiliza para imprimir el dibujo.
+    *
+    * @param context El contexto sobre el cual se va a dibujar el dibujo.
+    *
+    */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) { };
 
 };
