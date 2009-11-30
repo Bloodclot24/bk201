@@ -3,9 +3,9 @@
 CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salidas): Dibujo::Dibujo(supIzqX, supIzqY) {
 
   tipo= label= TIPO_CIRCUITO;
+  setEntradasSalidas(entradas, salidas);
   vCentro.x= supIzqX + (ancho/2);
   vCentro.y= supIzqY + (alto/2);
-  setEntradasSalidas(entradas, salidas);
   examinar= true;
 }
 
