@@ -47,4 +47,5 @@ void ThreadListado::run(){
 	  std::cout << "Timeouttttttttttttttttttttttt\n";
      }
      control.notificarLista(lista);
+     control.eliminarThread(this);
 }

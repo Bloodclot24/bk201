@@ -444,6 +444,7 @@ void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &pu
 void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito) {
 
   ControladorVentana controlador;
+  controlador.iniciar();
   controlador.setAreaDibujo(circuitoRemoto);
   circuitoRemoto->vaciarListaDibujos();
   controlador.cargar(nombreArchivo);

@@ -15,6 +15,7 @@ Controlador::~Controlador() {
 void Controlador::correr() {
 
   ControladorVentana *controlador= new ControladorVentana();
+  controlador->iniciar();
   VentanaTrabajo *ventana= new VentanaTrabajo(this, controlador, cantVentanas);
   controlador->setVentana(ventana);
   ventanasTrabajo.insert( std::pair<unsigned int, VentanaTrabajo*>(cantVentanas,ventana));
@@ -25,6 +26,7 @@ void Controlador::crearNuevaVentana() {
 
   cantVentanas++;
   ControladorVentana *controlador= new ControladorVentana();
+  controlador->iniciar();
   VentanaTrabajo *ventana= new VentanaTrabajo(this, controlador, cantVentanas);
   controlador->setVentana(ventana);
   ventanasTrabajo.insert( std::pair<unsigned int, VentanaTrabajo*>(cantVentanas,ventana) );

@@ -8,14 +8,17 @@ class ThreadLimpieza;
 
 class ThreadLimpieza:public Thread{
 private:
-     std::list<CircuitoRemotoServidor*> clientesABorrar;
-     std::map<CircuitoRemotoServidor*, CircuitoRemotoServidor*> clientesRegistrados;
+     std::list<Thread*> clientesABorrar;
+     std::map<Thread*, Thread*> clientesRegistrados;
      Mutex mutexClientes;
      CVariable variableClientes;
+     Mutex mutexSalida;
+     CVariable variableSalida;
+
 public:
      ThreadLimpieza();
-     void registrarCliente(CircuitoRemotoServidor* crs);
-     void limpiarCliente(CircuitoRemotoServidor* crs);
+     void registrarCliente(Thread* crs);
+     void limpiarCliente(Thread* crs);
      virtual void run();
      virtual ~ThreadLimpieza();
 };

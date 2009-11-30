@@ -20,6 +20,19 @@
 #define TIPO_PIN              "IO"
 #define TIPO_CIRCUITO         "Circuito"
 
+ControladorVentana::ControladorVentana(){
+     ventana=NULL; 
+     circuito.cantidadEntradas = circuito.cantidadSalidas=0; 
+     filename=""; 
+     circuito.c=NULL;
+     area=NULL;
+     limpieza = new ThreadLimpieza();
+}
+
+void ControladorVentana::iniciar(){
+     limpieza->start();
+}
+
 void ControladorVentana::crearComponente(Compuerta* d, const std::string& tipo){
 
      DatosCompuerta *D = new DatosCompuerta;
@@ -197,7 +210,7 @@ Circuito* ControladorVentana::getCircuito(std::string *errores){
 	       circuito.c->agregarComponente((*itc).second->cr);
 	       if(!(*itc).second->cr->conectar()){
 		    std::string error("Error: no se pudo conectar con el circuito ");
-		    error+=(*itc).second->c->getNombre() + '\n' ;
+		    error+=(*itc).second->c->getNombre() + "\n";
 		    std::cerr << error;
 		    if(errores)
 			 (*errores) += error; 
@@ -269,6 +282,7 @@ Circuito* ControladorVentana::getCircuito(std::string *errores){
 
 void ControladorVentana::simular(){
      ThreadSimulador* simulador = new ThreadSimulador(this);
+     limpieza->registrarCliente(simulador);
      simulador->start();
 }
 
@@ -386,12 +400,18 @@ void ControladorVentana::buscarExtremos(ConexionDibujo* pista, Vertice v, std::l
 
 void ControladorVentana::obtenerListaServidor(const std::string& servidor, int puerto){
      ThreadListado *listado = new ThreadListado(*this,servidor, puerto);
+     limpieza->registrarCliente(listado);
      listado->start();
 }
 
 void ControladorVentana::obtenerCircuitoServidor(const std::string& nombre, const std::string& servidor, int puerto){
      ThreadObtenerCircuito *obtener = new ThreadObtenerCircuito(*this,nombre, servidor, puerto);
+//     limpieza->registrarCliente(obtener);
      obtener->run();
+}
+
+void ControladorVentana::eliminarThread(Thread* thread){
+     limpieza->limpiarCliente(thread);
 }
 
 std::list<uint64_t> ControladorVentana::obtenerTabla(){
@@ -474,7 +494,6 @@ bool ControladorVentana::cargar(const std::string& nombreArchivo){
 void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista){
      if(ventana)
 	  ventana->recibirListaCircuitos(lista);
-     return;
 }
 
 void ControladorVentana::notificarCircuito(const std::string& nombreArchivo, const std::string& nombre){
@@ -484,4 +503,5 @@ void ControladorVentana::notificarCircuito(const std::string& nombreArchivo, con
 
 ControladorVentana::~ControladorVentana(){
      eliminarTodo();
+     delete limpieza;
 }
