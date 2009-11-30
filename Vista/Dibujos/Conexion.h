@@ -9,6 +9,10 @@ class ConexionDibujo;
 
 #include <iostream>
 
+/**
+ * Clase encargada de dibujar las conexiones del circuito.
+ *
+ */
 class ConexionDibujo: public Dibujo {
   friend class AreaDibujo;
 
@@ -44,19 +48,91 @@ public:
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
+  /**
+   * Se fija si la conexion esta en el rango que se pasa por
+   * como parametro, en caso de ser asi, retorna true y se marca
+   * como seleccionado; en caso contrario retorna false.
+   *
+   * @param x Es el valor en x en el cual se hizo click.
+   * @param y Es el valor en y en el que se hizo click.
+   */
   virtual bool setSeleccionado(int x, int y);
+
+  /**
+    * Se fija si la conexion esta en el rango que se pasa por
+    * como parametro, en caso de ser asi, retorna true;
+    * en caso contrario retorna false.
+    *
+    * @param x Es el valor en x en el cual se hizo click.
+    * @param y Es el valor en y en el que se hizo click.
+    */
   virtual bool estaCercano(int x, int y);
 
+  /**
+   * Setea el angulo de la conexion.
+   *
+   */
   virtual void setAngulo(int angulo) { };
 
+  /**
+    * Setea el valor del vertice superior izquierdo de la conexion, el mismo
+    * se utilizara luego para poder dibujarlo, entre otras cosas.
+    *
+    * @param vSupIzq El nuevo vertice superior izquierdo del circuito.
+    *
+    */
   virtual void setVerticeSupIzq(Vertice vSupIzq);
+
+  /**
+   * Setea el vertice final de la conexion.
+   *
+   * @param vertice Es el vertice que va a ser el vertice en
+   *                el cual finaliza la conexion.
+   *
+   */
   void setVerticeFinal(Vertice vertice);
+
+  /**
+    * Setea el valor del vertice inferior derecho de la conexion, el mismo
+    * se utilizara luego para poder dibujarlo, entre otras cosas.
+    *
+    * @param vInfDer El nuevo vertice inferior derecho de la conexion.
+    *
+    */
   void setVerticeInfDer(Vertice vInfDer);
+
+  /**
+   * Devuelve el vertice inferior derecho de la conexion.
+   *
+   */
   Vertice getVerticeInfDer();
+
+  /**
+   * Setea el area de dibujo sobre el cual se va a dibujar
+   * la conexion.
+   *
+   * @param area Es el area de dibujo sobre la cual se van a dibujar.
+   *
+   */
   void setAreaDibujo(AreaDibujoGenerica *area);
 
+  /**
+   * Setea el movimiento en x y en y que se le aplica
+   * a la conexion.
+   *
+   * @param deltax Es cuanto voy a desplazar la conexion en x.
+   * @param deltay Es cuanto voy a desplazar la conexion en y.
+   *
+   */
   virtual void setVerticesMotion(int deltax, int deltay);
 
+  /**
+    * Dibuja el circuito en el contexto que recibe por parametro, este metodo se
+    * utiliza para imprimir el circuito.
+    *
+    * @param context El contexto sobre el cual se va a dibujar el circuito.
+    *
+    */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
 
 
