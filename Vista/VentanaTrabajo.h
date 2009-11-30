@@ -108,14 +108,6 @@ private:
   /*AREADIBUJO*/
   AreaDibujo *areaDibujo;
 
-  /*SERVIDOR*/
-  Gtk::Dialog *dialog_servidor;
-  void on_response_servidor(int response_id);
-  Gtk::MessageDialog *dialog_message;
-  void ventanaServidor();
-  Gtk::Dialog *dialog_lista_circuitos;
-  void on_lista_circuitos(int response_id);
-
   /*TREEVIEW CIRCUITO*/
   Glib::RefPtr<Gtk::TreeView> treeView_circuitos;
 
@@ -169,6 +161,12 @@ private:
   void prepararVentanaCircuito(Dibujo *seleccionado);
 
   //Ventana Servidor
+  Gtk::Dialog *dialog_servidor;
+  void on_response_servidor(int response_id);
+  Gtk::Dialog *dialog_conectandose;
+  void ventanaServidor();
+  Gtk::Dialog *dialog_lista_circuitos;
+  void on_lista_circuitos(int response_id);
   sigc::connection id_ventana_servidor;
   bool llegoRta;
   std::list<DescripcionCircuito> lista_circuito;

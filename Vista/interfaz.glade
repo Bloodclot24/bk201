@@ -793,40 +793,6 @@ Ygounet Guido</property>
       <action-widget response="0">button_aceptar_error_servidor</action-widget>
     </action-widgets>
   </object>
-  <object class="GtkMessageDialog" id="messagedialog_servidor">
-    <property name="border_width">5</property>
-    <property name="resizable">False</property>
-    <property name="window_position">center-always</property>
-    <property name="icon">Imagenes/logo.png</property>
-    <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="deletable">False</property>
-    <property name="secondary_use_markup">True</property>
-    <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox7">
-        <property name="visible">True</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area7">
-            <property name="visible">True</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="pack_type">end</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkDialog" id="dialog_prop_compuerta">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Propiedades</property>
@@ -1317,6 +1283,7 @@ Ygounet Guido</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">-Bk201-</property>
     <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
     <property name="icon">Imagenes/logo.png</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
@@ -1377,6 +1344,7 @@ Gente simulando&lt;/b&gt;</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">-Bk201-</property>
     <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
     <property name="icon">Imagenes/logo.png</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
@@ -1394,16 +1362,21 @@ Gente simulando&lt;/b&gt;</property>
                 <property name="pixbuf">Imagenes/linux_error.png</property>
               </object>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="label_error_servidor">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">&lt;b&gt;Error al conectarse con el servidor&lt;/b&gt;</property>
+                <property name="label" translatable="yes">&lt;b&gt;Error al conectarse
+ con el servidor&lt;/b&gt;</property>
                 <property name="use_markup">True</property>
               </object>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -1420,10 +1393,12 @@ Gente simulando&lt;/b&gt;</property>
               <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="button_error">
+              <object class="GtkButton" id="button_error_servidor">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -1436,6 +1411,7 @@ Gente simulando&lt;/b&gt;</property>
           </object>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="pack_type">end</property>
             <property name="position">0</property>
           </packing>
@@ -1443,15 +1419,15 @@ Gente simulando&lt;/b&gt;</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">button_error</action-widget>
+      <action-widget response="0">button_error_servidor</action-widget>
     </action-widgets>
   </object>
   <object class="GtkDialog" id="dialog_error_simulando">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">-Bk201-</property>
     <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
     <property name="icon">Imagenes/logo.png</property>
-    <property name="icon_name">Imagenes/logo.png</property>
     <property name="type_hint">dialog</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
@@ -1493,10 +1469,12 @@ Gente simulando&lt;/b&gt;</property>
               <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="button_error1">
+              <object class="GtkButton" id="button_error_simulando">
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="can_default">True</property>
+                <property name="has_default">True</property>
                 <property name="receives_default">True</property>
                 <property name="use_stock">True</property>
               </object>
@@ -1516,7 +1494,73 @@ Gente simulando&lt;/b&gt;</property>
       </object>
     </child>
     <action-widgets>
-      <action-widget response="0">button_error1</action-widget>
+      <action-widget response="0">button_error_simulando</action-widget>
     </action-widgets>
+  </object>
+  <object class="GtkDialog" id="dialog_conectandose">
+    <property name="can_focus">True</property>
+    <property name="can_default">True</property>
+    <property name="has_default">True</property>
+    <property name="receives_default">True</property>
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">-Bk201-</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-always</property>
+    <property name="icon">Imagenes/logo.png</property>
+    <property name="type_hint">normal</property>
+    <property name="has_separator">False</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="dialog-vbox24">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child>
+          <object class="GtkHBox" id="hbox_conectandose">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkImage" id="image_conectandose">
+                <property name="visible">True</property>
+                <property name="pixbuf">Imagenes/linux_wifi.png</property>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label_conectandose">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">&lt;b&gt;Conectandose al servidor...&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="dialog-action_area24">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
   </object>
 </interface>
