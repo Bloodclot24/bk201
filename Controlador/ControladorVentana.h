@@ -198,6 +198,8 @@ public:
       */
      bool cargar(const std::string& nombreArchivo);
 
+     void recibirTablaSimulacion(std::list<uint32_t> tabla);
+
      void eliminarTodo();
      ~ControladorVentana();
 };

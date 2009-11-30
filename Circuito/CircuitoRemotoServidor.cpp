@@ -162,7 +162,6 @@ void CircuitoRemotoServidor::run(){
 
 	  else if(comando.compare("Desconectar")==0){
 	       std::cout << "Desconectar" << std::endl;
-	       delete c;
 	       finish();
 	  }
 

@@ -9,6 +9,7 @@
 #include "../XML/Persistidor.h"
 #include "../Threads/ThreadListado.h"
 #include "../Threads/ThreadObtenerCircuito.h"
+#include "../Threads/ThreadSimulador.h"
 
 #define TIPO_PISTA            "Conexion" 
 #define TIPO_COMPUERTA_AND    "And"
@@ -260,15 +261,13 @@ Circuito* ControladorVentana::getCircuito(){
 }
 
 void ControladorVentana::simular(){
-     getCircuito();
-     std::list<uint32_t> tabla = circuito.c->simularTodo(500);
-     std::list<uint32_t>::iterator itt=tabla.begin();
-     for(;itt!=tabla.end();itt++){
-	  std::cout << "/" << (*itt);
-     }
-     std::cout << "/\n";
+     ThreadSimulador* simulador = new ThreadSimulador(this);
+     simulador->start();
+}
 
-     ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas);
+void ControladorVentana::recibirTablaSimulacion(std::list<uint32_t> tabla){
+     if(ventana)
+	  ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas);
 }
 
 void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista){
