@@ -10,26 +10,26 @@ CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salid
 }
 
 void CircuitoDibujo::setEntradasSalidas(int entradas, int salidas){
-     this->entradas= entradas;
-     this->salidas= salidas;
+  this->entradas= entradas;
+  this->salidas= salidas;
      
-     int mayor;
-     if(entradas > salidas) {
-	  mayor= entradas;
-	  pasoEntrada= 10;
-	  pasoSalida= pasoPinesMenor(entradas, salidas);
-     } else if(entradas < salidas) {
-	  mayor= salidas;
-	  pasoSalida= 10;
-	  pasoEntrada= pasoPinesMenor(salidas, entradas);
-     } else if(entradas == salidas) {
-	  mayor= salidas;
-	  pasoEntrada= pasoSalida= 10;
-     }
+  int mayor;
+  if(entradas > salidas) {
+    mayor= entradas;
+    pasoEntrada= 10;
+    pasoSalida= pasoPinesMenor(entradas, salidas);
+  } else if(entradas < salidas) {
+    mayor= salidas;
+    pasoSalida= 10;
+    pasoEntrada= pasoPinesMenor(salidas, entradas);
+  } else if(entradas == salidas) {
+    mayor= salidas;
+    pasoEntrada= pasoSalida= 10;
+  }
      
-     ancho= alto= mayor*SEPARACION+10;
+  ancho= alto= mayor*SEPARACION+10;
           
-     cargarNuevosPines(vSupIzq);
+  cargarNuevosPines(vSupIzq);
 }
 
 int CircuitoDibujo::pasoPinesMenor(int mayor, int menor) {
@@ -90,10 +90,10 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   int auxiliar=angulo;
   angulo=-angulo;
   for(int i= 0; i<size; i++) {
-       Vertice temporal=pines[i];
-       temporal = rotarPin(temporal.x, temporal.y);
-       context->move_to(temporal.x, temporal.y);
-       context->line_to(temporal.x+10, temporal.y);
+    Vertice temporal=pines[i];
+    temporal = rotarPin(temporal.x, temporal.y);
+    context->move_to(temporal.x, temporal.y);
+    context->line_to(temporal.x+10, temporal.y);
   }
   angulo=auxiliar;
   context->stroke();
@@ -106,7 +106,7 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 };
 
 std::string CircuitoDibujo::getServidor() {
- return servidor;
+  return servidor;
 }
 
 void CircuitoDibujo::setServidor(std::string servidor) {
@@ -122,10 +122,10 @@ void CircuitoDibujo::setPuerto(std::string puerto) {
 }
 
 void CircuitoDibujo::setAngulo(int angulo){
-     this->angulo+=angulo;
-     vCentro.x= vSupIzq.x + (ancho/2);
-     vCentro.y= vSupIzq.y + (alto/2);
-     cargarNuevosPines(vSupIzq);
+  this->angulo+=angulo;
+  vCentro.x= vSupIzq.x + (ancho/2);
+  vCentro.y= vSupIzq.y + (alto/2);
+  cargarNuevosPines(vSupIzq);
 }
 
 void CircuitoDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {

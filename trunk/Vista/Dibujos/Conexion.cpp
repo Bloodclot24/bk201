@@ -24,52 +24,52 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   //si tengo algun extremo suelto, veo si tengo un
   //pin cercano
-     if(!dibujoPin1 && areaDibujo) {
-          dibujoPin1= areaDibujo->buscarDibujoCercano(this, vSupIzq.x, vSupIzq.y);
-//          std::cout << dibujoPin1 << std::endl;
-          if(dibujoPin1) {
-               nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
+  if(!dibujoPin1 && areaDibujo) {
+    dibujoPin1= areaDibujo->buscarDibujoCercano(this, vSupIzq.x, vSupIzq.y);
+    //          std::cout << dibujoPin1 << std::endl;
+    if(dibujoPin1) {
+      nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
 
-//               std::cout << "nroPin1:" << nroPin1 << std::endl;
+      //               std::cout << "nroPin1:" << nroPin1 << std::endl;
 
-               if(nroPin1 == -1)
-                    dibujoPin1= NULL;
-          }
-     }
-     if(!dibujoPin2 && areaDibujo) {
-          dibujoPin2= areaDibujo->buscarDibujoCercano(this, vInfDer.x, vInfDer.y);
+      if(nroPin1 == -1)
+	dibujoPin1= NULL;
+    }
+  }
+  if(!dibujoPin2 && areaDibujo) {
+    dibujoPin2= areaDibujo->buscarDibujoCercano(this, vInfDer.x, vInfDer.y);
 
-          //std::cout << dibujoPin2 << std::endl;
+    //std::cout << dibujoPin2 << std::endl;
 
 
-          if(dibujoPin2) {
-               nroPin2= dibujoPin2->obtenerPinMasCercano(vInfDer.x, vInfDer.y);
+    if(dibujoPin2) {
+      nroPin2= dibujoPin2->obtenerPinMasCercano(vInfDer.x, vInfDer.y);
 
-//               std::cout << "nroPin2:" << nroPin2 << std::endl;
+      //               std::cout << "nroPin2:" << nroPin2 << std::endl;
 
-               if(nroPin2 == -1)
-                    dibujoPin2= NULL;
-          }
-     }
+      if(nroPin2 == -1)
+	dibujoPin2= NULL;
+    }
+  }
   //busco cambios en la ubicacion de los pines a los que
   //estoy unido
 
-     if(areaDibujo->existeDibujo(dibujoPin1)) {
+  if(areaDibujo->existeDibujo(dibujoPin1)) {
 
-	  vSupIzq= dibujoPin1->obtenerPin(nroPin1);
-     }
-     else
-	  dibujoPin1=NULL;
-     if(areaDibujo->existeDibujo(dibujoPin2)) {
-       vInfDer= dibujoPin2->obtenerPin(nroPin2);
-     }
-     else
-	  dibujoPin2=NULL;
+    vSupIzq= dibujoPin1->obtenerPin(nroPin1);
+  }
+  else
+    dibujoPin1=NULL;
+  if(areaDibujo->existeDibujo(dibujoPin2)) {
+    vInfDer= dibujoPin2->obtenerPin(nroPin2);
+  }
+  else
+    dibujoPin2=NULL;
   calcularAtributos();
   //regenero las trayectorias
   generarPoligonos();
 
-   context->stroke();
+  context->stroke();
 
   if(seleccionado)
     dibujarSeleccion(context);
@@ -108,80 +108,80 @@ void ConexionDibujo::dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& conte
 bool ConexionDibujo::setSeleccionado(int x, int y) {
 
   bool primero= true;
-   int menorX, mayorX;
-   int menorY, mayorY;
-   Vertice anterior;
-   std::list<Vertice>::iterator it;
-   for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
+  int menorX, mayorX;
+  int menorY, mayorY;
+  Vertice anterior;
+  std::list<Vertice>::iterator it;
+  for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
 
-     if(!primero) {
+    if(!primero) {
 
-       if(anterior.x < it->x) {
-         menorX= anterior.x-5;
-         mayorX= it->x+5;
-       } else {
-         menorX= it->x-5;
-         mayorX= anterior.x+5;
-       }
+      if(anterior.x < it->x) {
+	menorX= anterior.x-5;
+	mayorX= it->x+5;
+      } else {
+	menorX= it->x-5;
+	mayorX= anterior.x+5;
+      }
 
-       if(anterior.y < it->y) {
-         menorY= anterior.y-5;
-         mayorY= it->y+5;
-       } else {
-         menorY= it->y-5;
-         mayorY= anterior.y+5;
-       }
+      if(anterior.y < it->y) {
+	menorY= anterior.y-5;
+	mayorY= it->y+5;
+      } else {
+	menorY= it->y-5;
+	mayorY= anterior.y+5;
+      }
 
-       if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY)))
-         seleccionado= true;
-       anterior= *it;
-     } else {
-       primero= false;
-       anterior= *it;
-     }
-   }
+      if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY)))
+	seleccionado= true;
+      anterior= *it;
+    } else {
+      primero= false;
+      anterior= *it;
+    }
+  }
 
-   return seleccionado;
+  return seleccionado;
 }
 
 bool ConexionDibujo::estaCercano(int x, int y) {
 
   bool cercano= false;
   bool primero= true;
-   int menorX, mayorX;
-   int menorY, mayorY;
-   Vertice anterior;
-   std::list<Vertice>::iterator it;
-   for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
+  int menorX, mayorX;
+  int menorY, mayorY;
+  Vertice anterior;
+  std::list<Vertice>::iterator it;
+  for(it= poligonos.begin(); it != poligonos.end() && !seleccionado; it++) {
 
-     if(!primero) {
+    if(!primero) {
 
-       if(anterior.x < it->x) {
-         menorX= anterior.x-5;
-         mayorX= it->x+5;
-       } else {
-         menorX= it->x-5;
-         mayorX= anterior.x+5;
-       }
+      if(anterior.x < it->x) {
+	menorX= anterior.x-5;
+	mayorX= it->x+5;
+      } else {
+	menorX= it->x-5;
+	mayorX= anterior.x+5;
+      }
 
-       if(anterior.y < it->y) {
-         menorY= anterior.y-5;
-         mayorY= it->y+5;
-       } else {
-         menorY= it->y-5;
-         mayorY= anterior.y+5;
-       }
+      if(anterior.y < it->y) {
+	menorY= anterior.y-5;
+	mayorY= it->y+5;
+      } else {
+	menorY= it->y-5;
+	mayorY= anterior.y+5;
+      }
 
-       if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY)))
-         cercano= true;
-       anterior= *it;
-     } else {
-       primero= false;
-       anterior= *it;
-     }
-   }
+      if((x >= menorX) && ((x <= mayorX)) && ((y >= menorY) && (y <= mayorY)))
+	cercano= true;
+      anterior= *it;
+    } else {
+      primero= false;
+      anterior= *it;
+    }
+  }
 
-   return cercano;
+  return cercano;
 }
 
 
@@ -228,20 +228,20 @@ void ConexionDibujo::setVerticesMotion(int deltax, int deltay) {
 }
 
 void ConexionDibujo::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
-	 //dibujo de a poligonos
-	  context->set_source_rgb(0.0, 0.0, 0.0);
-	  bool primero= true;
-	  Vertice anterior;
-	  std::list<Vertice>::iterator it;
-	  for(it= poligonos.begin(); it != poligonos.end(); it++) {
-	    if(!primero) {
-	      context->move_to(anterior.x, anterior.y);
-	      context->line_to(it->x, it->y);
-	      anterior= *it;
-	    } else {
-	      primero= false;
-	      anterior= *it;
-	    }
-	  }
-	  context->stroke();
+  //dibujo de a poligonos
+  context->set_source_rgb(0.0, 0.0, 0.0);
+  bool primero= true;
+  Vertice anterior;
+  std::list<Vertice>::iterator it;
+  for(it= poligonos.begin(); it != poligonos.end(); it++) {
+    if(!primero) {
+      context->move_to(anterior.x, anterior.y);
+      context->line_to(it->x, it->y);
+      anterior= *it;
+    } else {
+      primero= false;
+      anterior= *it;
+    }
+  }
+  context->stroke();
 }

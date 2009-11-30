@@ -1,7 +1,7 @@
 #include "CompuertaBuffer.h"
 
 CompuertaBuffer::CompuertaBuffer(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { 
-     cargarNuevosPines();
+  cargarNuevosPines();
 }
 
 void CompuertaBuffer::cargarNuevosPines() {
@@ -40,5 +40,5 @@ void CompuertaBuffer::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
 void CompuertaBuffer::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
 
-	this->dibujar(context);
+  this->dibujar(context);
 }

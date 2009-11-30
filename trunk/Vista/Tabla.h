@@ -27,6 +27,8 @@ private:
   int                           altoFila;
   int                           ancho;
   int                           alto;
+  int                           altoLeyenda;
+  std::string                   leyenda;
   void redibujar();
 
 protected:
@@ -35,45 +37,47 @@ protected:
 
 public:
   /**
-    * Crea una nueva tabla.
-    */
+   * Crea una nueva tabla.
+   */
   Tabla();
 
   /**
-    * Destruye la tabla.
-    */
+   * Destruye la tabla.
+   */
   virtual ~Tabla() { };
 
   /**
-    * Devuelve el ancho de la tabla.
-    */
+   * Devuelve el ancho de la tabla.
+   */
   int getAncho();
 
   /**
-    * Devuelve el alto de la tabla.
-    */
+   * Devuelve el alto de la tabla.
+   */
   int getAlto();
 
   /**
-    * Cambia la cantidad de entradas de la tabla.
-    *
-    * @param entradas La nueva cantidad de entradas.
-    */
+   * Cambia la cantidad de entradas de la tabla.
+   *
+   * @param entradas La nueva cantidad de entradas.
+   */
   void setCantEntradas(int entradas);
 
   /**
-    * Cambia la cantidad de salidas de la tabla.
-    *
-    * @param salidas La nueva cantidad de salidas.
-    */
+   * Cambia la cantidad de salidas de la tabla.
+   *
+   * @param salidas La nueva cantidad de salidas.
+   */
   void setCantSalidas(int salidas);
 
   /**
-    * Cambia la lista de resultados a mostrar.
-    *
-    * @param lista La lista de resultados.
-    */
+   * Cambia la lista de resultados a mostrar.
+   *
+   * @param lista La lista de resultados.
+   */
   void setLista(std::list<uint32_t> lista);
+
+  void setLeyenda(const std::string& leyenda);
 };
 
 #endif /* TABLA_H_ */

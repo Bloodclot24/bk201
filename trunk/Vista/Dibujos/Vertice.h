@@ -13,9 +13,9 @@ public:
 
   Vertice() {x= 0; y= 0; };
   Vertice(int x, int y) {x= x; y= y;};
-     bool operator==(const Vertice& v2){
-	  return (x==v2.x && y==v2.y);
-     }
+  bool operator==(const Vertice& v2){
+    return (x==v2.x && y==v2.y);
+  }
 };
 
 #endif /* VERTICE_H_ */

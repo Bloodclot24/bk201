@@ -44,6 +44,6 @@ void CompuertaOr::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
 void CompuertaOr::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
 
-	this->dibujar(context);
+  this->dibujar(context);
 }
 

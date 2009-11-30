@@ -32,20 +32,20 @@ protected:
 
 public:
   /**
-    * Crea una conexion.
-    *
-    * @param supIzqX La componente x del vertice superior izquierdo.
-    * @param supIzqY La componente y del vertice superior izquierdo.
-    */
+   * Crea una conexion.
+   *
+   * @param supIzqX La componente x del vertice superior izquierdo.
+   * @param supIzqY La componente y del vertice superior izquierdo.
+   */
   ConexionDibujo(int vInicialX, int vInicialY, Vertice vFinal, AreaDibujoGenerica *areaDibujo);
 
   virtual ~ConexionDibujo() { };
 
   /**
-    * Se dibuja la conexion en el contexto dado por parametro.
-    *
-    * @param context El contexto del area de dibujo.
-    */
+   * Se dibuja la conexion en el contexto dado por parametro.
+   *
+   * @param context El contexto del area de dibujo.
+   */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
   /**
@@ -59,13 +59,13 @@ public:
   virtual bool setSeleccionado(int x, int y);
 
   /**
-    * Se fija si la conexion esta en el rango que se pasa por
-    * como parametro, en caso de ser asi, retorna true;
-    * en caso contrario retorna false.
-    *
-    * @param x Es el valor en x en el cual se hizo click.
-    * @param y Es el valor en y en el que se hizo click.
-    */
+   * Se fija si la conexion esta en el rango que se pasa por
+   * como parametro, en caso de ser asi, retorna true;
+   * en caso contrario retorna false.
+   *
+   * @param x Es el valor en x en el cual se hizo click.
+   * @param y Es el valor en y en el que se hizo click.
+   */
   virtual bool estaCercano(int x, int y);
 
   /**
@@ -75,12 +75,12 @@ public:
   virtual void setAngulo(int angulo) { };
 
   /**
-    * Setea el valor del vertice superior izquierdo de la conexion, el mismo
-    * se utilizara luego para poder dibujarlo, entre otras cosas.
-    *
-    * @param vSupIzq El nuevo vertice superior izquierdo del circuito.
-    *
-    */
+   * Setea el valor del vertice superior izquierdo de la conexion, el mismo
+   * se utilizara luego para poder dibujarlo, entre otras cosas.
+   *
+   * @param vSupIzq El nuevo vertice superior izquierdo del circuito.
+   *
+   */
   virtual void setVerticeSupIzq(Vertice vSupIzq);
 
   /**
@@ -93,12 +93,12 @@ public:
   void setVerticeFinal(Vertice vertice);
 
   /**
-    * Setea el valor del vertice inferior derecho de la conexion, el mismo
-    * se utilizara luego para poder dibujarlo, entre otras cosas.
-    *
-    * @param vInfDer El nuevo vertice inferior derecho de la conexion.
-    *
-    */
+   * Setea el valor del vertice inferior derecho de la conexion, el mismo
+   * se utilizara luego para poder dibujarlo, entre otras cosas.
+   *
+   * @param vInfDer El nuevo vertice inferior derecho de la conexion.
+   *
+   */
   void setVerticeInfDer(Vertice vInfDer);
 
   /**
@@ -127,12 +127,12 @@ public:
   virtual void setVerticesMotion(int deltax, int deltay);
 
   /**
-    * Dibuja la conexion en el contexto que recibe por parametro, este metodo se
-    * utiliza para imprimir la conexion.
-    *
-    * @param context El contexto sobre el cual se va a dibujar la conexion.
-    *
-    */
+   * Dibuja la conexion en el contexto que recibe por parametro, este metodo se
+   * utiliza para imprimir la conexion.
+   *
+   * @param context El contexto sobre el cual se va a dibujar la conexion.
+   *
+   */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
 
 

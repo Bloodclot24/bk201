@@ -15,20 +15,20 @@ protected:
 
 public:
   /**
-    * Crea una compuerta Buffer.
-    *
-    * @param xUp La componente x del vertice superior izquierdo de la compuerta.
-    * @param yUp La componente y del vertice superior izquierdo de la compuerta.
-    */
+   * Crea una compuerta Buffer.
+   *
+   * @param xUp La componente x del vertice superior izquierdo de la compuerta.
+   * @param yUp La componente y del vertice superior izquierdo de la compuerta.
+   */
   CompuertaBuffer(int xUp, int yUp);
 
   virtual ~CompuertaBuffer() { };
 
   /**
-    * Se dibuja la compuerta Buffer en el contexto dado por parametro.
-    *
-    * @param context El contexto del area de dibujo.
-    */
+   * Se dibuja la compuerta Buffer en el contexto dado por parametro.
+   *
+   * @param context El contexto del area de dibujo.
+   */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
   /**
@@ -37,12 +37,12 @@ public:
   int getCantidadEntradas(){ return 1; }
 
   /**
-    * Dibuja la compuerta en el contexto que recibe por parametro, este metodo se
-    * utiliza para imprimir la compuerta.
-    *
-    * @param context El contexto sobre el cual se va a dibujar la compuerta.
-    *
-    */
+   * Dibuja la compuerta en el contexto que recibe por parametro, este metodo se
+   * utiliza para imprimir la compuerta.
+   *
+   * @param context El contexto sobre el cual se va a dibujar la compuerta.
+   *
+   */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
 };
 

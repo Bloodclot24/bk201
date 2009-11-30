@@ -205,75 +205,75 @@ private:
 protected:
   //Signal handlers
   void on_drag_data_get(
-          const Glib::RefPtr<Gdk::DragContext>& context,
-          Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente);
+			const Glib::RefPtr<Gdk::DragContext>& context,
+			Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente);
 
 public:
   /**
-    * Crea una ventana de trabajo nueva.
-    *
-    * @param controlador El controlador del modelo.
-    */
-    VentanaTrabajo(Controlador *controlador, ControladorVentana *controladorV, unsigned int id);
+   * Crea una ventana de trabajo nueva.
+   *
+   * @param controlador El controlador del modelo.
+   */
+  VentanaTrabajo(Controlador *controlador, ControladorVentana *controladorV, unsigned int id);
 
   /**
-    * Destruye la ventana trabajo.
-    */
-    virtual ~VentanaTrabajo();
+   * Destruye la ventana trabajo.
+   */
+  virtual ~VentanaTrabajo();
 
   /**
-    * Comienza a correr la interfaz grafica.
-    *
-    * @param primeraVez Indica si es la primera vez que se crea una ventana.
-    */
-    void correr(bool primeraVez= false);
+   * Comienza a correr la interfaz grafica.
+   *
+   * @param primeraVez Indica si es la primera vez que se crea una ventana.
+   */
+  void correr(bool primeraVez= false);
 
   /**
-    * La lista de circuitos que se mostrara como respuesta a la conexion
-    * con el servidor.
-    *
-    * @param lista La lista de circuitos.
-    */
-    void recibirListaCircuitos(std::list<DescripcionCircuito> lista);
+   * La lista de circuitos que se mostrara como respuesta a la conexion
+   * con el servidor.
+   *
+   * @param lista La lista de circuitos.
+   */
+  void recibirListaCircuitos(std::list<DescripcionCircuito> lista);
 
   /**
-    * Recibe un dibujo y lo agrega a la lista de dibujos que se reflejara
-    * en el area dibujo.
-    *
-    * @param dibujo El dibujo agregar.
-    */
-    void agregarDibujo(Dibujo *dibujo);
+   * Recibe un dibujo y lo agrega a la lista de dibujos que se reflejara
+   * en el area dibujo.
+   *
+   * @param dibujo El dibujo agregar.
+   */
+  void agregarDibujo(Dibujo *dibujo);
 
   /**
-    * Recibe un dibujo de tipo conexion y lo agrega a la lista de dibujos
-    * que se reflejara en el area dibujo.
-    *
-    * @param dibujo El dibujo de tipo conexion a agregar.
-    */
-    void agregarDibujo(ConexionDibujo *dibujo);
+   * Recibe un dibujo de tipo conexion y lo agrega a la lista de dibujos
+   * que se reflejara en el area dibujo.
+   *
+   * @param dibujo El dibujo de tipo conexion a agregar.
+   */
+  void agregarDibujo(ConexionDibujo *dibujo);
 
   /**
-    * Dibuja la tabla resultado de la simulacion en la solapa Tabla.
-    *
-    * @param listaTabla La lista que posee los resultados.
-    * @param entradas La cantidad de entradas de la tabla.
-    * @param salidas La cantidad de salidas de la tabla.
-    * @param mensaje El mensaje a mostrar en caso de que se haya producido un error.
-    */
-    void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas, const std::string& mensaje);
+   * Dibuja la tabla resultado de la simulacion en la solapa Tabla.
+   *
+   * @param listaTabla La lista que posee los resultados.
+   * @param entradas La cantidad de entradas de la tabla.
+   * @param salidas La cantidad de salidas de la tabla.
+   * @param mensaje El mensaje a mostrar en caso de que se haya producido un error.
+   */
+  void recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas, const std::string& mensaje, const std::string& leyenda);
 
   /**
-    * Dibuja el circuito remoto.
-    *
-    * @param nombreArchivo El nombre del archivo donde se encuentran los datos del circuito.
-    * @param nombreCircuito El nombre del circuito a dibujar.
-    */
-    void recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito);
+   * Dibuja el circuito remoto.
+   *
+   * @param nombreArchivo El nombre del archivo donde se encuentran los datos del circuito.
+   * @param nombreCircuito El nombre del circuito a dibujar.
+   */
+  void recibirCircuitoRemoto(const std::string& nombreArchivo, const std::string& nombreCircuito);
 
   /**
-    * Habilita la opcion de guardar en el menubar.
-    */
-    void habilitarGuardar();
+   * Habilita la opcion de guardar en el menubar.
+   */
+  void habilitarGuardar();
 };
 
 #endif /*VENTANATRABAJO_H_*/

@@ -21,22 +21,22 @@ protected:
 
 public:
   /**
-    * Crea una compuerta.
-    *
-    * @param supIzqX La componente x del vertice superior izquierdo de la compuerta.
-    * @param supIzqY La componente y del vertice superior izquierdo de la compuerta.
-    */
+   * Crea una compuerta.
+   *
+   * @param supIzqX La componente x del vertice superior izquierdo de la compuerta.
+   * @param supIzqY La componente y del vertice superior izquierdo de la compuerta.
+   */
   Compuerta(int supIzqX, int supIzqY);
 
   virtual ~Compuerta() { };
 
   /**
-    * Setea el valor del vertice superior izquierdo de la compuerta, el mismo
-    * se utilizara luego para poder dibujarlo, entre otras cosas.
-    *
-    * @param vSupIzq El nuevo vertice superior izquierdo de la compuerta.
-    *
-    */
+   * Setea el valor del vertice superior izquierdo de la compuerta, el mismo
+   * se utilizara luego para poder dibujarlo, entre otras cosas.
+   *
+   * @param vSupIzq El nuevo vertice superior izquierdo de la compuerta.
+   *
+   */
   virtual void setVerticeSupIzq(Vertice vSupIzq);
 
   /**
@@ -54,32 +54,32 @@ public:
   void setTiempoT(const std::string& tiempoT);
 
   /**
-    * Se dibuja la compuerta And en el contexto dado por parametro.
-    *
-    * @param context El contexto del area de dibujo.
-    */
+   * Se dibuja la compuerta And en el contexto dado por parametro.
+   *
+   * @param context El contexto del area de dibujo.
+   */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
 
   /**
-    * Obtiene la cantidad de entradas.
-    *
-    */
+   * Obtiene la cantidad de entradas.
+   *
+   */
   virtual int getCantidadEntradas(){ return 2; }
 
   /**
-    * Obtiene la cantidad de salidas.
-    *
-    */
+   * Obtiene la cantidad de salidas.
+   *
+   */
   virtual int getCantidadSalidas(){ return 1; }
 
 
   /**
-     * Dibuja la compuerta en el contexto que recibe por parametro, este metodo se
-     * utiliza para imprimir la compuerta.
-     *
-     * @param context El contexto sobre el cual se va a dibujar la compuerta.
-     *
-     */
+   * Dibuja la compuerta en el contexto que recibe por parametro, este metodo se
+   * utiliza para imprimir la compuerta.
+   *
+   * @param context El contexto sobre el cual se va a dibujar la compuerta.
+   *
+   */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) { };
 
 };

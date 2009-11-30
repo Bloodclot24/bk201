@@ -5,8 +5,8 @@
  * Constante varias para el dibujo de los componentes.
  */
 
-#define TIPO_ENTRADA "IN"
-#define TIPO_SALIDA "OUT"
+#define TIPO_ENTRADA          "IN"
+#define TIPO_SALIDA           "OUT"
 #define TIPO_COMPUERTA        "Compuerta"
 #define TIPO_PISTA            "Conexion" 
 #define TIPO_COMPUERTA_AND    "And"

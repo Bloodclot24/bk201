@@ -105,24 +105,24 @@ private:
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
   virtual void on_drop_drag_data_received(
-          const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
-          const Gtk::SelectionData& selection_data, guint info, guint time);
+					  const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
+					  const Gtk::SelectionData& selection_data, guint info, guint time);
   virtual bool on_button_press_event(GdkEventButton* event);
   virtual bool on_motion_notify_event(GdkEventMotion* event);
   virtual bool on_button_release_event(GdkEventButton* event);
 
 public:
   /**
-    * Crea un area de dibujo nueva.
-    *
-    * @param ventanaTrabajo La ventana trabajo a la que pertenece.
-    */
-    AreaDibujo(VentanaTrabajo *ventanaTrabajo);
+   * Crea un area de dibujo nueva.
+   *
+   * @param ventanaTrabajo La ventana trabajo a la que pertenece.
+   */
+  AreaDibujo(VentanaTrabajo *ventanaTrabajo);
 
   /**
-    * Destruye el area de dibujo.
-    */
-    virtual ~AreaDibujo();
+   * Destruye el area de dibujo.
+   */
+  virtual ~AreaDibujo();
 };
 
 #endif /* AREADIBUJO_H_ */

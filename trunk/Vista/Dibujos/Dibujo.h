@@ -38,59 +38,59 @@ protected:
   virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) { };
   void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
 
-     Vertice rotarPin(int x, int y);
+  Vertice rotarPin(int x, int y);
 
 public:
   /**
-    * Crea un dibujo.
-    *
-    * @param xUp La componente x del vertice superior izquierdo del dibujo.
-    * @param yUp La componente y del vertice superior izquierdo del dibujo.
-    */
+   * Crea un dibujo.
+   *
+   * @param xUp La componente x del vertice superior izquierdo del dibujo.
+   * @param yUp La componente y del vertice superior izquierdo del dibujo.
+   */
   Dibujo(int xUp, int yUp);
 
   virtual ~Dibujo() { };
 
   /**
-    * Se dibuja el dibujo en el contexto dado por parametro.
-    *
-    * @param context El contexto del area de dibujo.
-    */
+   * Se dibuja el dibujo en el contexto dado por parametro.
+   *
+   * @param context El contexto del area de dibujo.
+   */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context) { };
 
   /**
-    * Se devuelve el vertice del centro del dibujo.
-    *
-    * @return vCentro El vertice del centro del dibujo.
-    */
+   * Se devuelve el vertice del centro del dibujo.
+   *
+   * @return vCentro El vertice del centro del dibujo.
+   */
   Vertice getVerticeCentro();
 
   /**
-    * Se devuelve el vertice superior izquierdo del dibujo.
-    *
-    * @return vSupIzq El vertice superior.
-    */
+   * Se devuelve el vertice superior izquierdo del dibujo.
+   *
+   * @return vSupIzq El vertice superior.
+   */
   Vertice getVerticeSupIzq();
 
   /**
-    * Se modifica el vertice superior izquierdo del dibujo.
-    *
-    * @param vSupIzq El vertice superior.
-    */
+   * Se modifica el vertice superior izquierdo del dibujo.
+   *
+   * @param vSupIzq El vertice superior.
+   */
   virtual void setVerticeSupIzq(Vertice vSupIzq) { };
 
   /**
-    * Se devuelve el angulo de rotacion del dibujo.
-    *
-    * @return angulo El del dibujo.
-    */
+   * Se devuelve el angulo de rotacion del dibujo.
+   *
+   * @return angulo El del dibujo.
+   */
   int getAngulo();
 
   /**
-    * Se modifica el componente angulo de rotacion del dibujo.
-    *
-    * @param angulo La cantidad en grados a modificar el angulo.
-    */
+   * Se modifica el componente angulo de rotacion del dibujo.
+   *
+   * @param angulo La cantidad en grados a modificar el angulo.
+   */
   virtual void setAngulo(int angulo);
 
   /**
@@ -112,24 +112,24 @@ public:
   void seleccionar();
 
   /**
-    * Se fija si el dibujo esta en el rango que se pasa por
-    * como parametro, en caso de ser asi, retorna true y se marca
-    * como seleccionado; en caso contrario retorna false.
-    *
-    * @param x Es el valor en x en el cual se hizo click.
-    * @param y Es el valor en y en el que se hizo click.
-    */
+   * Se fija si el dibujo esta en el rango que se pasa por
+   * como parametro, en caso de ser asi, retorna true y se marca
+   * como seleccionado; en caso contrario retorna false.
+   *
+   * @param x Es el valor en x en el cual se hizo click.
+   * @param y Es el valor en y en el que se hizo click.
+   */
   virtual bool setSeleccionado(int x, int y);
 
 
   /**
-    * Se fija si el dibujo esta en el rango que se pasa por
-    * como parametro, en caso de ser asi, retorna true;
-    * en caso contrario retorna false.
-    *
-    * @param x Es el valor en x en el cual se hizo click.
-    * @param y Es el valor en y en el que se hizo click.
-    */
+   * Se fija si el dibujo esta en el rango que se pasa por
+   * como parametro, en caso de ser asi, retorna true;
+   * en caso contrario retorna false.
+   *
+   * @param x Es el valor en x en el cual se hizo click.
+   * @param y Es el valor en y en el que se hizo click.
+   */
   virtual bool estaCercano(int x, int y);
 
   /**
@@ -196,22 +196,22 @@ public:
   int getAlto();
 
   /**
-    * Setea el movimiento en x y en y que se le aplica
-    * al dibujo.
-    *
-    * @param deltax Es cuanto voy a desplazar el dibujo en x.
-    * @param deltay Es cuanto voy a desplazar el dibujo en y.
-    *
-    */
+   * Setea el movimiento en x y en y que se le aplica
+   * al dibujo.
+   *
+   * @param deltax Es cuanto voy a desplazar el dibujo en x.
+   * @param deltay Es cuanto voy a desplazar el dibujo en y.
+   *
+   */
   virtual void setVerticesMotion(int deltax, int deltay);
 
   /**
-    * Dibuja el dibujo en el contexto que recibe por parametro, este metodo se
-    * utiliza para imprimir el dibujo.
-    *
-    * @param context El contexto sobre el cual se va a dibujar el dibujo.
-    *
-    */
+   * Dibuja el dibujo en el contexto que recibe por parametro, este metodo se
+   * utiliza para imprimir el dibujo.
+   *
+   * @param context El contexto sobre el cual se va a dibujar el dibujo.
+   *
+   */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) { };
 
 };
