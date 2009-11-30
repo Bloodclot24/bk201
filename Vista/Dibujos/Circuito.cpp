@@ -123,6 +123,8 @@ void CircuitoDibujo::setPuerto(std::string puerto) {
 
 void CircuitoDibujo::setAngulo(int angulo){
      this->angulo+=angulo;
+     vCentro.x= vSupIzq.x + (ancho/2);
+     vCentro.y= vSupIzq.y + (alto/2);
      cargarNuevosPines(vSupIzq);
 }
 
