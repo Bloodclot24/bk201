@@ -59,6 +59,7 @@ void CircuitoDibujo::cargarNuevosPines(Vertice vSupIzq) {
     v.x= vSupIzq.x+ancho-10;
     v.y= vSupIzq.y+i*pasoSalida+10;
     pines.push_back(rotarPin(v.x, v.y));
+
   }
 }
 
@@ -69,6 +70,7 @@ void CircuitoDibujo::setVerticeSupIzq(Vertice vSupIzq) {
   this->vSupIzq= vSupIzq;
   cargarNuevosPines(vSupIzq);
 }
+
 
 void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //puerta
@@ -85,10 +87,15 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //entradas y salidas
   context->set_source_rgb(0.0, 0.0, 0.0);
   int size= pines.size();
+  int auxiliar=angulo;
+  angulo=-angulo;
   for(int i= 0; i<size; i++) {
-    context->move_to(pines[i].x, pines[i].y);
-    context->line_to(pines[i].x+10, pines[i].y);
+       Vertice temporal=pines[i];
+       temporal = rotarPin(temporal.x, temporal.y);
+       context->move_to(temporal.x, temporal.y);
+       context->line_to(temporal.x+10, temporal.y);
   }
+  angulo=auxiliar;
   context->stroke();
 
   if(seleccionado)
@@ -112,6 +119,11 @@ std::string CircuitoDibujo::getPuerto() {
 
 void CircuitoDibujo::setPuerto(std::string puerto) {
   this->puerto= puerto;
+}
+
+void CircuitoDibujo::setAngulo(int angulo){
+     this->angulo+=angulo;
+     cargarNuevosPines(vSupIzq);
 }
 
 void CircuitoDibujo::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {
