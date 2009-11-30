@@ -84,8 +84,6 @@ void VentanaTrabajo::correr(bool primeraVez) {
   refXml->get_widget("dialog_servidor", dialog_servidor);
   dialog_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_response_servidor));
   refXml->get_widget("messagedialog_servidor", dialog_message);
-  refXml->get_widget("messagedialog_error_servidor", messagedialog_error_servidor);
-  messagedialog_error_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_servidor));
   refXml->get_widget("dialog_lista_circuitos", dialog_lista_circuitos);
   dialog_lista_circuitos->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_lista_circuitos));
 
@@ -107,8 +105,17 @@ void VentanaTrabajo::correr(bool primeraVez) {
   //Teclado
   window->signal_key_press_event().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_key_press_event));
 
-  //Dialog de mensajes de error
-  refXml->get_widget("messagedialog_errores", messagedialog_errores);
+  //Dialog de error servidor
+  refXml->get_widget("dialog_error_servidor", dialog_error_servidor);
+  dialog_error_servidor->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_servidor));
+
+  //Ventana simulando
+  refXml->get_widget("dialog_simulando", dialog_simulando);
+
+  //Dialog de error simulando
+  refXml->get_widget("dialog_error_simulando", dialog_error_simulando);
+  dialog_error_simulando->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_simulando));
+  refXml->get_widget("label_error_simulando", label_error_simulando);
 
   window->show_all();
 
@@ -233,10 +240,6 @@ void VentanaTrabajo::borrar() {
   areaDibujo->borrarSeleccion();
 }
 
-void VentanaTrabajo::simular() {
-  controladorVentana->simular();
-}
-
 void VentanaTrabajo::about() {
   Gtk::AboutDialog* about;
   refXml->get_widget("aboutdialog", about);
@@ -246,7 +249,9 @@ void VentanaTrabajo::about() {
   }
 }
 
-/**TOOLBAR**/
+/***************************/
+/*** TOOLBAR ***/
+/***************************/
 void VentanaTrabajo::loadButtonDrag(Gtk::ToolButton *button, std::string tipo, std::string path) {
 
   if(button) {
@@ -349,7 +354,6 @@ void VentanaTrabajo::on_response_saveas(int response_id) {
 }
 
 
-/**IMPRESION**/
 void VentanaTrabajo::on_clicked_conexion() {
 
   areaDibujo->dibujarConexion();
@@ -383,10 +387,8 @@ bool VentanaTrabajo::esperandoRtaServidor() {
          std::cout << "Lista vacía\n";
       dialog_message->hide();
       dialog_servidor->set_sensitive(false);
-      if(messagedialog_error_servidor) {
-        messagedialog_error_servidor->set_message("Error al conectar con el servidor");
-        messagedialog_error_servidor->show();
-      }
+      if(dialog_error_servidor)
+        dialog_error_servidor->show();
     }
   }
   return true;
@@ -431,12 +433,6 @@ void VentanaTrabajo::imprimir() {
 void VentanaTrabajo::recibirListaCircuitos(std::list<DescripcionCircuito> lista) {
   this->lista_circuito= lista;
   this->llegoRta= true;
-}
-
-void VentanaTrabajo::on_error_servidor(int response_id) {
-
-  dialog_servidor->set_sensitive(true);
-  messagedialog_error_servidor->hide();
 }
 
 void VentanaTrabajo::on_lista_circuitos(int response_id) {
@@ -495,11 +491,6 @@ bool VentanaTrabajo::on_delete_event_remoto(GdkEventAny *event) {
 }
 
 
-void VentanaTrabajo::recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas){
-  tabla->setCantEntradas(entradas);
-  tabla->setCantSalidas(salidas);
-  tabla->setLista(listaTabla);
-}
 
 void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &puerto, std::string &nombre) {
   nombre= this->nombre;
@@ -662,10 +653,60 @@ void VentanaTrabajo::on_propiedades_circuito(int response_id) {
 }
 
 /***************************/
-/*** ERROR ***/
+/*** ERROR SERVIDOR ***/
 /***************************/
-void VentanaTrabajo::mostrarMensajeError(std::string mensaje) {
-  messagedialog_errores->set_message(mensaje);
-  messagedialog_errores->run();
-  messagedialog_errores->hide();
+void VentanaTrabajo::on_error_servidor(int response_id) {
+  //habilito el dialogo del servidor
+  dialog_servidor->set_sensitive(true);
+  //cierro el dialogo
+  dialog_error_servidor->hide();
+}
+
+/***************************/
+/*** VENTANA SIMULANDO ***/
+/***************************/
+void VentanaTrabajo::simular() {
+  dialog_simulando->show();
+  window->set_sensitive(false);
+  llegoTabla= false;
+  id_ventana_simulando= Glib::signal_timeout().connect(sigc::mem_fun(*this,&VentanaTrabajo::esperandoRtaSimulacion), 1000);
+  controladorVentana->simular();
+}
+
+bool VentanaTrabajo::esperandoRtaSimulacion() {
+  if(llegoTabla) {
+    id_ventana_simulando.disconnect();
+    dialog_simulando->hide();
+    if(mensajeTabla.size() != 0)
+      //Muestro mensaje de error enviado
+      mostrarMsjErrorSimulando(mensajeTabla);
+    else
+      //habilito la ventana
+      window->set_sensitive(true);
+  }
+  return true;
+}
+
+void VentanaTrabajo::recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas, const std::string& mensaje){
+  this->mensajeTabla= mensaje;
+  tabla->setCantEntradas(entradas);
+  tabla->setCantSalidas(salidas);
+  tabla->setLista(listaTabla);
+  llegoTabla= true;
+}
+
+/***************************/
+/*** ERROR SIMULANDO ***/
+/***************************/
+void VentanaTrabajo::mostrarMsjErrorSimulando(const std::string mensaje) {
+  //cargo el mensaje y muestro el dialogo
+  label_error_simulando->set_text(mensaje);
+  dialog_error_simulando->show();
+}
+
+void VentanaTrabajo::on_error_simulando(int response_id) {
+  //habilito la ventana
+  window->set_sensitive(true);
+  //cierro el dialogo
+  dialog_error_simulando->hide();
 }
