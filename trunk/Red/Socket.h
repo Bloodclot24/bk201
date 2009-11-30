@@ -116,12 +116,33 @@ public:
       */
      bool conectar(void);
 
+     /**
+      * Hace que el socket se conecte a su destino, utilizando
+      * un socket no bloqueante. Antes de terminar su ejecucion
+      * vuelve a hacer bloqueante dicho socket.
+      *
+      * @param timeout Es el timeout para la conexion.
+      *
+      */
      bool conectar(int timeout);
 
+     /**
+      * Es el select del socket.
+      *
+      * @param tiempo El tiempo en segundos con el q se va a setear el select.
+      */
      int seleccionar(int tiempo);
 
+     /**
+      * Setea el socket como no bloqueante.
+      *
+      */
      bool setNoBloqueante();
 
+     /**
+      * Setea el socket como bloqueante.
+      *
+      */
      bool setBloqueante();
 
      void invalidar(void);

@@ -8,7 +8,6 @@
 
 
 /* Crea un nuevo socket con la direccion de destino y puerto dados */
-/****************************************************************************/
 Socket::Socket(std::string direccion, int puerto){
      int puertoFinal=puerto;
      error = 0;
@@ -57,7 +56,6 @@ Socket::Socket(std::string direccion, int puerto){
 }
 
 /* Hace que el socket escuche conexiones en su puerto */
-/****************************************************************************/
 bool Socket::enlazar(void){
      direccionDestino.sin_addr.s_addr = INADDR_ANY;
      int retorno = bind(s,					\
@@ -69,7 +67,6 @@ bool Socket::enlazar(void){
 }
 
 /* Acepta un socket que se quiere conectar */
-/****************************************************************************/
 Socket* Socket::aceptar(void){
      int sckfd = accept(s,NULL,0); 
      if (sckfd == -1) return NULL;
@@ -77,7 +74,6 @@ Socket* Socket::aceptar(void){
 }
 
 /* Espera a que algun socket quiera conectarse a este */
-/****************************************************************************/
 bool Socket::escuchar(void){
      int retorno = listen(s, 20);
      if(retorno == -1)
@@ -86,7 +82,6 @@ bool Socket::escuchar(void){
 }
 
 /* Envia un buffer de una cierta longitud por el socket */
-/****************************************************************************/
 bool Socket::enviar(const void *buf, int longitud){
      int retorno = send(s,buf,longitud,MSG_NOSIGNAL);
      //MSG_NOSIGNAL, evita que se reciba SIGPIPE
@@ -101,7 +96,6 @@ bool Socket::enviar(const void *buf, int longitud){
 }
      
 /* Recibe la cantidad de bytes pedidos en el buffer */
-/****************************************************************************/
 int Socket::recibir(void *buf, int cuanto){
      int recibido = recv(s, buf, cuanto, MSG_WAITALL);
 
@@ -114,7 +108,6 @@ int Socket::recibir(void *buf, int cuanto){
      
 
 /* Conecta al socket a la direccion y puerto dados en el constructor */
-/****************************************************************************/
 bool Socket::conectar(void){
      if(!esValido())
 	  return esValido();
@@ -176,7 +169,6 @@ bool Socket::setBloqueante(){
 
 
 /* Cierra el socket, lo desconecta */
-/****************************************************************************/
 bool Socket::cerrar(void){
      int retorno=0;
      if(s > 0 ){
@@ -191,7 +183,6 @@ bool Socket::cerrar(void){
 
 /* Pone un timeout al socket tanto para recepcion de datos como
  * para emision de los mismos. */
-/****************************************************************************/
 void Socket::setTimeout(int seg, int useg){
      struct timeval tiempo;
      tiempo.tv_sec= seg;
@@ -201,26 +192,22 @@ void Socket::setTimeout(int seg, int useg){
 }
 
 /* Indica si se produjo algun error durante la ultima operacion */
-/****************************************************************************/
 bool Socket::esValido(void){
      return (error==0);
 }
 
 /* resetea el estado del socket a valido */
-/****************************************************************************/
 void Socket::revalidar(void){
      error = 0;
 }
 
 /* setea el estado del socket a invalido */
-/****************************************************************************/
 void Socket::invalidar(void){
      error = -1;
 }
 
 
 /* Devuelve la descripcion del ultimo error */
-/****************************************************************************/
 const std::string& Socket::obtenerError(void){
      ultimoError.clear();
      ultimoError.insert(0, strerror(error));
@@ -229,7 +216,6 @@ const std::string& Socket::obtenerError(void){
 
 
 /* Cierra y libera el socket */
-/****************************************************************************/
 Socket::~Socket(){
      if(s > 0)
 	  cerrar();

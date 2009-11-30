@@ -15,6 +15,15 @@ class Server;
 
 #define SERVER_PUERTO_DEFECTO  1234
 
+/**
+ * Esta clase es la aplicacion servidor.
+ *
+ * Se encarga de crear nuevos clientes, eliminar
+ * clientes y escuchar conexiones entrantes;
+ * asi mismo tambien permite obtener la lista de circuitos
+ * que posee.
+ *
+ */
 class Server{
      ThreadAceptor *aceptor;	/**< Thread para escuchar las
 				 * conexiones entrantes */
@@ -47,8 +56,17 @@ public:
       */
      void nuevoCliente(Socket *s);
 
+     /**
+      * Finaliza (elimina) el cliente definitivamente.
+      *
+      * @param src El cliente a ser eliminado.
+      */
      void finalizarCliente(CircuitoRemotoServidor *sr);
 
+     /**
+      * Obtiene la lista de circuitos que posee el servidor.
+      *
+      */
      std::list<DescripcionCircuito> getListaCircuitos();
 
      ~Server();
