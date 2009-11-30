@@ -7,7 +7,7 @@
 #define UNIDAD_TIEMPO " ns"
 
 /**
- * Clase compuerta, es una compuerta generica, de esta clase heredan
+ * Clase encargada de dibujar compuerta generica, de esta clase heredan
  * todas las compuertas que pueden formar parte del circuito.
  *
  */

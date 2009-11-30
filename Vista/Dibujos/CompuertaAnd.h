@@ -4,6 +4,10 @@
 #include <iostream>
 #include "Compuerta.h"
 
+/**
+ * Clase encargada de dibujar una compuerta AND.
+ *
+ */
 class CompuertaAnd: public Compuerta {
 
 protected:
@@ -27,6 +31,13 @@ public:
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
+  /**
+    * Dibuja el circuito en el contexto que recibe por parametro, este metodo se
+    * utiliza para imprimir el circuito.
+    *
+    * @param context El contexto sobre el cual se va a dibujar el circuito.
+    *
+    */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
 
 };
