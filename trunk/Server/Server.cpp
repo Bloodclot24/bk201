@@ -22,6 +22,11 @@ bool Server::escuchar(){
   return true;
 }
 
+/** 
+ * Crea un nuevo cliente asociado a un socket (obtenido en el accept).
+ * 
+ * @param s El socket a utilizar.
+ */
 void Server::nuevoCliente(Socket *s){
   CircuitoRemotoServidor *sr = new CircuitoRemotoServidor(s, this);
   /* registro el cliente, para forzar la salida del mismo si
@@ -36,6 +41,12 @@ void Server::finalizarCliente(CircuitoRemotoServidor *sr){
   limpieza->limpiarCliente(sr);
 }
 
+/** 
+ * Leo del directorio actual los archivos de circuito y arma una lista
+ * con los nombres.
+ * 
+ * @return La lista de circuitos.
+ */
 std::list<DescripcionCircuito> Server::getListaCircuitos(){
   DIR* directory;                              
   struct dirent* entry;                        

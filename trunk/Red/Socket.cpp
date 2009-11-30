@@ -160,7 +160,7 @@ bool Socket::setNoBloqueante(){
 }
 
 bool Socket::setBloqueante(){
-  // Set non-blocking 
+  // Set blocking 
   long arg = fcntl(s, F_GETFL, NULL); 
   arg &= ~O_NONBLOCK; 
   fcntl(s, F_SETFL, arg); 
