@@ -136,6 +136,8 @@ public:
       */
      void simular();
 
+     std::string getLeyenda();
+
      Circuito* getCircuito(std::string* errores);
 
      void crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista);

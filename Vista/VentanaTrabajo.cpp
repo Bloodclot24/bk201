@@ -144,7 +144,7 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
   m_refActionGroup->add(Gtk::Action::create("Abrir", Gtk::Stock::OPEN),
                         sigc::mem_fun(*this, &VentanaTrabajo::abrir));
   m_guardar->add(Gtk::Action::create("Guardar", Gtk::Stock::SAVE),
-                        sigc::mem_fun(*this, &VentanaTrabajo::guardar));
+		 sigc::mem_fun(*this, &VentanaTrabajo::guardar));
   m_refActionGroup->add(Gtk::Action::create("Guardar como...", Gtk::Stock::SAVE_AS, "Guardar como..."),
                         sigc::mem_fun(*this, &VentanaTrabajo::guardarComo));
   m_refActionGroup->add(Gtk::Action::create("Imprimir", Gtk::Stock::PRINT),
@@ -159,17 +159,17 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
   m_borrar= Gtk::ActionGroup::create();
   m_refActionGroup->add(Gtk::Action::create("EditarMenu", "Editar"));
   m_rotar->add(Gtk::Action::create("RotarD 90", Gtk::Stock::REDO,"Rotar 90"),
-                        sigc::mem_fun(*this, &VentanaTrabajo::rotar90D));
+	       sigc::mem_fun(*this, &VentanaTrabajo::rotar90D));
   m_rotar->add(Gtk::Action::create("RotarI 90", Gtk::Stock::UNDO,"Rotar 90"),
-                        sigc::mem_fun(*this, &VentanaTrabajo::rotar90I));
+	       sigc::mem_fun(*this, &VentanaTrabajo::rotar90I));
   m_invertir->add(Gtk::Action::create("InvertirV", Gtk::Stock::GO_UP,"Invertir Vertical"),
-                   sigc::mem_fun(*this, &VentanaTrabajo::invertirVertical));
+		  sigc::mem_fun(*this, &VentanaTrabajo::invertirVertical));
   m_invertir->add(Gtk::Action::create("InvertirH", Gtk::Stock::GO_DOWN,"Invertir Horizontal"),
-                   sigc::mem_fun(*this, &VentanaTrabajo::invertirHorizontal));
+		  sigc::mem_fun(*this, &VentanaTrabajo::invertirHorizontal));
   m_examinar->add(Gtk::Action::create("Examinar", Gtk::Stock::FIND, "Examinar..."),
-                            sigc::mem_fun(*this, &VentanaTrabajo::examinar));
+		  sigc::mem_fun(*this, &VentanaTrabajo::examinar));
   m_borrar->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
-                        sigc::mem_fun(*this, &VentanaTrabajo::borrar));
+		sigc::mem_fun(*this, &VentanaTrabajo::borrar));
 
   //menu simular
   m_refActionGroup->add(Gtk::Action::create("SimularMenu", "Simular"));
@@ -353,8 +353,8 @@ void VentanaTrabajo::loadToolBar() {
 }
 
 void VentanaTrabajo::on_drag_data_get(
-        const Glib::RefPtr<Gdk::DragContext>& context,
-        Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente) {
+				      const Glib::RefPtr<Gdk::DragContext>& context,
+				      Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente) {
 
   const std::string str= componente;
 
@@ -369,32 +369,32 @@ void VentanaTrabajo::on_drag_data_get(
 void VentanaTrabajo::on_response_open(int response_id) {
 
   switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      Glib::ustring file= filechooserdialog_open->get_filename();
-      std::cout << "Cargando File: " << file << std::endl;
-      areaDibujo->vaciarListaDibujos();
-      controladorVentana->cargar(file);
-      filechooserdialog_open->hide();
-    }
-      break;
-    default:
-        filechooserdialog_open->hide();
-      break;
+  case Gtk::RESPONSE_ACCEPT: {
+    Glib::ustring file= filechooserdialog_open->get_filename();
+    std::cout << "Cargando File: " << file << std::endl;
+    areaDibujo->vaciarListaDibujos();
+    controladorVentana->cargar(file);
+    filechooserdialog_open->hide();
+  }
+    break;
+  default:
+    filechooserdialog_open->hide();
+    break;
   }
 }
 
 void VentanaTrabajo::on_response_saveas(int response_id) {
 
   switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      Glib::ustring file= filechooserdialog_saveas->get_filename();
-      controladorVentana->guardarComo(file);
-      filechooserdialog_saveas->hide();
-    }
-      break;
-    default:
-        filechooserdialog_saveas->hide();
-      break;
+  case Gtk::RESPONSE_ACCEPT: {
+    Glib::ustring file= filechooserdialog_saveas->get_filename();
+    controladorVentana->guardarComo(file);
+    filechooserdialog_saveas->hide();
+  }
+    break;
+  default:
+    filechooserdialog_saveas->hide();
+    break;
   }
 }
 
@@ -483,21 +483,21 @@ void VentanaTrabajo::prepararVentanaCompuerta(Dibujo *seleccionado) {
 
 void VentanaTrabajo::on_propiedades_compuerta(int response_id) {
   switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      //tomo todos los atributos de la compuerta y los almaceno
-      Compuerta *compuerta= dynamic_cast<Compuerta*>(areaDibujo->dibujoSeleccionados[0]);
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop_compuertas", entry);
-      Glib::ustring label= entry->get_text();
-      compuerta->setLabel(label);
-      refXml->get_widget("entry_tiempo_prop_compuertas", entry);
-      Glib::ustring tiempo= entry->get_text();
-      compuerta->setTiempoT(tiempo);
-      areaDibujo->redibujar();
-    }
-      break;
-    default:
-      break;
+  case Gtk::RESPONSE_ACCEPT: {
+    //tomo todos los atributos de la compuerta y los almaceno
+    Compuerta *compuerta= dynamic_cast<Compuerta*>(areaDibujo->dibujoSeleccionados[0]);
+    Gtk::Entry *entry;
+    refXml->get_widget("entry_label_prop_compuertas", entry);
+    Glib::ustring label= entry->get_text();
+    compuerta->setLabel(label);
+    refXml->get_widget("entry_tiempo_prop_compuertas", entry);
+    Glib::ustring tiempo= entry->get_text();
+    compuerta->setTiempoT(tiempo);
+    areaDibujo->redibujar();
+  }
+    break;
+  default:
+    break;
   }
   dialog_prop_compuerta->hide();
   //habilito la ventana
@@ -530,26 +530,26 @@ void VentanaTrabajo::prepararVentanaIO(Dibujo *seleccionado) {
 void VentanaTrabajo::on_propiedades_io(int response_id) {
 
   switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      //tomo todos los atributos de la io y los almaceno
-      EntradaSalida *io= dynamic_cast<EntradaSalida*>(areaDibujo->dibujoSeleccionados[0]);
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop_io", entry);
-      Glib::ustring label= entry->get_text();
-      io->setLabel(label);
-      Gtk::RadioButton *entrada;
-      refXml->get_widget("radiobutton_entrada_io", entrada);
-      Gtk::RadioButton *salida;
-      refXml->get_widget("radiobutton_salida_io", salida);
-      if(entrada->get_active())
-        io->setTipoPin(TIPO_ENTRADA);
-      else
-        io->setTipoPin(TIPO_SALIDA);
-      areaDibujo->redibujar();
-    }
-      break;
-    default:
-      break;
+  case Gtk::RESPONSE_ACCEPT: {
+    //tomo todos los atributos de la io y los almaceno
+    EntradaSalida *io= dynamic_cast<EntradaSalida*>(areaDibujo->dibujoSeleccionados[0]);
+    Gtk::Entry *entry;
+    refXml->get_widget("entry_label_prop_io", entry);
+    Glib::ustring label= entry->get_text();
+    io->setLabel(label);
+    Gtk::RadioButton *entrada;
+    refXml->get_widget("radiobutton_entrada_io", entrada);
+    Gtk::RadioButton *salida;
+    refXml->get_widget("radiobutton_salida_io", salida);
+    if(entrada->get_active())
+      io->setTipoPin(TIPO_ENTRADA);
+    else
+      io->setTipoPin(TIPO_SALIDA);
+    areaDibujo->redibujar();
+  }
+    break;
+  default:
+    break;
   }
   dialog_prop_io->hide();
   //habilito la ventana
@@ -580,18 +580,18 @@ void VentanaTrabajo::prepararVentanaCircuito(Dibujo *seleccionado) {
 void VentanaTrabajo::on_propiedades_circuito(int response_id) {
 
   switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      //tomo todos los atributos del circuito y los almaceno
-      CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(areaDibujo->dibujoSeleccionados[0]);
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_label_prop_circuito", entry);
-      Glib::ustring label= entry->get_text();
-      circuito->setLabel(label);
-      areaDibujo->redibujar();
-    }
-      break;
-    default:
-      break;
+  case Gtk::RESPONSE_ACCEPT: {
+    //tomo todos los atributos del circuito y los almaceno
+    CircuitoDibujo *circuito= dynamic_cast<CircuitoDibujo*>(areaDibujo->dibujoSeleccionados[0]);
+    Gtk::Entry *entry;
+    refXml->get_widget("entry_label_prop_circuito", entry);
+    Glib::ustring label= entry->get_text();
+    circuito->setLabel(label);
+    areaDibujo->redibujar();
+  }
+    break;
+  default:
+    break;
   }
   dialog_prop_circuito->hide();
   //habilito la ventana
@@ -622,26 +622,26 @@ void VentanaTrabajo::on_error_examinar(int response_id) {
 void VentanaTrabajo::on_response_servidor(int response_id) {
 
   switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      Gtk::Entry *entry;
-      refXml->get_widget("entry_servidor", entry);
-      this->servidor= entry->get_text();
-      std::cout << "Servidor: " << servidor << std::endl;
-      refXml->get_widget("entry_puerto", entry);
-      this->puerto= entry->get_text();
-      std::cout << "Puerto: " << puerto << std::endl;
-      dialog_servidor->set_sensitive(false);
-      dialog_conectandose->show();
-      llegoRta= false;
-      id_ventana_servidor= Glib::signal_timeout().connect(sigc::mem_fun(*this,&VentanaTrabajo::esperandoRtaServidor), 1000);
-      controladorVentana->obtenerListaServidor(servidor, atoi(puerto.c_str()));
-    }
-      break;
-    default:
-      dialog_servidor->hide();
-      //habilito la ventana
-      window->set_sensitive(true);
-      break;
+  case Gtk::RESPONSE_ACCEPT: {
+    Gtk::Entry *entry;
+    refXml->get_widget("entry_servidor", entry);
+    this->servidor= entry->get_text();
+    std::cout << "Servidor: " << servidor << std::endl;
+    refXml->get_widget("entry_puerto", entry);
+    this->puerto= entry->get_text();
+    std::cout << "Puerto: " << puerto << std::endl;
+    dialog_servidor->set_sensitive(false);
+    dialog_conectandose->show();
+    llegoRta= false;
+    id_ventana_servidor= Glib::signal_timeout().connect(sigc::mem_fun(*this,&VentanaTrabajo::esperandoRtaServidor), 1000);
+    controladorVentana->obtenerListaServidor(servidor, atoi(puerto.c_str()));
+  }
+    break;
+  default:
+    dialog_servidor->hide();
+    //habilito la ventana
+    window->set_sensitive(true);
+    break;
   }
 }
 
@@ -661,8 +661,8 @@ bool VentanaTrabajo::esperandoRtaServidor() {
       treeModel_circuitos->clear();
       std::list<DescripcionCircuito>::const_iterator it;
       for(it=lista_circuito.begin(); it != lista_circuito.end(); it++){
-           agregarCircuito((*it).nombre, (*it).cantidadEntradas, (*it).cantidadSalidas);
-           std::cout << "Agrego Circuito: " << (*it).nombre << std::endl;
+	agregarCircuito((*it).nombre, (*it).cantidadEntradas, (*it).cantidadSalidas);
+	std::cout << "Agrego Circuito: " << (*it).nombre << std::endl;
       }
       dialog_conectandose->hide();
       dialog_servidor->hide();
@@ -670,7 +670,7 @@ bool VentanaTrabajo::esperandoRtaServidor() {
       //habilito la ventana
       window->set_sensitive(true);
     } else {
-         std::cout << "Lista vacía\n";
+      std::cout << "Lista vacía\n";
       dialog_conectandose->hide();
       dialog_servidor->set_sensitive(false);
       if(dialog_error_servidor)
@@ -682,22 +682,22 @@ bool VentanaTrabajo::esperandoRtaServidor() {
 
 void VentanaTrabajo::on_lista_circuitos(int response_id) {
   switch(response_id) {
-    case Gtk::RESPONSE_ACCEPT: {
-      Gtk::TreeModel::iterator iter= refTreeSelection->get_selected();
-      if(iter) {
-        Gtk::TreeModel::Row row= *iter;
-        Glib::ustring circuito= row[columns_circuito.col_circuito];
-        int entradas= row[columns_circuito.col_entradas];
-        int salidas= row[columns_circuito.col_salidas];
-        dialog_lista_circuitos->hide();
-        this->nombre= circuito;
-        areaDibujo->dibujarCircuito(entradas, salidas);
-      }
-    }
-      break;
-    default:
+  case Gtk::RESPONSE_ACCEPT: {
+    Gtk::TreeModel::iterator iter= refTreeSelection->get_selected();
+    if(iter) {
+      Gtk::TreeModel::Row row= *iter;
+      Glib::ustring circuito= row[columns_circuito.col_circuito];
+      int entradas= row[columns_circuito.col_entradas];
+      int salidas= row[columns_circuito.col_salidas];
       dialog_lista_circuitos->hide();
-      break;
+      this->nombre= circuito;
+      areaDibujo->dibujarCircuito(entradas, salidas);
+    }
+  }
+    break;
+  default:
+    dialog_lista_circuitos->hide();
+    break;
   }
 }
 
@@ -741,11 +741,12 @@ bool VentanaTrabajo::esperandoRtaSimulacion() {
   return true;
 }
 
-void VentanaTrabajo::recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas, const std::string& mensaje){
+void VentanaTrabajo::recibirTablaSimulacion(std::list<uint32_t> listaTabla, int entradas, int salidas, const std::string& mensaje, const std::string& leyenda){
   this->mensajeTabla= mensaje;
   tabla->setCantEntradas(entradas);
   tabla->setCantSalidas(salidas);
   tabla->setLista(listaTabla);
+  tabla->setLeyenda(leyenda);
   llegoTabla= true;
 }
 

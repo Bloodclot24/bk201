@@ -160,6 +160,30 @@ void ControladorVentana::eliminarComponente(Dibujo* d){
      }
 }
 
+std::string ControladorVentana::getLeyenda(){
+     std::map<Dibujo*, EntradaSalida*>::iterator it;
+     std::string leyenda;
+     char inicial='A';
+     int entradas=0,salidas=0;
+     /* enumero entradas y salidas*/
+     for(it=pines.begin();it!=pines.end();it++){
+	  if((*it).second->getTipoPin().compare(TIPO_ENTRADA)==0){
+	       leyenda += inicial+entradas;
+	       leyenda+=": " + (*it).second->getLabel() + "\n";
+	       entradas++;
+	  }
+     }
+     for(it=pines.begin();it!=pines.end();it++){
+	  if((*it).second->getTipoPin().compare(TIPO_SALIDA)==0){
+	       leyenda += inicial+entradas+salidas;
+	       leyenda+=": " + (*it).second->getLabel() + "\n";
+	       salidas++;
+	  }
+     }
+
+     return leyenda;
+}
+
 Circuito* ControladorVentana::getCircuito(std::string *errores){
      if(circuito.c != NULL)
 	  delete circuito.c;
@@ -281,7 +305,7 @@ void ControladorVentana::simular(){
 
 void ControladorVentana::recibirTablaSimulacion(std::list<uint32_t> tabla, std::string errores){
      if(ventana)
-	  ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas,errores);
+	  ventana->recibirTablaSimulacion(tabla, circuito.cantidadEntradas, circuito.cantidadSalidas,errores, getLeyenda());
 }
 
 void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista){

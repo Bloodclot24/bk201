@@ -6,67 +6,67 @@ VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
 				     btnPrintPreview(Gtk::Stock::PRINT_PREVIEW),
 				     btnPrint(Gtk::Stock::PRINT)
 {
-     m_refPageSetup = Gtk::PageSetup::create();
-     m_refSettings = Gtk::PrintSettings::create();
+  m_refPageSetup = Gtk::PageSetup::create();
+  m_refSettings = Gtk::PrintSettings::create();
      
-     set_title("BK201 Imprimir");
-     set_default_size(400, 10);
-     set_position(Gtk::WIN_POS_CENTER);
-     set_icon_from_file(PATH_LOGO);
-     build_main_menu();
-     vBox.pack_start(hBox, Gtk::PACK_SHRINK);
-     add(vBox);
-     show_all_children();
+  set_title("BK201 Imprimir");
+  set_default_size(400, 10);
+  set_position(Gtk::WIN_POS_CENTER);
+  set_icon_from_file(PATH_LOGO);
+  build_main_menu();
+  vBox.pack_start(hBox, Gtk::PACK_SHRINK);
+  add(vBox);
+  show_all_children();
      
 }
 
 
 void VentanaImpresion::build_main_menu()
 {
-	btnPageSetup.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_page_setup));
-	btnPrintPreview.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_print_preview));
-	btnPrint.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_print));
-	btnQuit.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_quit));
+  btnPageSetup.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_page_setup));
+  btnPrintPreview.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_print_preview));
+  btnPrint.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_print));
+  btnQuit.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_quit));
 	
-	hBox.pack_start(btnPageSetup, Gtk::PACK_EXPAND_WIDGET, 20);
-	hBox.pack_start(btnPrintPreview, Gtk::PACK_EXPAND_WIDGET, 20);
-	hBox.pack_start(btnPrint, Gtk::PACK_EXPAND_WIDGET, 20);
-	hBox.pack_start(btnQuit, Gtk::PACK_EXPAND_WIDGET, 20);
+  hBox.pack_start(btnPageSetup, Gtk::PACK_EXPAND_WIDGET, 20);
+  hBox.pack_start(btnPrintPreview, Gtk::PACK_EXPAND_WIDGET, 20);
+  hBox.pack_start(btnPrint, Gtk::PACK_EXPAND_WIDGET, 20);
+  hBox.pack_start(btnQuit, Gtk::PACK_EXPAND_WIDGET, 20);
 }
 
 void VentanaImpresion::on_printoperation_status_changed(const Glib::RefPtr<Impresora>& operation)
 {
-	if (operation->is_finished())
-	{
-		Gtk::MessageDialog err_dialog(*this, "Finalizo la impresion", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, true);
-		err_dialog.run();
-	}
+  if (operation->is_finished())
+    {
+      Gtk::MessageDialog err_dialog(*this, "Finalizo la impresion", false, Gtk::MESSAGE_INFO, Gtk::BUTTONS_OK, true);
+      err_dialog.run();
+    }
 }
 
 void VentanaImpresion::on_printoperation_done(Gtk::PrintOperationResult result, const Glib::RefPtr<Impresora>& operation)
 {
   if (result == Gtk::PRINT_OPERATION_RESULT_ERROR)
-  {
-    Gtk::MessageDialog err_dialog(*this, "Error al imprimir desde ", false,
-            Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
-    err_dialog.run();
-  }
+    {
+      Gtk::MessageDialog err_dialog(*this, "Error al imprimir desde ", false,
+				    Gtk::MESSAGE_ERROR, Gtk::BUTTONS_OK, true);
+      err_dialog.run();
+    }
   else if (result == Gtk::PRINT_OPERATION_RESULT_APPLY)
-  {
-    m_refSettings = operation->get_print_settings();
-  }
+    {
+      m_refSettings = operation->get_print_settings();
+    }
 
   if (! operation->is_finished())
-  {
-    operation->signal_status_changed().connect(sigc::bind(sigc::mem_fun(*this,
-                    &VentanaImpresion::on_printoperation_status_changed),
-                operation));
-  }
+    {
+      operation->signal_status_changed().connect(sigc::bind(sigc::mem_fun(*this,
+									  &VentanaImpresion::on_printoperation_status_changed),
+							    operation));
+    }
 }
 
 void VentanaImpresion::print_or_preview(Gtk::PrintOperationAction print_action)
 {
-	std::cout << "Tabla (preview) " << tabla << std::endl;
+  std::cout << "Tabla (preview) " << tabla << std::endl;
   Glib::RefPtr<Impresora> print = Impresora::create(dibujos,tabla);
 
   print->set_track_print_status();
@@ -75,16 +75,16 @@ void VentanaImpresion::print_or_preview(Gtk::PrintOperationAction print_action)
   print->set_print_settings(m_refSettings);
 
   print->signal_done().connect(sigc::bind(sigc::mem_fun(*this,
-                  &VentanaImpresion::on_printoperation_done), print));
+							&VentanaImpresion::on_printoperation_done), print));
   try
-  {
-    print->run(print_action /* print or preview */, *this);
-  }
+    {
+      print->run(print_action /* print or preview */, *this);
+    }
   catch (const Gtk::PrintError& ex)
-  {
-    std::cerr << "Ocurrio un error al tratar de ejecutar la operacion de impresion:"
-        << ex.what() << std::endl;
-  }
+    {
+      std::cerr << "Ocurrio un error al tratar de ejecutar la operacion de impresion:"
+		<< ex.what() << std::endl;
+    }
 
 }
 
@@ -111,12 +111,12 @@ void VentanaImpresion::on_menu_file_quit()
 
 void VentanaImpresion::setDibujosAImprimir(std::list<Dibujo*> dibujos)
 {
-	this->dibujos = dibujos;
+  this->dibujos = dibujos;
 }
 
 void VentanaImpresion::setTablasAImprimir(Tabla* tabla)
 {
-	this->tabla = tabla;
+  this->tabla = tabla;
 	
 }
 

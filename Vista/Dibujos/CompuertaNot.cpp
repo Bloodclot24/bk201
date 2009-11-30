@@ -1,7 +1,7 @@
 #include "CompuertaNot.h"
 
 CompuertaNot::CompuertaNot(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { 
-     cargarNuevosPines();
+  cargarNuevosPines();
 }
 
 void CompuertaNot::cargarNuevosPines() {

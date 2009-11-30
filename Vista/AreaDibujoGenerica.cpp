@@ -1,7 +1,7 @@
 #include "AreaDibujoGenerica.h"
 
 void AreaDibujoGenerica::agregarDibujo(Dibujo* dibujo){
-     agregarComponente(dibujo);
+  agregarComponente(dibujo);
 }
 
 void AreaDibujoGenerica::agregarComponente(Dibujo* dibujo) {
@@ -16,25 +16,25 @@ void AreaDibujoGenerica::agregarComponente(Dibujo* dibujo) {
 }
 
 void AreaDibujoGenerica::redibujar(){
-     //fuerzo al redibujado
-     if(window) {
-	  Gdk::Rectangle r(0, 0, get_allocation().get_width(),
-			   get_allocation().get_height());
-	  window->invalidate_rect(r, false);
-     }
+  //fuerzo al redibujado
+  if(window) {
+    Gdk::Rectangle r(0, 0, get_allocation().get_width(),
+		     get_allocation().get_height());
+    window->invalidate_rect(r, false);
+  }
 }
 
 void AreaDibujoGenerica::deseleccionar() {
   //libero los componentes
   std::list<Dibujo*>::iterator it;
   for(it= dibujos.begin(); it != dibujos.end(); it++)
-       (*it)->deseleccionar();
+    (*it)->deseleccionar();
 }
 
 
 void AreaDibujoGenerica::agregarDibujo(ConexionDibujo* dibujo){
-     dibujo->setAreaDibujo(this);
-     agregarDibujo((Dibujo*) dibujo);
+  dibujo->setAreaDibujo(this);
+  agregarDibujo((Dibujo*) dibujo);
 };
 
 Dibujo* AreaDibujoGenerica::buscarDibujo(int x, int y) {
@@ -60,7 +60,7 @@ Dibujo* AreaDibujoGenerica::buscarDibujoCercano(Dibujo *origen, int x, int y) {
   for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
     encontrado= (*it)->estaCercano(x,y);
     if(encontrado && *it != origen)
-	 break;
+      break;
     else encontrado=false;
   }
   if(!encontrado)
@@ -69,36 +69,36 @@ Dibujo* AreaDibujoGenerica::buscarDibujoCercano(Dibujo *origen, int x, int y) {
 }
 
 bool AreaDibujoGenerica::existeDibujo(Dibujo* d){
-     std::list<Dibujo*>::iterator it;
-     bool encontrado= false;
+  std::list<Dibujo*>::iterator it;
+  bool encontrado= false;
 
-     for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
-	  encontrado= (*it) == d;
-     }
+  for(it= dibujos.begin(); it != dibujos.end() && !encontrado; it++) {
+    encontrado= (*it) == d;
+  }
 
-     return encontrado;
+  return encontrado;
 }
 
 void AreaDibujoGenerica::vaciarListaDibujos(){
-	if(dibujos.size()) dibujos.clear();
+  if(dibujos.size()) dibujos.clear();
 }
 
 uint32_t AreaDibujoGenerica::getAncho(){
-     std::list<Dibujo*>::iterator it;
-     uint32_t xMax=0;
-     for(it = dibujos.begin(); it!=dibujos.end();it++){
-	  if(xMax < (uint32_t)(*it)->getVerticeSupIzq().x)
-	       xMax=(*it)->getVerticeSupIzq().x;
-     }
-     return xMax+100;
+  std::list<Dibujo*>::iterator it;
+  uint32_t xMax=0;
+  for(it = dibujos.begin(); it!=dibujos.end();it++){
+    if(xMax < (uint32_t)(*it)->getVerticeSupIzq().x)
+      xMax=(*it)->getVerticeSupIzq().x;
+  }
+  return xMax+100;
 }
 
 uint32_t AreaDibujoGenerica::getAlto(){
-     std::list<Dibujo*>::iterator it;
-     uint32_t yMax=0;
-     for(it = dibujos.begin(); it!=dibujos.end();it++){
-	  if(yMax < (uint32_t)(*it)->getVerticeSupIzq().y)
-	       yMax= (*it)->getVerticeSupIzq().y;
-     }
-     return yMax+100;
+  std::list<Dibujo*>::iterator it;
+  uint32_t yMax=0;
+  for(it = dibujos.begin(); it!=dibujos.end();it++){
+    if(yMax < (uint32_t)(*it)->getVerticeSupIzq().y)
+      yMax= (*it)->getVerticeSupIzq().y;
+  }
+  return yMax+100;
 }

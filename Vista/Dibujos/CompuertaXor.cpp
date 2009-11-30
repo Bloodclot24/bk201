@@ -1,7 +1,7 @@
 #include "CompuertaXor.h"
 
 CompuertaXor::CompuertaXor(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) { 
-     cargarNuevosPines();
+  cargarNuevosPines();
 }
 
 void CompuertaXor::cargarNuevosPines() {

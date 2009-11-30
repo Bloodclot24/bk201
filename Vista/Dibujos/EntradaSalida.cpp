@@ -2,7 +2,7 @@
 
 EntradaSalida::EntradaSalida(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
-     tipo= TIPO_PIN;
+  tipo= TIPO_PIN;
   tipoPin= TIPO_ENTRADA;
   label= "I/O";
   ancho= alto= DIMENSION_IO;
@@ -42,7 +42,7 @@ std::string EntradaSalida::getTipoPin() {
 }
 
 void EntradaSalida::setTipoPin(std::string tipoPin) {
-   this->tipoPin= tipoPin;
+  this->tipoPin= tipoPin;
 }
 
 void EntradaSalida::mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) {

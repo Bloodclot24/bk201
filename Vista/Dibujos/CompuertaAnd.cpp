@@ -1,7 +1,7 @@
 #include "CompuertaAnd.h"
 
 CompuertaAnd::CompuertaAnd(int xUp, int yUp): Compuerta::Compuerta(xUp, yUp) {
-     cargarNuevosPines();
+  cargarNuevosPines();
 }
 
 //void CompuertaAnd::cargarNuevosPines(Vertice vSupIzq) {
@@ -42,5 +42,5 @@ void CompuertaAnd::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
 void CompuertaAnd::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
 
-	this->dibujar(context);
+  this->dibujar(context);
 }

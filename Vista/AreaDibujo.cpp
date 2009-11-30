@@ -52,17 +52,17 @@ void AreaDibujo::loadMenuPopup() {
   //menu editar
   verRotar->add(Gtk::Action::create("MenuEditar", "Menu Editar"));
   verRotar->add(Gtk::Action::create("Rotar90D", Gtk::Stock::REDO,"Rotar 90"),
-                          sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Derecha));
+		sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Derecha));
   verRotar->add(Gtk::Action::create("Rotar90I", Gtk::Stock::UNDO,"Rotar 90"),
-                          sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Izquierda));
+		sigc::mem_fun(*this, &AreaDibujo::rotarSeleccion90Izquierda));
   verInvertir->add(Gtk::Action::create("InvertirV", Gtk::Stock::GO_UP,"Invertir Vertical"),
                    sigc::mem_fun(*this, &AreaDibujo::invertirVertical));
   verInvertir->add(Gtk::Action::create("InvertirH", Gtk::Stock::GO_DOWN,"Invertir Horizontal"),
                    sigc::mem_fun(*this, &AreaDibujo::invertirHorizontal));
   verBorrar->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
-                            sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
+		 sigc::mem_fun(*this, &AreaDibujo::borrarSeleccion));
   verExaminar->add(Gtk::Action::create("Examinar", Gtk::Stock::FIND, "Examinar..."),
-                            sigc::mem_fun(*this, &AreaDibujo::verCircuito));
+		   sigc::mem_fun(*this, &AreaDibujo::verCircuito));
 
   m_refUIManager = Gtk::UIManager::create();
   m_refUIManager->insert_action_group(verRotar);
@@ -168,14 +168,14 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
     eventoDobleClickBtnIzq(event->x, event->y);
     return false;
 
-  //Evento boton derecho
+    //Evento boton derecho
   } else if(event->type == GDK_BUTTON_PRESS && event->button == 3) {
     Dibujo *seleccionado= NULL;
     if(!dibujoSeleccionados.empty())
       seleccionado= dibujoSeleccionados[0];
     if(menuPopup && !dibujoSeleccionados.empty()) {
-        verRotar->set_sensitive(true);
-        verInvertir->set_sensitive(true);
+      verRotar->set_sensitive(true);
+      verInvertir->set_sensitive(true);
       if(!seleccionado->getExaminar() || dibujoSeleccionados.size() != 1)
         verExaminar->set_sensitive(false);
       else
@@ -189,7 +189,7 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
     return true;
 
   } else
-  return false;
+    return false;
 }
 
 bool AreaDibujo::on_motion_notify_event(GdkEventMotion* event) {
@@ -410,8 +410,8 @@ void AreaDibujo::buscarPosicion(int &x, int &y) {
 }
 
 void AreaDibujo::on_drop_drag_data_received(
-        const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
-        const Gtk::SelectionData& selection_data, guint info, guint time) {
+					    const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
+					    const Gtk::SelectionData& selection_data, guint info, guint time) {
   //Recibe la senial de drop y le pide a la zona de drag los datos
   //del componente a dibujar.
   ventanaTrabajo->setSensitiveEditar(true);
