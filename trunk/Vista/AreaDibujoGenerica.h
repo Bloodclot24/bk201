@@ -25,6 +25,8 @@ public:
      virtual Dibujo* buscarDibujoCercano(Dibujo *origen, int x, int y);
      virtual bool existeDibujo(Dibujo* d);
      void vaciarListaDibujos();
+     uint32_t getAncho();
+     uint32_t getAlto();
 
 };
 
