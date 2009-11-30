@@ -91,7 +91,7 @@ void AreaDibujo::loadMenuPopup() {
 void AreaDibujo::activarMenuBar() {
   if(dibujoSeleccionados.size() == 1) {
     ventanaTrabajo->setSensitiveEditar(true);
-    if(dibujoSeleccionados[0]->getTipo().compare(CIRCUITO) != 0)
+    if(dibujoSeleccionados[0]->getTipo().compare(TIPO_CIRCUITO) != 0)
       ventanaTrabajo->m_examinar->set_sensitive(false);
   } else {
     ventanaTrabajo->setSensitiveEditar(false);
@@ -490,9 +490,33 @@ void AreaDibujo::invertirHorizontal() {
 
 void AreaDibujo::verCircuito() {
   if(seleccion && !motion) {
+    ventanaTrabajo->window->set_sensitive(false);
+    ventanaTrabajo->llegoRemoto= false;
+    ventanaTrabajo->dialog_examinar->show();
     CircuitoDibujo* dibujoCircuitoRemoto = dynamic_cast<CircuitoDibujo*> (this->dibujoSeleccionados[0]);
+    ventanaTrabajo->id_ventana_remoto= Glib::signal_timeout().connect(sigc::mem_fun(*this,&AreaDibujo::esperandoCircuitoRemoto), 1000);
     ventanaTrabajo->controladorVentana->obtenerCircuitoServidor(dibujoCircuitoRemoto->getNombre(),dibujoCircuitoRemoto->getServidor(),atoi(dibujoCircuitoRemoto->getPuerto().c_str()));
   }
+}
+
+bool AreaDibujo::esperandoCircuitoRemoto() {
+
+  if(ventanaTrabajo->llegoRemoto) {
+    ventanaTrabajo->id_ventana_remoto.disconnect();
+    ventanaTrabajo->window->set_sensitive(true);
+    ventanaTrabajo->dialog_examinar->hide();
+    ControladorVentana controlador;
+    controlador.iniciar();
+    controlador.setAreaDibujo(ventanaTrabajo->circuitoRemoto);
+    ventanaTrabajo->circuitoRemoto->vaciarListaDibujos();
+    controlador.cargar(ventanaTrabajo->nombreTemp);
+    Gtk::Label *label;
+    ventanaTrabajo->refXml->get_widget("label_nombre_circuito", label);
+    label->set_text(ventanaTrabajo->nombreRemoto);
+    ventanaTrabajo->window_remoto->show_all();
+    ::remove(ventanaTrabajo->nombreTemp.c_str());
+  }
+  return true;
 }
 
 void AreaDibujo::dibujarSeleccionMultiple(const Cairo::RefPtr<Cairo::Context>& context) {

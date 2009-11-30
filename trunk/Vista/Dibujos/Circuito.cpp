@@ -2,13 +2,10 @@
 
 CircuitoDibujo::CircuitoDibujo(int supIzqX, int supIzqY, int entradas, int salidas): Dibujo::Dibujo(supIzqX, supIzqY) {
 
-  tipo= TIPO_CIRCUITO;
-  label= "Circuito";
+  tipo= label= TIPO_CIRCUITO;
   vCentro.x= supIzqX + (ancho/2);
   vCentro.y= supIzqY + (alto/2);
-
   setEntradasSalidas(entradas, salidas);
-
   examinar= true;
 }
 
@@ -55,13 +52,13 @@ void CircuitoDibujo::cargarNuevosPines(Vertice vSupIzq) {
   for(int i= 0; i<entradas; i++) {
     v.x= vSupIzq.x;
     v.y= vSupIzq.y+i*pasoEntrada+10;
-    pines.push_back(v);
+    pines.push_back(rotarPin(v.x, v.y));
   }
   //salida
   for(int i= 0; i<salidas; i++) {
     v.x= vSupIzq.x+ancho-10;
     v.y= vSupIzq.y+i*pasoSalida+10;
-    pines.push_back(v);
+    pines.push_back(rotarPin(v.x, v.y));
   }
 }
 
@@ -74,7 +71,6 @@ void CircuitoDibujo::setVerticeSupIzq(Vertice vSupIzq) {
 }
 
 void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
-
   //puerta
   context->set_source_rgb(0.0, 0.0, 1.0);
   context->move_to(vSupIzq.x+10, vSupIzq.y+10);
