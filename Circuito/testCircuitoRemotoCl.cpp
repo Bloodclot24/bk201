@@ -3,32 +3,32 @@
 #include <sstream>
 
 int main(int argc, char** argv){
-     int puerto=1234;
+  int puerto=1234;
 
-     if(argc > 1){
-	  puerto = atoi(argv[1]);
-	  if(puerto == 0)
-	       puerto = 1234;
-     }
+  if(argc > 1){
+    puerto = atoi(argv[1]);
+    if(puerto == 0)
+      puerto = 1234;
+  }
      
-     std::cout << "Usando puerto " << puerto << std::endl;
+  std::cout << "Usando puerto " << puerto << std::endl;
      
-     std::stringstream s;
-     s << "localhost:";
-     s << puerto;
-     CircuitoRemoto *cr = new CircuitoRemoto(s.str(),puerto, "CircuitoDePrueba");
+  std::stringstream s;
+  s << "localhost:";
+  s << puerto;
+  CircuitoRemoto *cr = new CircuitoRemoto(s.str(),puerto, "CircuitoDePrueba");
 
-     Circuito c(3,2);
-     c.agregarComponente(cr);
+  Circuito c(3,2);
+  c.agregarComponente(cr);
      
-     c.agregarConexion(-1,0,0,0);
-     c.agregarConexion(-1,1,0,1);
-     c.agregarConexion(-1,2,0,2);
-     c.agregarConexion(0,3,-1,3);
-     c.agregarConexion(0,4,-1,4);
+  c.agregarConexion(-1,0,0,0);
+  c.agregarConexion(-1,1,0,1);
+  c.agregarConexion(-1,2,0,2);
+  c.agregarConexion(0,3,-1,3);
+  c.agregarConexion(0,4,-1,4);
 
-     c.simularTodo(100);
+  c.simularTodo(100);
 
-     return 1;
+  return 1;
 
 }

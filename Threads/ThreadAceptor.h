@@ -14,38 +14,38 @@ class  ThreadAceptor;
  */
 class ThreadAceptor:public Thread{
 private:
-     Socket *socket;		/**< El socket por el cual se escuchan
+  Socket *socket;		/**< El socket por el cual se escuchan
 				 * las conexiones entrantes */
-     Server *servidor;
+  Server *servidor;
 public:
-     /** 
-      * Crea un nuevo ThreadAceptor.
-      * 
-      * @param socket El socket para escuchar conexiones.
-      */
-     ThreadAceptor(Socket *socket, Server* servidor);
+  /** 
+   * Crea un nuevo ThreadAceptor.
+   * 
+   * @param socket El socket para escuchar conexiones.
+   */
+  ThreadAceptor(Socket *socket, Server* servidor);
 
-     /** 
-      * Comienza el thread.
-      */
-     void comenzar();
+  /** 
+   * Comienza el thread.
+   */
+  void comenzar();
 
-     /** 
-      * Finaliza el thread.
-      */
-     void finish(void);
+  /** 
+   * Finaliza el thread.
+   */
+  void finish(void);
 
-     /** 
-      * Metodo principal del Thread.
-      *
-      * @see Thread 
-      */
-     virtual void run();
+  /** 
+   * Metodo principal del Thread.
+   *
+   * @see Thread 
+   */
+  virtual void run();
 
-     /** 
-      * Finaliza el Thread y libera los recursos asociados.
-      */
-     ~ThreadAceptor();
+  /** 
+   * Finaliza el Thread y libera los recursos asociados.
+   */
+  ~ThreadAceptor();
 
 };
    

@@ -3,25 +3,25 @@
 
 int main(int argc, char** argv){
 
-   /* Creo un nuevo request */
-   HttpRequest req("192.168.0.10:8080/algo");
+  /* Creo un nuevo request */
+  HttpRequest req("192.168.0.10:8080/algo");
 
-   req.setContentLength(100);
-   /* Obtengo el request completo y lo muestro */
-   const std::string &request = req.getRequest();
-   std::cout << request;
+  req.setContentLength(100);
+  /* Obtengo el request completo y lo muestro */
+  const std::string &request = req.getRequest();
+  std::cout << request;
 
-   HttpRequest decode(request,1);
+  HttpRequest decode(request,1);
 
-   HttpResponse res(200);
+  HttpResponse res(200);
 
-   res.setContentLength(50);
+  res.setContentLength(50);
 
-   std::string &response = res.getResponse();
-   std::cout << "\n"<<response;
+  std::string &response = res.getResponse();
+  std::cout << "\n"<<response;
 
-   HttpResponse resDeco(response);
+  HttpResponse resDeco(response);
    
-   return 0;
+  return 0;
 }
 

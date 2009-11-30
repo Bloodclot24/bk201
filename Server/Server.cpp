@@ -4,66 +4,65 @@
 
 
 Server::Server(int puerto=SERVER_PUERTO_DEFECTO):s("localhost", puerto){
-     aceptor = new ThreadAceptor(&s,this);
-     limpieza = new ThreadLimpieza();
+  aceptor = new ThreadAceptor(&s,this);
+  limpieza = new ThreadLimpieza();
 }
 
 bool Server::escuchar(){
-     limpieza->start();
+  limpieza->start();
 
-     if(!s.esValido())
-	  return false;
-     if(!s.enlazar())
-	  return false;
-     if(!s.escuchar())
-	  return false;
-     aceptor->comenzar();
+  if(!s.esValido())
+    return false;
+  if(!s.enlazar())
+    return false;
+  if(!s.escuchar())
+    return false;
+  aceptor->comenzar();
 
-     return true;
+  return true;
 }
 
 void Server::nuevoCliente(Socket *s){
-     CircuitoRemotoServidor *sr = new CircuitoRemotoServidor(s, this);
-     /* registro el cliente, para forzar la salida del mismo si
-      * todavia no terminó cuando termina el servidor */
-     limpieza->registrarCliente(sr);
-     sr->start();
-     return;
+  CircuitoRemotoServidor *sr = new CircuitoRemotoServidor(s, this);
+  /* registro el cliente, para forzar la salida del mismo si
+   * todavia no terminó cuando termina el servidor */
+  limpieza->registrarCliente(sr);
+  sr->start();
+  return;
 }
 
 void Server::finalizarCliente(CircuitoRemotoServidor *sr){
-     /* elimino el cliente definitivamente */
-     limpieza->limpiarCliente(sr);
+  /* elimino el cliente definitivamente */
+  limpieza->limpiarCliente(sr);
 }
 
 std::list<DescripcionCircuito> Server::getListaCircuitos(){
-     DIR* directory;                              
-     struct dirent* entry;                        
+  DIR* directory;                              
+  struct dirent* entry;                        
      
-     std::list<DescripcionCircuito> lista;
+  std::list<DescripcionCircuito> lista;
 
-     DescripcionCircuito d;
+  DescripcionCircuito d;
 
-     if( (directory =opendir(".")) ==NULL)
-	  return lista;
-     while((entry=readdir(directory))!=NULL){
-	  std::string nombreCompleto(entry->d_name);
-	  if(nombreCompleto.size()>3 &&					\
-	     nombreCompleto.compare(nombreCompleto.size()-3, 3, ".bk")==0){
-	       std::cout << "Agregar el archivo: " << nombreCompleto << "\n";
-	       Persistidor persistidor(nombreCompleto);
-	       d = persistidor.obtenerDescripcion();
-	       if(d.nombre.size() > 0)
-		    lista.push_back(d);
-	  }
-     }
-     closedir(directory);
-     return lista;
+  if( (directory =opendir(".")) ==NULL)
+    return lista;
+  while((entry=readdir(directory))!=NULL){
+    std::string nombreCompleto(entry->d_name);
+    if(nombreCompleto.size()>3 &&					\
+       nombreCompleto.compare(nombreCompleto.size()-3, 3, ".bk")==0){
+      std::cout << "Agregar el archivo: " << nombreCompleto << "\n";
+      Persistidor persistidor(nombreCompleto);
+      d = persistidor.obtenerDescripcion();
+      if(d.nombre.size() > 0)
+	lista.push_back(d);
+    }
+  }
+  closedir(directory);
+  return lista;
 }
 
 
 
 Server::~Server(){
-     delete limpieza;
-//     delete aceptor;
+  delete limpieza;
 }

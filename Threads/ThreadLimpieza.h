@@ -14,39 +14,39 @@ class ThreadLimpieza;
  */
 class ThreadLimpieza:public Thread{
 private:
-     std::list<Thread*> clientesABorrar;
-     std::map<Thread*, Thread*> clientesRegistrados;
-     Mutex mutexClientes;
-     CVariable variableClientes;
-     Mutex mutexSalida;
-     CVariable variableSalida;
+  std::list<Thread*> clientesABorrar;
+  std::map<Thread*, Thread*> clientesRegistrados;
+  Mutex mutexClientes;
+  CVariable variableClientes;
+  Mutex mutexSalida;
+  CVariable variableSalida;
 
 public:
-     ThreadLimpieza();
+  ThreadLimpieza();
 
-     /**
-      * Recibe el hilo del cliente que debe registrar (darse de alta)
-      * para ser eliminado a futuro.
-      *
-      * @param crs El cliente que va a "darse" de alta para ser eliminado
-      *            a futuro.
-      *
-      */
-     void registrarCliente(Thread* crs);
+  /**
+   * Recibe el hilo del cliente que debe registrar (darse de alta)
+   * para ser eliminado a futuro.
+   *
+   * @param crs El cliente que va a "darse" de alta para ser eliminado
+   *            a futuro.
+   *
+   */
+  void registrarCliente(Thread* crs);
 
-     /**
-      * Recibe el hilo del cliente que debe ser eliminado, y lo elimina
-      * ya sea porque logra que termine o forzandolo a salir.
-      *
-      * @param crs El cliente que va a eliminarse.
-      */
-     void limpiarCliente(Thread* crs);
-
-
-     virtual void run();
+  /**
+   * Recibe el hilo del cliente que debe ser eliminado, y lo elimina
+   * ya sea porque logra que termine o forzandolo a salir.
+   *
+   * @param crs El cliente que va a eliminarse.
+   */
+  void limpiarCliente(Thread* crs);
 
 
-     virtual ~ThreadLimpieza();
+  virtual void run();
+
+
+  virtual ~ThreadLimpieza();
 };
 
 #endif //__THREADLIMPIEZA_H_INCLUDED__
