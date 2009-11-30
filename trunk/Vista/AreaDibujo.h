@@ -23,13 +23,14 @@ class AreaDibujo;
 #include "Dibujos/EntradaSalida.h"
 #include "Dibujos/Circuito.h"
 #include "Impresion/Impresora.h"
-//#include "CircuitoRemoto.h"
 
 #include <iostream>
 
 #define PASO 10
-
-class VentanaTrabajo;
+/**
+ * El area de dibujo es la grilla de la ventana donde se dibujan distintos componentes,
+ * que permiten formar circuitos logicos.
+ */
 class AreaDibujo: public AreaDibujoGenerica {
   friend class VentanaTrabajo;
   friend class ConexionDibujo;
@@ -44,6 +45,9 @@ private:
   bool                          motion;
   bool                          can_motion;
 
+  //Target
+  std::list<Gtk::TargetEntry> listTargets;
+
   //Conexion
   bool                          conexion;
   bool                          cargoVInicial;
@@ -57,11 +61,6 @@ private:
   Glib::RefPtr<Gtk::ActionGroup>        verBorrar;
   Glib::RefPtr<Gtk::ActionGroup>        verExaminar;
   void loadMenuPopup();
-
-  //Target
-  std::list<Gtk::TargetEntry> listTargets;
-
-  void buscarPosicion(int &x, int &y);
 
   //Circuito
   int xCircuito;
@@ -82,6 +81,23 @@ private:
   void buscarInclusion(Dibujo *dibujo, Vertice vertice, Vertice vMenor, bool &marcado);
   void cargarSeleccionMultiple();
 
+  //Funciones para el dibujos de los distintos componentes
+  void dibujarConexion();
+  void dibujarCircuito(int entradas, int salidas);
+  void dibujarCompuerta(std::string tipo, int xUp, int yUp);
+  void dibujarIO(int xUp, int yUp);
+  void dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context, std::list<Dibujo*> dibujos);
+
+  //Acciones que se le pueden aplicar a los componentes
+  void rotarSeleccion90Derecha();
+  void rotarSeleccion90Izquierda();
+  void invertirVertical();
+  void invertirHorizontal();
+  void borrarSeleccion();
+  void verCircuito();
+
+  void buscarPosicion(int &x, int &y);
+
 protected:
   virtual bool on_expose_event(GdkEventExpose* event);
   virtual void on_drop_drag_data_received(
@@ -91,25 +107,18 @@ protected:
   virtual bool on_motion_notify_event(GdkEventMotion* event);
   virtual bool on_button_release_event(GdkEventButton* event);
 
-  void dibujarCompuerta(std::string tipo, unsigned int xUp, unsigned int yUp);
-  void dibujarIO(unsigned int xUp, unsigned int yUp);
-
-  void dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context, std::list<Dibujo*> dibujos);
-
 public:
-  AreaDibujo(VentanaTrabajo *ventanaTrabajo);
-  virtual ~AreaDibujo();
+  /**
+    * Crea un area de dibujo nueva.
+    *
+    * @param ventanaTrabajo La ventana trabajo a la que pertenece.
+    */
+    AreaDibujo(VentanaTrabajo *ventanaTrabajo);
 
-  void dibujarConexion();
-  void dibujarCircuito(int entradas, int salidas);
-
-  void rotarSeleccion90Derecha();
-  void rotarSeleccion90Izquierda();
-  void invertirVertical();
-  void invertirHorizontal();
-  void borrarSeleccion();
-  void verCircuito();
-     
+  /**
+    * Destruye el area de dibujo.
+    */
+    virtual ~AreaDibujo();
 };
 
 #endif /* AREADIBUJO_H_ */
