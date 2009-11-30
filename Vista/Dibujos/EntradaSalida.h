@@ -24,6 +24,13 @@ public:
 
   virtual ~EntradaSalida() { };
 
+  /**
+    * Setea el valor del vertice superior izquierdo de la entradaSalida, el mismo
+    * se utilizara luego para poder dibujarlo, entre otras cosas.
+    *
+    * @param vSupIzq El nuevo vertice superior izquierdo de la entradaSalida.
+    *
+    */
   virtual void setVerticeSupIzq(Vertice vSupIzq);
 
   /**
@@ -33,9 +40,26 @@ public:
     */
   virtual void dibujar(const Cairo::RefPtr<Cairo::Context>& context);
 
+  /**
+   * Devuelve el tipo de pin(si es una entrada o una salida).
+   *
+   */
   std::string getTipoPin();
+
+  /**
+   * Setea el tipo de pin de la entrada/salida.
+   *
+   * @param tipoPin Es el tipo de de pin, entrada o salida.
+   */
   void setTipoPin(std::string tipoPin);
 
+  /**
+    * Dibuja la entrada/salida en el contexto que recibe por parametro, este metodo se
+    * utiliza para imprimir la entrada/salida.
+    *
+    * @param context El contexto sobre el cual se va a dibujar la entrada/salida.
+    *
+    */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
 
 };
