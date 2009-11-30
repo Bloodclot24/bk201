@@ -81,23 +81,54 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 		if(dibujos.size()){
 			//En caso de que haya algun elemento seleccionado,
 			//antes de imprimir los deselecciono todos.
+			 Cairo::Matrix matrix;
+			cairo_ctx->get_matrix(matrix);
+			Glib::RefPtr<Gtk::PrintSettings> printSettings = get_print_settings();
+			bool escale = false;
 			std::list<Dibujo*>::iterator it;
 			for(it= dibujos.begin(); it != dibujos.end(); it++) {
 				(*it)->deseleccionar();
-				cairo_ctx->scale(scaleW,scaleH);//0.5,0.5);
+				if(printSettings->get_orientation()!= Gtk::PAGE_ORIENTATION_REVERSE_LANDSCAPE && printSettings->get_orientation() != Gtk::PAGE_ORIENTATION_LANDSCAPE ){
+					cairo_ctx->scale(/*scaleW,scaleH);*/0.5,0.5);
+					escale = true;
+				}
 				//roto respecto el centro de la imagen
 				Vertice vCentro= (*it)->getVerticeCentro();
 				cairo_ctx->translate(vCentro.x, vCentro.y);
 				cairo_ctx->rotate_degrees((*it)->getAngulo());
 				cairo_ctx->translate(-vCentro.x, -vCentro.y);
 				(*it)->dibujarImpresion(cairo_ctx);
-				cairo_ctx->set_identity_matrix();
+				if(escale){
+					cairo_ctx->set_identity_matrix();
+					escale = false;
+				}
+				cairo_ctx->set_matrix(matrix);
 			}
 		}
 	}else{
 		if(tabla){
+		double ancho = tabla->getAncho();
+		double alto = tabla->getAlto();
 
-		cairo_ctx->scale(scaleW,scaleH);
+		std::cout << "Ancho tabla:" << ancho << std::endl;
+		std::cout << "Alto tabla:" << alto << std::endl;
+		bool escalo = false;
+
+		if (ancho > width* print_context->get_dpi_x()){
+			scaleW = (double)(width * print_context->get_dpi_x() / (ancho * 100.0));
+			escalo = true;
+			std::cout << "ESCALEEEEM ANCHO\n";
+		}
+		if (alto > height* print_context->get_dpi_y()){
+			scaleH = (double)(height * print_context->get_dpi_y() / (alto * 100.0));
+			escalo = true;
+			std::cout << "ESCALEEEEEEE ALTO\n";
+		}
+
+		std::cout << "ScaleW tabla:" << scaleW << std::endl;
+		std::cout << "ScaleH tabla:" << scaleH << std::endl;
+
+		if(escalo) cairo_ctx->scale(scaleW,scaleH);
 		tabla->dibujarTabla(cairo_ctx);
 		}
 	}
