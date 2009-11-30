@@ -25,8 +25,6 @@ class VentanaTrabajo;
 #include <gtkmm/liststore.h>
 #include <gtkmm/radiobutton.h>
 #include <gtkmm/viewport.h>
-
-#include <iostream>
 #include "AreaDibujo.h"
 #include "Dibujos/Dibujo.h"
 #include "Dibujos/Constantes.h"
@@ -57,11 +55,14 @@ class VentanaTrabajo: public Gtk::Window {
 
 private:
   Glib::RefPtr<Gtk::Builder> refXml;
-  Controlador        *controlador;
+  Controlador *controlador;
   ControladorVentana *controladorVentana;
   unsigned int id;
-		
-  /*MENUBAR*/
+  Gtk::Window *window;
+  bool on_delete_event(GdkEventAny *event);
+  Tabla *tabla;
+
+  //Menubar
   Glib::RefPtr<Gtk::UIManager> m_refUIManager;
   Glib::RefPtr<Gtk::ActionGroup> m_refActionGroup;
   Glib::RefPtr<Gtk::ActionGroup> m_guardar;
@@ -78,7 +79,7 @@ private:
   void verTablas();
   void about();
 		
-  /*TOOLBAR*/
+  //Toolbar
   Gtk::ToolButton *bAnd;
   Gtk::ToolButton *bOr;
   Gtk::ToolButton *bNot;
@@ -89,24 +90,19 @@ private:
   Gtk::ToolButton *bCircuito;
   Gtk::ToolButton *bSimular;
   Gtk::ToolButton *bImprimir;
+  std::list<Gtk::TargetEntry> listTargets;
   void loadButtonDrag(Gtk::ToolButton *button, std::string tipo, std::string path);
   void loadToolBar();
-
-  /*TARGETS*/
-  std::list<Gtk::TargetEntry> listTargets;
 		
-  Gtk::Window *window;
-  bool on_delete_event(GdkEventAny *event);
-
+  //Filechooser Dialog
   Gtk::FileChooserDialog *filechooserdialog_open;
   void on_response_open(int response_id);
-
   Gtk::FileChooserDialog *filechooserdialog_saveas;
   void on_response_saveas(int response_id);
 
-
-  /*AREADIBUJO*/
+  //Area Dibujo
   AreaDibujo *areaDibujo;
+  void on_clicked_conexion();
 
   /*TREEVIEW CIRCUITO*/
   Glib::RefPtr<Gtk::TreeView> treeView_circuitos;
@@ -130,10 +126,7 @@ private:
   Glib::RefPtr<Gtk::TreeSelection> refTreeSelection;
   void agregarCircuito(std::string circuito, int i, int o);
 
-  /*TABLA*/
-  Tabla *tabla;
-
-  /*CIRCUITO REMOTO*/
+  //Circuito Remoto
   Gtk::Window *window_remoto;
   DibujoCircuitoRemoto *circuitoRemoto;
   void cerrar_circuito_remoto();
@@ -143,10 +136,11 @@ private:
   std::string puerto;
   std::string servidor;
 
-  /*IMPRESION*/
+  //Impresion
   VentanaImpresion *window_print;
+  void imprimir();
 
-  /*TECLADO*/
+  //Teclado
   bool on_key_press_event(GdkEventKey* event);
 
   //Ventana Propiedades
@@ -159,6 +153,9 @@ private:
   Gtk::Dialog *dialog_prop_circuito;
   void on_propiedades_circuito(int response_id);
   void prepararVentanaCircuito(Dibujo *seleccionado);
+
+  //Ventana Examinar
+  Gtk::Dialog *dialog_examinar;
 
   //Ventana Servidor
   Gtk::Dialog *dialog_servidor;
@@ -194,8 +191,6 @@ protected:
   void on_drag_data_get(
           const Glib::RefPtr<Gdk::DragContext>& context,
           Gtk::SelectionData& selection_data, guint info, guint time, Glib::ustring componente);
-  void on_clicked_conexion();
-  virtual void imprimir();
 
 public:
   /**

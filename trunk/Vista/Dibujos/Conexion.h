@@ -47,7 +47,7 @@ public:
   virtual bool setSeleccionado(int x, int y);
   virtual bool estaCercano(int x, int y);
 
-  virtual void setAngulo(int angulo);
+  virtual void setAngulo(int angulo) { };
 
   virtual void setVerticeSupIzq(Vertice vSupIzq);
   void setVerticeFinal(Vertice vertice);

@@ -6,6 +6,7 @@ class AreaDibujoGenerica;
 #include <gtkmm/drawingarea.h>
 #include "Dibujos/Dibujo.h"
 #include "Dibujos/Conexion.h"
+#include <stdint.h>
 
 class AreaDibujoGenerica: public Gtk::DrawingArea {
 protected:

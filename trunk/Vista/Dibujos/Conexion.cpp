@@ -227,12 +227,6 @@ void ConexionDibujo::setVerticesMotion(int deltax, int deltay) {
   setVerticeInfDer(vFin);
 }
 
-void ConexionDibujo::setAngulo(int angulo) {
-  this->angulo= angulo;
-  dibujoPin1= NULL;
-  dibujoPin2= NULL;
-}
-
 void ConexionDibujo::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
 	 //dibujo de a poligonos
 	  context->set_source_rgb(0.0, 0.0, 0.0);
