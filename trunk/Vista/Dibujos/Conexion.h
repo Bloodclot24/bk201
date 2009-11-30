@@ -127,10 +127,10 @@ public:
   virtual void setVerticesMotion(int deltax, int deltay);
 
   /**
-    * Dibuja el circuito en el contexto que recibe por parametro, este metodo se
-    * utiliza para imprimir el circuito.
+    * Dibuja la conexion en el contexto que recibe por parametro, este metodo se
+    * utiliza para imprimir la conexion.
     *
-    * @param context El contexto sobre el cual se va a dibujar el circuito.
+    * @param context El contexto sobre el cual se va a dibujar la conexion.
     *
     */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);

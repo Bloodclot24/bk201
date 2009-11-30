@@ -31,10 +31,10 @@ public:
   virtual ~Compuerta() { };
 
   /**
-    * Setea el valor del vertice superior izquierdo del circuito, el mismo
+    * Setea el valor del vertice superior izquierdo de la compuerta, el mismo
     * se utilizara luego para poder dibujarlo, entre otras cosas.
     *
-    * @param vSupIzq El nuevo vertice superior izquierdo del circuito.
+    * @param vSupIzq El nuevo vertice superior izquierdo de la compuerta.
     *
     */
   virtual void setVerticeSupIzq(Vertice vSupIzq);
@@ -74,10 +74,10 @@ public:
 
 
   /**
-     * Dibuja el circuito en el contexto que recibe por parametro, este metodo se
-     * utiliza para imprimir el circuito.
+     * Dibuja la compuerta en el contexto que recibe por parametro, este metodo se
+     * utiliza para imprimir la compuerta.
      *
-     * @param context El contexto sobre el cual se va a dibujar el circuito.
+     * @param context El contexto sobre el cual se va a dibujar la compuerta.
      *
      */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) { };
