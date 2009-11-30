@@ -12,5 +12,5 @@ void ThreadSimulador::run(){
 	  tabla = c->simularTodo(500);
 
      cv->recibirTablaSimulacion(tabla, errores);
-     return;
+     cv->eliminarThread(this);
 }

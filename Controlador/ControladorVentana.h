@@ -18,8 +18,7 @@ struct DescripcionCircuito;
 #include "../Vista/Dibujos/Conexion.h"
 #include "../Vista/Dibujos/EntradaSalida.h"
 #include "../Vista/AreaDibujoGenerica.h"
-
-
+#include "../Threads/ThreadLimpieza.h"
 
 struct DatosCircuito{
      Circuito* c;
@@ -64,7 +63,7 @@ protected:
      std::map<Dibujo*, DatosCircuitoRemoto*> circuitos;
      std::map<Dibujo*, ConexionDibujo*> pistas;
      std::map<Dibujo*, EntradaSalida*> pines;
-
+     ThreadLimpieza* limpieza;
      /** 
       * Avisa que se crea un nuevo circuito remoto y devuelve la
       * estructura asociada.
@@ -94,7 +93,7 @@ public:
       * llamar a setVentana() para asociarlo a una ventana.
       * 
       */
-     ControladorVentana(){ ventana=NULL; circuito.cantidadEntradas = circuito.cantidadSalidas=0; filename=""; circuito.c=NULL; area=NULL;};
+     ControladorVentana();
 
      /** 
       * Asocia una ventana al controlador.
@@ -137,10 +136,11 @@ public:
       */
      void simular();
 
-     Circuito* getCircuito(std::string* errores=NULL);
+     Circuito* getCircuito(std::string* errores);
 
      void crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista);
      void buscarExtremos(ConexionDibujo* pista, Vertice v, std::list<Vertice> &lista, std::map<ConexionDibujo*, ConexionDibujo*> *listaRecorridos);
+     void eliminarThread(Thread* thread);
      
      /** 
       * Devuelve una lista con los resultados de la simulacion. Cada
@@ -201,6 +201,7 @@ public:
      void recibirTablaSimulacion(std::list<uint32_t> tabla, std::string errores);
 
      void eliminarTodo();
+     void iniciar();
      ~ControladorVentana();
 };
 

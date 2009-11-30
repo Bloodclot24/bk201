@@ -1,24 +1,26 @@
 #include "ThreadLimpieza.h"
 
-ThreadLimpieza::ThreadLimpieza():variableClientes(&mutexClientes){
-
+ThreadLimpieza::ThreadLimpieza():variableClientes(&mutexClientes),variableSalida(&mutexSalida){
 }
 
 void ThreadLimpieza::run(){
      mutexClientes.lock();
-     while(isRunning()){
+     while(isRunning() || clientesRegistrados.size()>0){
 	  variableClientes.wait();
 	  while(clientesABorrar.size()>0){
-	       CircuitoRemotoServidor* crs = clientesABorrar.front();
+	       Thread* crs = clientesABorrar.front();
 	       clientesABorrar.pop_front();
-	       std::cout << "Finalizando el cliente....\n";
 	       delete crs;
 	  }
      }
      mutexClientes.unlock();
+     mutexSalida.lock();
+     variableSalida.signal();
+     mutexSalida.unlock();
 }
 
-void ThreadLimpieza::limpiarCliente(CircuitoRemotoServidor* crs){
+void ThreadLimpieza::limpiarCliente(Thread* crs){
+
      mutexClientes.lock();
      if(clientesRegistrados.count(crs) == 0)
 	  std::cerr << "Error: se intento eliminar un cliente que nunca se registro.\n";
@@ -28,28 +30,31 @@ void ThreadLimpieza::limpiarCliente(CircuitoRemotoServidor* crs){
      clientesABorrar.push_back(crs);
      variableClientes.signal();
      mutexClientes.unlock();
+     
 }
 
-void ThreadLimpieza::registrarCliente(CircuitoRemotoServidor* crs){
-     mutexClientes.lock();
-     clientesRegistrados[crs]=crs;
-     variableClientes.signal();
-     mutexClientes.unlock();
+void ThreadLimpieza::registrarCliente(Thread* crs){
+
+     if(isRunning()){
+	  mutexClientes.lock();
+	  clientesRegistrados[crs]=crs;
+	  variableClientes.signal();
+	  mutexClientes.unlock();
+     }
 }
 
 
 ThreadLimpieza::~ThreadLimpieza(){
-     stop();
-     std::map<CircuitoRemotoServidor*, CircuitoRemotoServidor*> copia;
      mutexClientes.lock();
-     copia = clientesRegistrados;
-     mutexClientes.unlock();
-     std::map<CircuitoRemotoServidor*, CircuitoRemotoServidor*>::iterator it;
-     for(it=copia.begin();it!=copia.end();it++){
+     std::map<Thread*, Thread*>::iterator it;
+     for(it=clientesRegistrados.begin();it!=clientesRegistrados.end();it++){
 	  it->second->stop();
      }
-     mutexClientes.lock();
+     stop();
+     mutexSalida.lock();
      variableClientes.signal();
      mutexClientes.unlock();
+     variableSalida.wait();
+     mutexSalida.unlock();
      join();
 }

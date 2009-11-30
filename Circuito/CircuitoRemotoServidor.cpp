@@ -28,12 +28,18 @@ void CircuitoRemotoServidor::run(){
 		    controlador = NULL;
 	       }
 	       controlador= new ControladorVentana();
+	       controlador->iniciar();
 	       if(controlador->cargar(s->getParametro("Nombre"))){
 		    respuesta = 1;
-		    c = controlador->getCircuito();
+		    std::string dummy;
+		    c = controlador->getCircuito(&dummy);
+		    if(dummy.size()>0)
+			 respuesta=0;
 	       }
 	       else{
 		    respuesta = 0;
+	       }
+	       if(respuesta==0){
 		    delete controlador;
 		    controlador = NULL;
 		    stop();
@@ -41,7 +47,6 @@ void CircuitoRemotoServidor::run(){
 	       Soap res("SeleccionarCircuitoResponse");
 	       res.setParametro("Estado", respuesta);
 	       m.enviarRespuesta(&res);
-    
 	  }
 	  else if(comando.compare("GetListado")==0){
 	       std::cout << "Listado de circuitos: " << std::endl;
