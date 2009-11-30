@@ -19,7 +19,12 @@ void Impresora::on_begin_print(
 			       const Glib::RefPtr<Gtk::PrintContext>& print_context)
 {
 
-  if(tabla->entradas && dibujos.size()) set_n_pages(2);
+  //La aplicacion siempre imprime en 2 hojas diferentes,
+  //si tiene tanto la tabla como el circuito para imprimir
+  //en caso contrario, imprime en una sola pagina lo que posea.
+  //Para poder imprimir en 2 paginas, tanto la tabla como el
+  //circuito son escalados para que entren dentro de la pagina.
+	if(tabla->entradas && dibujos.size()) set_n_pages(2);
   else set_n_pages(1);
 }
 
