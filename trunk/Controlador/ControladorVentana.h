@@ -137,7 +137,7 @@ public:
       */
      void simular();
 
-     Circuito* getCircuito(std::string* errores);
+     Circuito* getCircuito(std::string* errores=NULL);
 
      void crearConexiones(uint32_t componente, uint32_t pin, bool esSalida, const std::list<Vertice> &lista);
      void buscarExtremos(ConexionDibujo* pista, Vertice v, std::list<Vertice> &lista, std::map<ConexionDibujo*, ConexionDibujo*> *listaRecorridos);
@@ -165,7 +165,7 @@ public:
       * 
       * @param lista La lista recibida.
       */
-     void notificarLista(std::list<DescripcionCircuito> lista, std::string mensaje);
+     void notificarLista(std::list<DescripcionCircuito> lista);
 
      /** 
       * Hace un pedido al servidor para que le envie un circuito
@@ -198,7 +198,7 @@ public:
       */
      bool cargar(const std::string& nombreArchivo);
 
-     void recibirTablaSimulacion(std::list<uint32_t> tabla);
+     void recibirTablaSimulacion(std::list<uint32_t> tabla, std::string errores);
 
      void eliminarTodo();
      ~ControladorVentana();
