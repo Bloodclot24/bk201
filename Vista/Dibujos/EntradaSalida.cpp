@@ -2,8 +2,8 @@
 
 EntradaSalida::EntradaSalida(int supIzqX, int supIzqY): Dibujo::Dibujo(supIzqX, supIzqY) {
 
-  tipo= IO;
-  tipoPin= ENTRADA;
+     tipo= TIPO_PIN;
+  tipoPin= TIPO_ENTRADA;
   label= "I/O";
   ancho= alto= DIMENSION_IO;
   vCentro.x= supIzqX +(ancho/2);

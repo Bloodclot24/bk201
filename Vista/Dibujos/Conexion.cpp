@@ -2,7 +2,7 @@
 
 ConexionDibujo::ConexionDibujo(int vInicialX, int vInicialY, Vertice vInfDer, AreaDibujoGenerica *areaDibujo): Dibujo::Dibujo(vInicialX, vInicialY) {
 
-  tipo= label= CONEXION;
+  tipo= label= TIPO_PISTA;
   this->vInfDer= vInfDer;
   this->areaDibujo= areaDibujo;
   this->dibujoPin1= NULL;
