@@ -2,7 +2,8 @@
 #include "Controlador/controlador.h"
 
 int main(int argc, char *argv[]) {
-        
+
+  Glib::init();
   Glib::thread_init();
   Gtk::Main kit(argc, argv);
   Controlador controlador;

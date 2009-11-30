@@ -475,8 +475,10 @@ Ygounet Guido</property>
     <property name="pixbuf">Imagenes/circuitoNet.png</property>
   </object>
   <object class="GtkDialog" id="dialog_servidor">
+    <property name="double_buffered">False</property>
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Especifique el servidor</property>
+    <property name="title" translatable="yes">-Bk201-</property>
+    <property name="resizable">False</property>
     <property name="window_position">center-always</property>
     <property name="icon">Imagenes/logo.png</property>
     <property name="type_hint">normal</property>
@@ -487,59 +489,73 @@ Ygounet Guido</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
-          <object class="GtkTable" id="table_servidor">
+          <object class="GtkFrame" id="frame1">
             <property name="visible">True</property>
-            <property name="n_rows">2</property>
-            <property name="n_columns">2</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">none</property>
             <child>
-              <object class="GtkLabel" id="label_servidor">
+              <object class="GtkTable" id="table_servidor">
                 <property name="visible">True</property>
-                <property name="xalign">0.30000001192092896</property>
-                <property name="label" translatable="yes">Servidor:</property>
-                <property name="justify">right</property>
+                <property name="n_rows">2</property>
+                <property name="n_columns">2</property>
+                <child>
+                  <object class="GtkLabel" id="label_servidor">
+                    <property name="visible">True</property>
+                    <property name="xalign">0.30000001192092896</property>
+                    <property name="label" translatable="yes">Servidor:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="x_options"></property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label_puerto">
+                    <property name="visible">True</property>
+                    <property name="xalign">0.30000001192092896</property>
+                    <property name="label" translatable="yes">Puerto:</property>
+                    <property name="justify">right</property>
+                  </object>
+                  <packing>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                    <property name="x_options"></property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_servidor">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="entry_puerto">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">&#x25CF;</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                  </packing>
+                </child>
               </object>
-              <packing>
-                <property name="x_options"></property>
-                <property name="y_options"></property>
-              </packing>
             </child>
-            <child>
-              <object class="GtkLabel" id="label_puerto">
+            <child type="label">
+              <object class="GtkLabel" id="label3">
                 <property name="visible">True</property>
-                <property name="xalign">0.30000001192092896</property>
-                <property name="label" translatable="yes">Puerto:</property>
-                <property name="justify">right</property>
+                <property name="label" translatable="yes">&lt;b&gt;Especifique el servidor&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
               </object>
-              <packing>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-                <property name="x_options"></property>
-                <property name="y_options"></property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_servidor">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkEntry" id="entry_puerto">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="invisible_char">&#x25CF;</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-              </packing>
             </child>
           </object>
           <packing>
@@ -571,8 +587,6 @@ Ygounet Guido</property>
                 <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
-                <property name="is_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
@@ -734,8 +748,9 @@ Ygounet Guido</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
     <property name="icon">Imagenes/logo.png</property>
-    <property name="type_hint">normal</property>
+    <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
+    <property name="urgency_hint">True</property>
     <property name="message_type">error</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox10">
@@ -783,7 +798,7 @@ Ygounet Guido</property>
     <property name="resizable">False</property>
     <property name="window_position">center-always</property>
     <property name="icon">Imagenes/logo.png</property>
-    <property name="type_hint">normal</property>
+    <property name="type_hint">dialog</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="deletable">False</property>
     <property name="secondary_use_markup">True</property>
