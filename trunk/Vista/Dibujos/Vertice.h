@@ -1,6 +1,10 @@
 #ifndef VERTICE_H_
 #define VERTICE_H_
 
+/**
+ * Clase que representa un vertice.
+ *
+ */
 class Vertice {
 
 public:
