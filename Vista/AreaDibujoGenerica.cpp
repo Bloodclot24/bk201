@@ -90,7 +90,7 @@ uint32_t AreaDibujoGenerica::getAncho(){
 	  if(xMax < (uint32_t)(*it)->getVerticeSupIzq().x)
 	       xMax=(*it)->getVerticeSupIzq().x;
      }
-     return xMax+50;
+     return xMax+100;
 }
 
 uint32_t AreaDibujoGenerica::getAlto(){
@@ -100,6 +100,5 @@ uint32_t AreaDibujoGenerica::getAlto(){
 	  if(yMax < (uint32_t)(*it)->getVerticeSupIzq().y)
 	       yMax= (*it)->getVerticeSupIzq().y;
      }
-     return yMax+50;
-
+     return yMax+100;
 }

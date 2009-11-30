@@ -1,12 +1,6 @@
 #include "CircuitoRemoto.h"
 
-DibujoCircuitoRemoto::DibujoCircuitoRemoto(VentanaTrabajo* ventanaTrabajo) {
-
-  this->ventanaTrabajo = ventanaTrabajo;
-}
-
 bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
-
   //ventana de dibujo
   window= get_window();
   if(window) {
@@ -53,17 +47,6 @@ bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
       (*it)->dibujar(context);
     }
   }
-
+  set_size_request(getAncho(), getAlto());
   return false;
 }
-
-void DibujoCircuitoRemoto::redibujar() {
-
-  //fuerzo al redibujado
-  if(window) {
-    Gdk::Rectangle r(0, 0, get_allocation().get_width(),
-                     get_allocation().get_height());
-    window->invalidate_rect(r, false);
-  }
-}
-

@@ -224,6 +224,8 @@ void AreaDibujo::on_drop_drag_data_received(
         const Glib::RefPtr<Gdk::DragContext>& context, int x, int y,
         const Gtk::SelectionData& selection_data, guint info, guint time) {
 
+  ventanaTrabajo->setSensitiveEditar(true);
+
   const int length = selection_data.get_length();
   if((length >= 0) && (selection_data.get_format() == 8)) {
 
@@ -285,6 +287,8 @@ void AreaDibujo::borrarSeleccion() {
       ventanaTrabajo->controladorVentana->eliminarComponente(dibujoSeleccionados[i]);
       dibujos.remove(dibujoSeleccionados[i]);
     }
+    if(dibujos.empty())
+      ventanaTrabajo->setSensitiveEditar(false);
     selected= false;
     redibujar();
   }
@@ -408,6 +412,8 @@ bool AreaDibujo::on_button_release_event(GdkEventButton* event) {
     vFinalSelected.x= event->x;
     vFinalSelected.y= event->y;
     cargarSeleccionMultiple();
+    if(!dibujoSeleccionados.empty())
+      ventanaTrabajo->setSensitiveEditar(true);
     redibujar();
     return true;
 
@@ -448,6 +454,7 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
       dibujoSeleccionados.clear();
 
     if(dibujoSeleccionados.empty()) {
+      ventanaTrabajo->setSensitiveEditar(false);
       //Preparo la seleccion
       vInicialSelected.x= x;
       vInicialSelected.y= y;
@@ -466,6 +473,7 @@ bool AreaDibujo::eventoClickBtnIzq(int x, int y) {
       can_motion= true;
       vAnteriorMotion.x= x;
       vAnteriorMotion.y= y;
+      ventanaTrabajo->setSensitiveEditar(true);
     }
 
     redibujar();

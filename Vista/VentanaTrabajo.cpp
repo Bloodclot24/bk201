@@ -13,7 +13,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
 
   areaDibujo= new AreaDibujo(this);
   tabla= new Tabla();
-  circuitoRemoto= new DibujoCircuitoRemoto(this);
+  circuitoRemoto= new DibujoCircuitoRemoto();
   this->controlador= controlador;
   this->controladorVentana= controladorV;
   controladorV->setAreaDibujo(areaDibujo);
@@ -26,6 +26,7 @@ VentanaTrabajo::~VentanaTrabajo() {
   delete tabla;
   delete circuitoRemoto;
   delete window_print;
+  delete controladorVentana;
 };
 
 void VentanaTrabajo::correr(bool primeraVez) {
@@ -149,12 +150,22 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
                         sigc::mem_fun(*this, &VentanaTrabajo::cerrar));
 
   //menu editar
+  m_rotar= Gtk::ActionGroup::create();
+  m_invertir= Gtk::ActionGroup::create();
+  m_examinar= Gtk::ActionGroup::create();
+  m_borrar= Gtk::ActionGroup::create();
   m_refActionGroup->add(Gtk::Action::create("EditarMenu", "Editar"));
-  m_refActionGroup->add(Gtk::Action::create("RotarD 90", Gtk::Stock::REDO,"Rotar 90"),
+  m_rotar->add(Gtk::Action::create("RotarD 90", Gtk::Stock::REDO,"Rotar 90"),
                         sigc::mem_fun(*this, &VentanaTrabajo::rotar90D));
-  m_refActionGroup->add(Gtk::Action::create("RotarI 90", Gtk::Stock::UNDO,"Rotar 90"),
+  m_rotar->add(Gtk::Action::create("RotarI 90", Gtk::Stock::UNDO,"Rotar 90"),
                         sigc::mem_fun(*this, &VentanaTrabajo::rotar90I));
-  m_refActionGroup->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
+  m_invertir->add(Gtk::Action::create("InvertirV", Gtk::Stock::GO_UP,"Invertir Vertical"),
+                   sigc::mem_fun(*this, &VentanaTrabajo::invertirVertical));
+  m_invertir->add(Gtk::Action::create("InvertirH", Gtk::Stock::GO_DOWN,"Invertir Horizontal"),
+                   sigc::mem_fun(*this, &VentanaTrabajo::invertirHorizontal));
+  m_examinar->add(Gtk::Action::create("Examinar", Gtk::Stock::FIND, "Examinar..."),
+                            sigc::mem_fun(*this, &VentanaTrabajo::examinar));
+  m_borrar->add(Gtk::Action::create("Borrar", Gtk::Stock::DELETE),
                         sigc::mem_fun(*this, &VentanaTrabajo::borrar));
 
   //menu simular
@@ -169,6 +180,10 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
   m_refUIManager = Gtk::UIManager::create();
   m_refUIManager->insert_action_group(m_refActionGroup);
   m_refUIManager->insert_action_group(m_guardar);
+  m_refUIManager->insert_action_group(m_rotar);
+  m_refUIManager->insert_action_group(m_invertir);
+  m_refUIManager->insert_action_group(m_examinar);
+  m_refUIManager->insert_action_group(m_borrar);
 
   window->add_accel_group(m_refUIManager->get_accel_group());
 
@@ -189,6 +204,9 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
     "    <menu action='EditarMenu'>"
     "      <menuitem action='RotarD 90'/>"
     "      <menuitem action='RotarI 90'/>"
+    "    <menuitem action='InvertirV'/>"
+    "    <menuitem action='InvertirH'/>"
+    "    <menuitem action='Examinar'/>"
     "      <menuitem action='Borrar'/>"
     "    </menu>"
     "    <menu action='SimularMenu'>"
@@ -208,6 +226,14 @@ void VentanaTrabajo::loadMenuBar(Gtk::Window *window) {
   refXml->get_widget("hbox_menubar", boxMenuBar);
   boxMenuBar->add(*pMenubar);
   m_guardar->set_sensitive(false);
+  setSensitiveEditar(false);
+}
+
+void VentanaTrabajo::setSensitiveEditar(bool tipo) {
+  m_rotar->set_sensitive(tipo);
+  m_invertir->set_sensitive(tipo);
+  m_examinar->set_sensitive(tipo);
+  m_borrar->set_sensitive(tipo);
 }
 
 void VentanaTrabajo::nuevo() {
@@ -235,12 +261,24 @@ void VentanaTrabajo::cerrar() {
   window->hide();
 }
 
+void VentanaTrabajo::invertirHorizontal() {
+  areaDibujo->invertirHorizontal();
+}
+
+void VentanaTrabajo::invertirVertical() {
+  areaDibujo->invertirVertical();
+}
+
 void VentanaTrabajo::rotar90D() {
   areaDibujo->rotarSeleccion90Derecha();
 }
 
 void VentanaTrabajo::rotar90I() {
   areaDibujo->rotarSeleccion90Izquierda();
+}
+
+void VentanaTrabajo::examinar() {
+  areaDibujo->verCircuito();
 }
 
 void VentanaTrabajo::borrar() {
@@ -313,7 +351,6 @@ void VentanaTrabajo::loadToolBar() {
   refXml->get_widget("simular", bSimular);
   if(bSimular)
     bSimular->signal_clicked().connect(sigc::mem_fun(*this, &VentanaTrabajo::simular));
-
 }
 
 void VentanaTrabajo::on_drag_data_get(
