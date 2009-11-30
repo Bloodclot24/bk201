@@ -102,6 +102,9 @@ void VentanaTrabajo::correr(bool primeraVez) {
 
   //Ventana Examinar
   refXml->get_widget("dialog_examinar", dialog_examinar);
+  refXml->get_widget("dialog_error_examinar", dialog_error_examinar);
+  dialog_error_examinar->signal_response().connect(sigc::mem_fun(*this, &VentanaTrabajo::on_error_examinar));
+
 
   //Dialog de error servidor
   refXml->get_widget("dialog_error_servidor", dialog_error_servidor);
@@ -606,6 +609,11 @@ void VentanaTrabajo::recibirCircuitoRemoto(const std::string& nombreArchivo, con
   this->nombreTemp= nombreArchivo;
   this->nombreRemoto= nombreCircuito;
   llegoRemoto= true;
+}
+
+void VentanaTrabajo::on_error_examinar(int response_id) {
+  window->set_sensitive(true);
+  dialog_error_examinar->hide();
 }
 
 /***************************/

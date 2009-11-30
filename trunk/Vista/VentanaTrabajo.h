@@ -169,6 +169,10 @@ private:
   std::string nombreTemp, nombreRemoto;
   bool llegoRemoto;
 
+  //Error Examinar
+  Gtk::Dialog *dialog_error_examinar;
+  void on_error_examinar(int response_id);
+
   //Ventana Servidor
   Gtk::Dialog *dialog_servidor;
   void on_response_servidor(int response_id);

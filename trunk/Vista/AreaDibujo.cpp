@@ -507,16 +507,20 @@ bool AreaDibujo::esperandoCircuitoRemoto() {
   if(ventanaTrabajo->llegoRemoto) {
     ventanaTrabajo->id_ventana_remoto.disconnect();
     ventanaTrabajo->dialog_examinar->hide();
-    ControladorVentana controlador;
-    controlador.iniciar();
-    controlador.setAreaDibujo(ventanaTrabajo->circuitoRemoto);
-    ventanaTrabajo->circuitoRemoto->vaciarListaDibujos();
-    controlador.cargar(ventanaTrabajo->nombreTemp);
-    Gtk::Label *label;
-    ventanaTrabajo->refXml->get_widget("label_nombre_circuito", label);
-    label->set_text(ventanaTrabajo->nombreRemoto);
-    ventanaTrabajo->window_remoto->show_all();
-    ::remove(ventanaTrabajo->nombreTemp.c_str());
+    if(ventanaTrabajo->nombreTemp.size() != 0) {
+      ControladorVentana controlador;
+      controlador.iniciar();
+      controlador.setAreaDibujo(ventanaTrabajo->circuitoRemoto);
+      ventanaTrabajo->circuitoRemoto->vaciarListaDibujos();
+      controlador.cargar(ventanaTrabajo->nombreTemp);
+      Gtk::Label *label;
+      ventanaTrabajo->refXml->get_widget("label_nombre_circuito", label);
+      label->set_text(ventanaTrabajo->nombreRemoto);
+      ventanaTrabajo->window_remoto->show_all();
+      ::remove(ventanaTrabajo->nombreTemp.c_str());
+    } else {
+      ventanaTrabajo->dialog_error_examinar->show();
+    }
   }
   return true;
 }
