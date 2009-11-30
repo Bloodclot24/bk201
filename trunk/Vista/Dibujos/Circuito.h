@@ -136,6 +136,8 @@ public:
      */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context);
 
+     void setAngulo(int angulo);
+
 };
 
 #endif /* CIRCUITO_H_ */
