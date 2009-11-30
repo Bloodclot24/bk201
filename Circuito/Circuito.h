@@ -7,8 +7,8 @@
 #include <list>
 
 /** 
- * Clase que representa la conexion entre componentes.
- * 
+ * Clase que representa el grupo de conexiones entrantes de un
+ * componente.
  */
 class Conexion{
 private:
@@ -160,7 +160,6 @@ private:
 	       }
 	  }
 	  if(menorT == (uint64_t)-1){
-//	       std::cerr << "simular con -1 en " << this <<  std::endl;
 	       menorT=1;
 	  }
 	  for(unsigned j=0;j<componentes.size();j++){
@@ -492,10 +491,6 @@ public:
 	  for(unsigned i=0;i<conexiones.size();i++)
 	       if(conexiones[i] != NULL)
 		    delete conexiones[i];
-
-	  // for(unsigned j=0;j<componentes.size();j++)
-	  //      if(componentes[j] != NULL)
-	  // 	    delete componentes[j];
      }
 };
 
