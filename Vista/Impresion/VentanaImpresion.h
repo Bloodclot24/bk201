@@ -24,6 +24,7 @@ class VentanaImpresion: public Gtk::Window {
 private:
   //Printing-related objects:
   Glib::RefPtr<Gtk::PageSetup> m_refPageSetup;
+  Glib::RefPtr<Gtk::PageSetup> m_refPageSetup2;
   Glib::RefPtr<Gtk::PrintSettings> m_refSettings;
 
   //Child widgets:

@@ -4,139 +4,129 @@
 
 Impresora::Impresora(std::list<Dibujo*> dibujos, Tabla* tabla)
 {
-	this->dibujos = dibujos;
-	std::cout << "Tabla: (impresora) " << tabla << std::endl;
-	std::cout << "Dibujo (impresora): " << &dibujos << std::endl;
-	this->tabla = tabla;
+     this->dibujos = dibujos;
+     this->tabla = tabla;
 }
 	
 
 Glib::RefPtr<Impresora> Impresora::create(std::list<Dibujo*> dibujos, Tabla* tabla)
 {
-	std::cout << "Tabla (create): " << tabla << std::endl;
-	std::cout << "Dibujo (create): " << &dibujos << std::endl;
-	return Glib::RefPtr<Impresora>(new Impresora(dibujos, tabla));
+
+     return Glib::RefPtr<Impresora>(new Impresora(dibujos, tabla));
 }
 
 void Impresora::on_begin_print(
-        const Glib::RefPtr<Gtk::PrintContext>& print_context)
+     const Glib::RefPtr<Gtk::PrintContext>& print_context)
 {
-	//TODO: provisorio, tendria que ser N paginas de acuerdo a la cantidad
-	//de lineas a imprimir
-//	if(tabla && dibujos.size()) set_n_pages(2);
-//	else set_n_pages(1);
-	set_n_pages(2);
+
+     if(tabla->entradas && dibujos.size()) set_n_pages(2);
+     else set_n_pages(1);
 }
 
 void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_context, int numeroPagina)
 {
-	double width = print_context->get_width();
-	double height = print_context->get_height();
+     double width = print_context->get_width();
+     double height = print_context->get_height();
 
-	if(!tabla && !dibujos.size()){ 
-		std:: cerr << "Error al imprimir!!! " << std::endl;
-		//#warning "Ver El Manejo De Errores Si Llega A Ser Posible Este Error En Impresora";
-		return;
-	}
-	Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();
-	cairo_ctx->set_line_width(1);
-	cairo_ctx->set_source_rgb(1.0, 0, 0);
-	Glib::RefPtr<Gtk::PageSetup> pageSetup= get_default_page_setup();
-	double widthPaper = pageSetup->get_paper_width(Gtk::UNIT_INCH); //printSettings->get_paper_width(Gtk::UNIT_INCH);
-	double heightPaper = pageSetup->get_paper_height(Gtk::UNIT_INCH);//printSettings->get_paper_height(Gtk::UNIT_INCH);
-	double scaleW = 1.0;
-	double scaleH = 1.0;
-	double scale = 0.0;
-	//Paso a INCH el ancho y el alto del print_context
-	std::cout << "width en pixels: " << width << std::endl;
-	std::cout << "height en pixels: " << height << std::endl;
+     if(!tabla && !dibujos.size()){ 
+	  std:: cerr << "Error al imprimir!!! " << std::endl;
+	  //#warning "Ver El Manejo De Errores Si Llega A Ser Posible Este Error En Impresora";
+	  return;
+     }
+     Cairo::RefPtr<Cairo::Context> cairo_ctx = print_context->get_cairo_context();
+     cairo_ctx->set_line_width(1);
+     cairo_ctx->set_source_rgb(1.0, 0, 0);
+     double widthPaper = width;
+     double heightPaper = height;
+     double scaleW = 1.0;
+     double scaleH = 1.0;
+     //Paso a INCH el ancho y el alto del print_context
 
-	width = (double) (width / print_context->get_dpi_x());
-	height = (double) (height / print_context->get_dpi_y());
+     width = (double) (width / print_context->get_dpi_x());
+     height = (double) (height / print_context->get_dpi_y());
 
-	std::cout << "puntos por pulgada en x: " << print_context->get_dpi_x() << std::endl;
+     std::list<Dibujo*>::iterator it;
+     uint32_t yMax=0,xMax=0;
+     uint32_t yMin=(uint32_t)-1,xMin=(uint32_t)-1;
 
-	std::cout << "puntos por pulgada en y: " << print_context->get_dpi_y() << std::endl;
+     for(it = dibujos.begin(); it!=dibujos.end();it++){
+	  if(yMax < (uint32_t)(*it)->getVerticeSupIzq().y)
+	       yMax= (*it)->getVerticeSupIzq().y;
+	  if(xMax < (uint32_t)(*it)->getVerticeSupIzq().x)
+	       xMax= (*it)->getVerticeSupIzq().x;
+	     
+	  if(yMin > (uint32_t)(*it)->getVerticeSupIzq().y)
+	       yMin = (*it)->getVerticeSupIzq().y;
+	  if(xMin > (uint32_t)(*it)->getVerticeSupIzq().x)
+	       xMin = (*it)->getVerticeSupIzq().x;
 
-	if(width > widthPaper) scaleW = (double)( widthPaper / (width * 100.0)/*width / widthPaper*/);
-	if(height > heightPaper) scaleH = (double)( heightPaper / (height * 100.0)/*height / heightPaper*/);
-	
-	std::cout << "width!!! : " << width << std::endl;
-	std::cout << "height!!! : " << height << std::endl;
+     }
+     yMin-=50;
+     xMax+=100;
+     yMax+=100;
 
-	std::cout << "widthP!!! : " << widthPaper << std::endl;
-	std::cout << "heightP!!! : " << heightPaper << std::endl;
 
-	std::cout << "scaleW!!! : " << scaleW << std::endl;
-	std::cout << "scaleH!!! : " << scaleH << std::endl;
+     int anchoCtx = xMax-xMin;
+     int altoCtx = yMax-yMin;
 
-	if(scaleW || scaleH){
-	  if (scaleW > scaleH) scale = scaleW;
-	  else scale = scaleH;
-	  std::cout << "Escalo!!! : " << (double)scale/100.0 << std::endl;
-	  std::cout << "SH!!! : " << scaleH/100.0 << std::endl;
-	  std::cout << "SW!!! : " << scaleW/100.0 << std::endl;
-	}
-	if(numeroPagina == 0){
-		if(dibujos.size()){
-			//En caso de que haya algun elemento seleccionado,
-			//antes de imprimir los deselecciono todos.
-			 Cairo::Matrix matrix;
-			cairo_ctx->get_matrix(matrix);
-			Glib::RefPtr<Gtk::PrintSettings> printSettings = get_print_settings();
-			bool escale = false;
-			std::list<Dibujo*>::iterator it;
-			for(it= dibujos.begin(); it != dibujos.end(); it++) {
-				(*it)->deseleccionar();
-				if(printSettings->get_orientation()!= Gtk::PAGE_ORIENTATION_REVERSE_LANDSCAPE && printSettings->get_orientation() != Gtk::PAGE_ORIENTATION_LANDSCAPE ){
-					cairo_ctx->scale(/*scaleW,scaleH);*/0.5,0.5);
-					escale = true;
-				}
-				//roto respecto el centro de la imagen
-				Vertice vCentro= (*it)->getVerticeCentro();
-				cairo_ctx->translate(vCentro.x, vCentro.y);
-				cairo_ctx->rotate_degrees((*it)->getAngulo());
-				cairo_ctx->translate(-vCentro.x, -vCentro.y);
-				(*it)->dibujarImpresion(cairo_ctx);
-				if(escale){
-					cairo_ctx->set_identity_matrix();
-					escale = false;
-				}
-				cairo_ctx->set_matrix(matrix);
-			}
-		}
-	}else{
-		if(tabla){
-		double ancho = tabla->getAncho();
-		double alto = tabla->getAlto();
+     anchoCtx /= print_context->get_dpi_x();
+     altoCtx /= print_context->get_dpi_y();
 
-		std::cout << "Ancho tabla:" << ancho << std::endl;
-		std::cout << "Alto tabla:" << alto << std::endl;
-		bool escalo = false;
 
-		if (ancho > width* print_context->get_dpi_x()){
-			scaleW = (double)(width * print_context->get_dpi_x() / (ancho * 100.0));
-			escalo = true;
-			std::cout << "ESCALEEEEM ANCHO\n";
-		}
-		if (alto > height* print_context->get_dpi_y()){
-			scaleH = (double)(height * print_context->get_dpi_y() / (alto * 100.0));
-			escalo = true;
-			std::cout << "ESCALEEEEEEE ALTO\n";
-		}
+     if(xMax > widthPaper) ;
+     scaleW = (double)( widthPaper / (anchoCtx * 100.0));
+     if(yMax > heightPaper) ;
+     scaleH = (double)( heightPaper / (altoCtx * 100.0));
 
-		std::cout << "ScaleW tabla:" << scaleW << std::endl;
-		std::cout << "ScaleH tabla:" << scaleH << std::endl;
+     if(scaleW>scaleH)
+	  scaleW=scaleH;
+     else
+	  scaleH=scaleW;
 
-		if(escalo) cairo_ctx->scale(scaleW,scaleH);
-		tabla->dibujarTabla(cairo_ctx);
-		}
-	}
-	
+
+
+     if(numeroPagina == 0){
+	  if(dibujos.size()){
+	       //En caso de que haya algun elemento seleccionado,
+	       //antes de imprimir los deselecciono todos.
+	       Cairo::Matrix matrix;
+	       cairo_ctx->get_matrix(matrix);
+						
+	       std::list<Dibujo*>::iterator it;
+	       for(it= dibujos.begin(); it != dibujos.end(); it++) {
+		    (*it)->deseleccionar();
+
+		    cairo_ctx->scale(scaleW,scaleH);
+			
+
+		    //roto respecto el centro de la imagen
+		    Vertice vCentro= (*it)->getVerticeCentro();
+		    cairo_ctx->translate(vCentro.x-xMin, vCentro.y-yMin);
+		    cairo_ctx->rotate_degrees((*it)->getAngulo());
+		    cairo_ctx->translate(-vCentro.x, -vCentro.y);
+		    (*it)->dibujarImpresion(cairo_ctx);
+		    cairo_ctx->set_identity_matrix();
+		    cairo_ctx->set_matrix(matrix);
+	       }
+	  }
+     }else{
+	  if(tabla){
+	       double ancho = tabla->getAncho();
+	       double alto = tabla->getAlto();
+
+	       if (ancho > width* print_context->get_dpi_x()){
+		    scaleW = (double)(width * print_context->get_dpi_x() / (ancho * 100.0));
+	       }
+	       if (alto > height* print_context->get_dpi_y()){
+		    scaleH = (double)(height * print_context->get_dpi_y() / (alto * 100.0));
+	       }
+
+
+	       cairo_ctx->scale(scaleW,scaleH);
+	       tabla->dibujarTabla(cairo_ctx);
+		
+	  }
+ 	
+     }
+
 }
-
-bool Impresora::on_my_paginate(const Glib::RefPtr<Gtk::PrintContext>& context){
-
-	return true;
-}
-

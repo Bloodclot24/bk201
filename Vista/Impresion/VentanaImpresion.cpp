@@ -2,22 +2,22 @@
 #include <iostream>
 
 VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
-									btnPageSetup(Gtk::Stock::PAGE_SETUP),
-									btnPrintPreview(Gtk::Stock::PRINT_PREVIEW),
-									btnPrint(Gtk::Stock::PRINT){
-  std::cout << "SE CREO LA VENTANA!!!!!!" << std::endl;
-  m_refPageSetup = Gtk::PageSetup::create();
-  m_refSettings = Gtk::PrintSettings::create();
-
-  set_title("BK201 Imprimir");
-  set_default_size(400, 10);
-  set_position(Gtk::WIN_POS_CENTER);
-  set_icon_from_file(PATH_LOGO);
-  build_main_menu();
-  vBox.pack_start(hBox, Gtk::PACK_SHRINK);
-  add(vBox);
-  show_all_children();
-  
+				     btnPageSetup(Gtk::Stock::PAGE_SETUP),
+				     btnPrintPreview(Gtk::Stock::PRINT_PREVIEW),
+				     btnPrint(Gtk::Stock::PRINT)
+{
+     m_refPageSetup = Gtk::PageSetup::create();
+     m_refSettings = Gtk::PrintSettings::create();
+     
+     set_title("BK201 Imprimir");
+     set_default_size(400, 10);
+     set_position(Gtk::WIN_POS_CENTER);
+     set_icon_from_file(PATH_LOGO);
+     build_main_menu();
+     vBox.pack_start(hBox, Gtk::PACK_SHRINK);
+     add(vBox);
+     show_all_children();
+     
 }
 
 
@@ -70,8 +70,8 @@ void VentanaImpresion::print_or_preview(Gtk::PrintOperationAction print_action)
   Glib::RefPtr<Impresora> print = Impresora::create(dibujos,tabla);
 
   print->set_track_print_status();
-//  m_refSettings->set_orientation(Gtk::PAGE_ORIENTATION_LANDSCAPE );
-  print->set_default_page_setup(m_refPageSetup);
+  m_refPageSetup2=m_refPageSetup->copy();
+  print->set_default_page_setup(m_refPageSetup2);
   print->set_print_settings(m_refSettings);
 
   print->signal_done().connect(sigc::bind(sigc::mem_fun(*this,
@@ -121,3 +121,4 @@ void VentanaImpresion::setTablasAImprimir(Tabla* tabla)
 }
 
   
+
