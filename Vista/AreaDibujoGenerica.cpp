@@ -82,3 +82,24 @@ bool AreaDibujoGenerica::existeDibujo(Dibujo* d){
 void AreaDibujoGenerica::vaciarListaDibujos(){
 	if(dibujos.size()) dibujos.clear();
 }
+
+uint32_t AreaDibujoGenerica::getAncho(){
+     std::list<Dibujo*>::iterator it;
+     uint32_t xMax=0;
+     for(it = dibujos.begin(); it!=dibujos.end();it++){
+	  if(xMax < (uint32_t)(*it)->getVerticeSupIzq().x)
+	       xMax=(*it)->getVerticeSupIzq().x;
+     }
+     return xMax+50;
+}
+
+uint32_t AreaDibujoGenerica::getAlto(){
+     std::list<Dibujo*>::iterator it;
+     uint32_t yMax=0;
+     for(it = dibujos.begin(); it!=dibujos.end();it++){
+	  if(yMax < (uint32_t)(*it)->getVerticeSupIzq().y)
+	       yMax= (*it)->getVerticeSupIzq().y;
+     }
+     return yMax+50;
+
+}
