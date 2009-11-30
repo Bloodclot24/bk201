@@ -12,11 +12,9 @@
     <child>
       <object class="GtkVBox" id="vbox">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <child>
           <object class="GtkHBox" id="hbox_menubar">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="homogeneous">True</property>
             <child>
               <placeholder/>
@@ -202,7 +200,6 @@
             <child>
               <object class="GtkVBox" id="vbox_drawing_area">
                 <property name="visible">True</property>
-                <property name="orientation">vertical</property>
                 <child>
                   <placeholder/>
                 </child>
@@ -284,7 +281,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox_about">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <placeholder/>
@@ -318,7 +314,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox_open">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <placeholder/>
@@ -388,7 +383,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox_saveas">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <placeholder/>
@@ -486,7 +480,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox_servidor">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkFrame" id="frame1">
@@ -634,7 +627,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox9">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkScrolledWindow" id="scrolledwindow_lista_circuitos">
@@ -664,9 +656,7 @@ Ygounet Guido</property>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn_entradas">
                     <property name="title">Entradas</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext_entradas">
-                        <property name="width">5</property>
-                      </object>
+                      <object class="GtkCellRendererText" id="cellrenderertext_entradas"/>
                       <attributes>
                         <attribute name="text">1</attribute>
                       </attributes>
@@ -677,9 +667,7 @@ Ygounet Guido</property>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn_salidas">
                     <property name="title">Salidas</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext_salidas">
-                        <property name="width">5</property>
-                      </object>
+                      <object class="GtkCellRendererText" id="cellrenderertext_salidas"/>
                       <attributes>
                         <attribute name="text">2</attribute>
                       </attributes>
@@ -754,7 +742,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox13">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkTable" id="table_prop">
@@ -877,7 +864,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox19">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkTable" id="table_prop2">
@@ -1003,7 +989,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox20">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkTable" id="table_prop3">
@@ -1241,7 +1226,6 @@ Ygounet Guido</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox21">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkHBox" id="hbox2">
@@ -1302,7 +1286,6 @@ Gente simulando&lt;/b&gt;</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox18">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkHBox" id="hbox_error_servidor">
@@ -1385,7 +1368,6 @@ Gente simulando&lt;/b&gt;</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox23">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkHBox" id="hbox_error_simulando">
@@ -1465,7 +1447,6 @@ Gente simulando&lt;/b&gt;</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox24">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkHBox" id="hbox_conectandose">
@@ -1528,7 +1509,6 @@ Gente simulando&lt;/b&gt;</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox25">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkHBox" id="hbox3">
