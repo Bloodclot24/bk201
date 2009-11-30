@@ -89,9 +89,12 @@ void AreaDibujo::loadMenuPopup() {
 }
 
 void AreaDibujo::activarMenuBar() {
-  if(dibujoSeleccionados.size() == 1) {
+  Dibujo *dibujo;
+  if(!dibujoSeleccionados.empty())
+    dibujo= dibujoSeleccionados[0];
+  if(dibujoSeleccionados.size() == 1 && dibujo->getTipo().compare(TIPO_PISTA) != 0) {
     ventanaTrabajo->setSensitiveEditar(true);
-    if(dibujoSeleccionados[0]->getTipo().compare(TIPO_CIRCUITO) != 0)
+    if(dibujo->getTipo().compare(TIPO_CIRCUITO) != 0)
       ventanaTrabajo->m_examinar->set_sensitive(false);
   } else {
     ventanaTrabajo->setSensitiveEditar(false);
@@ -171,13 +174,13 @@ bool AreaDibujo::on_button_press_event(GdkEventButton* event) {
     if(!dibujoSeleccionados.empty())
       seleccionado= dibujoSeleccionados[0];
     if(menuPopup && !dibujoSeleccionados.empty()) {
-      verRotar->set_sensitive(true);
-      verInvertir->set_sensitive(true);
+        verRotar->set_sensitive(true);
+        verInvertir->set_sensitive(true);
       if(!seleccionado->getExaminar() || dibujoSeleccionados.size() != 1)
         verExaminar->set_sensitive(false);
       else
         verExaminar->set_sensitive(true);
-      if(dibujoSeleccionados.size() != 1) {
+      if(dibujoSeleccionados.size() != 1 || seleccionado->getTipo().compare(TIPO_PISTA) == 0) {
         verRotar->set_sensitive(false);
         verInvertir->set_sensitive(false);
       }
