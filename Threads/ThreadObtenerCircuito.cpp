@@ -11,7 +11,7 @@ ThreadObtenerCircuito::ThreadObtenerCircuito(ControladorVentana& control, const 
 
 void ThreadObtenerCircuito::run(){
   Socket s(host, puerto);
-  s.conectar();
+  s.conectar(15);
   if(s.esValido()){
     std::cout << "Conectado" << std::endl;
     Mensajero m(&s);
