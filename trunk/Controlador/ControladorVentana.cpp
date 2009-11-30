@@ -79,7 +79,6 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
      DatosCompuerta* dc = new DatosCompuerta;
 
      dc->tipo = tipo;
-     std::cout << "cargo compuerta " << tipo << std::endl;
      if(tipo.compare(TIPO_COMPUERTA_AND)==0){
 	  dc->g = new GateAnd();
 	  dc->c= new CompuertaAnd(10, 10);
@@ -110,7 +109,6 @@ DatosCompuerta* ControladorVentana::cargarCompuerta(const std::string& tipo){
 	  compuertas[dc->c] = dc;
 	  if(area)
 	       area->agregarDibujo(dc->c);
-	  std::cout << "Cargado OK\n";
      }
 
      return dc;
@@ -169,38 +167,46 @@ Circuito* ControladorVentana::getCircuito(std::string *errores){
 	       circuito.cantidadEntradas++;
 	  else circuito.cantidadSalidas++;
      }
-     
-     circuito.c = new Circuito(circuito.cantidadEntradas, circuito.cantidadSalidas);
-     /* agrego las compuertas al circuito */
-     std::map<Dibujo*, DatosCompuerta*>::iterator itg=compuertas.begin();
-     for(;itg != compuertas.end(); itg++){
-	  (*itg).second->g->setTPropagacion(atoi((*itg).second->c->getTiempoT().c_str()));
-	  circuito.c->agregarComponente((*itg).second->g);
-     }
-     
-     /* agrego los circuitos al circuito */
-     std::map<Dibujo*, DatosCircuitoRemoto*>::iterator itc=circuitos.begin();
-     for(;itc != circuitos.end(); itc++){
-	  if((*itc).second->cr != NULL){
-	       delete (*itc).second->cr;
-	       (*itc).second->cr = NULL;
+
+     if(circuito.cantidadEntradas == 0)
+	  *errores += "Error: El circuito no posee ninguna entrada.\n";
+     if(circuito.cantidadSalidas == 0)
+	  *errores += "Error: El circuito no posee ninguna salida.\n";
+
+
+     if(errores->size() == 0){
+	  circuito.c = new Circuito(circuito.cantidadEntradas, circuito.cantidadSalidas);
+	  /* agrego las compuertas al circuito */
+	  std::map<Dibujo*, DatosCompuerta*>::iterator itg=compuertas.begin();
+	  for(;itg != compuertas.end(); itg++){
+	       (*itg).second->g->setTPropagacion(atoi((*itg).second->c->getTiempoT().c_str()));
+	       circuito.c->agregarComponente((*itg).second->g);
 	  }
-	  if((*itc).second->cr == NULL){
-	       CircuitoDibujo *d = (*itc).second->c;
-	       (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), d->getNombre());
-	  }
-	  circuito.c->agregarComponente((*itc).second->cr);
-	  if(!(*itc).second->cr->conectar()){
-	       std::string error("Error: no se pudo conectar con el circuito ");
-	       error+=(*itc).second->c->getNombre() + '\n' ;
-	       std::cerr << error;
-	       if(errores)
-		    (*errores) += error; 
+	  
+	  /* agrego los circuitos al circuito */
+	  std::map<Dibujo*, DatosCircuitoRemoto*>::iterator itc=circuitos.begin();
+	  for(;itc != circuitos.end(); itc++){
+	       if((*itc).second->cr != NULL){
+		    delete (*itc).second->cr;
+		    (*itc).second->cr = NULL;
+	       }
+	       if((*itc).second->cr == NULL){
+		    CircuitoDibujo *d = (*itc).second->c;
+		    (*itc).second->cr = new CircuitoRemoto(d->getServidor(), atoi(d->getPuerto().c_str()), d->getNombre());
+	       }
+	       circuito.c->agregarComponente((*itc).second->cr);
+	       if(!(*itc).second->cr->conectar()){
+		    std::string error("Error: no se pudo conectar con el circuito ");
+		    error+=(*itc).second->c->getNombre() + '\n' ;
+		    std::cerr << error;
+		    if(errores)
+			 (*errores) += error; 
+	       }
 	  }
      }
 
      if(errores->size() == 0){
-
+	  std::map<Dibujo*, DatosCompuerta*>::iterator itg=compuertas.begin();
 	  itg=compuertas.begin();
 	  uint32_t numero=0;
 	  /* recorro las compuertas y busco con quienes se conectan */
@@ -229,6 +235,7 @@ Circuito* ControladorVentana::getCircuito(std::string *errores){
 	       }
 	  }
 	  
+	  std::map<Dibujo*, DatosCircuitoRemoto*>::iterator itc=circuitos.begin();
 	  itc=circuitos.begin();
 	  for(;itc != circuitos.end(); itc++,numero++){
 	       int entradas,salidas;
@@ -284,11 +291,9 @@ void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool
 	       if( (pin2=(*itc).second->c->obtenerPinMasCercano((*itv).x, (*itv).y)) != -1){
 		    if(esSalida){
 			 circuito.c->agregarConexion(componente, pin, numero,pin2);
-			 std::cout << "Conecto " << componente << ":" << pin << " , con " << numero << ":" << pin2 << std::endl;
 		    }
 		    else{
 			 circuito.c->agregarConexion(numero,pin2, componente, pin);
-			 std::cout << "Conecto " << numero << ":" << pin2 << " , con " << componente << ":" << pin << std::endl;
 		    }
 	       }
 	  }
@@ -336,11 +341,9 @@ void ControladorVentana::crearConexiones(uint32_t componente, uint32_t pin, bool
 		    /* agrego la conexion */
 		    if(esSalida){
 			 circuito.c->agregarConexion(componente, pin, -1,pin2);
-			 std::cout << "Conecto " << componente << ":" << pin << " , con -1"  << ":" << pin2 << std::endl;
 		    }
 		    else{
 			 circuito.c->agregarConexion(-1,pin2, componente, pin);
-			 std::cout << "Conecto -1" << ":" << pin2 << " , con " << componente << ":" << pin << std::endl;
 		    }
 	       }
 	  }
@@ -383,7 +386,6 @@ void ControladorVentana::buscarExtremos(ConexionDibujo* pista, Vertice v, std::l
 
 void ControladorVentana::obtenerListaServidor(const std::string& servidor, int puerto){
      ThreadListado *listado = new ThreadListado(*this,servidor, puerto);
-     std::cout << "-----------------------------------------START----------------------------\n";
      listado->start();
 }
 
@@ -476,7 +478,6 @@ void ControladorVentana::notificarLista(std::list<DescripcionCircuito> lista){
 }
 
 void ControladorVentana::notificarCircuito(const std::string& nombreArchivo, const std::string& nombre){
-     std::cout << "Ventana: " << ventana << std::endl;
      if(ventana)
 	  ventana->recibirCircuitoRemoto(nombreArchivo, nombre);
 }

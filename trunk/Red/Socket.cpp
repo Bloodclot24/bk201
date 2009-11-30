@@ -106,7 +106,6 @@ int Socket::recibir(void *buf, int cuanto){
      int recibido = recv(s, buf, cuanto, MSG_WAITALL);
 
      if(recibido < cuanto){
-	  std::cout << "Marcando como invalido(timeout)\n";
 	  invalidar();
      }
      
@@ -135,16 +134,12 @@ bool Socket::conectar(void){
 
 bool Socket::conectar(int timeout){
      setNoBloqueante();
-     std::cout << "pongo no bloqueante\n";
      int estado = conectar();
      if(estado == EINPROGRESS || estado==0){
 	  error = 0;
-	  std::cout << "OK, espero la conexion\n";
 	  if(seleccionar(timeout)<=0){
-	       std::cout << "Timeout \n";
 	       error = errno;
 	  }
-	  else std::cout << "TimeoutNO "<< error << " \n";
      }
      else{
 	  error = errno;
