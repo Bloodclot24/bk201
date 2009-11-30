@@ -11,7 +11,6 @@ class DibujoCircuitoRemoto;
 class DibujoCircuitoRemoto: public AreaDibujoGenerica {
 
 private:
-  VentanaTrabajo*               ventanaTrabajo;
   int                           width;
   int                           height;
   void redibujar();
@@ -20,7 +19,6 @@ protected:
   virtual bool on_expose_event(GdkEventExpose* event);
 
 public:
-  DibujoCircuitoRemoto(VentanaTrabajo *ventanaTrabajo);
   virtual ~DibujoCircuitoRemoto() { };
 };
 
