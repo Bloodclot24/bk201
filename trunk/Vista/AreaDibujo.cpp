@@ -503,7 +503,6 @@ bool AreaDibujo::esperandoCircuitoRemoto() {
 
   if(ventanaTrabajo->llegoRemoto) {
     ventanaTrabajo->id_ventana_remoto.disconnect();
-    ventanaTrabajo->window->set_sensitive(true);
     ventanaTrabajo->dialog_examinar->hide();
     ControladorVentana controlador;
     controlador.iniciar();
