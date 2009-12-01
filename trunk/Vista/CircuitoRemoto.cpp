@@ -27,8 +27,8 @@ bool DibujoCircuitoRemoto::on_expose_event(GdkEventExpose* event) {
     context->set_line_width(2.0);
     for(int w= PASO; w<width; w+=PASO) {
       for(int h= PASO; h<height; h+=PASO) {
-        context->move_to(w, h);
-        context->line_to(w, h + 0.5);
+	context->move_to(w, h);
+	context->line_to(w, h + 0.5);
       }
     }
     context->stroke();

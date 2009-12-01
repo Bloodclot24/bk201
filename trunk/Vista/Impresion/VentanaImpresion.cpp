@@ -2,9 +2,9 @@
 #include <iostream>
 
 VentanaImpresion::VentanaImpresion(VentanaTrabajo *ventanaTrabajo):btnQuit(Gtk::Stock::QUIT),
-				     btnPageSetup(Gtk::Stock::PAGE_SETUP),
-				     btnPrintPreview(Gtk::Stock::PRINT_PREVIEW),
-				     btnPrint(Gtk::Stock::PRINT)
+								   btnPageSetup(Gtk::Stock::PAGE_SETUP),
+								   btnPrintPreview(Gtk::Stock::PRINT_PREVIEW),
+								   btnPrint(Gtk::Stock::PRINT)
 {
   this->ventanaTrabajo= ventanaTrabajo;	
   m_refPageSetup = Gtk::PageSetup::create();
