@@ -97,7 +97,7 @@ install: all
 	cp $(EXECUTABLESERVIDOR) $(BASEDIR)
 	strip $(BASEDIR)/$(EXECUTABLE)
 	strip $(BASEDIR)/$(EXECUTABLESERVIDOR)
-
+	cp Server/*.bk $(BASEDIR)/
 uninstall:
 	rm -r -f $(BASEDIR)
 
