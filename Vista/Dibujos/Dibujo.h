@@ -36,7 +36,6 @@ protected:
   virtual void dibujarSeleccion(const Cairo::RefPtr<Cairo::Context>& context);
 
   virtual void mostrarAtributos(const Cairo::RefPtr<Cairo::Context>& context, int yTexto) { };
-  void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context, int vSupIzq_y, int alto);
 
   Vertice rotarPin(int x, int y);
 
@@ -214,6 +213,12 @@ public:
    */
   virtual void dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) { };
 
+  /**
+   * Muestra la etiqueta con los atributos del dibujo.
+   *
+   * @param context El contexto sobre el cual se va a dibujar el dibujo.
+   */
+  void mostrarEtiqueta(const Cairo::RefPtr<Cairo::Context>& context);
 };
 
 #endif /* DIBUJO_H_ */

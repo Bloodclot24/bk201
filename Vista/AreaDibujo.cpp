@@ -352,6 +352,9 @@ void AreaDibujo::dibujarComponentes(const Cairo::RefPtr<Cairo::Context>& context
     context->rotate_degrees((*it)->getAngulo());
     context->translate(-vCentro.x, -vCentro.y);
     (*it)->dibujar(context);
+    //Muestro la etiqueta
+    context->set_identity_matrix();
+    (*it)->mostrarEtiqueta(context);
   }
 }
 
