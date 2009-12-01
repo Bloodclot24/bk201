@@ -100,3 +100,7 @@ install: all
 
 uninstall:
 	rm -r -f $(BASEDIR)
+
+dependenciasDebian:
+	sudo apt-get install libgtkmm-2.4-dev libglib2.0-dev libsigc++-2.0-dev libcairomm-1.0-dev libpangomm-1.4-dev libxml2-dev
+
