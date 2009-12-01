@@ -26,11 +26,8 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   //pin cercano
   if(!dibujoPin1 && areaDibujo) {
     dibujoPin1= areaDibujo->buscarDibujoCercano(this, vSupIzq.x, vSupIzq.y);
-    //          std::cout << dibujoPin1 << std::endl;
     if(dibujoPin1) {
       nroPin1= dibujoPin1->obtenerPinMasCercano(vSupIzq.x,vSupIzq.y);
-
-      //               std::cout << "nroPin1:" << nroPin1 << std::endl;
 
       if(nroPin1 == -1)
 	dibujoPin1= NULL;
@@ -38,15 +35,8 @@ void ConexionDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
   }
   if(!dibujoPin2 && areaDibujo) {
     dibujoPin2= areaDibujo->buscarDibujoCercano(this, vInfDer.x, vInfDer.y);
-
-    //std::cout << dibujoPin2 << std::endl;
-
-
     if(dibujoPin2) {
       nroPin2= dibujoPin2->obtenerPinMasCercano(vInfDer.x, vInfDer.y);
-
-      //               std::cout << "nroPin2:" << nroPin2 << std::endl;
-
       if(nroPin2 == -1)
 	dibujoPin2= NULL;
     }
