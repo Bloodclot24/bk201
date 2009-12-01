@@ -53,6 +53,7 @@ class VentanaImpresion;
  */
 class VentanaTrabajo: public Gtk::Window {
   friend class AreaDibujo;
+  friend class VentanaImpresion;
 
 private:
   Glib::RefPtr<Gtk::Builder> refXml;

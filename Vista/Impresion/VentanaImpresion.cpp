@@ -1,11 +1,12 @@
 #include "VentanaImpresion.h"
 #include <iostream>
 
-VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
+VentanaImpresion::VentanaImpresion(VentanaTrabajo *ventanaTrabajo):btnQuit(Gtk::Stock::QUIT),
 				     btnPageSetup(Gtk::Stock::PAGE_SETUP),
 				     btnPrintPreview(Gtk::Stock::PRINT_PREVIEW),
 				     btnPrint(Gtk::Stock::PRINT)
 {
+  this->ventanaTrabajo= ventanaTrabajo;	
   m_refPageSetup = Gtk::PageSetup::create();
   m_refSettings = Gtk::PrintSettings::create();
      
@@ -15,9 +16,9 @@ VentanaImpresion::VentanaImpresion():btnQuit(Gtk::Stock::QUIT),
   set_icon_from_file(PATH_LOGO);
   build_main_menu();
   vBox.pack_start(hBox, Gtk::PACK_SHRINK);
+  set_resizable(false); 
   add(vBox);
-  show_all_children();
-     
+  show_all_children();  
 }
 
 
@@ -27,6 +28,7 @@ void VentanaImpresion::build_main_menu()
   btnPrintPreview.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_print_preview));
   btnPrint.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_print));
   btnQuit.signal_clicked().connect(sigc::mem_fun(*this, &VentanaImpresion::on_menu_file_quit));
+  signal_delete_event().connect(sigc::mem_fun(*this, &VentanaImpresion::on_delete_event));   
 	
   hBox.pack_start(btnPageSetup, Gtk::PACK_EXPAND_WIDGET, 20);
   hBox.pack_start(btnPrintPreview, Gtk::PACK_EXPAND_WIDGET, 20);
@@ -107,6 +109,13 @@ void VentanaImpresion::on_menu_file_print()
 void VentanaImpresion::on_menu_file_quit()
 {
   hide();
+  ventanaTrabajo->window->set_sensitive(true);
+}
+
+bool VentanaImpresion::on_delete_event(GdkEventAny *event)
+{
+  on_menu_file_quit();
+  return false;
 }
 
 void VentanaImpresion::setDibujosAImprimir(std::list<Dibujo*> dibujos)

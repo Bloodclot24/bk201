@@ -18,7 +18,7 @@ VentanaTrabajo::VentanaTrabajo(Controlador *controlador, ControladorVentana *con
   this->controladorVentana= controladorV;
   controladorV->setAreaDibujo(areaDibujo);
   this->id= id;
-  window_print= new VentanaImpresion();
+  window_print= new VentanaImpresion(this);
 }
 
 VentanaTrabajo::~VentanaTrabajo() {
@@ -446,6 +446,7 @@ void VentanaTrabajo::obtenerDatosCircuito(std::string &servidor, std::string &pu
 /***************************/
 void VentanaTrabajo::imprimir() {
   if(window_print){
+  	window->set_sensitive(false);
     window_print->setDibujosAImprimir(areaDibujo->dibujos);
     window_print->setTablasAImprimir(tabla);
     window_print->show();

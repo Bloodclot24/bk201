@@ -1,7 +1,10 @@
 #ifndef VENTANAIMPRESION_H_
 #define VENTANAIMPRESION_H_
 
+class VentanaImpresion;
+
 #include "Impresora.h"
+#include "../VentanaTrabajo.h"
 #include <memory>
 #include <vector>
 #include <gtkmm/window.h>
@@ -28,6 +31,8 @@ class PrintFormOperation;
 class VentanaImpresion: public Gtk::Window {
 
 private:
+  VentanaTrabajo *ventanaTrabajo;
+
   Glib::RefPtr<Gtk::PageSetup> m_refPageSetup;
   Glib::RefPtr<Gtk::PageSetup> m_refPageSetup2;
   Glib::RefPtr<Gtk::PrintSettings> m_refSettings;
@@ -51,12 +56,13 @@ private:
   void on_menu_file_print_preview();
   void on_menu_file_print();
   void on_menu_file_quit();
+  bool on_delete_event(GdkEventAny *event);
 
   std::list<Dibujo*> dibujos;
   Tabla* tabla;
   
 public:
-  VentanaImpresion();
+  VentanaImpresion(VentanaTrabajo *ventanaTrabajo);
 
   /**
    * Setea la lista de dibujos a imprimir.
