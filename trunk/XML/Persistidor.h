@@ -187,7 +187,6 @@ public:
 	  Vertice v;
 	  v.x = atoi(componente.getPropiedad("x").c_str());
 	  v.y = atoi(componente.getPropiedad("y").c_str());
-	  std::cout << "x: " << v.x << " y: " << v.y<< std::endl;
 	  dc->c->setVerticeSupIzq(v);
 	  dc->c->setAngulo(atoi(componente.getPropiedad("alfa").c_str()));
 	  dc->c->setLabel(componente.getPropiedad("label"));
