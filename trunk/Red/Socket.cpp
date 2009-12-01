@@ -89,8 +89,6 @@ bool Socket::enviar(const void *buf, int longitud){
   if(retorno == -1)
     error = errno;
 
-  if(retorno < longitud)
-    invalidar();
      
   return esValido();
 }
