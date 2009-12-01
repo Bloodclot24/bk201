@@ -68,7 +68,6 @@ void VentanaImpresion::on_printoperation_done(Gtk::PrintOperationResult result, 
 
 void VentanaImpresion::print_or_preview(Gtk::PrintOperationAction print_action)
 {
-  std::cout << "Tabla (preview) " << tabla << std::endl;
   Glib::RefPtr<Impresora> print = Impresora::create(dibujos,tabla);
 
   print->set_track_print_status();

@@ -116,6 +116,7 @@ void Impresora::on_draw_page(const Glib::RefPtr<Gtk::PrintContext>& print_contex
 	cairo_ctx->translate(vCentro.x-xMin, vCentro.y-yMin);
 	cairo_ctx->rotate_degrees((*it)->getAngulo());
 	cairo_ctx->translate(-vCentro.x, -vCentro.y);
+	(*it)->mostrarEtiqueta(cairo_ctx);
 	(*it)->dibujarImpresion(cairo_ctx);
 	cairo_ctx->set_identity_matrix();
 	//Seteo la matriz que antes habia obtenido.

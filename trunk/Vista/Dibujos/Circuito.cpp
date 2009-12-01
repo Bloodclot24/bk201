@@ -100,9 +100,6 @@ void CircuitoDibujo::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   if(seleccionado)
     dibujarSeleccion(context);
-
-  //Muestro la etiqueta
-  mostrarEtiqueta(context,vSupIzq.y,alto);
 };
 
 std::string CircuitoDibujo::getServidor() {

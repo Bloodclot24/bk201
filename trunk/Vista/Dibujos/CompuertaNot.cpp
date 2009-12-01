@@ -36,9 +36,6 @@ void CompuertaNot::dibujar(const Cairo::RefPtr<Cairo::Context>& context) {
 
   if(seleccionado)
     dibujarSeleccion(context);
-
-  //Muestro la etiqueta
-  mostrarEtiqueta(context,vSupIzq.y,alto);
 }
 
 void CompuertaNot::dibujarImpresion(const Cairo::RefPtr<Cairo::Context>& context) {
