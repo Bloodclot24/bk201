@@ -10,7 +10,6 @@ void CircuitoRemotoServidor::run(){
     // recibo mensajes hasta que cierre la conexion
     s = m.recibirMensaje();
     if(s== NULL){
-      std::cout << "El mensaje es NULL\n";
       stop();
       if(controlador){
 	delete controlador;
@@ -19,12 +18,9 @@ void CircuitoRemotoServidor::run(){
       continue;
     }
     std::string comando = s->getNombre();
-	       
-    std::cout << "Mensaje: " << comando << std::endl;
 
     //me fijo de que tipo es el mensaje
     if(comando.compare("SeleccionarCircuito")==0){
-      std::cout << "Seleccionando circuito " << s->getParametro("Nombre") << std::endl;
       int respuesta=1;
       if(controlador){
 	delete controlador;
@@ -52,7 +48,6 @@ void CircuitoRemotoServidor::run(){
       m.enviarRespuesta(&res);
     }
     else if(comando.compare("GetListado")==0){
-      std::cout << "Listado de circuitos: " << std::endl;
       Soap res("GetListadoResponse");
       XmlNodo &cuerpo = res.getCuerpo();
       std::list<DescripcionCircuito> circuitos = server->getListaCircuitos();
@@ -70,7 +65,6 @@ void CircuitoRemotoServidor::run(){
       stop();
     }
     else if(comando.compare("ObtenerCircuito")==0){
-      std::cout << "Obtener un circuito: " << s->getParametro("nombre") << std::endl;
       std::ifstream archivo(s->getParametro("nombre").c_str(), std::ifstream::in);
       std::string buffer, linea;
       if(archivo.is_open()){
@@ -87,21 +81,16 @@ void CircuitoRemotoServidor::run(){
       stop();
     }
     else if(comando.compare("SetPin")==0){
-      std::cout << "Setear pin " << s->getParametroNumerico("Numero") << \
-	" en " << s->getParametroNumerico("Valor") << std::endl;
       if(c)
 	c->setPin(s->getParametroNumerico("Numero"), s->getParametroNumerico("Valor"));
     }
 
     else if(comando.compare("SetEntrada")==0){
-      std::cout << "Setear entrada " << s->getParametroNumerico("Numero") << \
-	" en " << s->getParametroNumerico("Valor") << std::endl; 
       if(c)
 	c->setEntrada(s->getParametroNumerico("Numero"), s->getParametroNumerico("Valor"));
     }
 
     else if(comando.compare("EsEstable")==0){
-      std::cout << "Es estable " << std::endl;
       bool estado = false;
       if(c)
 	estado = c->esEstable();
@@ -112,7 +101,6 @@ void CircuitoRemotoServidor::run(){
 
 
     else if(comando.compare("GetEntrada")==0){
-      std::cout << "Get entrada " << s->getParametroNumerico("Numero") << std::endl;
       bool estado =false;
       if(c)
 	estado = c->getEntrada(s->getParametroNumerico("Numero"));
@@ -123,7 +111,6 @@ void CircuitoRemotoServidor::run(){
     }
 
     else if(comando.compare("GetSalida")==0){
-      std::cout << "Get salida " << s->getParametroNumerico("Numero") << std::endl;
       bool estado=false;
       if(c)
 	estado = c->getSalida(s->getParametroNumerico("Numero"));
@@ -135,7 +122,6 @@ void CircuitoRemotoServidor::run(){
 
 
     else if(comando.compare("GetPin")==0){
-      std::cout << "Get pin " << s->getParametroNumerico("Numero") << std::endl;
       bool estado=false; 
       if(c)
 	estado = c->getPin(s->getParametroNumerico("Numero"));
@@ -148,11 +134,9 @@ void CircuitoRemotoServidor::run(){
     else if(comando.compare("Reset")==0){
       if(c)
 	c->reset();
-      std::cout << "Reset" << std::endl;
     }
 
     else if(comando.compare("GetCantidadEntradas")==0){
-      std::cout << "Get entradas " << std::endl;
       int cantidad = 0;
       if(c)
 	cantidad = c->getCantidadEntradas();
@@ -162,7 +146,6 @@ void CircuitoRemotoServidor::run(){
     }
 
     else if(comando.compare("GetCantidadSalidas")==0){
-      std::cout << "Get salidas " << std::endl;
       int cantidad = 0;
       if(c)
 	cantidad = c->getCantidadSalidas();
@@ -172,7 +155,6 @@ void CircuitoRemotoServidor::run(){
     }
 
     else if(comando.compare("GetTProximoEvento")==0){
-      std::cout << "Get T proximo evento " << std::endl;
       int cantidad = 0;
       if(c)
 	cantidad = c->getTProximoEvento();
@@ -182,13 +164,11 @@ void CircuitoRemotoServidor::run(){
     }
 
     else if(comando.compare("Simular")==0){
-      std::cout << "Simular " << s->getParametroNumerico("Tiempo") <<std::endl;
       if(c)
 	c->simular(s->getParametroNumerico("Tiempo"));
     }
 
     else if(comando.compare("Desconectar")==0){
-      std::cout << "Desconectar" << std::endl;
       finish();
     }
 
